@@ -1,0 +1,209 @@
+asyncapi: 3.0.0
+info:
+  title: Aggregation monitorValue Service API
+  version: 1.0.0
+  description: This API allows clients to interact with the monitorValue iteraction of the Aggregation service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the monitorValue interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  sub_Aggregation_monitorValue:
+    address: sub_Aggregation_monitorValue
+    messages:
+      Aggregation.monitorValueSubscribe.message:
+        $ref: '#/components/messages/Aggregation_monitorValueRequest'
+    description: >
+      Use this channel to send a **Aggregation_monitorValueRequest** message to receive a
+      **Aggregation_monitorValueResponse** message over the **pub_Aggregation_monitorValue** channel.
+  pub_Aggregation_monitorValue:
+    address: pub_Aggregation_monitorValue
+    messages:
+      Aggregation.monitorValuePublish.message:
+        $ref: '#/components/messages/Aggregation_monitorValueResponse'
+    description: >
+      Use this channel to receive Aggregation monitorValue updates as **Aggregation_monitorValueResponse**
+      responses.
+      
+operations:
+  Aggregation_monitorValuePublish:
+    action: send
+    channel:
+      $ref: '#/channels/sub_Aggregation_monitorValue'
+    messages:
+      - $ref: '#/channels/sub_Aggregation_monitorValue/messages/Aggregation.monitorValueSubscribe.message'
+  Aggregation_monitorValueSubscribe:
+    action: receive
+    channel:
+      $ref: '#/channels/pub_Aggregation_monitorValue'
+    messages:
+      - $ref: '#/channels/pub_Aggregation_monitorValue/messages/Aggregation.monitorValuePublish.message'
+components:
+  schemas:
+    Aggregation_monitorValueTransportRequest:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+    Aggregation_monitorValueTransportResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        objId:
+          $ref: '#/components/schemas/com/ObjectId'
+        newValue:
+          $ref: '#/components/schemas/mc/aggregation/AggregationValue'
+    com:
+      ObjectId:
+        properties:
+          key:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: The combination of the object domain and object instance identifier.
+          type_:
+            $ref: '#/components/schemas/com/ObjectType'
+            description: The fully qualified unique identifier of the type.
+        type: object
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
+      ObjectType:
+        properties:
+          area:
+            description: Area Number where the object type is defined. Must not be '0' for
+              values as this is the wildcard.
+            format: uint16
+            type: integer
+          number:
+            description: The service specific object number. Must not be '0' for values as
+              this is the wildcard.
+            format: uint16
+            type: integer
+          service:
+            description: Service Number of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint16
+            type: integer
+          version:
+            description: Area Version of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint8
+            type: integer
+        type: object
+    mc:
+      aggregation:
+        AggregationParameterValue:
+          properties:
+            paramDefInstId:
+              description: The object instance identifier of the ParameterDefinition. NULL if
+                sendDefinitions in the AggregationDefinitionDetails is FALSE.
+              format: int64
+              type: integer
+            value:
+              $ref: '#/components/schemas/mc/parameter/ParameterValue'
+              description: The parameter value.
+          type: object
+        AggregationSetValue:
+          properties:
+            deltaTime:
+              description: Optional delta time, from the timestamp of the aggregation for the
+                first parameter set of the aggregation or the last value of the previous parameter
+                set otherwise, for the first parameter sample of this set. If NULL, then the
+                first sample time is the same as the aggregation timestamp for the first parameter
+                set of the aggregation or the last value of the previous parameter set otherwise.
+              format: uint64
+              type: number
+            intervalTime:
+              description: Optional delta time between samples in this set. If NULL, then all
+                samples in this set are given the same time. This is usually driven by the sampleInterval
+                in the aggregation set definition.
+              format: uint64
+              type: number
+            values:
+              description: List containing values of the parameters which are part of the aggregation.
+                The ordering of the list entries shall match that of the definition of the aggregation.
+                If there are more values than contained in the definition then it is assumed
+                that the parameters cycle as a complete parameter set.
+              items:
+                $ref: '#/components/schemas/mc/aggregation/AggregationParameterValue'
+              type: array
+          type: object
+        AggregationValue:
+          properties:
+            filtered:
+              description: If a filter is enabled when the aggregation value is generated then
+                this value shall be set to TRUE, else FALSE.
+              type: boolean
+            generationMode:
+              $ref: '#/components/schemas/mc/aggregation/GenerationMode'
+              description: Reason for the aggregation being generated.
+            parameterSetValues:
+              description: The parameterSetValues list holds the sets of values of the aggregation.
+                The sets must be held in the same order as that defined in the aggregation definition.
+              items:
+                $ref: '#/components/schemas/mc/aggregation/AggregationSetValue'
+              type: array
+          type: object
+        GenerationMode:
+          description: GenerationMode is an enumeration definition holding the reasons for the
+            aggregation to be generated.
+          enum:
+          - ADHOC
+          - PERIODIC
+          - FILTERED_TIMEOUT
+          type: string
+      parameter:
+        ParameterValue:
+          properties:
+            convertedValue:
+              description: The parameter converted value.
+              type: string
+            rawValue:
+              description: The parameter raw value. The value of NULL is a valid value and carries
+                no special significance in the parameter service.
+              type: string
+            validityState:
+              description: Holds the validity state for a parameter value. If the parameter
+                is valid then this should be set to '0'.
+              format: uint8
+              type: integer
+          type: object
+  messages:
+    Aggregation_monitorValueRequest:
+      description: Aggregation monitorValue request submission
+      payload:
+        $ref: '#/components/schemas/Aggregation_monitorValueTransportRequest'
+    Aggregation_monitorValueResponse:
+      description: Aggregation monitorValue update response
+      payload:
+        $ref: '#/components/schemas/Aggregation_monitorValueTransportResponse'
