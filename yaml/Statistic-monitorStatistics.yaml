@@ -1,8 +1,8 @@
 asyncapi: 3.0.0
 info:
-  title: Statistic monitorStatistics Service API
+  title: Statistic Service monitorStatistics API
   version: 1.0.0
-  description: This API allows clients to interact with the monitorStatistics iteraction of the Statistic service.
+  description: This API allows clients to interact with the monitorStatistics iteraction of the Statistic Service.
 defaultContentType: application/json
 servers:
   production:
@@ -26,45 +26,44 @@ servers:
           message: Guest gone offline.
           retain: false
 channels:
-  sub_Statistic_monitorStatistics:
-    address: sub_Statistic_monitorStatistics
+  Send_Statistic_monitorStatistics:
+    address: Send_Statistic_monitorStatistics
     messages:
-      Statistic.monitorStatisticsSubscribe.message:
-        $ref: '#/components/messages/Statistic_monitorStatisticsRequest'
+      Statistic.monitorStatistics_Send.message:
+        $ref: '#/components/messages/Statistic_monitorStatistics_Send'
     description: >
-      Use this channel to send a **Statistic_monitorStatisticsRequest** message to receive a
-      **Statistic_monitorStatisticsResponse** message over the **pub_Statistic_monitorStatistics** channel.
-  pub_Statistic_monitorStatistics:
-    address: pub_Statistic_monitorStatistics
+      Send a **Statistic_monitorStatistics_Send** message in this channel to receive a
+      **Statistic_monitorStatistics_Receive** message over the **Receive_Statistic_monitorStatistics** channel.
+  Receive_Statistic_monitorStatistics:
+    address: Receive_Statistic_monitorStatistics
     messages:
-      Statistic.monitorStatisticsPublish.message:
-        $ref: '#/components/messages/Statistic_monitorStatisticsResponse'
+      Statistic.monitorStatistics_Receive.message:
+        $ref: '#/components/messages/Statistic_monitorStatistics_Receive'
     description: >
-      Use this channel to receive Statistic monitorStatistics updates as **Statistic_monitorStatisticsResponse**
-      responses.
-      
+      Use this channel to receive Statistic monitorStatistics responses as **Statistic_monitorStatistics_Receive**
+      messages.
 operations:
-  Statistic_monitorStatisticsPublish:
+  Statistic_monitorStatistics_Send:
     action: send
     channel:
-      $ref: '#/channels/sub_Statistic_monitorStatistics'
+      $ref: '#/channels/Send_Statistic_monitorStatistics'
     messages:
-      - $ref: '#/channels/sub_Statistic_monitorStatistics/messages/Statistic.monitorStatisticsSubscribe.message'
-  Statistic_monitorStatisticsSubscribe:
+      - $ref: '#/channels/Send_Statistic_monitorStatistics/messages/Statistic.monitorStatistics_Send.message'
+  Statistic_monitorStatistics_Receive:
     action: receive
     channel:
-      $ref: '#/channels/pub_Statistic_monitorStatistics'
+      $ref: '#/channels/Receive_Statistic_monitorStatistics'
     messages:
-      - $ref: '#/channels/pub_Statistic_monitorStatistics/messages/Statistic.monitorStatisticsPublish.message'
+      - $ref: '#/channels/Receive_Statistic_monitorStatistics/messages/Statistic.monitorStatistics_Receive.message'
 components:
   schemas:
-    Statistic_monitorStatisticsTransportRequest:
+    Statistic_monitorStatistics_Send:
       type: object
       properties:
         transactionId:
           type: string
           description: A unique identifier to map the response to the request.
-    Statistic_monitorStatisticsTransportResponse:
+    Statistic_monitorStatistics_Receive:
       type: object
       properties:
         transactionId:
@@ -82,8 +81,13 @@ components:
           format: int64
         sourceId:
           $ref: '#/components/schemas/com/ObjectId'
+          description: |
+            The source link of the StatisticValueInstance shall be held in the sourceId field.
+            If no source link is needed then the sourceId shall be set to NULL.
         statisticValue:
           $ref: '#/components/schemas/mc/statistic/StatisticValue'
+          description: |
+            The second part of the publish message shall be the StatisticValueInstance object value.
     com:
       ObjectId:
         properties:
@@ -169,11 +173,11 @@ components:
               type: number
           type: object
   messages:
-    Statistic_monitorStatisticsRequest:
+    Statistic_monitorStatistics_Send:
       description: Statistic monitorStatistics request submission
       payload:
-        $ref: '#/components/schemas/Statistic_monitorStatisticsTransportRequest'
-    Statistic_monitorStatisticsResponse:
+        $ref: '#/components/schemas/Statistic_monitorStatistics_Send'
+    Statistic_monitorStatistics_Receive:
       description: Statistic monitorStatistics update response
       payload:
-        $ref: '#/components/schemas/Statistic_monitorStatisticsTransportResponse'
+        $ref: '#/components/schemas/Statistic_monitorStatistics_Receive'

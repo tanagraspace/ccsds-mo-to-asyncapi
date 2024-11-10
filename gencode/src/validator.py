@@ -1,9 +1,10 @@
 import os
-import importlib
 import sys
+import importlib
+import traceback
 
 def validate_imports_and_classes(target_src_code_directory):
-  # Add target directory to the system path
+  # add target directory to the system path
   sys.path.insert(0, target_src_code_directory)
   
   for root, _, files in os.walk(target_src_code_directory):
@@ -32,12 +33,13 @@ def validate_imports_and_classes(target_src_code_directory):
 
 def main():
   print("\nValidate generated code...\n")
-  target_src_code_directory = "mo-asyncapi/src"  # Adjust this path as needed
+  target_src_code_directory = "mo-asyncapi/src"  # adjust this path as needed
   try:
     validate_imports_and_classes(target_src_code_directory)
     print("\nValidation successful!")
   except Exception as e:
     print(f"A validation error occurred: {e}")
+    traceback.print_exc()
     sys.exit(1)
 
 if __name__ == "__main__":

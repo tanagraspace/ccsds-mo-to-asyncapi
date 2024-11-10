@@ -1,0 +1,154 @@
+asyncapi: 3.0.0
+info:
+  title: Alert Service enableGeneration API
+  version: 1.0.0
+  description: This API allows clients to interact with the enableGeneration iteraction of the Alert Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the enableGeneration interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  Send_Alert_enableGeneration:
+    address: Send_Alert_enableGeneration
+    messages:
+      Alert.enableGeneration_Send.message:
+        $ref: '#/components/messages/Alert_enableGeneration_Send'
+    description: >
+      Send a **Alert_enableGeneration_Send** message in this channel to receive a
+      **Alert_enableGeneration_Receive** message over the **Receive_Alert_enableGeneration** channel.
+  Receive_Alert_enableGeneration:
+    address: Receive_Alert_enableGeneration
+    messages:
+      Alert.enableGeneration_Receive.message:
+        $ref: '#/components/messages/Alert_enableGeneration_Receive'
+    description: >
+      Use this channel to receive Alert enableGeneration responses as **Alert_enableGeneration_Receive**
+      messages.
+  Error_Alert_enableGeneration:
+    address: Error_Alert_enableGeneration
+    messages:
+      Alert.enableGeneration_Error.message:
+        $ref: '#/components/messages/Alert_enableGeneration_Error'
+    description: >
+      Use this channel to receive Alert enableGeneration errors as **Alert_enableGeneration_ReceiveErrors**
+      messages.
+operations:
+  Alert_enableGeneration_Send:
+    action: send
+    channel:
+      $ref: '#/channels/Send_Alert_enableGeneration'
+    messages:
+      - $ref: '#/channels/Send_Alert_enableGeneration/messages/Alert.enableGeneration_Send.message'
+  Alert_enableGeneration_Receive:
+    action: receive
+    channel:
+      $ref: '#/channels/Receive_Alert_enableGeneration'
+    messages:
+      - $ref: '#/channels/Receive_Alert_enableGeneration/messages/Alert.enableGeneration_Receive.message'
+  Alert_enableGeneration_Error:
+    action: receive
+    channel:
+      $ref: '#/channels/Error_Alert_enableGeneration'
+    messages:
+      - $ref: '#/channels/Error_Alert_enableGeneration/messages/Alert.enableGeneration_Error.message'
+components:
+  schemas:
+    Alert_enableGeneration_Send:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        isGroupIds:
+          type: boolean
+          description: |
+            If the isGroupIds field is TRUE then the enableInstances field shall contain GroupIdentity object instance identifiers, otherwise the field contains AlertIdentity object instance identifiers.
+            The AlertIdentity objects referenced, either directly or indirectly via groups, by the enableInstances field shall be the AlertIdentity objects to match.
+            The id of the enableInstances field shall support the wildcard value of '0' and matches all AlertIdentity objects of the provider.
+            The service provider shall check for the wildcard value in the list of object instance identifiers in the enableInstances field first and if found no other checks of supplied object instance identifiers shall be made.
+            If the enableInstances field contains a value of TRUE then instances of matching AlertIdentity objects shall be generated, a value of FALSE requests that instances will not be generated.
+            No error shall be raised if the enableInstances Boolean value supplied is the same as the current generationEnabled field for an alert object i.e. enabling an already enabled alert will not result in an error.
+            If a requested AlertIdentity or GroupIdentity object is unknown then an UNKNOWN error shall be returned.
+            If a requested Group, or the Group objects referenced by that Group, does not contain AlertIdentity objects then an INVALID error shall be returned.
+            If an error is raised then no modifications shall be made as a result of this operation call.
+            The provider shall create and store a new AlertDefinition object in the COM archive if the generationEnabled field is changed.
+            If a new AlertDefinition object is created then that new object shall be the current AlertDefinition used for the specific AlertIdentity.
+        enableInstances:
+          $ref: '#/components/schemas/com/InstanceBooleanPair'
+    Alert_enableGeneration_Receive:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        newObjInstIds:
+          type: integer
+          description: |
+            The response shall contain the list of object instance identifiers for the new AlertDefinition objects.
+          format: int64
+    Alert_enableGeneration_Error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - COM
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+            - INVALID
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+    com:
+      InstanceBooleanPair:
+        properties:
+          id:
+            description: The object instance identifier.
+            format: int64
+            type: integer
+          value:
+            description: An associated Boolean value.
+            type: boolean
+        type: object
+  messages:
+    Alert_enableGeneration_Send:
+      description: Alert enableGeneration request submission
+      payload:
+        $ref: '#/components/schemas/Alert_enableGeneration_Send'
+    Alert_enableGeneration_Receive:
+      description: Alert enableGeneration update response
+      payload:
+        $ref: '#/components/schemas/Alert_enableGeneration_Receive'
+    Alert_enableGeneration_Error:
+      description: Alert enableGeneration error response
+      payload:
+        $ref: '#/components/schemas/Alert_enableGeneration_Error'

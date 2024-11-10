@@ -2,9 +2,9 @@
     const schema = {
   "asyncapi": "3.0.0",
   "info": {
-    "title": "Parameter monitorValue Service API",
+    "title": "Parameter Service monitorValue API",
     "version": "1.0.0",
-    "description": "This API allows clients to interact with the monitorValue iteraction of the Parameter service."
+    "description": "This API allows clients to interact with the monitorValue iteraction of the Parameter Service."
   },
   "defaultContentType": "application/json",
   "servers": {
@@ -37,10 +37,10 @@
     }
   },
   "channels": {
-    "sub_Parameter_monitorValue": {
-      "address": "sub_Parameter_monitorValue",
+    "Send_Parameter_monitorValue": {
+      "address": "Send_Parameter_monitorValue",
       "messages": {
-        "Parameter.monitorValueSubscribe.message": {
+        "Parameter.monitorValue_Send.message": {
           "description": "Parameter monitorValue request submission",
           "payload": {
             "type": "object",
@@ -68,19 +68,19 @@
                 "x-parser-schema-id": "<anonymous-schema-4>"
               }
             },
-            "x-parser-schema-id": "Parameter_monitorValueTransportRequest"
+            "x-parser-schema-id": "Parameter_monitorValue_Send"
           },
-          "x-parser-unique-object-id": "Parameter.monitorValueSubscribe.message",
-          "x-parser-message-name": "Parameter_monitorValueRequest"
+          "x-parser-unique-object-id": "Parameter.monitorValue_Send.message",
+          "x-parser-message-name": "Parameter_monitorValue_Send"
         }
       },
-      "description": "Use this channel to send a **Parameter_monitorValueRequest** message to receive a **Parameter_monitorValueResponse** message over the **pub_Parameter_monitorValue** channel.\n",
-      "x-parser-unique-object-id": "sub_Parameter_monitorValue"
+      "description": "Send a **Parameter_monitorValue_Send** message in this channel to receive a **Parameter_monitorValue_Receive** message over the **Receive_Parameter_monitorValue** channel.\n",
+      "x-parser-unique-object-id": "Send_Parameter_monitorValue"
     },
-    "pub_Parameter_monitorValue": {
-      "address": "pub_Parameter_monitorValue",
+    "Receive_Parameter_monitorValue": {
+      "address": "Receive_Parameter_monitorValue",
       "messages": {
-        "Parameter.monitorValuePublish.message": {
+        "Parameter.monitorValue_Receive.message": {
           "description": "Parameter monitorValue update response",
           "payload": {
             "type": "object",
@@ -170,54 +170,54 @@
                 "x-parser-schema-id": "<anonymous-schema-16>"
               }
             },
-            "x-parser-schema-id": "Parameter_monitorValueTransportResponse"
+            "x-parser-schema-id": "Parameter_monitorValue_Receive"
           },
-          "x-parser-unique-object-id": "Parameter.monitorValuePublish.message",
-          "x-parser-message-name": "Parameter_monitorValueResponse"
+          "x-parser-unique-object-id": "Parameter.monitorValue_Receive.message",
+          "x-parser-message-name": "Parameter_monitorValue_Receive"
         }
       },
-      "description": "Use this channel to receive Parameter monitorValue updates as **Parameter_monitorValueResponse** responses.\n",
-      "x-parser-unique-object-id": "pub_Parameter_monitorValue"
+      "description": "Use this channel to receive Parameter monitorValue responses as **Parameter_monitorValue_Receive** messages.\n",
+      "x-parser-unique-object-id": "Receive_Parameter_monitorValue"
     }
   },
   "operations": {
-    "Parameter_monitorValuePublish": {
+    "Parameter_monitorValue_Send": {
       "action": "send",
-      "channel": "$ref:$.channels.sub_Parameter_monitorValue",
+      "channel": "$ref:$.channels.Send_Parameter_monitorValue",
       "messages": [
-        "$ref:$.channels.sub_Parameter_monitorValue.messages.Parameter.monitorValueSubscribe.message"
+        "$ref:$.channels.Send_Parameter_monitorValue.messages.Parameter.monitorValue_Send.message"
       ],
-      "x-parser-unique-object-id": "Parameter_monitorValuePublish"
+      "x-parser-unique-object-id": "Parameter_monitorValue_Send"
     },
-    "Parameter_monitorValueSubscribe": {
+    "Parameter_monitorValue_Receive": {
       "action": "receive",
-      "channel": "$ref:$.channels.pub_Parameter_monitorValue",
+      "channel": "$ref:$.channels.Receive_Parameter_monitorValue",
       "messages": [
-        "$ref:$.channels.pub_Parameter_monitorValue.messages.Parameter.monitorValuePublish.message"
+        "$ref:$.channels.Receive_Parameter_monitorValue.messages.Parameter.monitorValue_Receive.message"
       ],
-      "x-parser-unique-object-id": "Parameter_monitorValueSubscribe"
+      "x-parser-unique-object-id": "Parameter_monitorValue_Receive"
     }
   },
   "components": {
     "schemas": {
-      "Parameter_monitorValueTransportRequest": "$ref:$.channels.sub_Parameter_monitorValue.messages.Parameter.monitorValueSubscribe.message.payload",
-      "Parameter_monitorValueTransportResponse": "$ref:$.channels.pub_Parameter_monitorValue.messages.Parameter.monitorValuePublish.message.payload",
+      "Parameter_monitorValue_Send": "$ref:$.channels.Send_Parameter_monitorValue.messages.Parameter.monitorValue_Send.message.payload",
+      "Parameter_monitorValue_Receive": "$ref:$.channels.Receive_Parameter_monitorValue.messages.Parameter.monitorValue_Receive.message.payload",
       "com": {
-        "ObjectId": "$ref:$.channels.pub_Parameter_monitorValue.messages.Parameter.monitorValuePublish.message.payload.properties.objId",
-        "ObjectKey": "$ref:$.channels.pub_Parameter_monitorValue.messages.Parameter.monitorValuePublish.message.payload.properties.objId.properties.key",
-        "ObjectType": "$ref:$.channels.pub_Parameter_monitorValue.messages.Parameter.monitorValuePublish.message.payload.properties.objId.properties.type_",
+        "ObjectId": "$ref:$.channels.Receive_Parameter_monitorValue.messages.Parameter.monitorValue_Receive.message.payload.properties.objId",
+        "ObjectKey": "$ref:$.channels.Receive_Parameter_monitorValue.messages.Parameter.monitorValue_Receive.message.payload.properties.objId.properties.key",
+        "ObjectType": "$ref:$.channels.Receive_Parameter_monitorValue.messages.Parameter.monitorValue_Receive.message.payload.properties.objId.properties.type_",
         "x-parser-schema-id": "com"
       },
       "mc": {
         "parameter": {
-          "ParameterValue": "$ref:$.channels.pub_Parameter_monitorValue.messages.Parameter.monitorValuePublish.message.payload.properties.newValue"
+          "ParameterValue": "$ref:$.channels.Receive_Parameter_monitorValue.messages.Parameter.monitorValue_Receive.message.payload.properties.newValue"
         },
         "x-parser-schema-id": "mc"
       }
     },
     "messages": {
-      "Parameter_monitorValueRequest": "$ref:$.channels.sub_Parameter_monitorValue.messages.Parameter.monitorValueSubscribe.message",
-      "Parameter_monitorValueResponse": "$ref:$.channels.pub_Parameter_monitorValue.messages.Parameter.monitorValuePublish.message"
+      "Parameter_monitorValue_Send": "$ref:$.channels.Send_Parameter_monitorValue.messages.Parameter.monitorValue_Send.message",
+      "Parameter_monitorValue_Receive": "$ref:$.channels.Receive_Parameter_monitorValue.messages.Parameter.monitorValue_Receive.message"
     }
   },
   "x-parser-spec-parsed": true,

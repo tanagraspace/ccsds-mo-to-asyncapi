@@ -7,6 +7,15 @@ class InteractionType(Enum):
   PROGRESS = "progressIP"
   INVOKE = "invokeIP"
 
+class InteractionPayloadElementPubSub(Enum):
+  SEND = "subscriptionKeys"
+  RECEIVE = "publishNotify"
+
+class InteractionPayloadElementRequest(Enum):
+  SEND = "request"
+  RECEIVE = "response"
+
 class TransportType(Enum):
-  REQUEST = "Request"
-  RESPONSE = "Response"
+  SEND = "Send"
+  RECEIVE = "Receive"
+  ERROR = "Error" # this is also a RECEIVE transport type

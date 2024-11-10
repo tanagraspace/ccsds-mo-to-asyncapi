@@ -1,0 +1,84 @@
+asyncapi: 3.0.0
+info:
+  title: Check Service getServiceStatus API
+  version: 1.0.0
+  description: This API allows clients to interact with the getServiceStatus iteraction of the Check Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the getServiceStatus interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  Send_Check_getServiceStatus:
+    address: Send_Check_getServiceStatus
+    messages:
+      Check.getServiceStatus_Send.message:
+        $ref: '#/components/messages/Check_getServiceStatus_Send'
+    description: >
+      Send a **Check_getServiceStatus_Send** message in this channel to receive a
+      **Check_getServiceStatus_Receive** message over the **Receive_Check_getServiceStatus** channel.
+  Receive_Check_getServiceStatus:
+    address: Receive_Check_getServiceStatus
+    messages:
+      Check.getServiceStatus_Receive.message:
+        $ref: '#/components/messages/Check_getServiceStatus_Receive'
+    description: >
+      Use this channel to receive Check getServiceStatus responses as **Check_getServiceStatus_Receive**
+      messages.
+operations:
+  Check_getServiceStatus_Send:
+    action: send
+    channel:
+      $ref: '#/channels/Send_Check_getServiceStatus'
+    messages:
+      - $ref: '#/channels/Send_Check_getServiceStatus/messages/Check.getServiceStatus_Send.message'
+  Check_getServiceStatus_Receive:
+    action: receive
+    channel:
+      $ref: '#/channels/Receive_Check_getServiceStatus'
+    messages:
+      - $ref: '#/channels/Receive_Check_getServiceStatus/messages/Check.getServiceStatus_Receive.message'
+components:
+  schemas:
+    Check_getServiceStatus_Send:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+    Check_getServiceStatus_Receive:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        serviceEnabled:
+          type: boolean
+          description: |
+            The operation shall return TRUE if the service is currently enabled or FALSE if the service is currently disabled.
+  messages:
+    Check_getServiceStatus_Send:
+      description: Check getServiceStatus request submission
+      payload:
+        $ref: '#/components/schemas/Check_getServiceStatus_Send'
+    Check_getServiceStatus_Receive:
+      description: Check getServiceStatus update response
+      payload:
+        $ref: '#/components/schemas/Check_getServiceStatus_Receive'

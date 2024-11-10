@@ -1,0 +1,213 @@
+asyncapi: 3.0.0
+info:
+  title: Statistic Service addParameterEvaluation API
+  version: 1.0.0
+  description: This API allows clients to interact with the addParameterEvaluation iteraction of the Statistic Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the addParameterEvaluation interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  Send_Statistic_addParameterEvaluation:
+    address: Send_Statistic_addParameterEvaluation
+    messages:
+      Statistic.addParameterEvaluation_Send.message:
+        $ref: '#/components/messages/Statistic_addParameterEvaluation_Send'
+    description: >
+      Send a **Statistic_addParameterEvaluation_Send** message in this channel to receive a
+      **Statistic_addParameterEvaluation_Receive** message over the **Receive_Statistic_addParameterEvaluation** channel.
+  Receive_Statistic_addParameterEvaluation:
+    address: Receive_Statistic_addParameterEvaluation
+    messages:
+      Statistic.addParameterEvaluation_Receive.message:
+        $ref: '#/components/messages/Statistic_addParameterEvaluation_Receive'
+    description: >
+      Use this channel to receive Statistic addParameterEvaluation responses as **Statistic_addParameterEvaluation_Receive**
+      messages.
+  Error_Statistic_addParameterEvaluation:
+    address: Error_Statistic_addParameterEvaluation
+    messages:
+      Statistic.addParameterEvaluation_Error.message:
+        $ref: '#/components/messages/Statistic_addParameterEvaluation_Error'
+    description: >
+      Use this channel to receive Statistic addParameterEvaluation errors as **Statistic_addParameterEvaluation_ReceiveErrors**
+      messages.
+operations:
+  Statistic_addParameterEvaluation_Send:
+    action: send
+    channel:
+      $ref: '#/channels/Send_Statistic_addParameterEvaluation'
+    messages:
+      - $ref: '#/channels/Send_Statistic_addParameterEvaluation/messages/Statistic.addParameterEvaluation_Send.message'
+  Statistic_addParameterEvaluation_Receive:
+    action: receive
+    channel:
+      $ref: '#/channels/Receive_Statistic_addParameterEvaluation'
+    messages:
+      - $ref: '#/channels/Receive_Statistic_addParameterEvaluation/messages/Statistic.addParameterEvaluation_Receive.message'
+  Statistic_addParameterEvaluation_Error:
+    action: receive
+    channel:
+      $ref: '#/channels/Error_Statistic_addParameterEvaluation'
+    messages:
+      - $ref: '#/channels/Error_Statistic_addParameterEvaluation/messages/Statistic.addParameterEvaluation_Error.message'
+components:
+  schemas:
+    Statistic_addParameterEvaluation_Send:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        newDetails:
+          $ref: '#/components/schemas/mc/statistic/StatisticCreationRequest'
+          description: |
+            The newDetails field shall hold a StatisticCreationRequest for each new parameter to be sampled.
+            The statFuncInstId field of the StatisticCreationRequest shall reference the object instance identifier of the StatisticFunction to be used.
+            If the statFuncInstId field does not match an existing StatisticFunction then an UNKNOWN error shall be raised.
+            The parameterId shall reference the ParameterIdentity that the function is being applied to.
+            If the parameterId field does not match an existing ParameterIdentity then an UNKNOWN error shall be raised.
+            If the type of the matched parameter is not supported by the matched statistical function, for example Mean average of a String parameter, then an INVALID error shall be returned.
+            The samplingInterval field shall contain the sampling duration interval for the parameter.
+            If the supplied samplingInterval is not supported for the requested parameter then an INVALID error shall be returned.
+            If an error is raised then no new StatisticLink object shall be created and stored as a result of this operation call.
+            If no error is to be raised then StatisticLink and StatisticLinkDefinition objects shall be created for each function/parameter link and stored in the COM archive.
+            The referenced parameter shall be sampled immediately and the sampling, reporting and collection intervals started.
+    Statistic_addParameterEvaluation_Receive:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        newObjInstIds:
+          $ref: '#/components/schemas/mc/ObjectInstancePair'
+          description: |
+            The response shall contain the list of object instance identifiers for the new StatisticLink and StatisticLinkDefinition objects.
+            The object instance identifiers of the StatisticLink and StatisticLinkDefinition objects shall be held in the first and second fields of the ObjectInstancePair structure respectively.
+            The returned list shall maintain the same order as the submitted links.
+    Statistic_addParameterEvaluation_Error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - COM
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+            - INVALID
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+    mc:
+      statistic:
+        StatisticCreationRequest:
+          properties:
+            linkDetails:
+              $ref: '#/components/schemas/mc/statistic/StatisticLinkDetails'
+              description: The collection, reporting, and sampling intervals.
+            parameterId:
+              $ref: '#/components/schemas/com/ObjectKey'
+              description: The object key of the ParameterIdentity object being referenced.
+            statFuncInstId:
+              description: The object instance identifier of the statistical function to be
+                used.
+              format: int64
+              type: integer
+          type: object
+        StatisticLinkDetails:
+          properties:
+            collectionInterval:
+              description: The collection and reset interval of the statistical evaluation for
+                the linked parameter. If set to '0', then no periodic reset of the evaluation
+                shall be performed.
+              format: uint64
+              type: number
+            reportingEnabled:
+              description: TRUE if reporting of the evaluation instance is enabled.
+              type: boolean
+            reportingInterval:
+              description: The interval between periodic reports being generated. If set to
+                '0', then no periodic reports shall be sent.
+              format: uint64
+              type: number
+            resetEveryCollection:
+              description: If TRUE the evaluation will reset its value every collection interval.
+                If FALSE it will maintain a moving evaluation of the function for the collection
+                interval.
+              type: boolean
+            samplingInterval:
+              description: The interval between samples of the parameter.
+              format: uint64
+              type: number
+            useConverted:
+              description: If TRUE then use the converted value of the Parameter, else use the
+                raw value
+              type: boolean
+          type: object
+      ObjectInstancePair:
+        properties:
+          objDefInstanceId:
+            description: The object instance identifier of the Definition object.
+            format: int64
+            type: integer
+          objIdentityInstanceId:
+            description: The object instance identifier of the Identity object.
+            format: int64
+            type: integer
+        type: object
+    com:
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
+  messages:
+    Statistic_addParameterEvaluation_Send:
+      description: Statistic addParameterEvaluation request submission
+      payload:
+        $ref: '#/components/schemas/Statistic_addParameterEvaluation_Send'
+    Statistic_addParameterEvaluation_Receive:
+      description: Statistic addParameterEvaluation update response
+      payload:
+        $ref: '#/components/schemas/Statistic_addParameterEvaluation_Receive'
+    Statistic_addParameterEvaluation_Error:
+      description: Statistic addParameterEvaluation error response
+      payload:
+        $ref: '#/components/schemas/Statistic_addParameterEvaluation_Error'

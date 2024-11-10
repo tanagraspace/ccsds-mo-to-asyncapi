@@ -1,0 +1,275 @@
+asyncapi: 3.0.0
+info:
+  title: Alert Service addAlert API
+  version: 1.0.0
+  description: This API allows clients to interact with the addAlert iteraction of the Alert Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the addAlert interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  Send_Alert_addAlert:
+    address: Send_Alert_addAlert
+    messages:
+      Alert.addAlert_Send.message:
+        $ref: '#/components/messages/Alert_addAlert_Send'
+    description: >
+      Send a **Alert_addAlert_Send** message in this channel to receive a
+      **Alert_addAlert_Receive** message over the **Receive_Alert_addAlert** channel.
+  Receive_Alert_addAlert:
+    address: Receive_Alert_addAlert
+    messages:
+      Alert.addAlert_Receive.message:
+        $ref: '#/components/messages/Alert_addAlert_Receive'
+    description: >
+      Use this channel to receive Alert addAlert responses as **Alert_addAlert_Receive**
+      messages.
+  Error_Alert_addAlert:
+    address: Error_Alert_addAlert
+    messages:
+      Alert.addAlert_Error.message:
+        $ref: '#/components/messages/Alert_addAlert_Error'
+    description: >
+      Use this channel to receive Alert addAlert errors as **Alert_addAlert_ReceiveErrors**
+      messages.
+operations:
+  Alert_addAlert_Send:
+    action: send
+    channel:
+      $ref: '#/channels/Send_Alert_addAlert'
+    messages:
+      - $ref: '#/channels/Send_Alert_addAlert/messages/Alert.addAlert_Send.message'
+  Alert_addAlert_Receive:
+    action: receive
+    channel:
+      $ref: '#/channels/Receive_Alert_addAlert'
+    messages:
+      - $ref: '#/channels/Receive_Alert_addAlert/messages/Alert.addAlert_Receive.message'
+  Alert_addAlert_Error:
+    action: receive
+    channel:
+      $ref: '#/channels/Error_Alert_addAlert'
+    messages:
+      - $ref: '#/channels/Error_Alert_addAlert/messages/Alert.addAlert_Error.message'
+components:
+  schemas:
+    Alert_addAlert_Send:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        alertDefDetails:
+          $ref: '#/components/schemas/mc/alert/AlertCreationRequest'
+          description: |
+            The alertDefDetails field shall hold the name and the AlertDefinitionDetails to be added.
+            The name field must not be the wildcard '*', or empty (an INVALID error shall be returned in this case).
+            The supplied name must be unique among all AlertIdentity objects for the domain of the provider otherwise a DUPLICATE error shall be raised.
+            If an error is raised then no new identities and definitions shall be added as a result of this operation call.
+            If the supplied name matches an existing, but removed, AlertIdentity then that AlertIdentity shall be reused otherwise a new AlertIdentity shall be created.
+            The provider shall create a new AlertDefinition object and store it, and any new AlertIdentity objects, in the COM archive.
+    Alert_addAlert_Receive:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        newObjInstIds:
+          $ref: '#/components/schemas/mc/ObjectInstancePair'
+          description: |
+            The response shall contain the list of object instance identifiers for the AlertIdentity and new AlertDefinition objects.
+            The returned list shall maintain the same order as the submitted definitions.
+    Alert_addAlert_Error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - COM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - DUPLICATE
+            - INVALID
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+    mc:
+      alert:
+        AlertCreationRequest:
+          properties:
+            alertDefDetails:
+              $ref: '#/components/schemas/mc/alert/AlertDefinitionDetails'
+              description: The alert definition details.
+            name:
+              description: Alert name. Must not be empty or wildcard value.
+              type: string
+          type: object
+        AlertDefinitionDetails:
+          properties:
+            arguments:
+              description: The list of argument definitions.
+              items:
+                $ref: '#/components/schemas/mc/ArgumentDefinitionDetails'
+              type: array
+            description:
+              description: The description of the alert.
+              type: string
+            generationEnabled:
+              description: Controls whether instances of this alert are to be generated.
+              type: boolean
+            severity:
+              $ref: '#/components/schemas/mc/Severity'
+              description: Severity of the alert.
+          type: object
+      ArgumentDefinitionDetails:
+        properties:
+          argId:
+            description: Holds the argument definition identifier.
+            type: string
+          conditionalConversions:
+            description: The conditional conversions to apply to the argument. Only the first
+              TRUE conversion should be applied.
+            items:
+              $ref: '#/components/schemas/mc/ConditionalConversion'
+            type: array
+          convertedType:
+            description: Holds the attribute short form part of the converted type of the
+              argument, e.g., for a MAL::String argument it shall hold 15. Must not be NULL
+              if a conversion condition is supplied.
+            format: int8
+            type: integer
+          convertedUnit:
+            description: The converted argument units.
+            type: string
+          description:
+            description: Optional argument description.
+            type: string
+          rawType:
+            description: Holds the attribute short form part of the raw type of the argument,
+              e.g., for a MAL::String argument it shall hold 15.
+            format: int8
+            type: integer
+          rawUnit:
+            description: The unit for the raw value.
+            type: string
+        type: object
+      ConditionalConversion:
+        properties:
+          condition:
+            $ref: '#/components/schemas/mc/ParameterExpression'
+            description: The expression indicates which entities are applicable for this check.
+              If NULL, then the condition shall evaluate to TRUE.
+          conversionId:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: The object instance identifier of the ConversionIdentity object to
+              be used if the condition evaluates to TRUE or is NULL.
+        type: object
+      ObjectInstancePair:
+        properties:
+          objDefInstanceId:
+            description: The object instance identifier of the Definition object.
+            format: int64
+            type: integer
+          objIdentityInstanceId:
+            description: The object instance identifier of the Identity object.
+            format: int64
+            type: integer
+        type: object
+      ParameterExpression:
+        properties:
+          operator:
+            $ref: '#/components/schemas/com/archive/ExpressionOperator'
+            description: The expression operator.
+          parameterId:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: Holds the object instance identifier of the ParameterIdentity object
+              to be used in the expression.
+          useConverted:
+            description: If set to TRUE the converted value field of the parameter value should
+              be used, otherwise the raw value field should be used.
+            type: boolean
+          value:
+            description: The value to be used in the expression.
+            type: string
+        type: object
+      Severity:
+        description: 'The severity enumeration holds the possible values for a severity. The
+          numerical value represents the increasing severity, therefore CRITICAL is more severe
+          than ALARM. Normally, for checks, only the Warning and Critical ranges are used:
+          the colour yellow is associated with Warning, and the colour red is associated with
+          Critical.'
+        enum:
+        - INFORMATIONAL
+        - WARNING
+        - ALARM
+        - SEVERE
+        - CRITICAL
+        type: string
+    com:
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
+      archive:
+        ExpressionOperator:
+          description: The ExpressionOperator enumeration holds a set of possible expression
+            operators.
+          enum:
+          - EQUAL
+          - DIFFER
+          - GREATER
+          - GREATER_OR_EQUAL
+          - LESS
+          - LESS_OR_EQUAL
+          - CONTAINS
+          - ICONTAINS
+          type: string
+  messages:
+    Alert_addAlert_Send:
+      description: Alert addAlert request submission
+      payload:
+        $ref: '#/components/schemas/Alert_addAlert_Send'
+    Alert_addAlert_Receive:
+      description: Alert addAlert update response
+      payload:
+        $ref: '#/components/schemas/Alert_addAlert_Receive'
+    Alert_addAlert_Error:
+      description: Alert addAlert error response
+      payload:
+        $ref: '#/components/schemas/Alert_addAlert_Error'

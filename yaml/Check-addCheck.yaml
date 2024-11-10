@@ -1,0 +1,210 @@
+asyncapi: 3.0.0
+info:
+  title: Check Service addCheck API
+  version: 1.0.0
+  description: This API allows clients to interact with the addCheck iteraction of the Check Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the addCheck interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  Send_Check_addCheck:
+    address: Send_Check_addCheck
+    messages:
+      Check.addCheck_Send.message:
+        $ref: '#/components/messages/Check_addCheck_Send'
+    description: >
+      Send a **Check_addCheck_Send** message in this channel to receive a
+      **Check_addCheck_Receive** message over the **Receive_Check_addCheck** channel.
+  Receive_Check_addCheck:
+    address: Receive_Check_addCheck
+    messages:
+      Check.addCheck_Receive.message:
+        $ref: '#/components/messages/Check_addCheck_Receive'
+    description: >
+      Use this channel to receive Check addCheck responses as **Check_addCheck_Receive**
+      messages.
+  Error_Check_addCheck:
+    address: Error_Check_addCheck
+    messages:
+      Check.addCheck_Error.message:
+        $ref: '#/components/messages/Check_addCheck_Error'
+    description: >
+      Use this channel to receive Check addCheck errors as **Check_addCheck_ReceiveErrors**
+      messages.
+operations:
+  Check_addCheck_Send:
+    action: send
+    channel:
+      $ref: '#/channels/Send_Check_addCheck'
+    messages:
+      - $ref: '#/channels/Send_Check_addCheck/messages/Check.addCheck_Send.message'
+  Check_addCheck_Receive:
+    action: receive
+    channel:
+      $ref: '#/channels/Receive_Check_addCheck'
+    messages:
+      - $ref: '#/channels/Receive_Check_addCheck/messages/Check.addCheck_Receive.message'
+  Check_addCheck_Error:
+    action: receive
+    channel:
+      $ref: '#/channels/Error_Check_addCheck'
+    messages:
+      - $ref: '#/channels/Error_Check_addCheck/messages/Check.addCheck_Error.message'
+components:
+  schemas:
+    Check_addCheck_Send:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        checkNames:
+          type: string
+          description: |
+            The checkNames field shall hold the names of the checks to be added.
+            The checkNames field must not contain NULL, the wildcard '*', or empty value (an INVALID error shall be returned in this case).
+            The supplied names must be unique among all CheckIdentity objects for the domain of the provider otherwise a DUPLICATE error shall be raised.
+        checkDefDetails:
+          $ref: '#/components/schemas/mc/check/CheckDefinitionDetails'
+          description: |
+            The checkDefDetails field shall hold the CheckDefinitionDetails to be added.
+            The two lists shall be ordered the same.
+            The number of entries in the two lists shall be the same size otherwise an INVALID error shall be raised.
+            Only one of nominalTime and nominalCount is permitted to be zero, an INVALID error shall be returned if this is not the case.
+            Only one of violationTime and violationCount is permitted to be zero, an INVALID error shall be returned if this is not the case.
+            If an error is raised then no new identities and definitions shall be added as a result of this operation call.
+            If the supplied name matches an existing, but removed, CheckIdentity then that CheckIdentity shall be reused otherwise a new CheckIdentity shall be created.
+            The provider shall create a new actual check definition object and store it, and any new CheckIdentity objects, in the COM archive.
+    Check_addCheck_Receive:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        newObjInstIds:
+          $ref: '#/components/schemas/mc/ObjectInstancePair'
+          description: |
+            The response shall contain the list of object instance identifiers for the CheckIdentity and new actual definition objects.
+            The returned list shall maintain the same order as the submitted definitions.
+    Check_addCheck_Error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - COM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - DUPLICATE
+            - INVALID
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+    mc:
+      check:
+        CheckDefinitionDetails:
+          properties:
+            checkSeverity:
+              $ref: '#/components/schemas/mc/Severity'
+              description: Indicates the seriousness of the violation based on its possible
+                negative consequences.
+            description:
+              description: The description of the check. May be empty.
+              type: string
+            maxReportingInterval:
+              description: Maximum interval that can elapse between generations of CheckResult
+                reports. If this value expires, then a CheckResult is generated with the same
+                state for the previous and current state. If set to '0', then no maximum reporting
+                interval shall be applied.
+              format: uint64
+              type: number
+            nominalCount:
+              description: Number of consecutive valid samples passing the check for the check
+                to be OK.
+              format: uint32
+              type: integer
+            nominalTime:
+              description: If nominalCount is zero then this is duration that a parameter is
+                continuously passing the check for the check to be OK. If nominalCount is not
+                zero then this is the period over which samples will be used in the nominalCount
+                calculation, i.e. samples further in the past than nominalTime are not considered.
+              format: uint64
+              type: number
+            violationCount:
+              description: Number of consecutive valid samples violating the check for the check
+                to be in violation.
+              format: uint32
+              type: integer
+            violationTime:
+              description: If violationCount is zero then this is duration that a parameter
+                is continuously violating the check for the check to be in violation. If violationCount
+                not zero then this is the period over which samples will be used in the violationCount
+                calculation, i.e. samples further in the past than violationTime are not considered.
+              format: uint64
+              type: number
+          type: object
+      ObjectInstancePair:
+        properties:
+          objDefInstanceId:
+            description: The object instance identifier of the Definition object.
+            format: int64
+            type: integer
+          objIdentityInstanceId:
+            description: The object instance identifier of the Identity object.
+            format: int64
+            type: integer
+        type: object
+      Severity:
+        description: 'The severity enumeration holds the possible values for a severity. The
+          numerical value represents the increasing severity, therefore CRITICAL is more severe
+          than ALARM. Normally, for checks, only the Warning and Critical ranges are used:
+          the colour yellow is associated with Warning, and the colour red is associated with
+          Critical.'
+        enum:
+        - INFORMATIONAL
+        - WARNING
+        - ALARM
+        - SEVERE
+        - CRITICAL
+        type: string
+  messages:
+    Check_addCheck_Send:
+      description: Check addCheck request submission
+      payload:
+        $ref: '#/components/schemas/Check_addCheck_Send'
+    Check_addCheck_Receive:
+      description: Check addCheck update response
+      payload:
+        $ref: '#/components/schemas/Check_addCheck_Receive'
+    Check_addCheck_Error:
+      description: Check addCheck error response
+      payload:
+        $ref: '#/components/schemas/Check_addCheck_Error'

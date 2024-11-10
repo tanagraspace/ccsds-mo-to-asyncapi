@@ -1,8 +1,8 @@
 asyncapi: 3.0.0
 info:
-  title: Aggregation monitorValue Service API
+  title: Aggregation Service monitorValue API
   version: 1.0.0
-  description: This API allows clients to interact with the monitorValue iteraction of the Aggregation service.
+  description: This API allows clients to interact with the monitorValue iteraction of the Aggregation Service.
 defaultContentType: application/json
 servers:
   production:
@@ -26,45 +26,44 @@ servers:
           message: Guest gone offline.
           retain: false
 channels:
-  sub_Aggregation_monitorValue:
-    address: sub_Aggregation_monitorValue
+  Send_Aggregation_monitorValue:
+    address: Send_Aggregation_monitorValue
     messages:
-      Aggregation.monitorValueSubscribe.message:
-        $ref: '#/components/messages/Aggregation_monitorValueRequest'
+      Aggregation.monitorValue_Send.message:
+        $ref: '#/components/messages/Aggregation_monitorValue_Send'
     description: >
-      Use this channel to send a **Aggregation_monitorValueRequest** message to receive a
-      **Aggregation_monitorValueResponse** message over the **pub_Aggregation_monitorValue** channel.
-  pub_Aggregation_monitorValue:
-    address: pub_Aggregation_monitorValue
+      Send a **Aggregation_monitorValue_Send** message in this channel to receive a
+      **Aggregation_monitorValue_Receive** message over the **Receive_Aggregation_monitorValue** channel.
+  Receive_Aggregation_monitorValue:
+    address: Receive_Aggregation_monitorValue
     messages:
-      Aggregation.monitorValuePublish.message:
-        $ref: '#/components/messages/Aggregation_monitorValueResponse'
+      Aggregation.monitorValue_Receive.message:
+        $ref: '#/components/messages/Aggregation_monitorValue_Receive'
     description: >
-      Use this channel to receive Aggregation monitorValue updates as **Aggregation_monitorValueResponse**
-      responses.
-      
+      Use this channel to receive Aggregation monitorValue responses as **Aggregation_monitorValue_Receive**
+      messages.
 operations:
-  Aggregation_monitorValuePublish:
+  Aggregation_monitorValue_Send:
     action: send
     channel:
-      $ref: '#/channels/sub_Aggregation_monitorValue'
+      $ref: '#/channels/Send_Aggregation_monitorValue'
     messages:
-      - $ref: '#/channels/sub_Aggregation_monitorValue/messages/Aggregation.monitorValueSubscribe.message'
-  Aggregation_monitorValueSubscribe:
+      - $ref: '#/channels/Send_Aggregation_monitorValue/messages/Aggregation.monitorValue_Send.message'
+  Aggregation_monitorValue_Receive:
     action: receive
     channel:
-      $ref: '#/channels/pub_Aggregation_monitorValue'
+      $ref: '#/channels/Receive_Aggregation_monitorValue'
     messages:
-      - $ref: '#/channels/pub_Aggregation_monitorValue/messages/Aggregation.monitorValuePublish.message'
+      - $ref: '#/channels/Receive_Aggregation_monitorValue/messages/Aggregation.monitorValue_Receive.message'
 components:
   schemas:
-    Aggregation_monitorValueTransportRequest:
+    Aggregation_monitorValue_Send:
       type: object
       properties:
         transactionId:
           type: string
           description: A unique identifier to map the response to the request.
-    Aggregation_monitorValueTransportResponse:
+    Aggregation_monitorValue_Receive:
       type: object
       properties:
         transactionId:
@@ -72,8 +71,18 @@ components:
           description: A unique identifier to map the response to the request.
         objId:
           $ref: '#/components/schemas/com/ObjectId'
+          description: |
+            The MAL EntityKey.firstSubKey shall contain the aggregation name.
+            The MAL EntityKey.secondSubKey shall contain the AggregationIdentity object instance identifier.
+            The MAL EntityKey.thirdSubKey shall contain the AggregationDefinition object instance identifier.
+            The MAL EntityKey.fourthSubKey shall contain the new AggregationValueInstance object instance identifier.
+            The timestamp of the AggregationValueInstance report shall be taken from the publish message.
+            The publish message shall include the ObjectId of the source link of the report.
+            If no source link is needed then the ObjectId shall be replaced with a NULL.
         newValue:
           $ref: '#/components/schemas/mc/aggregation/AggregationValue'
+          description: |
+            The second part of the publish message shall be the AggregationValue.
     com:
       ObjectId:
         properties:
@@ -199,11 +208,11 @@ components:
               type: integer
           type: object
   messages:
-    Aggregation_monitorValueRequest:
+    Aggregation_monitorValue_Send:
       description: Aggregation monitorValue request submission
       payload:
-        $ref: '#/components/schemas/Aggregation_monitorValueTransportRequest'
-    Aggregation_monitorValueResponse:
+        $ref: '#/components/schemas/Aggregation_monitorValue_Send'
+    Aggregation_monitorValue_Receive:
       description: Aggregation monitorValue update response
       payload:
-        $ref: '#/components/schemas/Aggregation_monitorValueTransportResponse'
+        $ref: '#/components/schemas/Aggregation_monitorValue_Receive'

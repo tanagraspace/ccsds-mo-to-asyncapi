@@ -1,0 +1,178 @@
+asyncapi: 3.0.0
+info:
+  title: Check Service listDefinition API
+  version: 1.0.0
+  description: This API allows clients to interact with the listDefinition iteraction of the Check Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the listDefinition interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  Send_Check_listDefinition:
+    address: Send_Check_listDefinition
+    messages:
+      Check.listDefinition_Send.message:
+        $ref: '#/components/messages/Check_listDefinition_Send'
+    description: >
+      Send a **Check_listDefinition_Send** message in this channel to receive a
+      **Check_listDefinition_Receive** message over the **Receive_Check_listDefinition** channel.
+  Receive_Check_listDefinition:
+    address: Receive_Check_listDefinition
+    messages:
+      Check.listDefinition_Receive.message:
+        $ref: '#/components/messages/Check_listDefinition_Receive'
+    description: >
+      Use this channel to receive Check listDefinition responses as **Check_listDefinition_Receive**
+      messages.
+  Error_Check_listDefinition:
+    address: Error_Check_listDefinition
+    messages:
+      Check.listDefinition_Error.message:
+        $ref: '#/components/messages/Check_listDefinition_Error'
+    description: >
+      Use this channel to receive Check listDefinition errors as **Check_listDefinition_ReceiveErrors**
+      messages.
+operations:
+  Check_listDefinition_Send:
+    action: send
+    channel:
+      $ref: '#/channels/Send_Check_listDefinition'
+    messages:
+      - $ref: '#/channels/Send_Check_listDefinition/messages/Check.listDefinition_Send.message'
+  Check_listDefinition_Receive:
+    action: receive
+    channel:
+      $ref: '#/channels/Receive_Check_listDefinition'
+    messages:
+      - $ref: '#/channels/Receive_Check_listDefinition/messages/Check.listDefinition_Receive.message'
+  Check_listDefinition_Error:
+    action: receive
+    channel:
+      $ref: '#/channels/Error_Check_listDefinition'
+    messages:
+      - $ref: '#/channels/Error_Check_listDefinition/messages/Check.listDefinition_Error.message'
+components:
+  schemas:
+    Check_listDefinition_Send:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        names:
+          type: string
+          description: |
+            The names field shall hold a list of CheckIdentity names to retrieve the CheckIdentity and actual check definition object instance identifiers for.
+            The request may contain the wildcard value of '*' to return all supported check definitions.
+            The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.
+            If a provided identifier does not include a wildcard and does not match an existing CheckIdentity object then this operation shall fail with an UNKNOWN error.
+    Check_listDefinition_Receive:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        objInstIds:
+          $ref: '#/components/schemas/mc/check/CheckTypedInstance'
+          description: |
+            The response shall contain a list of matching CheckIdentity and actual check definition object instance identifiers and the actual check definition object type.
+            The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.
+    Check_listDefinition_Error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+    mc:
+      check:
+        CheckTypedInstance:
+          properties:
+            objDefCheckType:
+              $ref: '#/components/schemas/com/ObjectType'
+              description: The COM object type of the check body.
+            objInstIds:
+              $ref: '#/components/schemas/mc/ObjectInstancePair'
+              description: The object instance identifiers.
+          type: object
+      ObjectInstancePair:
+        properties:
+          objDefInstanceId:
+            description: The object instance identifier of the Definition object.
+            format: int64
+            type: integer
+          objIdentityInstanceId:
+            description: The object instance identifier of the Identity object.
+            format: int64
+            type: integer
+        type: object
+    com:
+      ObjectType:
+        properties:
+          area:
+            description: Area Number where the object type is defined. Must not be '0' for
+              values as this is the wildcard.
+            format: uint16
+            type: integer
+          number:
+            description: The service specific object number. Must not be '0' for values as
+              this is the wildcard.
+            format: uint16
+            type: integer
+          service:
+            description: Service Number of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint16
+            type: integer
+          version:
+            description: Area Version of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint8
+            type: integer
+        type: object
+  messages:
+    Check_listDefinition_Send:
+      description: Check listDefinition request submission
+      payload:
+        $ref: '#/components/schemas/Check_listDefinition_Send'
+    Check_listDefinition_Receive:
+      description: Check listDefinition update response
+      payload:
+        $ref: '#/components/schemas/Check_listDefinition_Receive'
+    Check_listDefinition_Error:
+      description: Check listDefinition error response
+      payload:
+        $ref: '#/components/schemas/Check_listDefinition_Error'
