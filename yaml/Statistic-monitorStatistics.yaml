@@ -1,0 +1,179 @@
+asyncapi: 3.0.0
+info:
+  title: Statistic monitorStatistics Service API
+  version: 1.0.0
+  description: This API allows clients to interact with the monitorStatistics iteraction of the Statistic service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the monitorStatistics interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  sub_Statistic_monitorStatistics:
+    address: sub_Statistic_monitorStatistics
+    messages:
+      Statistic.monitorStatisticsSubscribe.message:
+        $ref: '#/components/messages/Statistic_monitorStatisticsRequest'
+    description: >
+      Use this channel to send a **Statistic_monitorStatisticsRequest** message to receive a
+      **Statistic_monitorStatisticsResponse** message over the **pub_Statistic_monitorStatistics** channel.
+  pub_Statistic_monitorStatistics:
+    address: pub_Statistic_monitorStatistics
+    messages:
+      Statistic.monitorStatisticsPublish.message:
+        $ref: '#/components/messages/Statistic_monitorStatisticsResponse'
+    description: >
+      Use this channel to receive Statistic monitorStatistics updates as **Statistic_monitorStatisticsResponse**
+      responses.
+      
+operations:
+  Statistic_monitorStatisticsPublish:
+    action: send
+    channel:
+      $ref: '#/channels/sub_Statistic_monitorStatistics'
+    messages:
+      - $ref: '#/channels/sub_Statistic_monitorStatistics/messages/Statistic.monitorStatisticsSubscribe.message'
+  Statistic_monitorStatisticsSubscribe:
+    action: receive
+    channel:
+      $ref: '#/channels/pub_Statistic_monitorStatistics'
+    messages:
+      - $ref: '#/channels/pub_Statistic_monitorStatistics/messages/Statistic.monitorStatisticsPublish.message'
+components:
+  schemas:
+    Statistic_monitorStatisticsTransportRequest:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+    Statistic_monitorStatisticsTransportResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        relatedId:
+          type: integer
+          description: |
+            The MAL EntityKey.firstSubKey shall contain the statistic function name.
+            The MAL EntityKey.secondSubKey shall contain the StatisticLink object instance identifier.
+            The MAL EntityKey.thirdSubKey shall contain the ParameterIdentity object instance identifier.
+            The MAL EntityKey.fourthSubKey shall contain the new StatisticValueInstance object instance identifier.
+            The timestamp of the StatisticValueInstance report shall be taken from the publish message.
+            The related link of the update shall be held in the relatedId field.
+          format: int64
+        sourceId:
+          $ref: '#/components/schemas/com/ObjectId'
+        statisticValue:
+          $ref: '#/components/schemas/mc/statistic/StatisticValue'
+    com:
+      ObjectId:
+        properties:
+          key:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: The combination of the object domain and object instance identifier.
+          type_:
+            $ref: '#/components/schemas/com/ObjectType'
+            description: The fully qualified unique identifier of the type.
+        type: object
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
+      ObjectType:
+        properties:
+          area:
+            description: Area Number where the object type is defined. Must not be '0' for
+              values as this is the wildcard.
+            format: uint16
+            type: integer
+          number:
+            description: The service specific object number. Must not be '0' for values as
+              this is the wildcard.
+            format: uint16
+            type: integer
+          service:
+            description: Service Number of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint16
+            type: integer
+          version:
+            description: Area Version of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint8
+            type: integer
+        type: object
+    mc:
+      statistic:
+        StatisticValue:
+          properties:
+            endTime:
+              description: Time the statistic calculations ended. This value can be NULL if
+                the time can be derived by other means, e.g., other times in a set of StatisticValue
+                structures.
+              format: uint64
+              type: number
+            paramDefInstId:
+              description: The object instance identifier of the ParameterDefinition object
+                used for the parameter.
+              format: int64
+              type: integer
+            sampleCount:
+              description: Holds the number of samples that contributed to the statistic value.
+                For calculated values such as 'mean average' this holds the number of samples
+                that were used to calculate the value, for non-calculated values such as 'min'
+                then it is the number of samples that were in the set evaluated.
+              format: uint32
+              type: integer
+            startTime:
+              description: Time the statistic calculations started. This value can be NULL if
+                the start time can be derived by other means, e.g., other start times in a set
+                of StatisticValue structures.
+              format: uint64
+              type: number
+            value:
+              description: Value of the statistic.
+              type: string
+            valueTime:
+              description: Time the statistic value was reached. The time is only applicable
+                for particular statistic values such as min or max. Shall be NULL if not applicable
+                for cases such as 'mean average'.
+              format: uint64
+              type: number
+          type: object
+  messages:
+    Statistic_monitorStatisticsRequest:
+      description: Statistic monitorStatistics request submission
+      payload:
+        $ref: '#/components/schemas/Statistic_monitorStatisticsTransportRequest'
+    Statistic_monitorStatisticsResponse:
+      description: Statistic monitorStatistics update response
+      payload:
+        $ref: '#/components/schemas/Statistic_monitorStatisticsTransportResponse'

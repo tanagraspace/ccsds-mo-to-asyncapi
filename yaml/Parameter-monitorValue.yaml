@@ -1,0 +1,162 @@
+asyncapi: 3.0.0
+info:
+  title: Parameter monitorValue Service API
+  version: 1.0.0
+  description: This API allows clients to interact with the monitorValue iteraction of the Parameter service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the monitorValue interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  sub_Parameter_monitorValue:
+    address: sub_Parameter_monitorValue
+    messages:
+      Parameter.monitorValueSubscribe.message:
+        $ref: '#/components/messages/Parameter_monitorValueRequest'
+    description: >
+      Use this channel to send a **Parameter_monitorValueRequest** message to receive a
+      **Parameter_monitorValueResponse** message over the **pub_Parameter_monitorValue** channel.
+  pub_Parameter_monitorValue:
+    address: pub_Parameter_monitorValue
+    messages:
+      Parameter.monitorValuePublish.message:
+        $ref: '#/components/messages/Parameter_monitorValueResponse'
+    description: >
+      Use this channel to receive Parameter monitorValue updates as **Parameter_monitorValueResponse**
+      responses.
+      
+operations:
+  Parameter_monitorValuePublish:
+    action: send
+    channel:
+      $ref: '#/channels/sub_Parameter_monitorValue'
+    messages:
+      - $ref: '#/channels/sub_Parameter_monitorValue/messages/Parameter.monitorValueSubscribe.message'
+  Parameter_monitorValueSubscribe:
+    action: receive
+    channel:
+      $ref: '#/channels/pub_Parameter_monitorValue'
+    messages:
+      - $ref: '#/channels/pub_Parameter_monitorValue/messages/Parameter.monitorValuePublish.message'
+components:
+  schemas:
+    Parameter_monitorValueTransportRequest:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        name:
+          type: string
+          description: |
+            The parameter name.
+        parameterDefinitionId:
+          type: integer
+          description: |
+            The parameter identity.
+          format: int64
+        parameterValueInstance:
+          type: integer
+          description: |
+            The parameter value instance.
+          format: int64
+    Parameter_monitorValueTransportResponse:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        objId:
+          $ref: '#/components/schemas/com/ObjectId'
+        newValue:
+          $ref: '#/components/schemas/mc/parameter/ParameterValue'
+    com:
+      ObjectId:
+        properties:
+          key:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: The combination of the object domain and object instance identifier.
+          type_:
+            $ref: '#/components/schemas/com/ObjectType'
+            description: The fully qualified unique identifier of the type.
+        type: object
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
+      ObjectType:
+        properties:
+          area:
+            description: Area Number where the object type is defined. Must not be '0' for
+              values as this is the wildcard.
+            format: uint16
+            type: integer
+          number:
+            description: The service specific object number. Must not be '0' for values as
+              this is the wildcard.
+            format: uint16
+            type: integer
+          service:
+            description: Service Number of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint16
+            type: integer
+          version:
+            description: Area Version of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint8
+            type: integer
+        type: object
+    mc:
+      parameter:
+        ParameterValue:
+          properties:
+            convertedValue:
+              description: The parameter converted value.
+              type: string
+            rawValue:
+              description: The parameter raw value. The value of NULL is a valid value and carries
+                no special significance in the parameter service.
+              type: string
+            validityState:
+              description: Holds the validity state for a parameter value. If the parameter
+                is valid then this should be set to '0'.
+              format: uint8
+              type: integer
+          type: object
+  messages:
+    Parameter_monitorValueRequest:
+      description: Parameter monitorValue request submission
+      payload:
+        $ref: '#/components/schemas/Parameter_monitorValueTransportRequest'
+    Parameter_monitorValueResponse:
+      description: Parameter monitorValue update response
+      payload:
+        $ref: '#/components/schemas/Parameter_monitorValueTransportResponse'
