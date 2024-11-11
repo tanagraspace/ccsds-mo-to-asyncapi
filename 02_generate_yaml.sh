@@ -3,7 +3,10 @@
 # exit if any command within the script returns a non-zero exit status (indicating an error)
 set -e
 
-MC_XML_FILE_PATH="xml-ccsds-mo-prototypes/area004-v002-Monitor-and-Control.xml"
+XML_FILE_PATHS=(
+  "area004-v002-Monitor-and-Control.xml"
+)
+
 SRC_DIR_PATH="mo-asyncapi/src"
 TARGET_YAML_DIR_PATH="yaml"
 
@@ -30,6 +33,8 @@ echo -e "\n-------------\nGENERATE YAML\n-------------\n"
 clear_target_yaml_dir
 
 # run the Python scripts
-python genyaml/src/generate_yaml.py $MC_XML_FILE_PATH $SRC_DIR_PATH $TARGET_YAML_DIR_PATH
+for XML_FILE_PATH in "${XML_FILE_PATHS[@]}"; do
+  python genyaml/src/generate_yaml.py xml-ccsds-mo-prototypes/$XML_FILE_PATH $SRC_DIR_PATH $TARGET_YAML_DIR_PATH
+done
 
 echo -e "\nQapla'\n"

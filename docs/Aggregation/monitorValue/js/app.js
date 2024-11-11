@@ -2,9 +2,9 @@
     const schema = {
   "asyncapi": "3.0.0",
   "info": {
-    "title": "Aggregation monitorValue Service API",
+    "title": "Aggregation Service monitorValue API",
     "version": "1.0.0",
-    "description": "This API allows clients to interact with the monitorValue iteraction of the Aggregation service."
+    "description": "This API allows clients to interact with the monitorValue iteraction of the Aggregation Service."
   },
   "defaultContentType": "application/json",
   "servers": {
@@ -37,10 +37,10 @@
     }
   },
   "channels": {
-    "sub_Aggregation_monitorValue": {
-      "address": "sub_Aggregation_monitorValue",
+    "Send_Aggregation_monitorValue": {
+      "address": "Send_Aggregation_monitorValue",
       "messages": {
-        "Aggregation.monitorValueSubscribe.message": {
+        "Aggregation.monitorValue_Send.message": {
           "description": "Aggregation monitorValue request submission",
           "payload": {
             "type": "object",
@@ -51,19 +51,19 @@
                 "x-parser-schema-id": "<anonymous-schema-1>"
               }
             },
-            "x-parser-schema-id": "Aggregation_monitorValueTransportRequest"
+            "x-parser-schema-id": "Aggregation_monitorValue_Send"
           },
-          "x-parser-unique-object-id": "Aggregation.monitorValueSubscribe.message",
-          "x-parser-message-name": "Aggregation_monitorValueRequest"
+          "x-parser-unique-object-id": "Aggregation.monitorValue_Send.message",
+          "x-parser-message-name": "Aggregation_monitorValue_Send"
         }
       },
-      "description": "Use this channel to send a **Aggregation_monitorValueRequest** message to receive a **Aggregation_monitorValueResponse** message over the **pub_Aggregation_monitorValue** channel.\n",
-      "x-parser-unique-object-id": "sub_Aggregation_monitorValue"
+      "description": "Send a **Aggregation_monitorValue_Send** message in this channel to receive a **Aggregation_monitorValue_Receive** message over the **Receive_Aggregation_monitorValue** channel.\n",
+      "x-parser-unique-object-id": "Send_Aggregation_monitorValue"
     },
-    "pub_Aggregation_monitorValue": {
-      "address": "pub_Aggregation_monitorValue",
+    "Receive_Aggregation_monitorValue": {
+      "address": "Receive_Aggregation_monitorValue",
       "messages": {
-        "Aggregation.monitorValuePublish.message": {
+        "Aggregation.monitorValue_Receive.message": {
           "description": "Aggregation monitorValue update response",
           "payload": {
             "type": "object",
@@ -214,60 +214,60 @@
                 "x-parser-schema-id": "<anonymous-schema-13>"
               }
             },
-            "x-parser-schema-id": "Aggregation_monitorValueTransportResponse"
+            "x-parser-schema-id": "Aggregation_monitorValue_Receive"
           },
-          "x-parser-unique-object-id": "Aggregation.monitorValuePublish.message",
-          "x-parser-message-name": "Aggregation_monitorValueResponse"
+          "x-parser-unique-object-id": "Aggregation.monitorValue_Receive.message",
+          "x-parser-message-name": "Aggregation_monitorValue_Receive"
         }
       },
-      "description": "Use this channel to receive Aggregation monitorValue updates as **Aggregation_monitorValueResponse** responses.\n",
-      "x-parser-unique-object-id": "pub_Aggregation_monitorValue"
+      "description": "Use this channel to receive Aggregation monitorValue responses as **Aggregation_monitorValue_Receive** messages.\n",
+      "x-parser-unique-object-id": "Receive_Aggregation_monitorValue"
     }
   },
   "operations": {
-    "Aggregation_monitorValuePublish": {
+    "Aggregation_monitorValue_Send": {
       "action": "send",
-      "channel": "$ref:$.channels.sub_Aggregation_monitorValue",
+      "channel": "$ref:$.channels.Send_Aggregation_monitorValue",
       "messages": [
-        "$ref:$.channels.sub_Aggregation_monitorValue.messages.Aggregation.monitorValueSubscribe.message"
+        "$ref:$.channels.Send_Aggregation_monitorValue.messages.Aggregation.monitorValue_Send.message"
       ],
-      "x-parser-unique-object-id": "Aggregation_monitorValuePublish"
+      "x-parser-unique-object-id": "Aggregation_monitorValue_Send"
     },
-    "Aggregation_monitorValueSubscribe": {
+    "Aggregation_monitorValue_Receive": {
       "action": "receive",
-      "channel": "$ref:$.channels.pub_Aggregation_monitorValue",
+      "channel": "$ref:$.channels.Receive_Aggregation_monitorValue",
       "messages": [
-        "$ref:$.channels.pub_Aggregation_monitorValue.messages.Aggregation.monitorValuePublish.message"
+        "$ref:$.channels.Receive_Aggregation_monitorValue.messages.Aggregation.monitorValue_Receive.message"
       ],
-      "x-parser-unique-object-id": "Aggregation_monitorValueSubscribe"
+      "x-parser-unique-object-id": "Aggregation_monitorValue_Receive"
     }
   },
   "components": {
     "schemas": {
-      "Aggregation_monitorValueTransportRequest": "$ref:$.channels.sub_Aggregation_monitorValue.messages.Aggregation.monitorValueSubscribe.message.payload",
-      "Aggregation_monitorValueTransportResponse": "$ref:$.channels.pub_Aggregation_monitorValue.messages.Aggregation.monitorValuePublish.message.payload",
+      "Aggregation_monitorValue_Send": "$ref:$.channels.Send_Aggregation_monitorValue.messages.Aggregation.monitorValue_Send.message.payload",
+      "Aggregation_monitorValue_Receive": "$ref:$.channels.Receive_Aggregation_monitorValue.messages.Aggregation.monitorValue_Receive.message.payload",
       "com": {
-        "ObjectId": "$ref:$.channels.pub_Aggregation_monitorValue.messages.Aggregation.monitorValuePublish.message.payload.properties.objId",
-        "ObjectKey": "$ref:$.channels.pub_Aggregation_monitorValue.messages.Aggregation.monitorValuePublish.message.payload.properties.objId.properties.key",
-        "ObjectType": "$ref:$.channels.pub_Aggregation_monitorValue.messages.Aggregation.monitorValuePublish.message.payload.properties.objId.properties.type_",
+        "ObjectId": "$ref:$.channels.Receive_Aggregation_monitorValue.messages.Aggregation.monitorValue_Receive.message.payload.properties.objId",
+        "ObjectKey": "$ref:$.channels.Receive_Aggregation_monitorValue.messages.Aggregation.monitorValue_Receive.message.payload.properties.objId.properties.key",
+        "ObjectType": "$ref:$.channels.Receive_Aggregation_monitorValue.messages.Aggregation.monitorValue_Receive.message.payload.properties.objId.properties.type_",
         "x-parser-schema-id": "com"
       },
       "mc": {
         "aggregation": {
-          "AggregationParameterValue": "$ref:$.channels.pub_Aggregation_monitorValue.messages.Aggregation.monitorValuePublish.message.payload.properties.newValue.properties.parameterSetValues.items.properties.values.items",
-          "AggregationSetValue": "$ref:$.channels.pub_Aggregation_monitorValue.messages.Aggregation.monitorValuePublish.message.payload.properties.newValue.properties.parameterSetValues.items",
-          "AggregationValue": "$ref:$.channels.pub_Aggregation_monitorValue.messages.Aggregation.monitorValuePublish.message.payload.properties.newValue",
-          "GenerationMode": "$ref:$.channels.pub_Aggregation_monitorValue.messages.Aggregation.monitorValuePublish.message.payload.properties.newValue.properties.generationMode"
+          "AggregationParameterValue": "$ref:$.channels.Receive_Aggregation_monitorValue.messages.Aggregation.monitorValue_Receive.message.payload.properties.newValue.properties.parameterSetValues.items.properties.values.items",
+          "AggregationSetValue": "$ref:$.channels.Receive_Aggregation_monitorValue.messages.Aggregation.monitorValue_Receive.message.payload.properties.newValue.properties.parameterSetValues.items",
+          "AggregationValue": "$ref:$.channels.Receive_Aggregation_monitorValue.messages.Aggregation.monitorValue_Receive.message.payload.properties.newValue",
+          "GenerationMode": "$ref:$.channels.Receive_Aggregation_monitorValue.messages.Aggregation.monitorValue_Receive.message.payload.properties.newValue.properties.generationMode"
         },
         "parameter": {
-          "ParameterValue": "$ref:$.channels.pub_Aggregation_monitorValue.messages.Aggregation.monitorValuePublish.message.payload.properties.newValue.properties.parameterSetValues.items.properties.values.items.properties.value"
+          "ParameterValue": "$ref:$.channels.Receive_Aggregation_monitorValue.messages.Aggregation.monitorValue_Receive.message.payload.properties.newValue.properties.parameterSetValues.items.properties.values.items.properties.value"
         },
         "x-parser-schema-id": "mc"
       }
     },
     "messages": {
-      "Aggregation_monitorValueRequest": "$ref:$.channels.sub_Aggregation_monitorValue.messages.Aggregation.monitorValueSubscribe.message",
-      "Aggregation_monitorValueResponse": "$ref:$.channels.pub_Aggregation_monitorValue.messages.Aggregation.monitorValuePublish.message"
+      "Aggregation_monitorValue_Send": "$ref:$.channels.Send_Aggregation_monitorValue.messages.Aggregation.monitorValue_Send.message",
+      "Aggregation_monitorValue_Receive": "$ref:$.channels.Receive_Aggregation_monitorValue.messages.Aggregation.monitorValue_Receive.message"
     }
   },
   "x-parser-spec-parsed": true,

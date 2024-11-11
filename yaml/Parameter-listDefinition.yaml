@@ -1,0 +1,144 @@
+asyncapi: 3.0.0
+info:
+  title: Parameter Service listDefinition API
+  version: 1.0.0
+  description: This API allows clients to interact with the listDefinition iteraction of the Parameter Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the listDefinition interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  Send_Parameter_listDefinition:
+    address: Send_Parameter_listDefinition
+    messages:
+      Parameter.listDefinition_Send.message:
+        $ref: '#/components/messages/Parameter_listDefinition_Send'
+    description: >
+      Send a **Parameter_listDefinition_Send** message in this channel to receive a
+      **Parameter_listDefinition_Receive** message over the **Receive_Parameter_listDefinition** channel.
+  Receive_Parameter_listDefinition:
+    address: Receive_Parameter_listDefinition
+    messages:
+      Parameter.listDefinition_Receive.message:
+        $ref: '#/components/messages/Parameter_listDefinition_Receive'
+    description: >
+      Use this channel to receive Parameter listDefinition responses as **Parameter_listDefinition_Receive**
+      messages.
+  Error_Parameter_listDefinition:
+    address: Error_Parameter_listDefinition
+    messages:
+      Parameter.listDefinition_Error.message:
+        $ref: '#/components/messages/Parameter_listDefinition_Error'
+    description: >
+      Use this channel to receive Parameter listDefinition errors as **Parameter_listDefinition_ReceiveErrors**
+      messages.
+operations:
+  Parameter_listDefinition_Send:
+    action: send
+    channel:
+      $ref: '#/channels/Send_Parameter_listDefinition'
+    messages:
+      - $ref: '#/channels/Send_Parameter_listDefinition/messages/Parameter.listDefinition_Send.message'
+  Parameter_listDefinition_Receive:
+    action: receive
+    channel:
+      $ref: '#/channels/Receive_Parameter_listDefinition'
+    messages:
+      - $ref: '#/channels/Receive_Parameter_listDefinition/messages/Parameter.listDefinition_Receive.message'
+  Parameter_listDefinition_Error:
+    action: receive
+    channel:
+      $ref: '#/channels/Error_Parameter_listDefinition'
+    messages:
+      - $ref: '#/channels/Error_Parameter_listDefinition/messages/Parameter.listDefinition_Error.message'
+components:
+  schemas:
+    Parameter_listDefinition_Send:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        paramNames:
+          type: string
+          description: |
+            The paramNames field shall contain a list of parameter names to retrieve the ParameterIdentity and ParameterDefinition object instance identifiers for.
+            The paramNames field may contain the wildcard value of '*' to return all supported ParameterIdentity and ParameterDefinition objects.
+            The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.
+            If a provided identifier does not include a wildcard and does not match an existing ParameterIdentity object then this operation shall fail with an UNKNOWN error.
+    Parameter_listDefinition_Receive:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        objInstIds:
+          $ref: '#/components/schemas/mc/ObjectInstancePair'
+          description: |
+            The response shall contain a list of matching ParameterIdentity and ParameterDefinition object instance identifier pairs.
+            The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.
+    Parameter_listDefinition_Error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+    mc:
+      ObjectInstancePair:
+        properties:
+          objDefInstanceId:
+            description: The object instance identifier of the Definition object.
+            format: int64
+            type: integer
+          objIdentityInstanceId:
+            description: The object instance identifier of the Identity object.
+            format: int64
+            type: integer
+        type: object
+  messages:
+    Parameter_listDefinition_Send:
+      description: Parameter listDefinition request submission
+      payload:
+        $ref: '#/components/schemas/Parameter_listDefinition_Send'
+    Parameter_listDefinition_Receive:
+      description: Parameter listDefinition update response
+      payload:
+        $ref: '#/components/schemas/Parameter_listDefinition_Receive'
+    Parameter_listDefinition_Error:
+      description: Parameter listDefinition error response
+      payload:
+        $ref: '#/components/schemas/Parameter_listDefinition_Error'

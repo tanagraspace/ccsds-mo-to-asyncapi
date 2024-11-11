@@ -1,0 +1,171 @@
+asyncapi: 3.0.0
+info:
+  title: Check Service listCheckLinks API
+  version: 1.0.0
+  description: This API allows clients to interact with the listCheckLinks iteraction of the Check Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the listCheckLinks interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  Send_Check_listCheckLinks:
+    address: Send_Check_listCheckLinks
+    messages:
+      Check.listCheckLinks_Send.message:
+        $ref: '#/components/messages/Check_listCheckLinks_Send'
+    description: >
+      Send a **Check_listCheckLinks_Send** message in this channel to receive a
+      **Check_listCheckLinks_Receive** message over the **Receive_Check_listCheckLinks** channel.
+  Receive_Check_listCheckLinks:
+    address: Receive_Check_listCheckLinks
+    messages:
+      Check.listCheckLinks_Receive.message:
+        $ref: '#/components/messages/Check_listCheckLinks_Receive'
+    description: >
+      Use this channel to receive Check listCheckLinks responses as **Check_listCheckLinks_Receive**
+      messages.
+  Error_Check_listCheckLinks:
+    address: Error_Check_listCheckLinks
+    messages:
+      Check.listCheckLinks_Error.message:
+        $ref: '#/components/messages/Check_listCheckLinks_Error'
+    description: >
+      Use this channel to receive Check listCheckLinks errors as **Check_listCheckLinks_ReceiveErrors**
+      messages.
+operations:
+  Check_listCheckLinks_Send:
+    action: send
+    channel:
+      $ref: '#/channels/Send_Check_listCheckLinks'
+    messages:
+      - $ref: '#/channels/Send_Check_listCheckLinks/messages/Check.listCheckLinks_Send.message'
+  Check_listCheckLinks_Receive:
+    action: receive
+    channel:
+      $ref: '#/channels/Receive_Check_listCheckLinks'
+    messages:
+      - $ref: '#/channels/Receive_Check_listCheckLinks/messages/Check.listCheckLinks_Receive.message'
+  Check_listCheckLinks_Error:
+    action: receive
+    channel:
+      $ref: '#/channels/Error_Check_listCheckLinks'
+    messages:
+      - $ref: '#/channels/Error_Check_listCheckLinks/messages/Check.listCheckLinks_Error.message'
+components:
+  schemas:
+    Check_listCheckLinks_Send:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        checkObjInstIds:
+          type: integer
+          description: |
+            The checkObjInstIds field shall hold a list of CheckIdentity object instance identifiers to retrieve the CheckLink object instance identifiers for.
+            The request may contain the wildcard value of '0' to return all supported check links.
+            The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.
+            If a provided identifier does not include a wildcard and does not match an existing CheckIdentity object then this operation shall fail with an UNKNOWN error.
+          format: int64
+    Check_listCheckLinks_Receive:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        chkLinkObjInstIds:
+          $ref: '#/components/schemas/mc/check/CheckLinkSummary'
+          description: |
+            The response shall contain a list of CheckLinkSummary that contain the object instance identifiers of the CheckLink, CheckIdentity, and ParameterIdentity for the matched CheckIdentity objects.
+    Check_listCheckLinks_Error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+    mc:
+      check:
+        CheckLinkSummary:
+          properties:
+            checkEnabled:
+              description: TRUE if the check instance is enabled.
+              type: boolean
+            checkId:
+              description: The object instance identifier of the CheckIdentity object.
+              format: int64
+              type: integer
+            linkDefinitionId:
+              description: Contains the object instance identifier of the CheckLinkDefinition
+                object.
+              format: int64
+              type: integer
+            linkId:
+              description: The object instance identifier of the CheckLink object.
+              format: int64
+              type: integer
+            parameterId:
+              $ref: '#/components/schemas/com/ObjectKey'
+              description: The object instance identifier of the ParameterIdentity object for
+                the check link. NULL for Compound checks.
+          type: object
+    com:
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
+  messages:
+    Check_listCheckLinks_Send:
+      description: Check listCheckLinks request submission
+      payload:
+        $ref: '#/components/schemas/Check_listCheckLinks_Send'
+    Check_listCheckLinks_Receive:
+      description: Check listCheckLinks update response
+      payload:
+        $ref: '#/components/schemas/Check_listCheckLinks_Receive'
+    Check_listCheckLinks_Error:
+      description: Check listCheckLinks error response
+      payload:
+        $ref: '#/components/schemas/Check_listCheckLinks_Error'

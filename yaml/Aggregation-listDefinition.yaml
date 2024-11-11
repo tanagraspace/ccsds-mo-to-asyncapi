@@ -1,0 +1,144 @@
+asyncapi: 3.0.0
+info:
+  title: Aggregation Service listDefinition API
+  version: 1.0.0
+  description: This API allows clients to interact with the listDefinition iteraction of the Aggregation Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the listDefinition interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  Send_Aggregation_listDefinition:
+    address: Send_Aggregation_listDefinition
+    messages:
+      Aggregation.listDefinition_Send.message:
+        $ref: '#/components/messages/Aggregation_listDefinition_Send'
+    description: >
+      Send a **Aggregation_listDefinition_Send** message in this channel to receive a
+      **Aggregation_listDefinition_Receive** message over the **Receive_Aggregation_listDefinition** channel.
+  Receive_Aggregation_listDefinition:
+    address: Receive_Aggregation_listDefinition
+    messages:
+      Aggregation.listDefinition_Receive.message:
+        $ref: '#/components/messages/Aggregation_listDefinition_Receive'
+    description: >
+      Use this channel to receive Aggregation listDefinition responses as **Aggregation_listDefinition_Receive**
+      messages.
+  Error_Aggregation_listDefinition:
+    address: Error_Aggregation_listDefinition
+    messages:
+      Aggregation.listDefinition_Error.message:
+        $ref: '#/components/messages/Aggregation_listDefinition_Error'
+    description: >
+      Use this channel to receive Aggregation listDefinition errors as **Aggregation_listDefinition_ReceiveErrors**
+      messages.
+operations:
+  Aggregation_listDefinition_Send:
+    action: send
+    channel:
+      $ref: '#/channels/Send_Aggregation_listDefinition'
+    messages:
+      - $ref: '#/channels/Send_Aggregation_listDefinition/messages/Aggregation.listDefinition_Send.message'
+  Aggregation_listDefinition_Receive:
+    action: receive
+    channel:
+      $ref: '#/channels/Receive_Aggregation_listDefinition'
+    messages:
+      - $ref: '#/channels/Receive_Aggregation_listDefinition/messages/Aggregation.listDefinition_Receive.message'
+  Aggregation_listDefinition_Error:
+    action: receive
+    channel:
+      $ref: '#/channels/Error_Aggregation_listDefinition'
+    messages:
+      - $ref: '#/channels/Error_Aggregation_listDefinition/messages/Aggregation.listDefinition_Error.message'
+components:
+  schemas:
+    Aggregation_listDefinition_Send:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        aggNames:
+          type: string
+          description: |
+            The aggNames field shall contain a list of aggregation names to retrieve the AggregationIdentity and AggregationDefinition object instance identifiers for.
+            The aggNames field may contain the wildcard value of '*' to return all supported AggregationIdentity and AggregationDefinition objects.
+            The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.
+            If a provided identifier does not include a wildcard and does not match an existing AggregationIdentity object then this operation shall fail with an UNKNOWN error.
+    Aggregation_listDefinition_Receive:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        objInstIds:
+          $ref: '#/components/schemas/mc/ObjectInstancePair'
+          description: |
+            The response shall contain a list of matching AggregationIdentity and AggregationDefinition object instance identifiers.
+            The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.
+    Aggregation_listDefinition_Error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+    mc:
+      ObjectInstancePair:
+        properties:
+          objDefInstanceId:
+            description: The object instance identifier of the Definition object.
+            format: int64
+            type: integer
+          objIdentityInstanceId:
+            description: The object instance identifier of the Identity object.
+            format: int64
+            type: integer
+        type: object
+  messages:
+    Aggregation_listDefinition_Send:
+      description: Aggregation listDefinition request submission
+      payload:
+        $ref: '#/components/schemas/Aggregation_listDefinition_Send'
+    Aggregation_listDefinition_Receive:
+      description: Aggregation listDefinition update response
+      payload:
+        $ref: '#/components/schemas/Aggregation_listDefinition_Receive'
+    Aggregation_listDefinition_Error:
+      description: Aggregation listDefinition error response
+      payload:
+        $ref: '#/components/schemas/Aggregation_listDefinition_Error'

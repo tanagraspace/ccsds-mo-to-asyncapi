@@ -5,6 +5,7 @@ import sys
 
 from generators.abstract_yaml_generator import AbstractYamlGenerator
 from generators.yaml_generator_pubsub import YamlGeneratorPubSub
+from generators.yaml_generator_request import YamlGeneratorRequest
 from generators.common import InteractionType
 
 def print_help():
@@ -54,7 +55,9 @@ def list_services_with_capabilities_and_interactions_in_mc_xml(
       interactions = []
       for interaction_type in cs:
         interaction_name = interaction_type.attrib.get('name')
-        interaction_type_name = interaction_type.tag.split("}")[1]  # extract tag name without namespace
+
+         # extract tag name without the "mal" namespace (e.g. requestIP vs mal:requestIP)
+        interaction_type_name = interaction_type.tag.split("}")[1]
 
         # TODO: convert to logger debug
         #print(f"    {interaction_name} (Type: {interaction_type_name})")
@@ -62,21 +65,42 @@ def list_services_with_capabilities_and_interactions_in_mc_xml(
         # iterate over each generator and check if it matches the interaction type
         for yaml_gen in yaml_generators:
           if interaction_type_name == yaml_gen.interaction_type:
-            yaml_service_schema = yaml_gen.generate_service_schema(service_name, interaction_name)
-            yaml_channels_schema = yaml_gen.generate_channels_schema(service_name ,interaction_name)
-            yaml_operations_schema = yaml_gen.generate_operations_schema(service_name, interaction_name)
 
-            # for fields, generate components
-            sub_fields = interaction_type.findall('.//mal:subscriptionKeys//mal:field', ns)
-            pub_fields = interaction_type.findall('.//mal:publishNotify//mal:field', ns)
+            # the send and receive fields
+            send_fields = interaction_type.findall(f".//mal:{yaml_gen.send_element}//mal:field", ns)
+            receive_fields = interaction_type.findall(f".//mal:{yaml_gen.receive_element}//mal:field", ns)
+
+            # the error fields
+            err_fields = interaction_type.findall(f".//mal:errors//mal:errorRef", ns)
+            include_error_channel = True if len(err_fields) > 0 else False
+
+            yaml_service_schema = yaml_gen.generate_service_schema(
+              service_name=service_name,
+              interaction_name=interaction_name)
+
+            yaml_channels_schema = yaml_gen.generate_channels_schema(
+              service_name=service_name,
+              interaction_name=interaction_name,
+              include_error_channel=include_error_channel)
+
+            yaml_operations_schema = yaml_gen.generate_operations_schema(
+              service_name=service_name,
+              interaction_name=interaction_name,
+              include_error_channel=include_error_channel)
+
             yaml_components_schema = yaml_gen.generate_components_schema(
               mo_asyncapi_src_dir_path=mo_asyncapi_src_dir_path,
               service_name=service_name,
               interaction_name=interaction_name,
-              sub_fields=sub_fields,
-              pub_fields=pub_fields,
+              send_fields=send_fields,
+              receive_fields=receive_fields,
+              err_fields=err_fields,
               ns=ns)
-            yaml_components_messages = yaml_gen.generate_components_messages_schema(service_name, interaction_name)
+
+            yaml_components_messages = yaml_gen.generate_components_messages_schema(
+              service_name=service_name,
+              interaction_name=interaction_name,
+              include_error_channel=include_error_channel)
 
             # path to the output file
             output_file = os.path.join(target_yaml_directory_path, f"{service_name}-{interaction_name}.yaml")
@@ -89,7 +113,6 @@ def list_services_with_capabilities_and_interactions_in_mc_xml(
               file.write(yaml_components_schema)
               file.write(yaml_components_messages)
 
-              # TODO: convert to logger debug
               print(f"Generated YAML for the {service_name} Service's {interaction_name} interaction.")
 
             # once matched, break out of the loop to avoid processing the same interaction with multiple generators
@@ -114,9 +137,9 @@ def list_services_with_capabilities_and_interactions_in_mc_xml(
 
 def main(xml_file_path: str, mo_asyncapi_src_dir_path: str, target_yaml_directory_path: str):
   
-  # generate YAML for the pubish-subscribe services only (pubsubIP)
-  # TODO: extend this list once other generators are implemented. i.e. requestIP, submitIP, and progressIP
-  yaml_generators = [YamlGeneratorPubSub()]
+  # generate YAML for the PubSub and Request interation types
+  # TODO: extend this list once other generators are implemented. i.e. Request, Submit, Progress, and Invoke
+  yaml_generators = [YamlGeneratorPubSub(), YamlGeneratorRequest()]
   
   # get the list of services with capability sets, interaction names, and types
   mc_services_with_capabilities_and_interactions = list_services_with_capabilities_and_interactions_in_mc_xml(

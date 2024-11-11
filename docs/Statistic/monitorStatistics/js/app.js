@@ -2,9 +2,9 @@
     const schema = {
   "asyncapi": "3.0.0",
   "info": {
-    "title": "Statistic monitorStatistics Service API",
+    "title": "Statistic Service monitorStatistics API",
     "version": "1.0.0",
-    "description": "This API allows clients to interact with the monitorStatistics iteraction of the Statistic service."
+    "description": "This API allows clients to interact with the monitorStatistics iteraction of the Statistic Service."
   },
   "defaultContentType": "application/json",
   "servers": {
@@ -37,10 +37,10 @@
     }
   },
   "channels": {
-    "sub_Statistic_monitorStatistics": {
-      "address": "sub_Statistic_monitorStatistics",
+    "Send_Statistic_monitorStatistics": {
+      "address": "Send_Statistic_monitorStatistics",
       "messages": {
-        "Statistic.monitorStatisticsSubscribe.message": {
+        "Statistic.monitorStatistics_Send.message": {
           "description": "Statistic monitorStatistics request submission",
           "payload": {
             "type": "object",
@@ -51,19 +51,19 @@
                 "x-parser-schema-id": "<anonymous-schema-1>"
               }
             },
-            "x-parser-schema-id": "Statistic_monitorStatisticsTransportRequest"
+            "x-parser-schema-id": "Statistic_monitorStatistics_Send"
           },
-          "x-parser-unique-object-id": "Statistic.monitorStatisticsSubscribe.message",
-          "x-parser-message-name": "Statistic_monitorStatisticsRequest"
+          "x-parser-unique-object-id": "Statistic.monitorStatistics_Send.message",
+          "x-parser-message-name": "Statistic_monitorStatistics_Send"
         }
       },
-      "description": "Use this channel to send a **Statistic_monitorStatisticsRequest** message to receive a **Statistic_monitorStatisticsResponse** message over the **pub_Statistic_monitorStatistics** channel.\n",
-      "x-parser-unique-object-id": "sub_Statistic_monitorStatistics"
+      "description": "Send a **Statistic_monitorStatistics_Send** message in this channel to receive a **Statistic_monitorStatistics_Receive** message over the **Receive_Statistic_monitorStatistics** channel.\n",
+      "x-parser-unique-object-id": "Send_Statistic_monitorStatistics"
     },
-    "pub_Statistic_monitorStatistics": {
-      "address": "pub_Statistic_monitorStatistics",
+    "Receive_Statistic_monitorStatistics": {
+      "address": "Receive_Statistic_monitorStatistics",
       "messages": {
-        "Statistic.monitorStatisticsPublish.message": {
+        "Statistic.monitorStatistics_Receive.message": {
           "description": "Statistic monitorStatistics update response",
           "payload": {
             "type": "object",
@@ -178,54 +178,54 @@
                 "x-parser-schema-id": "<anonymous-schema-14>"
               }
             },
-            "x-parser-schema-id": "Statistic_monitorStatisticsTransportResponse"
+            "x-parser-schema-id": "Statistic_monitorStatistics_Receive"
           },
-          "x-parser-unique-object-id": "Statistic.monitorStatisticsPublish.message",
-          "x-parser-message-name": "Statistic_monitorStatisticsResponse"
+          "x-parser-unique-object-id": "Statistic.monitorStatistics_Receive.message",
+          "x-parser-message-name": "Statistic_monitorStatistics_Receive"
         }
       },
-      "description": "Use this channel to receive Statistic monitorStatistics updates as **Statistic_monitorStatisticsResponse** responses.\n",
-      "x-parser-unique-object-id": "pub_Statistic_monitorStatistics"
+      "description": "Use this channel to receive Statistic monitorStatistics responses as **Statistic_monitorStatistics_Receive** messages.\n",
+      "x-parser-unique-object-id": "Receive_Statistic_monitorStatistics"
     }
   },
   "operations": {
-    "Statistic_monitorStatisticsPublish": {
+    "Statistic_monitorStatistics_Send": {
       "action": "send",
-      "channel": "$ref:$.channels.sub_Statistic_monitorStatistics",
+      "channel": "$ref:$.channels.Send_Statistic_monitorStatistics",
       "messages": [
-        "$ref:$.channels.sub_Statistic_monitorStatistics.messages.Statistic.monitorStatisticsSubscribe.message"
+        "$ref:$.channels.Send_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_Send.message"
       ],
-      "x-parser-unique-object-id": "Statistic_monitorStatisticsPublish"
+      "x-parser-unique-object-id": "Statistic_monitorStatistics_Send"
     },
-    "Statistic_monitorStatisticsSubscribe": {
+    "Statistic_monitorStatistics_Receive": {
       "action": "receive",
-      "channel": "$ref:$.channels.pub_Statistic_monitorStatistics",
+      "channel": "$ref:$.channels.Receive_Statistic_monitorStatistics",
       "messages": [
-        "$ref:$.channels.pub_Statistic_monitorStatistics.messages.Statistic.monitorStatisticsPublish.message"
+        "$ref:$.channels.Receive_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_Receive.message"
       ],
-      "x-parser-unique-object-id": "Statistic_monitorStatisticsSubscribe"
+      "x-parser-unique-object-id": "Statistic_monitorStatistics_Receive"
     }
   },
   "components": {
     "schemas": {
-      "Statistic_monitorStatisticsTransportRequest": "$ref:$.channels.sub_Statistic_monitorStatistics.messages.Statistic.monitorStatisticsSubscribe.message.payload",
-      "Statistic_monitorStatisticsTransportResponse": "$ref:$.channels.pub_Statistic_monitorStatistics.messages.Statistic.monitorStatisticsPublish.message.payload",
+      "Statistic_monitorStatistics_Send": "$ref:$.channels.Send_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_Send.message.payload",
+      "Statistic_monitorStatistics_Receive": "$ref:$.channels.Receive_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_Receive.message.payload",
       "com": {
-        "ObjectId": "$ref:$.channels.pub_Statistic_monitorStatistics.messages.Statistic.monitorStatisticsPublish.message.payload.properties.sourceId",
-        "ObjectKey": "$ref:$.channels.pub_Statistic_monitorStatistics.messages.Statistic.monitorStatisticsPublish.message.payload.properties.sourceId.properties.key",
-        "ObjectType": "$ref:$.channels.pub_Statistic_monitorStatistics.messages.Statistic.monitorStatisticsPublish.message.payload.properties.sourceId.properties.type_",
+        "ObjectId": "$ref:$.channels.Receive_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_Receive.message.payload.properties.sourceId",
+        "ObjectKey": "$ref:$.channels.Receive_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_Receive.message.payload.properties.sourceId.properties.key",
+        "ObjectType": "$ref:$.channels.Receive_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_Receive.message.payload.properties.sourceId.properties.type_",
         "x-parser-schema-id": "com"
       },
       "mc": {
         "statistic": {
-          "StatisticValue": "$ref:$.channels.pub_Statistic_monitorStatistics.messages.Statistic.monitorStatisticsPublish.message.payload.properties.statisticValue"
+          "StatisticValue": "$ref:$.channels.Receive_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_Receive.message.payload.properties.statisticValue"
         },
         "x-parser-schema-id": "mc"
       }
     },
     "messages": {
-      "Statistic_monitorStatisticsRequest": "$ref:$.channels.sub_Statistic_monitorStatistics.messages.Statistic.monitorStatisticsSubscribe.message",
-      "Statistic_monitorStatisticsResponse": "$ref:$.channels.pub_Statistic_monitorStatistics.messages.Statistic.monitorStatisticsPublish.message"
+      "Statistic_monitorStatistics_Send": "$ref:$.channels.Send_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_Send.message",
+      "Statistic_monitorStatistics_Receive": "$ref:$.channels.Receive_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_Receive.message"
     }
   },
   "x-parser-spec-parsed": true,

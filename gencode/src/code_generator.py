@@ -3,7 +3,7 @@ import os
 from constants import RESERVED_NAMES, TYPE_MAPPING
 from utils import to_snake_case, to_camel_case, sanitize_string, find_class_file
 
-def generate_class_code(composite, namespaces: str, version, defined_types: dict[str, str], target_src_code_directory: str, area_name: str) -> str | None:
+def generate_class_code(class_name: str, composite, namespaces: dict[str, str], version, defined_types: dict[str, str], target_src_code_directory: str) -> str | None:
   class_name = composite.get('name')
   class_description = sanitize_string(composite.get('comment', ''))  # the description is stored in the 'comment' attribute
   fields = []
@@ -43,7 +43,7 @@ def generate_class_code(composite, namespaces: str, version, defined_types: dict
       class_file = find_class_file(target_src_code_directory, field_py_type)
       if class_file:
         module_path = os.path.relpath(class_file, target_src_code_directory).replace(os.sep, '.')
-        module_path = module_path[:-3]  # Remove .py extension
+        module_path = module_path[:-3]  # remove .py extension
         imports.add(f"from {module_path} import {field_py_type}")
       else:
         imports.add(f"from {full_namespace.replace('/','.')}.{to_snake_case(type_name)} import {field_py_type}")
@@ -116,8 +116,7 @@ def generate_class_code(composite, namespaces: str, version, defined_types: dict
 
   return class_code
 
-def generate_enum_class_code(enum, namespaces, version):
-  class_name = enum.get('name')
+def generate_enum_class_code(class_name: str, enum, namespaces: dict[str, str], version: str) -> str:
   description = enum.get('comment', '').replace("'", "\\'").replace("\n", " ").replace("&#xA;", " ")  # The description is stored in the 'comment' attribute
   items = [(item.get('value'), item.get('nvalue')) for item in enum.findall('mal:item', namespaces=namespaces)]
   
@@ -147,5 +146,54 @@ def generate_enum_class_code(enum, namespaces, version):
   class_code += "    }\n\n"
   class_code += "  def to_yaml(self):\n"
   class_code += "    return yaml.dump(self.to_json())\n"
+
+  return class_code
+
+def generate_enum_errors_class_code(class_name: str, errors: list[(int, str, str)], version: str) -> str:
+  # start building the Python code for the enum class
+  class_code = "from enum import Enum\n\n"
+  class_code += f"class {class_name}(Enum):\n"
+
+  # each enum member
+  for number, name, comment in errors:
+    class_code += f"  {name.upper().replace(' ', '_')} = ({number}, \"{name}\", \"{comment}\")\n"
+
+  # the version class method
+  class_code += "\n"
+  class_code += "  @classmethod\n"
+  class_code += "  def version(cls):\n"
+  class_code += f"    return '{version}'\n"
+
+  # the description class method
+  class_code += "\n"
+  class_code += "  @classmethod\n"
+  class_code += "  def description(cls):\n"
+  class_code += "    return 'An enumeration of all the possible MAL errors.'\n"
+
+  # the constructor
+  class_code += "\n"
+  class_code += "  def __init__(self, code, name, comment):\n"
+  class_code += "    self._code = code\n"
+  class_code += "    self._comment = comment\n"
+
+  # the properties for accessing code and comment
+  class_code += "\n"
+  class_code += "  @property\n"
+  class_code += "  def code(self):\n"
+  class_code += "    return self._code\n"
+
+  class_code += "\n"
+  class_code += "  @property\n"
+  class_code += "  def comment(self):\n"
+  class_code += "    return self._comment\n"
+
+  # the method to get error message and description by number
+  class_code += "\n"
+  class_code += "  @classmethod\n"
+  class_code += "  def get_error_by_number(cls, number):\n"
+  class_code += "    for error in cls:\n"
+  class_code += "      if error.code == number:\n"
+  class_code += "        return error.name, error.comment\n"
+  class_code += "    return None, 'Error number not found.'\n"
 
   return class_code

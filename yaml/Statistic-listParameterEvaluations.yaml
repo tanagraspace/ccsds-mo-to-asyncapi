@@ -1,0 +1,170 @@
+asyncapi: 3.0.0
+info:
+  title: Statistic Service listParameterEvaluations API
+  version: 1.0.0
+  description: This API allows clients to interact with the listParameterEvaluations iteraction of the Statistic Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the listParameterEvaluations interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  Send_Statistic_listParameterEvaluations:
+    address: Send_Statistic_listParameterEvaluations
+    messages:
+      Statistic.listParameterEvaluations_Send.message:
+        $ref: '#/components/messages/Statistic_listParameterEvaluations_Send'
+    description: >
+      Send a **Statistic_listParameterEvaluations_Send** message in this channel to receive a
+      **Statistic_listParameterEvaluations_Receive** message over the **Receive_Statistic_listParameterEvaluations** channel.
+  Receive_Statistic_listParameterEvaluations:
+    address: Receive_Statistic_listParameterEvaluations
+    messages:
+      Statistic.listParameterEvaluations_Receive.message:
+        $ref: '#/components/messages/Statistic_listParameterEvaluations_Receive'
+    description: >
+      Use this channel to receive Statistic listParameterEvaluations responses as **Statistic_listParameterEvaluations_Receive**
+      messages.
+  Error_Statistic_listParameterEvaluations:
+    address: Error_Statistic_listParameterEvaluations
+    messages:
+      Statistic.listParameterEvaluations_Error.message:
+        $ref: '#/components/messages/Statistic_listParameterEvaluations_Error'
+    description: >
+      Use this channel to receive Statistic listParameterEvaluations errors as **Statistic_listParameterEvaluations_ReceiveErrors**
+      messages.
+operations:
+  Statistic_listParameterEvaluations_Send:
+    action: send
+    channel:
+      $ref: '#/channels/Send_Statistic_listParameterEvaluations'
+    messages:
+      - $ref: '#/channels/Send_Statistic_listParameterEvaluations/messages/Statistic.listParameterEvaluations_Send.message'
+  Statistic_listParameterEvaluations_Receive:
+    action: receive
+    channel:
+      $ref: '#/channels/Receive_Statistic_listParameterEvaluations'
+    messages:
+      - $ref: '#/channels/Receive_Statistic_listParameterEvaluations/messages/Statistic.listParameterEvaluations_Receive.message'
+  Statistic_listParameterEvaluations_Error:
+    action: receive
+    channel:
+      $ref: '#/channels/Error_Statistic_listParameterEvaluations'
+    messages:
+      - $ref: '#/channels/Error_Statistic_listParameterEvaluations/messages/Statistic.listParameterEvaluations_Error.message'
+components:
+  schemas:
+    Statistic_listParameterEvaluations_Send:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        statObjInstIds:
+          type: integer
+          description: |
+            The statObjInstIds field shall hold a list of StatisticFunction object instance identifiers to retrieve the StatisticLink object instance identifiers for.
+            The request may contain the wildcard value of '0' to return all supported statistic links.
+            The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.
+            If a provided identifier does not include a wildcard and does not match an existing StatisticFunction object then this operation shall fail with an UNKNOWN error.
+          format: int64
+    Statistic_listParameterEvaluations_Receive:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        statLinkObjInstIds:
+          $ref: '#/components/schemas/mc/statistic/StatisticLinkSummary'
+          description: |
+            The response shall contain a list of StatisticLinkSummary that contain the object instance identifiers of the StatisticLink, StatisticFunction, and ParameterIdentity for the matched StatisticFunction objects.
+    Statistic_listParameterEvaluations_Error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+    mc:
+      statistic:
+        StatisticLinkSummary:
+          properties:
+            funcId:
+              description: The object instance identifier of the StatisticFunction object.
+              format: int64
+              type: integer
+            linkDefId:
+              description: The object instance identifier of the StatisticLinkDefinition object.
+              format: int64
+              type: integer
+            linkId:
+              description: The object instance identifier of the StatisticLink object.
+              format: int64
+              type: integer
+            parameterId:
+              $ref: '#/components/schemas/com/ObjectKey'
+              description: The object instance identifier of the ParameterIdentity object for
+                the statistic link.
+            reportingEnabled:
+              description: TRUE if reporting of the evaluation instance is enabled.
+              type: boolean
+          type: object
+    com:
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
+  messages:
+    Statistic_listParameterEvaluations_Send:
+      description: Statistic listParameterEvaluations request submission
+      payload:
+        $ref: '#/components/schemas/Statistic_listParameterEvaluations_Send'
+    Statistic_listParameterEvaluations_Receive:
+      description: Statistic listParameterEvaluations update response
+      payload:
+        $ref: '#/components/schemas/Statistic_listParameterEvaluations_Receive'
+    Statistic_listParameterEvaluations_Error:
+      description: Statistic listParameterEvaluations error response
+      payload:
+        $ref: '#/components/schemas/Statistic_listParameterEvaluations_Error'

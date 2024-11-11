@@ -1,8 +1,8 @@
 asyncapi: 3.0.0
 info:
-  title: Parameter monitorValue Service API
+  title: Parameter Service monitorValue API
   version: 1.0.0
-  description: This API allows clients to interact with the monitorValue iteraction of the Parameter service.
+  description: This API allows clients to interact with the monitorValue iteraction of the Parameter Service.
 defaultContentType: application/json
 servers:
   production:
@@ -26,39 +26,38 @@ servers:
           message: Guest gone offline.
           retain: false
 channels:
-  sub_Parameter_monitorValue:
-    address: sub_Parameter_monitorValue
+  Send_Parameter_monitorValue:
+    address: Send_Parameter_monitorValue
     messages:
-      Parameter.monitorValueSubscribe.message:
-        $ref: '#/components/messages/Parameter_monitorValueRequest'
+      Parameter.monitorValue_Send.message:
+        $ref: '#/components/messages/Parameter_monitorValue_Send'
     description: >
-      Use this channel to send a **Parameter_monitorValueRequest** message to receive a
-      **Parameter_monitorValueResponse** message over the **pub_Parameter_monitorValue** channel.
-  pub_Parameter_monitorValue:
-    address: pub_Parameter_monitorValue
+      Send a **Parameter_monitorValue_Send** message in this channel to receive a
+      **Parameter_monitorValue_Receive** message over the **Receive_Parameter_monitorValue** channel.
+  Receive_Parameter_monitorValue:
+    address: Receive_Parameter_monitorValue
     messages:
-      Parameter.monitorValuePublish.message:
-        $ref: '#/components/messages/Parameter_monitorValueResponse'
+      Parameter.monitorValue_Receive.message:
+        $ref: '#/components/messages/Parameter_monitorValue_Receive'
     description: >
-      Use this channel to receive Parameter monitorValue updates as **Parameter_monitorValueResponse**
-      responses.
-      
+      Use this channel to receive Parameter monitorValue responses as **Parameter_monitorValue_Receive**
+      messages.
 operations:
-  Parameter_monitorValuePublish:
+  Parameter_monitorValue_Send:
     action: send
     channel:
-      $ref: '#/channels/sub_Parameter_monitorValue'
+      $ref: '#/channels/Send_Parameter_monitorValue'
     messages:
-      - $ref: '#/channels/sub_Parameter_monitorValue/messages/Parameter.monitorValueSubscribe.message'
-  Parameter_monitorValueSubscribe:
+      - $ref: '#/channels/Send_Parameter_monitorValue/messages/Parameter.monitorValue_Send.message'
+  Parameter_monitorValue_Receive:
     action: receive
     channel:
-      $ref: '#/channels/pub_Parameter_monitorValue'
+      $ref: '#/channels/Receive_Parameter_monitorValue'
     messages:
-      - $ref: '#/channels/pub_Parameter_monitorValue/messages/Parameter.monitorValuePublish.message'
+      - $ref: '#/channels/Receive_Parameter_monitorValue/messages/Parameter.monitorValue_Receive.message'
 components:
   schemas:
-    Parameter_monitorValueTransportRequest:
+    Parameter_monitorValue_Send:
       type: object
       properties:
         transactionId:
@@ -78,7 +77,7 @@ components:
           description: |
             The parameter value instance.
           format: int64
-    Parameter_monitorValueTransportResponse:
+    Parameter_monitorValue_Receive:
       type: object
       properties:
         transactionId:
@@ -86,8 +85,18 @@ components:
           description: A unique identifier to map the response to the request.
         objId:
           $ref: '#/components/schemas/com/ObjectId'
+          description: |
+            The MAL EntityKey.firstSubKey shall contain the parameter name.
+            The MAL EntityKey.secondSubKey shall contain the ParameterIdentity object instance identifier.
+            The MAL EntityKey.thirdSubKey shall contain the ParameterDefinition object instance identifier.
+            The MAL EntityKey.fourthSubKey shall contain the new ParameterValueInstance object instance identifier.
+            The timestamp of the ParameterValueInstance report shall be taken from the publish message and shall be the time of the parameter value update.
+            The publish message shall include the ObjectId of the source link of the report.
+            If no source link is needed then the ObjectId shall be replaced with a NULL.
         newValue:
           $ref: '#/components/schemas/mc/parameter/ParameterValue'
+          description: |
+            The second part of the publish message shall be the ParameterValueInstance object value.
     com:
       ObjectId:
         properties:
@@ -152,11 +161,11 @@ components:
               type: integer
           type: object
   messages:
-    Parameter_monitorValueRequest:
+    Parameter_monitorValue_Send:
       description: Parameter monitorValue request submission
       payload:
-        $ref: '#/components/schemas/Parameter_monitorValueTransportRequest'
-    Parameter_monitorValueResponse:
+        $ref: '#/components/schemas/Parameter_monitorValue_Send'
+    Parameter_monitorValue_Receive:
       description: Parameter monitorValue update response
       payload:
-        $ref: '#/components/schemas/Parameter_monitorValueTransportResponse'
+        $ref: '#/components/schemas/Parameter_monitorValue_Receive'
