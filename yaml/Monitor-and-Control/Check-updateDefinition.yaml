@@ -119,14 +119,14 @@ components:
           description: The area in which the error applies.
           enum:
             - MAL
-            - COM
             - MC
+            - COM
         name:
           type: string
           description: A code representing the error.
           enum:
-            - UNKNOWN
             - INVALID
+            - UNKNOWN
             - REFERENCED
         extraInformation:
           type: array

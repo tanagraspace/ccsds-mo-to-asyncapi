@@ -1,7 +1,8 @@
-from generators.yaml_generator_pubsub import YamlGeneratorPubSub
-from generators.common import InteractionType, InteractionPayloadElementRequest, TransportType
+from generators.abstract_yaml_generator import AbstractYamlGenerator
+from generators.common import InteractionType, InteractionPayloadElementRequest
 
-class YamlGeneratorRequest(YamlGeneratorPubSub):
+
+class YamlGeneratorRequest(AbstractYamlGenerator):
 
   @property
   def interaction_type(self) -> str:

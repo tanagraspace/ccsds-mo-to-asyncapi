@@ -1,0 +1,108 @@
+asyncapi: 3.0.0
+info:
+  title: Action Service removeAction API
+  version: 1.0.0
+  description: This API allows clients to interact with the removeAction iteraction of the Action Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the removeAction interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  Send_Action_removeAction:
+    address: Send_Action_removeAction
+    messages:
+      Action.removeAction_Send.message:
+        $ref: '#/components/messages/Action_removeAction_Send'
+    description: >
+      Send a **Action_removeAction_Send** message in this channel to receive a
+      **Action_removeAction_Receive** message over the **Receive_Action_removeAction** channel.
+  Error_Action_removeAction:
+    address: Error_Action_removeAction
+    messages:
+      Action.removeAction_Error.message:
+        $ref: '#/components/messages/Action_removeAction_Error'
+    description: >
+      Use this channel to receive Action removeAction errors as **Action_removeAction_ReceiveErrors**
+      messages.
+operations:
+  Action_removeAction_Send:
+    action: send
+    channel:
+      $ref: '#/channels/Send_Action_removeAction'
+    messages:
+      - $ref: '#/channels/Send_Action_removeAction/messages/Action.removeAction_Send.message'
+  Action_removeAction_Error:
+    action: receive
+    channel:
+      $ref: '#/channels/Error_Action_removeAction'
+    messages:
+      - $ref: '#/channels/Error_Action_removeAction/messages/Action.removeAction_Error.message'
+components:
+  schemas:
+    Action_removeAction_Send:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        actionInstIds:
+          type: integer
+          description: |
+            The actionInstIds field shall hold the object instance identifiers of the ActionIdentity objects to be removed from the provider.
+            The wildcard value of '0' in the list of object instance identifiers shall be supported and matches all actions of the provider.
+            The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
+            If a provided ActionIdentity object instance identifier does not include a wildcard and does not match an existing ActionIdentity object then this operation shall fail with an UNKNOWN error.
+            If a matched definition is still being used by an executing action instance then this operation shall not fail because of this reason.
+            Matched ActionIdentity objects shall not be removed from the COM archive only the list of ActionIdentity objects in the provider.
+            Removed ActionIdentity object shall not be allowed to be referenced by new action instances.
+            If an error is raised then no actions shall be removed as a result of this operation call.
+          format: int64
+    Action_removeAction_Error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+  messages:
+    Action_removeAction_Send:
+      description: Action removeAction request submission
+      payload:
+        $ref: '#/components/schemas/Action_removeAction_Send'
+    Action_removeAction_Error:
+      description: Action removeAction error response
+      payload:
+        $ref: '#/components/schemas/Action_removeAction_Error'

@@ -1,0 +1,114 @@
+asyncapi: 3.0.0
+info:
+  title: Check Service triggerCheck API
+  version: 1.0.0
+  description: This API allows clients to interact with the triggerCheck iteraction of the Check Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the triggerCheck interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  Send_Check_triggerCheck:
+    address: Send_Check_triggerCheck
+    messages:
+      Check.triggerCheck_Send.message:
+        $ref: '#/components/messages/Check_triggerCheck_Send'
+    description: >
+      Send a **Check_triggerCheck_Send** message in this channel to receive a
+      **Check_triggerCheck_Receive** message over the **Receive_Check_triggerCheck** channel.
+  Error_Check_triggerCheck:
+    address: Error_Check_triggerCheck
+    messages:
+      Check.triggerCheck_Error.message:
+        $ref: '#/components/messages/Check_triggerCheck_Error'
+    description: >
+      Use this channel to receive Check triggerCheck errors as **Check_triggerCheck_ReceiveErrors**
+      messages.
+operations:
+  Check_triggerCheck_Send:
+    action: send
+    channel:
+      $ref: '#/channels/Send_Check_triggerCheck'
+    messages:
+      - $ref: '#/channels/Send_Check_triggerCheck/messages/Check.triggerCheck_Send.message'
+  Check_triggerCheck_Error:
+    action: receive
+    channel:
+      $ref: '#/channels/Error_Check_triggerCheck'
+    messages:
+      - $ref: '#/channels/Error_Check_triggerCheck/messages/Check.triggerCheck_Error.message'
+components:
+  schemas:
+    Check_triggerCheck_Send:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        checkObjInstIds:
+          type: integer
+          description: |
+            The checkObjInstIds field shall hold a list of CheckIdentity object instance identifiers to trigger the evaluation of all linked checks.
+          format: int64
+        linkObjInstIds:
+          type: integer
+          description: |
+            The linkObjInstIds field shall hold a list of CheckLink object instance identifiers to trigger the evaluation of.
+            The wildcard value of '0' shall be permitted in either list.
+            The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
+            If a requested CheckIdentity or CheckLink object is unknown then an UNKNOWN error shall be returned.
+            If an error is raised then no evaluations shall be made as a result of this operation call.
+            Either list may be empty in which case filtering on that aspect, check identity or specific check link, shall be ignored.
+            The two lists shall be combined using 'OR' logic, where a CheckLink is evaluated if the identity of a check is in the first list or if the link is directly listed in the second list.
+            Triggering a check shall ignore the nominalTime, nominalCount, violationTime and violationCount fields and requests an immediate evaluation of the checks.
+            Triggering a check during a periodic check shall not influence the periodic check (e.g. it does not reset the checkInterval timer, the successive valid samples that passed/violated the check or the maxReportingInterval timer).
+          format: int64
+    Check_triggerCheck_Error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+  messages:
+    Check_triggerCheck_Send:
+      description: Check triggerCheck request submission
+      payload:
+        $ref: '#/components/schemas/Check_triggerCheck_Send'
+    Check_triggerCheck_Error:
+      description: Check triggerCheck error response
+      payload:
+        $ref: '#/components/schemas/Check_triggerCheck_Error'

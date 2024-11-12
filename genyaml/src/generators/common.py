@@ -15,6 +15,9 @@ class InteractionPayloadElementRequest(Enum):
   SEND = "request"
   RECEIVE = "response"
 
+class InteractionPayloadElementSubmit(Enum):
+  SEND = "submit"
+
 class TransportType(Enum):
   SEND = "Send"
   RECEIVE = "Receive"

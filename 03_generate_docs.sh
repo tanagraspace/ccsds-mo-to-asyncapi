@@ -1,17 +1,35 @@
 #!/bin/bash
 
-# exit if any command within the script returns a non-zero exit status (indicating an error)
+# exit if any command within the script returns a non-zero exit status
 set -e
 
-INPUT_DIR="yaml"
-OUTPUT_DIR="docs"
+# the --retain flag preserves existing documentation in the docs directory
+# it skips regenerating docs for YAML files that already have corresponding AsyncAPI index.html files
+# use this flag to avoid overwriting current docs and generate output only for new or  missing files
+RETAIN_EXISTING=false
+
+# parse arguments for --retain flag
+for arg in "$@"; do
+  if [[ "$arg" == "--retain" ]]; then
+    RETAIN_EXISTING=true
+  fi
+done
+
+# container version for the AsyncAPI Generator
 ASYNCAPI_CONTAINER_TAG="2.5.0"
 
-# function to clear the target directory
+# input and ouput folders
+INPUT_DIR="yaml"
+OUTPUT_DIR="docs"
+
+
+# function to clear the target directory if --retain flag is not set
 clear_target_docs_dir() {
-  sudo chown -R $(id -u):$(id -g) "$OUTPUT_DIR"
-  rm -rf "$OUTPUT_DIR"/*
-  mkdir -p "$OUTPUT_DIR"
+  if [[ "$RETAIN_EXISTING" == false ]]; then
+    sudo chown -R $(id -u):$(id -g) "$OUTPUT_DIR"
+    rm -rf "$OUTPUT_DIR"/*
+    mkdir -p "$OUTPUT_DIR"
+  fi
 }
 
 # trap errors and call the on_error function
@@ -26,7 +44,7 @@ trap on_error ERR
 # verbosity
 echo -e "\n-------------\nGENERATE DOCS\n-------------\n"
 
-# clear the target directory initially
+# clear the target directory initially if not retaining existing files
 clear_target_docs_dir
 
 # iterate over each YAML file in the input directory and subdirectories
@@ -42,6 +60,14 @@ for yaml_file in $(find "$INPUT_DIR" -type f -name "*.yaml"); do
 
   # combine OUTPUT_DIR, relative path, and formatted_output_dir for the final output path
   target_output_dir="$OUTPUT_DIR/$relative_dir/$formatted_output_dir"
+
+  # skip processing if the target directory exists and contains an index.html file
+  if [[ "$RETAIN_EXISTING" == true && -f "$target_output_dir/index.html" ]]; then
+    echo "Skipping existing docs for $filename in $relative_dir"
+    continue
+  fi
+
+  # create target output directory
   mkdir -p "$target_output_dir"
 
   echo "Generating docs for $filename in $relative_dir using asyncapi/generator:$ASYNCAPI_CONTAINER_TAG..."
