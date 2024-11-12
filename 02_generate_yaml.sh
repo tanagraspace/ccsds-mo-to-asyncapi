@@ -34,7 +34,12 @@ clear_target_yaml_dir
 
 # run the Python scripts
 for XML_FILE_PATH in "${XML_FILE_PATHS[@]}"; do
-  python genyaml/src/generate_yaml.py xml-ccsds-mo-prototypes/$XML_FILE_PATH $SRC_DIR_PATH $TARGET_YAML_DIR_PATH
+  # extract the subdirectory name from the XML file name, e.g. from area004-v002-Monitor-and-Control.xml to Monitor-and-Control
+  TARGET_YAML_SUBDIR_PATH=$(echo "$XML_FILE_PATH" | sed -E 's/^[^-]+-[^-]+-(.*)\.xml/\1/')
+  mkdir -p $TARGET_YAML_DIR_PATH/$TARGET_YAML_SUBDIR_PATH
+
+  # generate the AsyncAPI YAML file
+  python genyaml/src/generate_yaml.py xml-ccsds-mo-prototypes/$XML_FILE_PATH $SRC_DIR_PATH $TARGET_YAML_DIR_PATH/$TARGET_YAML_SUBDIR_PATH
 done
 
 echo -e "\nQapla'\n"

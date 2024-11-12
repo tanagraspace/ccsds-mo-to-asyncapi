@@ -1,0 +1,271 @@
+asyncapi: 3.0.0
+info:
+  title: Check Service addParameterCheck API
+  version: 1.0.0
+  description: This API allows clients to interact with the addParameterCheck iteraction of the Check Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the addParameterCheck interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  Send_Check_addParameterCheck:
+    address: Send_Check_addParameterCheck
+    messages:
+      Check.addParameterCheck_Send.message:
+        $ref: '#/components/messages/Check_addParameterCheck_Send'
+    description: >
+      Send a **Check_addParameterCheck_Send** message in this channel to receive a
+      **Check_addParameterCheck_Receive** message over the **Receive_Check_addParameterCheck** channel.
+  Receive_Check_addParameterCheck:
+    address: Receive_Check_addParameterCheck
+    messages:
+      Check.addParameterCheck_Receive.message:
+        $ref: '#/components/messages/Check_addParameterCheck_Receive'
+    description: >
+      Use this channel to receive Check addParameterCheck responses as **Check_addParameterCheck_Receive**
+      messages.
+  Error_Check_addParameterCheck:
+    address: Error_Check_addParameterCheck
+    messages:
+      Check.addParameterCheck_Error.message:
+        $ref: '#/components/messages/Check_addParameterCheck_Error'
+    description: >
+      Use this channel to receive Check addParameterCheck errors as **Check_addParameterCheck_ReceiveErrors**
+      messages.
+operations:
+  Check_addParameterCheck_Send:
+    action: send
+    channel:
+      $ref: '#/channels/Send_Check_addParameterCheck'
+    messages:
+      - $ref: '#/channels/Send_Check_addParameterCheck/messages/Check.addParameterCheck_Send.message'
+  Check_addParameterCheck_Receive:
+    action: receive
+    channel:
+      $ref: '#/channels/Receive_Check_addParameterCheck'
+    messages:
+      - $ref: '#/channels/Receive_Check_addParameterCheck/messages/Check.addParameterCheck_Receive.message'
+  Check_addParameterCheck_Error:
+    action: receive
+    channel:
+      $ref: '#/channels/Error_Check_addParameterCheck'
+    messages:
+      - $ref: '#/channels/Error_Check_addParameterCheck/messages/Check.addParameterCheck_Error.message'
+components:
+  schemas:
+    Check_addParameterCheck_Send:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        linkDetails:
+          $ref: '#/components/schemas/mc/check/CheckLinkDetails'
+          description: |
+            The linkDetails field shall contain the new CheckLink details.
+            The linkRefs field shall contain the related and source links of the new CheckLink.
+            The related field of the ObjectDetails shall reference the object instance identifier of the CheckIdentity being used by the new CheckLink.
+            The source field of the ObjectDetails shall reference the ParameterIdentity that the check is being applied to.
+            The two lists must be ordered the same so that the correct ObjectDetails for a specific CheckLink can be determined.
+        linkRefs:
+          $ref: '#/components/schemas/com/ObjectDetails'
+          description: |
+            If the requested CheckIdentity and ParameterIdentity do not exist then an UNKNOWN error shall be returned.
+            The number of entries in the two lists shall be the same size otherwise an INVALID error shall be raised.
+            If an interval that is not supported by the provider is requested then an INVALID error shall be returned.
+            If the checkInterval is not '0' and the checkOnChange Value is TRUE, then an INVALID error shall be returned.
+            The provider shall create new CheckLink and CheckLinkDefinition objects for each pair and store them in the COM archive.
+    Check_addParameterCheck_Receive:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        newObjInstIds:
+          $ref: '#/components/schemas/mc/ObjectInstancePair'
+          description: |
+            The response shall contain the list of object instance identifiers for the new CheckLink and CheckLinkDefinition objects.
+            The returned list shall maintain the same order as the submitted links.
+    Check_addParameterCheck_Error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+            - COM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+            - INVALID
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+    mc:
+      check:
+        CheckLinkDetails:
+          properties:
+            checkEnabled:
+              description: TRUE if the check instance is enabled.
+              type: boolean
+            checkInterval:
+              description: The interval that a check should be applied. Only applicable if checkOnChange
+                is FALSE. If '0', then no periodic checking shall be performed, and a check
+                will be triggered by another mechanism. Ignored for Compound checks.
+              format: uint64
+              type: number
+            checkOnChange:
+              description: If TRUE then any change to state or value of the parameter, or the
+                check condition will trigger a check evaluation. Ignored for Compound checks.
+              type: boolean
+            condition:
+              $ref: '#/components/schemas/mc/ParameterExpression'
+              description: Should this check be applied, if NULL then always applied.
+            useConverted:
+              description: If set to TRUE the converted value field of the parameter value should
+                be used, otherwise the raw value field should be used. Ignored for Compound
+                checks.
+              type: boolean
+          type: object
+      ObjectInstancePair:
+        properties:
+          objDefInstanceId:
+            description: The object instance identifier of the Definition object.
+            format: int64
+            type: integer
+          objIdentityInstanceId:
+            description: The object instance identifier of the Identity object.
+            format: int64
+            type: integer
+        type: object
+      ParameterExpression:
+        properties:
+          operator:
+            $ref: '#/components/schemas/com/archive/ExpressionOperator'
+            description: The expression operator.
+          parameterId:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: Holds the object instance identifier of the ParameterIdentity object
+              to be used in the expression.
+          useConverted:
+            description: If set to TRUE the converted value field of the parameter value should
+              be used, otherwise the raw value field should be used.
+            type: boolean
+          value:
+            description: The value to be used in the expression.
+            type: string
+        type: object
+    com:
+      ObjectDetails:
+        properties:
+          related:
+            description: Contains the object instance identifier of a related object (e.g.
+              the ActionDefinition that an Action uses). This is service specific. The ObjectType
+              of the related object is specified in the service specification. The related
+              object must exist in the same domain as this object.
+            format: int64
+            type: integer
+          source:
+            $ref: '#/components/schemas/com/ObjectId'
+            description: An object which is at the origin of the object creation (e.g. the
+              procedure from which an action was triggered).
+        type: object
+      ObjectId:
+        properties:
+          key:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: The combination of the object domain and object instance identifier.
+          type_:
+            $ref: '#/components/schemas/com/ObjectType'
+            description: The fully qualified unique identifier of the type.
+        type: object
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
+      ObjectType:
+        properties:
+          area:
+            description: Area Number where the object type is defined. Must not be '0' for
+              values as this is the wildcard.
+            format: uint16
+            type: integer
+          number:
+            description: The service specific object number. Must not be '0' for values as
+              this is the wildcard.
+            format: uint16
+            type: integer
+          service:
+            description: Service Number of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint16
+            type: integer
+          version:
+            description: Area Version of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint8
+            type: integer
+        type: object
+      archive:
+        ExpressionOperator:
+          description: The ExpressionOperator enumeration holds a set of possible expression
+            operators.
+          enum:
+          - EQUAL
+          - DIFFER
+          - GREATER
+          - GREATER_OR_EQUAL
+          - LESS
+          - LESS_OR_EQUAL
+          - CONTAINS
+          - ICONTAINS
+          type: string
+  messages:
+    Check_addParameterCheck_Send:
+      description: Check addParameterCheck request submission
+      payload:
+        $ref: '#/components/schemas/Check_addParameterCheck_Send'
+    Check_addParameterCheck_Receive:
+      description: Check addParameterCheck update response
+      payload:
+        $ref: '#/components/schemas/Check_addParameterCheck_Receive'
+    Check_addParameterCheck_Error:
+      description: Check addParameterCheck error response
+      payload:
+        $ref: '#/components/schemas/Check_addParameterCheck_Error'
