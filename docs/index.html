@@ -6,85 +6,104 @@
   <title>CCSDS MO AsyncAPI Documentation Index</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body, html { height: 100%; display: flex; flex-direction: column; }
-    .container { flex: 1; }
-    footer { background-color: #f8f9fa; padding: 1rem 0; }
+    body, html { height: 100%; font-family: 'Courier New', Courier, monospace; display: flex; flex-direction: column; }
+    .navbar, .footer { background-color: #343a40; color: white; }
+    .container-fluid { flex: 1; display: flex; }
+    .sidebar { width: 250px; padding-top: 1rem; }
+    .sidebar .nav-link { color: #495057; margin-bottom: 0.5rem; }
+    .sidebar .nav-link.active { background-color: #6c757d; }
+    .main-content { flex: 1; padding: 2rem; }
+    .card { width: 100%; }
+    .footer { background-color: #343a40; color: white; padding: 1rem 0; text-align: center; width: 100%; }
+    .github-icon { color: white; }
   </style>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+  <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">CCSDS MO AsyncAPI Docs</a>
     </div>
   </nav>
-  <div class="container">
-    <div class="card mb-4">
-      <div class="card-header">Aggregation Service</div>
-      <div class="card-body">
-        <p class="card-text"><a href="Aggregation/updateDefinition/index.html">updateDefinition</a></p>
-        <p class="card-text"><a href="Aggregation/getValue/index.html">getValue</a></p>
-        <p class="card-text"><a href="Aggregation/listDefinition/index.html">listDefinition</a></p>
-        <p class="card-text"><a href="Aggregation/monitorValue/index.html">monitorValue</a></p>
-        <p class="card-text"><a href="Aggregation/addAggregation/index.html">addAggregation</a></p>
-        <p class="card-text"><a href="Aggregation/enableGeneration/index.html">enableGeneration</a></p>
+  <div class="container-fluid">
+    <div class="d-flex align-items-start" style="width:100%">
+      <div class="nav flex-column nav-pills me-3 sidebar" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <button class="nav-link active" id="v-pills-Monitor-and-Control-tab" data-bs-toggle="pill" data-bs-target="#v-pills-Monitor-and-Control" type="button" role="tab" aria-controls="v-pills-Monitor-and-Control" aria-selected="true">Monitor and Control</button>
+      </div>
+      <div class="tab-content main-content" id="v-pills-tabContent">
+        <div class="tab-pane fade show active" id="v-pills-Monitor-and-Control" role="tabpanel" aria-labelledby="v-pills-Monitor-and-Control-tab">
+          <h1>Monitor and Control</h1>
+          <div class="card mb-4">
+            <div class="card-header">Aggregation Service</div>
+            <div class="card-body">
+              <p class="card-text"><a href="Monitor-and-Control/Aggregation/updateDefinition/index.html">updateDefinition</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Aggregation/getValue/index.html">getValue</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Aggregation/listDefinition/index.html">listDefinition</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Aggregation/monitorValue/index.html">monitorValue</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Aggregation/addAggregation/index.html">addAggregation</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Aggregation/enableGeneration/index.html">enableGeneration</a></p>
+            </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-header">Statistic Service</div>
+            <div class="card-body">
+              <p class="card-text"><a href="Monitor-and-Control/Statistic/updateParameterEvaluation/index.html">updateParameterEvaluation</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Statistic/addParameterEvaluation/index.html">addParameterEvaluation</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Statistic/monitorStatistics/index.html">monitorStatistics</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Statistic/getStatistics/index.html">getStatistics</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Statistic/listParameterEvaluations/index.html">listParameterEvaluations</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Statistic/getServiceStatus/index.html">getServiceStatus</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Statistic/resetEvaluation/index.html">resetEvaluation</a></p>
+            </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-header">Alert Service</div>
+            <div class="card-body">
+              <p class="card-text"><a href="Monitor-and-Control/Alert/updateDefinition/index.html">updateDefinition</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Alert/addAlert/index.html">addAlert</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Alert/listDefinition/index.html">listDefinition</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Alert/enableGeneration/index.html">enableGeneration</a></p>
+            </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-header">Check Service</div>
+            <div class="card-body">
+              <p class="card-text"><a href="Monitor-and-Control/Check/updateDefinition/index.html">updateDefinition</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Check/listCheckLinks/index.html">listCheckLinks</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Check/listDefinition/index.html">listDefinition</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Check/addCheck/index.html">addCheck</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Check/getServiceStatus/index.html">getServiceStatus</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Check/addParameterCheck/index.html">addParameterCheck</a></p>
+            </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-header">Parameter Service</div>
+            <div class="card-body">
+              <p class="card-text"><a href="Monitor-and-Control/Parameter/updateDefinition/index.html">updateDefinition</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Parameter/addParameter/index.html">addParameter</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Parameter/getValue/index.html">getValue</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Parameter/listDefinition/index.html">listDefinition</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Parameter/monitorValue/index.html">monitorValue</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Parameter/enableGeneration/index.html">enableGeneration</a></p>
+            </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-header">Action Service</div>
+            <div class="card-body">
+              <p class="card-text"><a href="Monitor-and-Control/Action/updateDefinition/index.html">updateDefinition</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Action/preCheckAction/index.html">preCheckAction</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Action/listDefinition/index.html">listDefinition</a></p>
+              <p class="card-text"><a href="Monitor-and-Control/Action/addAction/index.html">addAction</a></p>
+            </div>
           </div>
         </div>
-    <div class="card mb-4">
-      <div class="card-header">Statistic Service</div>
-      <div class="card-body">
-        <p class="card-text"><a href="Statistic/updateParameterEvaluation/index.html">updateParameterEvaluation</a></p>
-        <p class="card-text"><a href="Statistic/addParameterEvaluation/index.html">addParameterEvaluation</a></p>
-        <p class="card-text"><a href="Statistic/monitorStatistics/index.html">monitorStatistics</a></p>
-        <p class="card-text"><a href="Statistic/getStatistics/index.html">getStatistics</a></p>
-        <p class="card-text"><a href="Statistic/listParameterEvaluations/index.html">listParameterEvaluations</a></p>
-        <p class="card-text"><a href="Statistic/getServiceStatus/index.html">getServiceStatus</a></p>
-        <p class="card-text"><a href="Statistic/resetEvaluation/index.html">resetEvaluation</a></p>
-          </div>
-        </div>
-    <div class="card mb-4">
-      <div class="card-header">Alert Service</div>
-      <div class="card-body">
-        <p class="card-text"><a href="Alert/updateDefinition/index.html">updateDefinition</a></p>
-        <p class="card-text"><a href="Alert/addAlert/index.html">addAlert</a></p>
-        <p class="card-text"><a href="Alert/listDefinition/index.html">listDefinition</a></p>
-        <p class="card-text"><a href="Alert/enableGeneration/index.html">enableGeneration</a></p>
-          </div>
-        </div>
-    <div class="card mb-4">
-      <div class="card-header">Check Service</div>
-      <div class="card-body">
-        <p class="card-text"><a href="Check/updateDefinition/index.html">updateDefinition</a></p>
-        <p class="card-text"><a href="Check/listCheckLinks/index.html">listCheckLinks</a></p>
-        <p class="card-text"><a href="Check/listDefinition/index.html">listDefinition</a></p>
-        <p class="card-text"><a href="Check/addCheck/index.html">addCheck</a></p>
-        <p class="card-text"><a href="Check/getServiceStatus/index.html">getServiceStatus</a></p>
-        <p class="card-text"><a href="Check/addParameterCheck/index.html">addParameterCheck</a></p>
-          </div>
-        </div>
-    <div class="card mb-4">
-      <div class="card-header">Parameter Service</div>
-      <div class="card-body">
-        <p class="card-text"><a href="Parameter/updateDefinition/index.html">updateDefinition</a></p>
-        <p class="card-text"><a href="Parameter/addParameter/index.html">addParameter</a></p>
-        <p class="card-text"><a href="Parameter/getValue/index.html">getValue</a></p>
-        <p class="card-text"><a href="Parameter/listDefinition/index.html">listDefinition</a></p>
-        <p class="card-text"><a href="Parameter/monitorValue/index.html">monitorValue</a></p>
-        <p class="card-text"><a href="Parameter/enableGeneration/index.html">enableGeneration</a></p>
-          </div>
-        </div>
-    <div class="card mb-4">
-      <div class="card-header">Action Service</div>
-      <div class="card-body">
-        <p class="card-text"><a href="Action/updateDefinition/index.html">updateDefinition</a></p>
-        <p class="card-text"><a href="Action/preCheckAction/index.html">preCheckAction</a></p>
-        <p class="card-text"><a href="Action/listDefinition/index.html">listDefinition</a></p>
-        <p class="card-text"><a href="Action/addAction/index.html">addAction</a></p>
-          </div>
-        </div>
+      </div>
+    </div>
   </div>
-  <footer class="mt-auto text-center">
-    <p><a href="https://github.com/tanagraspace/ccsds-mo-to-asyncapi" target="_blank">
-      <img src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub" style="width: 20px; vertical-align: middle;"></a></p>
+  <footer class="footer mt-auto">
+    <a href="https://github.com/tanagraspace/ccsds-mo-to-asyncapi" target="_blank" class="github-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.54 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.68 7.68 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+      </svg></a>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

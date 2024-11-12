@@ -9,9 +9,9 @@ ASYNCAPI_CONTAINER_TAG="2.5.0"
 
 # function to clear the target directory
 clear_target_docs_dir() {
-  sudo chown -R $(id -u):$(id -g) $OUTPUT_DIR
-  rm -rf $OUTPUT_DIR/*
-  mkdir -p $OUTPUT_DIR
+  sudo chown -R $(id -u):$(id -g) "$OUTPUT_DIR"
+  rm -rf "$OUTPUT_DIR"/*
+  mkdir -p "$OUTPUT_DIR"
 }
 
 # trap errors and call the on_error function
@@ -29,26 +29,30 @@ echo -e "\n-------------\nGENERATE DOCS\n-------------\n"
 # clear the target directory initially
 clear_target_docs_dir
 
-# iterate over each YAML file in the input directory
-for yaml_file in $INPUT_DIR/*.yaml; do
+# iterate over each YAML file in the input directory and subdirectories
+for yaml_file in $(find "$INPUT_DIR" -type f -name "*.yaml"); do
   filename=$(basename "$yaml_file")
 
-  # remove extension for the output directory name
-  base_filename="${filename%.*}"
+  # get the relative path from INPUT_DIR to the YAML file directory
+  relative_dir=$(dirname "${yaml_file#$INPUT_DIR/}")
 
   # convert the base filename to a subdirectory structure (e.g., Aggregation-monitorValue -> Aggregation/monitorValue)
+  base_filename="${filename%.*}"
   formatted_output_dir=$(echo "$base_filename" | sed -E 's/-/\//')
 
-  echo "Generating docs for $filename using asyncapi/generator:$ASYNCAPI_CONTAINER_TAG..."
-  docker run --rm -v "$(pwd)/yaml:/app/yaml" -v "$(pwd)/docs:/app/docs" asyncapi/generator:$ASYNCAPI_CONTAINER_TAG /app/yaml/$filename -o /app/docs/$formatted_output_dir @asyncapi/html-template --force-write
+  # combine OUTPUT_DIR, relative path, and formatted_output_dir for the final output path
+  target_output_dir="$OUTPUT_DIR/$relative_dir/$formatted_output_dir"
+  mkdir -p "$target_output_dir"
 
+  echo "Generating docs for $filename in $relative_dir using asyncapi/generator:$ASYNCAPI_CONTAINER_TAG..."
+  docker run --rm -v "$(pwd)/$INPUT_DIR:/app/yaml" -v "$(pwd)/$OUTPUT_DIR:/app/docs" asyncapi/generator:$ASYNCAPI_CONTAINER_TAG /app/yaml/$relative_dir/$filename -o /app/docs/$relative_dir/$formatted_output_dir @asyncapi/html-template --force-write
 done
 
 # change ownership of the generated docs
-sudo chown -R $(id -u):$(id -g) $OUTPUT_DIR
+sudo chown -R $(id -u):$(id -g) "$OUTPUT_DIR"
 
-# great success generting AsyncAPI docs
+# great success generating AsyncAPI docs
 echo -e "\nQapla'\n"
 
 # generate index page that lists links to all generated AsyncAPI docs
-./gendocs/generate_index.sh 
+./gendocs/generate_index.sh

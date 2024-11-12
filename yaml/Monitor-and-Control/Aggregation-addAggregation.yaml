@@ -1,0 +1,245 @@
+asyncapi: 3.0.0
+info:
+  title: Aggregation Service addAggregation API
+  version: 1.0.0
+  description: This API allows clients to interact with the addAggregation iteraction of the Aggregation Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the addAggregation interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  Send_Aggregation_addAggregation:
+    address: Send_Aggregation_addAggregation
+    messages:
+      Aggregation.addAggregation_Send.message:
+        $ref: '#/components/messages/Aggregation_addAggregation_Send'
+    description: >
+      Send a **Aggregation_addAggregation_Send** message in this channel to receive a
+      **Aggregation_addAggregation_Receive** message over the **Receive_Aggregation_addAggregation** channel.
+  Receive_Aggregation_addAggregation:
+    address: Receive_Aggregation_addAggregation
+    messages:
+      Aggregation.addAggregation_Receive.message:
+        $ref: '#/components/messages/Aggregation_addAggregation_Receive'
+    description: >
+      Use this channel to receive Aggregation addAggregation responses as **Aggregation_addAggregation_Receive**
+      messages.
+  Error_Aggregation_addAggregation:
+    address: Error_Aggregation_addAggregation
+    messages:
+      Aggregation.addAggregation_Error.message:
+        $ref: '#/components/messages/Aggregation_addAggregation_Error'
+    description: >
+      Use this channel to receive Aggregation addAggregation errors as **Aggregation_addAggregation_ReceiveErrors**
+      messages.
+operations:
+  Aggregation_addAggregation_Send:
+    action: send
+    channel:
+      $ref: '#/channels/Send_Aggregation_addAggregation'
+    messages:
+      - $ref: '#/channels/Send_Aggregation_addAggregation/messages/Aggregation.addAggregation_Send.message'
+  Aggregation_addAggregation_Receive:
+    action: receive
+    channel:
+      $ref: '#/channels/Receive_Aggregation_addAggregation'
+    messages:
+      - $ref: '#/channels/Receive_Aggregation_addAggregation/messages/Aggregation.addAggregation_Receive.message'
+  Aggregation_addAggregation_Error:
+    action: receive
+    channel:
+      $ref: '#/channels/Error_Aggregation_addAggregation'
+    messages:
+      - $ref: '#/channels/Error_Aggregation_addAggregation/messages/Aggregation.addAggregation_Error.message'
+components:
+  schemas:
+    Aggregation_addAggregation_Send:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        aggDefDetails:
+          $ref: '#/components/schemas/mc/aggregation/AggregationCreationRequest'
+          description: |
+            The aggDefDetails field shall hold the name and the AggregationDefinitionDetails to be added.
+            The name field must not be the wildcard '*', or empty (an INVALID error shall be returned in this case).
+            If the supplied reportInterval or sampleInterval values are not supported by the provider then an INVALID error shall be returned.
+            The supplied name must be unique among all AggregationIdentity objects for the domain of the provider otherwise a DUPLICATE error shall be raised.
+            If an error is raised then no new identities and definitions shall be added as a result of this operation call.
+            If the supplied name matches an existing, but removed, AggregationIdentity then that AggregationIdentity shall be reused otherwise a new AggregationIdentity shall be created.
+            The provider shall create a new AggregationDefinition object and store it, and any new AggregationIdentity objects, in the COM archive.
+    Aggregation_addAggregation_Receive:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        newObjInstIds:
+          $ref: '#/components/schemas/mc/ObjectInstancePair'
+          description: |
+            The response shall contain the list of object instance identifiers for the AggregationIdentity and new AggregationDefinition objects.
+            The returned list shall maintain the same order as the submitted definitions.
+    Aggregation_addAggregation_Error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - COM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - INVALID
+            - DUPLICATE
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+    mc:
+      aggregation:
+        AggregationCreationRequest:
+          properties:
+            aggDefDetails:
+              $ref: '#/components/schemas/mc/aggregation/AggregationDefinitionDetails'
+              description: The aggregation definition details.
+            name:
+              description: The name of the aggregation. Must not be empty or the wildcard value.
+              type: string
+          type: object
+        AggregationDefinitionDetails:
+          properties:
+            category:
+              description: Category of the aggregation. Value taken from AggregationCategory
+                enumeration, although the use of a UOctet allows deployment specific extension.
+                Extensions must use values greater than 127.
+              format: uint8
+              type: integer
+            description:
+              description: The description of the parameter. May be empty.
+              type: string
+            filterEnabled:
+              description: Controls whether reports for this aggregation are to be filtered.
+              type: boolean
+            filteredTimeout:
+              description: The maximum duration between filtered reports. If this value is exceeded,
+                then a report is sent regardless of filtered thresholds. Ignored if not filtered.
+              format: uint64
+              type: number
+            generationEnabled:
+              description: Controls whether reports for this aggregation are to be generated.
+              type: boolean
+            parameterSets:
+              description: List containing the parameter sets which define the aggregation.
+              items:
+                $ref: '#/components/schemas/mc/aggregation/AggregationParameterSet'
+              type: array
+            reportInterval:
+              description: The interval between periodic reports on this aggregation. If this
+                aggregation is not periodic, this field must be '0'.
+              format: uint64
+              type: number
+            sendDefinitions:
+              description: If TRUE reports will include the ParameterDefinition object instance
+                identifier in the AggregationParameterValue, if FALSE it will be set to NULL.
+              type: boolean
+            sendUnchanged:
+              description: If TRUE reports will include all values regardless of whether changed,
+                if FALSE values unchanged from previous report are replaced with a NULL.
+              type: boolean
+          type: object
+        AggregationParameterSet:
+          properties:
+            domain:
+              description: The domain of the parameters being referenced in this set of parameters,
+                NULL if the same domain as the aggregation.
+              items:
+                type: string
+              type: array
+            parameters:
+              description: The list of object instance identifiers of the ParameterIdentity
+                objects being included in the aggregation.
+              items:
+                type: integer
+              type: array
+            reportFilter:
+              $ref: '#/components/schemas/mc/aggregation/ThresholdFilter'
+              description: If the AggregationParameterSet contains a single parameter then this
+                field contains the filter to apply for filtered reports when filters are applied.
+                NULL if no filter required or this set contains more than one parameter.
+            sampleInterval:
+              description: The interval between samples of the parameters in the set. If '0'
+                then just a single sample of the parameters is required per aggregation report.
+              format: uint64
+              type: number
+          type: object
+        ThresholdFilter:
+          properties:
+            thresholdType:
+              $ref: '#/components/schemas/mc/aggregation/ThresholdType'
+              description: The type of filter to apply for filtered periodic reports when filters
+                are applied.
+            thresholdValue:
+              description: Threshold value to apply.
+              type: string
+            useConverted:
+              description: If true, and the relevant Parameter has a conversion, then use the
+                converted value for the threshold comparison, otherwise use the raw value.
+              type: boolean
+          type: object
+        ThresholdType:
+          description: ThresholdType is an enumeration definition holding the types of filtering
+            thresholds.
+          enum:
+          - PERCENTAGE
+          - DELTA
+          type: string
+      ObjectInstancePair:
+        properties:
+          objDefInstanceId:
+            description: The object instance identifier of the Definition object.
+            format: int64
+            type: integer
+          objIdentityInstanceId:
+            description: The object instance identifier of the Identity object.
+            format: int64
+            type: integer
+        type: object
+  messages:
+    Aggregation_addAggregation_Send:
+      description: Aggregation addAggregation request submission
+      payload:
+        $ref: '#/components/schemas/Aggregation_addAggregation_Send'
+    Aggregation_addAggregation_Receive:
+      description: Aggregation addAggregation update response
+      payload:
+        $ref: '#/components/schemas/Aggregation_addAggregation_Receive'
+    Aggregation_addAggregation_Error:
+      description: Aggregation addAggregation error response
+      payload:
+        $ref: '#/components/schemas/Aggregation_addAggregation_Error'
