@@ -6,6 +6,8 @@ import sys
 from generators.abstract_yaml_generator import AbstractYamlGenerator
 from generators.yaml_generator_pubsub import YamlGeneratorPubSub
 from generators.yaml_generator_request import YamlGeneratorRequest
+from generators.yaml_generator_submit import YamlGeneratorSubmit
+
 from generators.common import InteractionType
 
 def print_help():
@@ -137,9 +139,9 @@ def list_services_with_capabilities_and_interactions_in_mc_xml(
 
 def main(xml_file_path: str, mo_asyncapi_src_dir_path: str, target_yaml_directory_path: str):
   
-  # generate YAML for the PubSub and Request interation types
-  # TODO: extend this list once other generators are implemented. i.e. Request, Submit, Progress, and Invoke
-  yaml_generators = [YamlGeneratorPubSub(), YamlGeneratorRequest()]
+  # generate YAML for the following interaction types: PubSub, Request, and Submit
+  # TODO: extend this list once other generators are implemented. i.e. Progress, and Invoke
+  yaml_generators = [YamlGeneratorPubSub(), YamlGeneratorRequest(), YamlGeneratorSubmit()]
   
   # get the list of services with capability sets, interaction names, and types
   mc_services_with_capabilities_and_interactions = list_services_with_capabilities_and_interactions_in_mc_xml(

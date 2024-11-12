@@ -1,0 +1,107 @@
+asyncapi: 3.0.0
+info:
+  title: Alert Service removeAlert API
+  version: 1.0.0
+  description: This API allows clients to interact with the removeAlert iteraction of the Alert Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the removeAlert interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  Send_Alert_removeAlert:
+    address: Send_Alert_removeAlert
+    messages:
+      Alert.removeAlert_Send.message:
+        $ref: '#/components/messages/Alert_removeAlert_Send'
+    description: >
+      Send a **Alert_removeAlert_Send** message in this channel to receive a
+      **Alert_removeAlert_Receive** message over the **Receive_Alert_removeAlert** channel.
+  Error_Alert_removeAlert:
+    address: Error_Alert_removeAlert
+    messages:
+      Alert.removeAlert_Error.message:
+        $ref: '#/components/messages/Alert_removeAlert_Error'
+    description: >
+      Use this channel to receive Alert removeAlert errors as **Alert_removeAlert_ReceiveErrors**
+      messages.
+operations:
+  Alert_removeAlert_Send:
+    action: send
+    channel:
+      $ref: '#/channels/Send_Alert_removeAlert'
+    messages:
+      - $ref: '#/channels/Send_Alert_removeAlert/messages/Alert.removeAlert_Send.message'
+  Alert_removeAlert_Error:
+    action: receive
+    channel:
+      $ref: '#/channels/Error_Alert_removeAlert'
+    messages:
+      - $ref: '#/channels/Error_Alert_removeAlert/messages/Alert.removeAlert_Error.message'
+components:
+  schemas:
+    Alert_removeAlert_Send:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        alertInstIds:
+          type: integer
+          description: |
+            The alertInstIds field shall hold the object instance identifiers of the AlertIdentity objects to be removed from the provider.
+            The list may contain the wildcard value of '0'.
+            The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
+            If a provided AlertIdentity object instance identifier does not include a wildcard and does not match an existing AlertIdentity object then this operation shall fail with an UNKNOWN error.
+            Matched AlertIdentity objects shall not be removed from the COM archive only the list of AlertIdentity objects in the provider.
+            If an error is raised then no alerts shall be removed as a result of this operation call.
+            If the operation succeeds then the provider shall not publish AlertEvent events for the deleted AlertIdentity objects anymore.
+          format: int64
+    Alert_removeAlert_Error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+  messages:
+    Alert_removeAlert_Send:
+      description: Alert removeAlert request submission
+      payload:
+        $ref: '#/components/schemas/Alert_removeAlert_Send'
+    Alert_removeAlert_Error:
+      description: Alert removeAlert error response
+      payload:
+        $ref: '#/components/schemas/Alert_removeAlert_Error'

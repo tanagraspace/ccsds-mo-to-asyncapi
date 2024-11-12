@@ -1,0 +1,167 @@
+asyncapi: 3.0.0
+info:
+  title: Action Service submitAction API
+  version: 1.0.0
+  description: This API allows clients to interact with the submitAction iteraction of the Action Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the submitAction interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  Send_Action_submitAction:
+    address: Send_Action_submitAction
+    messages:
+      Action.submitAction_Send.message:
+        $ref: '#/components/messages/Action_submitAction_Send'
+    description: >
+      Send a **Action_submitAction_Send** message in this channel to receive a
+      **Action_submitAction_Receive** message over the **Receive_Action_submitAction** channel.
+  Error_Action_submitAction:
+    address: Error_Action_submitAction
+    messages:
+      Action.submitAction_Error.message:
+        $ref: '#/components/messages/Action_submitAction_Error'
+    description: >
+      Use this channel to receive Action submitAction errors as **Action_submitAction_ReceiveErrors**
+      messages.
+operations:
+  Action_submitAction_Send:
+    action: send
+    channel:
+      $ref: '#/channels/Send_Action_submitAction'
+    messages:
+      - $ref: '#/channels/Send_Action_submitAction/messages/Action.submitAction_Send.message'
+  Action_submitAction_Error:
+    action: receive
+    channel:
+      $ref: '#/channels/Error_Action_submitAction'
+    messages:
+      - $ref: '#/channels/Error_Action_submitAction/messages/Action.submitAction_Error.message'
+components:
+  schemas:
+    Action_submitAction_Send:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        actionInstId:
+          type: integer
+          description: |
+            The actionInstId field of the submission shall contain the object instance identifier of the ActionInstance to be used for activity tracking events.
+          format: int64
+        actionDetails:
+          $ref: '#/components/schemas/mc/action/ActionInstanceDetails'
+          description: |
+            The actionDetails part of the submission shall contain the argument values and related information of the action instance to be executed.
+            If the defInstId of the supplied actionDetails field does not match a known ActionDefinition object then an UNKNOWN error shall be returned.
+            The size of the argumentValues list of the ActionInstanceDetails structure shall be compared to the size of the argument list in the matched ActionDefinition object and an INVALID error shall be returned if they are not the same.
+            If the ActionInstanceDetails structure contains an argumentIds field value then this shall be compared to the same field in the matched ActionDefinition object and must be the same size and contain the same values, an INVALID error shall be returned if this is not the case.
+            If the ActionInstanceDetails structure contains an isRawValue field value then the size of this list shall be compared to the size of the argument list in the matched ActionDefinition object and an INVALID error shall be returned if they are not the same.
+            If the supplied argument values do not match the attribute type specified in the action definition then an INVALID error shall be returned.
+            A service provider may apply some deployment specific checks to the action instance and can return an INVALID error if they fail.
+            If an error is raised then no action shall be executed.
+            The SUBMIT acknowledgement shall be returned once the action has been accepted for execution but before execution starts.
+    Action_submitAction_Error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+            - COM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - INVALID
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+    mc:
+      action:
+        ActionInstanceDetails:
+          properties:
+            argumentIds:
+              description: Optional list of argument definition identifiers. Allows the provider
+                to verify that the correct arguments are being supplied. The ordering of the
+                list matches that of the argument list of the action definition.
+              items:
+                type: string
+              type: array
+            argumentValues:
+              description: List containing the values of the arguments. The ordering of the
+                list matches that of the definition. If a value for a particular entry is not
+                being supplied, then its position is filled with a NULL value. If no arguments
+                are defined, then the complete list is replaced with a NULL.
+              items:
+                $ref: '#/components/schemas/mc/AttributeValue'
+              type: array
+            defInstId:
+              description: The object instance identifier of the ActionDefinition to be used.
+              format: int64
+              type: integer
+            isRawValue:
+              description: Optional list of Booleans that determine whether the supplied argument
+                values are raw or converted. If the Boolean for a particular value is TRUE or
+                NULL then that value is assumed to be raw. If the complete isRawValue list is
+                NULL then all arguments are assumed to be raw values. The ordering of the list
+                matches that of the argument list of the action definition.
+              items:
+                type: boolean
+              type: array
+            stageCompletedRequired:
+              description: If TRUE, then an activity event of type Execution is required for
+                the COMPLETION stage.
+              type: boolean
+            stageProgressRequired:
+              description: If TRUE, then activity events of type Execution are required for
+                the PROGRESS stages.
+              type: boolean
+            stageStartedRequired:
+              description: If TRUE, then an activity event of type Execution is required for
+                the STARTED stage.
+              type: boolean
+          type: object
+      AttributeValue:
+        properties:
+          value:
+            description: The argument value. Must not be NULL. NULL may be represented by
+              having a NULL in place of the complete AttributeValue composite.
+            type: string
+        type: object
+  messages:
+    Action_submitAction_Send:
+      description: Action submitAction request submission
+      payload:
+        $ref: '#/components/schemas/Action_submitAction_Send'
+    Action_submitAction_Error:
+      description: Action submitAction error response
+      payload:
+        $ref: '#/components/schemas/Action_submitAction_Error'

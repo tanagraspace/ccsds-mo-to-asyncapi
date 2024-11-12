@@ -1,0 +1,107 @@
+asyncapi: 3.0.0
+info:
+  title: Statistic Service removeParameterEvaluation API
+  version: 1.0.0
+  description: This API allows clients to interact with the removeParameterEvaluation iteraction of the Statistic Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the removeParameterEvaluation interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  Send_Statistic_removeParameterEvaluation:
+    address: Send_Statistic_removeParameterEvaluation
+    messages:
+      Statistic.removeParameterEvaluation_Send.message:
+        $ref: '#/components/messages/Statistic_removeParameterEvaluation_Send'
+    description: >
+      Send a **Statistic_removeParameterEvaluation_Send** message in this channel to receive a
+      **Statistic_removeParameterEvaluation_Receive** message over the **Receive_Statistic_removeParameterEvaluation** channel.
+  Error_Statistic_removeParameterEvaluation:
+    address: Error_Statistic_removeParameterEvaluation
+    messages:
+      Statistic.removeParameterEvaluation_Error.message:
+        $ref: '#/components/messages/Statistic_removeParameterEvaluation_Error'
+    description: >
+      Use this channel to receive Statistic removeParameterEvaluation errors as **Statistic_removeParameterEvaluation_ReceiveErrors**
+      messages.
+operations:
+  Statistic_removeParameterEvaluation_Send:
+    action: send
+    channel:
+      $ref: '#/channels/Send_Statistic_removeParameterEvaluation'
+    messages:
+      - $ref: '#/channels/Send_Statistic_removeParameterEvaluation/messages/Statistic.removeParameterEvaluation_Send.message'
+  Statistic_removeParameterEvaluation_Error:
+    action: receive
+    channel:
+      $ref: '#/channels/Error_Statistic_removeParameterEvaluation'
+    messages:
+      - $ref: '#/channels/Error_Statistic_removeParameterEvaluation/messages/Statistic.removeParameterEvaluation_Error.message'
+components:
+  schemas:
+    Statistic_removeParameterEvaluation_Send:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        objInstIds:
+          type: integer
+          description: |
+            The objInstIds field holds the object instance identifiers of the StatisticLink objects to be removed from the provider.
+            The list may contain the wildcard value of '0'.
+            The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
+            If a provided StatisticLink object instance identifier does not include a wildcard and does not match an existing StatisticLink object then this operation shall fail with an UNKNOWN error.
+            Matched StatisticLink objects shall not be removed from the COM archive only the list of evaluated StatisticLink objects in the provider.
+            If an error is raised then no StatisticLink objects shall be removed as a result of this operation call.
+            If the operation succeeds then the provider shall not evaluate those parameter/function definition combinations for the deleted StatisticLink objects anymore.
+          format: int64
+    Statistic_removeParameterEvaluation_Error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+  messages:
+    Statistic_removeParameterEvaluation_Send:
+      description: Statistic removeParameterEvaluation request submission
+      payload:
+        $ref: '#/components/schemas/Statistic_removeParameterEvaluation_Send'
+    Statistic_removeParameterEvaluation_Error:
+      description: Statistic removeParameterEvaluation error response
+      payload:
+        $ref: '#/components/schemas/Statistic_removeParameterEvaluation_Error'

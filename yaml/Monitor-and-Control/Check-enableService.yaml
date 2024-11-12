@@ -1,0 +1,62 @@
+asyncapi: 3.0.0
+info:
+  title: Check Service enableService API
+  version: 1.0.0
+  description: This API allows clients to interact with the enableService iteraction of the Check Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the enableService interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  Send_Check_enableService:
+    address: Send_Check_enableService
+    messages:
+      Check.enableService_Send.message:
+        $ref: '#/components/messages/Check_enableService_Send'
+    description: >
+      Send a **Check_enableService_Send** message in this channel to receive a
+      **Check_enableService_Receive** message over the **Receive_Check_enableService** channel.
+operations:
+  Check_enableService_Send:
+    action: send
+    channel:
+      $ref: '#/channels/Send_Check_enableService'
+    messages:
+      - $ref: '#/channels/Send_Check_enableService/messages/Check.enableService_Send.message'
+components:
+  schemas:
+    Check_enableService_Send:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        enableService:
+          type: boolean
+          description: |
+            If enableService is set to TRUE the service shall be enabled and evaluation and reporting of check will commence.
+            If enableService is set to FALSE then all evaluation of checks shall be suspended and no check transitions will be reported.
+            If the enableService value matches the current enabled state of the service then no change shall be made and no error reported. Enabling an already enabled service has no effect.
+  messages:
+    Check_enableService_Send:
+      description: Check enableService request submission
+      payload:
+        $ref: '#/components/schemas/Check_enableService_Send'

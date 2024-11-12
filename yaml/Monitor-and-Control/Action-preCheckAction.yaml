@@ -110,8 +110,8 @@ components:
           type: string
           description: A code representing the error.
           enum:
-            - UNKNOWN
             - INVALID
+            - UNKNOWN
         extraInformation:
           type: array
           items:

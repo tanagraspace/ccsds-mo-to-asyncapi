@@ -1,0 +1,125 @@
+asyncapi: 3.0.0
+info:
+  title: Aggregation Service enableFilter API
+  version: 1.0.0
+  description: This API allows clients to interact with the enableFilter iteraction of the Aggregation Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the enableFilter interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  Send_Aggregation_enableFilter:
+    address: Send_Aggregation_enableFilter
+    messages:
+      Aggregation.enableFilter_Send.message:
+        $ref: '#/components/messages/Aggregation_enableFilter_Send'
+    description: >
+      Send a **Aggregation_enableFilter_Send** message in this channel to receive a
+      **Aggregation_enableFilter_Receive** message over the **Receive_Aggregation_enableFilter** channel.
+  Error_Aggregation_enableFilter:
+    address: Error_Aggregation_enableFilter
+    messages:
+      Aggregation.enableFilter_Error.message:
+        $ref: '#/components/messages/Aggregation_enableFilter_Error'
+    description: >
+      Use this channel to receive Aggregation enableFilter errors as **Aggregation_enableFilter_ReceiveErrors**
+      messages.
+operations:
+  Aggregation_enableFilter_Send:
+    action: send
+    channel:
+      $ref: '#/channels/Send_Aggregation_enableFilter'
+    messages:
+      - $ref: '#/channels/Send_Aggregation_enableFilter/messages/Aggregation.enableFilter_Send.message'
+  Aggregation_enableFilter_Error:
+    action: receive
+    channel:
+      $ref: '#/channels/Error_Aggregation_enableFilter'
+    messages:
+      - $ref: '#/channels/Error_Aggregation_enableFilter/messages/Aggregation.enableFilter_Error.message'
+components:
+  schemas:
+    Aggregation_enableFilter_Send:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        isGroupIds:
+          type: boolean
+          description: |
+            If the isGroupIds field is TRUE then the enableInstances field shall contain GroupIdentity object instance identifiers, otherwise the field contains AggregationIdentity object instance identifiers.
+            The AggregationIdentity objects referenced, either directly or indirectly via groups, by the enableInstances field shall be the AggregationIdentity objects to match.
+            The id of the enableInstances field shall support the wildcard value of '0' and matches all AggregationIdentity objects of the provider.
+            The service provider shall check for the wildcard value in the list of object instance identifiers in the enableInstances field first and if found no other checks of supplied object instance identifiers shall be made.
+            If the enableInstances field contains a value of TRUE then reports of matching AggregationIdentity objects shall be filtered, a value of FALSE requests that reports will not be filtered.
+            No error shall be raised if the enableInstances Boolean value supplied is the same as the current filterEnabled field of the definition for a matched AggregationIdentity object i.e. filtering an already filtered aggregation will not result in an error.
+            If a requested AggregationIdentity or GroupIdentity object is unknown then an UNKNOWN error shall be returned.
+            If a requested Group, or the Group objects referenced by that Group, does not contain AggregationIdentity objects then an INVALID error shall be returned.
+            If an error is raised then no modifications shall be made as a result of this operation call.
+            The provider shall create and store a new AggregationDefinition object in the COM archive if the filterEnabled field is changed.
+            If a new AggregationDefinition object is created then that new object shall be the current AggregationDefinition used for the specific AggregationIdentity.
+        enableInstances:
+          $ref: '#/components/schemas/com/InstanceBooleanPair'
+    Aggregation_enableFilter_Error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+            - COM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - INVALID
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+    com:
+      InstanceBooleanPair:
+        properties:
+          id:
+            description: The object instance identifier.
+            format: int64
+            type: integer
+          value:
+            description: An associated Boolean value.
+            type: boolean
+        type: object
+  messages:
+    Aggregation_enableFilter_Send:
+      description: Aggregation enableFilter request submission
+      payload:
+        $ref: '#/components/schemas/Aggregation_enableFilter_Send'
+    Aggregation_enableFilter_Error:
+      description: Aggregation enableFilter error response
+      payload:
+        $ref: '#/components/schemas/Aggregation_enableFilter_Error'

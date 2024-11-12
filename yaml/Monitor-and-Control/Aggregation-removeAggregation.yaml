@@ -1,0 +1,107 @@
+asyncapi: 3.0.0
+info:
+  title: Aggregation Service removeAggregation API
+  version: 1.0.0
+  description: This API allows clients to interact with the removeAggregation iteraction of the Aggregation Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the removeAggregation interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  Send_Aggregation_removeAggregation:
+    address: Send_Aggregation_removeAggregation
+    messages:
+      Aggregation.removeAggregation_Send.message:
+        $ref: '#/components/messages/Aggregation_removeAggregation_Send'
+    description: >
+      Send a **Aggregation_removeAggregation_Send** message in this channel to receive a
+      **Aggregation_removeAggregation_Receive** message over the **Receive_Aggregation_removeAggregation** channel.
+  Error_Aggregation_removeAggregation:
+    address: Error_Aggregation_removeAggregation
+    messages:
+      Aggregation.removeAggregation_Error.message:
+        $ref: '#/components/messages/Aggregation_removeAggregation_Error'
+    description: >
+      Use this channel to receive Aggregation removeAggregation errors as **Aggregation_removeAggregation_ReceiveErrors**
+      messages.
+operations:
+  Aggregation_removeAggregation_Send:
+    action: send
+    channel:
+      $ref: '#/channels/Send_Aggregation_removeAggregation'
+    messages:
+      - $ref: '#/channels/Send_Aggregation_removeAggregation/messages/Aggregation.removeAggregation_Send.message'
+  Aggregation_removeAggregation_Error:
+    action: receive
+    channel:
+      $ref: '#/channels/Error_Aggregation_removeAggregation'
+    messages:
+      - $ref: '#/channels/Error_Aggregation_removeAggregation/messages/Aggregation.removeAggregation_Error.message'
+components:
+  schemas:
+    Aggregation_removeAggregation_Send:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        aggInstIds:
+          type: integer
+          description: |
+            The aggInstIds field shall hold the object instance identifiers of the AggregationIdentity objects to be removed from the provider.
+            The list may contain the wildcard value of '0'.
+            The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
+            If a provided AggregationIdentity object instance identifier does not include a wildcard and does not match an existing aggregation then this operation shall fail with an UNKNOWN error.
+            Matched AggregationIdentity and AggregationDefinition objects shall not be removed from the COM archive only the list of AggregationIdentity and AggregationDefinition objects in the provider.
+            If an error is raised then no aggregations shall be removed as a result of this operation call.
+            If the operation succeeds then the provider shall not publish aggregation values for the deleted AggregationIdentity objects anymore.
+          format: int64
+    Aggregation_removeAggregation_Error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+  messages:
+    Aggregation_removeAggregation_Send:
+      description: Aggregation removeAggregation request submission
+      payload:
+        $ref: '#/components/schemas/Aggregation_removeAggregation_Send'
+    Aggregation_removeAggregation_Error:
+      description: Aggregation removeAggregation error response
+      payload:
+        $ref: '#/components/schemas/Aggregation_removeAggregation_Error'

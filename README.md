@@ -31,8 +31,8 @@ Or do it all in one go:
   - Mission and Control v002
 - The MO MAL XML definitions that are processed to generate YAML AsyncAPI service definitions are listed in [this bash script](/02_generate_yaml.sh), they are:
   - Mission and Control v002
-- The following MAL interaction types are supported: [PubSub](/genyaml/src/generators/yaml_generator_pubsub.py) and [Request](/genyaml/src/generators/yaml_generator_request.py)
-- The following MAL interaction types are **NOT** supported: Submit, Progress, and Invoke.
+- The following MAL interaction types are supported: [PubSub](/genyaml/src/generators/yaml_generator_pubsub.py), [Request](/genyaml/src/generators/yaml_generator_request.py), and [Submit](/genyaml/src/generators/yaml_generator_submit.py)
+- The following MAL interaction types are **NOT** supported: Progress, and Invoke.
 
 ## Interaction Type YAML Generators
 - Each interaction type has its own AsyncAPY YAML generator implementation, [here](/genyaml/src/generators/).

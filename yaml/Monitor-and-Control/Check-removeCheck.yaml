@@ -1,0 +1,110 @@
+asyncapi: 3.0.0
+info:
+  title: Check Service removeCheck API
+  version: 1.0.0
+  description: This API allows clients to interact with the removeCheck iteraction of the Check Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the removeCheck interaction.
+    variables:
+      port:
+        enum:
+          - '8883'
+          - '8884'
+        default: '8883'
+    bindings:
+      mqtt:
+        clientId: guest
+        cleanSession: false
+        keepAlive: 0
+        lastWill:
+          topic: /will
+          qos: 0
+          message: Guest gone offline.
+          retain: false
+channels:
+  Send_Check_removeCheck:
+    address: Send_Check_removeCheck
+    messages:
+      Check.removeCheck_Send.message:
+        $ref: '#/components/messages/Check_removeCheck_Send'
+    description: >
+      Send a **Check_removeCheck_Send** message in this channel to receive a
+      **Check_removeCheck_Receive** message over the **Receive_Check_removeCheck** channel.
+  Error_Check_removeCheck:
+    address: Error_Check_removeCheck
+    messages:
+      Check.removeCheck_Error.message:
+        $ref: '#/components/messages/Check_removeCheck_Error'
+    description: >
+      Use this channel to receive Check removeCheck errors as **Check_removeCheck_ReceiveErrors**
+      messages.
+operations:
+  Check_removeCheck_Send:
+    action: send
+    channel:
+      $ref: '#/channels/Send_Check_removeCheck'
+    messages:
+      - $ref: '#/channels/Send_Check_removeCheck/messages/Check.removeCheck_Send.message'
+  Check_removeCheck_Error:
+    action: receive
+    channel:
+      $ref: '#/channels/Error_Check_removeCheck'
+    messages:
+      - $ref: '#/channels/Error_Check_removeCheck/messages/Check.removeCheck_Error.message'
+components:
+  schemas:
+    Check_removeCheck_Send:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        objInstIds:
+          type: integer
+          description: |
+            The objInstIds field holds the object instance identifiers of the CheckIdentity objects to be removed from the provider.
+            The list may contain the wildcard value of '0'.
+            The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
+            If a provided CheckIdentity instance identifier does not include a wildcard and does not match an existing check then this operation shall fail with an UNKNOWN error.
+            If any of the matched CheckIdentity objects are being referenced by a CheckLink object then a REFERENCED error shall be returned.
+            Matched CheckIdentity objects shall not be removed from the COM archive only the list of available CheckIdentity objects in the provider.
+            If an error is raised then no CheckIdentity objects shall be removed as a result of this operation call.
+            If the operation succeeds then the provider shall not allow new CheckLink objects to be created for the matched CheckIdentity anymore, existing CheckLink objects are not affected.
+          format: int64
+    Check_removeCheck_Error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response to the request.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+            - MC
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+            - REFERENCED
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+  messages:
+    Check_removeCheck_Send:
+      description: Check removeCheck request submission
+      payload:
+        $ref: '#/components/schemas/Check_removeCheck_Send'
+    Check_removeCheck_Error:
+      description: Check removeCheck error response
+      payload:
+        $ref: '#/components/schemas/Check_removeCheck_Error'
