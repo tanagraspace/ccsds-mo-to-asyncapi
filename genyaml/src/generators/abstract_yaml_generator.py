@@ -409,14 +409,14 @@ class AbstractYamlGenerator(ABC):
     yaml_str += f"          type: string\n"
     yaml_str += f"          description: The area in which the error applies.\n"
     yaml_str += f"          enum:\n"
-    for area in set(error_areas):
+    for area in dict.fromkeys(error_areas):
       yaml_str += f"            - {area}\n"
 
     yaml_str += f"        name:\n"
     yaml_str += f"          type: string\n"
     yaml_str += f"          description: A code representing the error.\n"
     yaml_str += f"          enum:\n"
-    for area in set(error_names):
+    for area in dict.fromkeys(error_names):
       yaml_str += f"            - {area}\n"
 
     # we assume that the extraInformation for all error definitions have the same schema

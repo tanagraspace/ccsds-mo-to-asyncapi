@@ -109,16 +109,16 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - COM
             - MAL
+            - COM
             - MC
         name:
           type: string
           description: A code representing the error.
           enum:
             - UNKNOWN
-            - REFERENCED
             - INVALID
+            - REFERENCED
         extraInformation:
           type: array
           items:
