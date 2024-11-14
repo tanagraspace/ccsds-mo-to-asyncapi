@@ -13,52 +13,52 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Aggregation_addAggregation:
-    address: Send_Aggregation_addAggregation
+  request_Aggregation_addAggregation:
+    address: request_Aggregation_addAggregation
     messages:
-      Aggregation.addAggregation_Send.message:
-        $ref: '#/components/messages/Aggregation_addAggregation_Send'
+      Aggregation.addAggregation_request.message:
+        $ref: '#/components/messages/Aggregation_addAggregation_request'
     description: >
-      Send a **Aggregation_addAggregation_Send** message in this channel to receive a
-      **Aggregation_addAggregation_Receive** message over the **Receive_Aggregation_addAggregation** channel.
-  Receive_Aggregation_addAggregation:
-    address: Receive_Aggregation_addAggregation
+      Send a **Aggregation_addAggregation_request** message in this channel to receive a
+      **Aggregation_addAggregation_response** message over the **response_Aggregation_addAggregation** channel.
+  response_Aggregation_addAggregation:
+    address: response_Aggregation_addAggregation
     messages:
-      Aggregation.addAggregation_Receive.message:
-        $ref: '#/components/messages/Aggregation_addAggregation_Receive'
+      Aggregation.addAggregation_response.message:
+        $ref: '#/components/messages/Aggregation_addAggregation_response'
     description: >
-      Use this channel to receive Aggregation addAggregation responses as **Aggregation_addAggregation_Receive**
+      Use this channel to receive Aggregation addAggregation responses as **Aggregation_addAggregation_response**
       messages.
-  Error_Aggregation_addAggregation:
-    address: Error_Aggregation_addAggregation
+  error_Aggregation_addAggregation:
+    address: error_Aggregation_addAggregation
     messages:
-      Aggregation.addAggregation_Error.message:
-        $ref: '#/components/messages/Aggregation_addAggregation_Error'
+      Aggregation.addAggregation_error.message:
+        $ref: '#/components/messages/Aggregation_addAggregation_error'
     description: >
-      Use this channel to receive Aggregation addAggregation errors as **Aggregation_addAggregation_ReceiveErrors**
+      Use this channel to receive Aggregation addAggregation errors as **Aggregation_addAggregation_responseErrors**
       messages.
 operations:
-  Aggregation_addAggregation_Send:
+  Aggregation_addAggregation_request:
     action: send
     channel:
-      $ref: '#/channels/Send_Aggregation_addAggregation'
+      $ref: '#/channels/request_Aggregation_addAggregation'
     messages:
-      - $ref: '#/channels/Send_Aggregation_addAggregation/messages/Aggregation.addAggregation_Send.message'
-  Aggregation_addAggregation_Receive:
+      - $ref: '#/channels/request_Aggregation_addAggregation/messages/Aggregation.addAggregation_request.message'
+  Aggregation_addAggregation_response:
     action: receive
     channel:
-      $ref: '#/channels/Receive_Aggregation_addAggregation'
+      $ref: '#/channels/response_Aggregation_addAggregation'
     messages:
-      - $ref: '#/channels/Receive_Aggregation_addAggregation/messages/Aggregation.addAggregation_Receive.message'
-  Aggregation_addAggregation_Error:
+      - $ref: '#/channels/response_Aggregation_addAggregation/messages/Aggregation.addAggregation_response.message'
+  Aggregation_addAggregation_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Aggregation_addAggregation'
+      $ref: '#/channels/error_Aggregation_addAggregation'
     messages:
-      - $ref: '#/channels/Error_Aggregation_addAggregation/messages/Aggregation.addAggregation_Error.message'
+      - $ref: '#/channels/error_Aggregation_addAggregation/messages/Aggregation.addAggregation_error.message'
 components:
   schemas:
-    Aggregation_addAggregation_Send:
+    Aggregation_addAggregation_request:
       type: object
       properties:
         transactionId:
@@ -74,7 +74,7 @@ components:
             If an error is raised then no new identities and definitions shall be added as a result of this operation call.
             If the supplied name matches an existing, but removed, AggregationIdentity then that AggregationIdentity shall be reused otherwise a new AggregationIdentity shall be created.
             The provider shall create a new AggregationDefinition object and store it, and any new AggregationIdentity objects, in the COM archive.
-    Aggregation_addAggregation_Receive:
+    Aggregation_addAggregation_response:
       type: object
       properties:
         transactionId:
@@ -85,7 +85,7 @@ components:
           description: |
             The response shall contain the list of object instance identifiers for the AggregationIdentity and new AggregationDefinition objects.
             The returned list shall maintain the same order as the submitted definitions.
-    Aggregation_addAggregation_Error:
+    Aggregation_addAggregation_error:
       type: object
       properties:
         transactionId:
@@ -100,8 +100,8 @@ components:
           type: string
           description: A code representing the error.
           enum:
-            - DUPLICATE
             - INVALID
+            - DUPLICATE
         extraInformation:
           type: array
           items:
@@ -218,15 +218,15 @@ components:
             type: integer
         type: object
   messages:
-    Aggregation_addAggregation_Send:
+    Aggregation_addAggregation_request:
       description: Aggregation addAggregation request submission
       payload:
-        $ref: '#/components/schemas/Aggregation_addAggregation_Send'
-    Aggregation_addAggregation_Receive:
+        $ref: '#/components/schemas/Aggregation_addAggregation_request'
+    Aggregation_addAggregation_response:
       description: Aggregation addAggregation update response
       payload:
-        $ref: '#/components/schemas/Aggregation_addAggregation_Receive'
-    Aggregation_addAggregation_Error:
+        $ref: '#/components/schemas/Aggregation_addAggregation_response'
+    Aggregation_addAggregation_error:
       description: Aggregation addAggregation error response
       payload:
-        $ref: '#/components/schemas/Aggregation_addAggregation_Error'
+        $ref: '#/components/schemas/Aggregation_addAggregation_error'

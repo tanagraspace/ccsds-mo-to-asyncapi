@@ -4,117 +4,67 @@
   "info": {
     "title": "Statistic Service getServiceStatus API",
     "version": "1.0.0",
-    "description": "This API allows clients to interact with the getServiceStatus iteraction of the Statistic Service."
+    "description": "This API allows clients to interact with the getServiceStatus interaction of the Statistic Service."
   },
   "defaultContentType": "application/json",
   "servers": {
     "production": {
       "host": "localhost:{port}",
       "protocol": "mqtt",
-      "description": "MQTT server for the getServiceStatus interaction.",
+      "description": "MQTT server for the Statistic Service's getServiceStatus interaction.",
       "variables": {
         "port": {
-          "enum": [
-            "8883",
-            "8884"
-          ],
           "default": "8883"
-        }
-      },
-      "bindings": {
-        "mqtt": {
-          "clientId": "guest",
-          "cleanSession": false,
-          "keepAlive": 0,
-          "lastWill": {
-            "topic": "/will",
-            "qos": 0,
-            "message": "Guest gone offline.",
-            "retain": false
-          }
         }
       }
     }
   },
   "channels": {
-    "Send_Statistic_getServiceStatus": {
-      "address": "Send_Statistic_getServiceStatus",
+    "response_Statistic_getServiceStatus": {
+      "address": "response_Statistic_getServiceStatus",
       "messages": {
-        "Statistic.getServiceStatus_Send.message": {
-          "description": "Statistic getServiceStatus request submission",
-          "payload": {
-            "type": "object",
-            "properties": {
-              "transactionId": {
-                "type": "string",
-                "description": "A unique identifier to map the response to the request.",
-                "x-parser-schema-id": "<anonymous-schema-1>"
-              }
-            },
-            "x-parser-schema-id": "Statistic_getServiceStatus_Send"
-          },
-          "x-parser-unique-object-id": "Statistic.getServiceStatus_Send.message",
-          "x-parser-message-name": "Statistic_getServiceStatus_Send"
-        }
-      },
-      "description": "Send a **Statistic_getServiceStatus_Send** message in this channel to receive a **Statistic_getServiceStatus_Receive** message over the **Receive_Statistic_getServiceStatus** channel.\n",
-      "x-parser-unique-object-id": "Send_Statistic_getServiceStatus"
-    },
-    "Receive_Statistic_getServiceStatus": {
-      "address": "Receive_Statistic_getServiceStatus",
-      "messages": {
-        "Statistic.getServiceStatus_Receive.message": {
+        "Statistic.getServiceStatus_response.message": {
           "description": "Statistic getServiceStatus update response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
-                "x-parser-schema-id": "<anonymous-schema-2>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "x-parser-schema-id": "<anonymous-schema-1>"
               },
               "serviceEnabled": {
                 "type": "boolean",
                 "description": "The operation shall return TRUE if the service is currently enabled or FALSE if the service is currently disabled.\n",
-                "x-parser-schema-id": "<anonymous-schema-3>"
+                "x-parser-schema-id": "<anonymous-schema-2>"
               }
             },
-            "x-parser-schema-id": "Statistic_getServiceStatus_Receive"
+            "x-parser-schema-id": "Statistic_getServiceStatus_response"
           },
-          "x-parser-unique-object-id": "Statistic.getServiceStatus_Receive.message",
-          "x-parser-message-name": "Statistic_getServiceStatus_Receive"
+          "x-parser-unique-object-id": "Statistic.getServiceStatus_response.message",
+          "x-parser-message-name": "Statistic_getServiceStatus_response"
         }
       },
-      "description": "Use this channel to receive Statistic getServiceStatus responses as **Statistic_getServiceStatus_Receive** messages.\n",
-      "x-parser-unique-object-id": "Receive_Statistic_getServiceStatus"
+      "description": "Use this channel to receive Statistic getServiceStatus responses as **Statistic_getServiceStatus_response** messages.\n",
+      "x-parser-unique-object-id": "response_Statistic_getServiceStatus"
     }
   },
   "operations": {
-    "Statistic_getServiceStatus_Send": {
-      "action": "send",
-      "channel": "$ref:$.channels.Send_Statistic_getServiceStatus",
-      "messages": [
-        "$ref:$.channels.Send_Statistic_getServiceStatus.messages.Statistic.getServiceStatus_Send.message"
-      ],
-      "x-parser-unique-object-id": "Statistic_getServiceStatus_Send"
-    },
-    "Statistic_getServiceStatus_Receive": {
+    "Statistic_getServiceStatus_response": {
       "action": "receive",
-      "channel": "$ref:$.channels.Receive_Statistic_getServiceStatus",
+      "channel": "$ref:$.channels.response_Statistic_getServiceStatus",
       "messages": [
-        "$ref:$.channels.Receive_Statistic_getServiceStatus.messages.Statistic.getServiceStatus_Receive.message"
+        "$ref:$.channels.response_Statistic_getServiceStatus.messages.Statistic.getServiceStatus_response.message"
       ],
-      "x-parser-unique-object-id": "Statistic_getServiceStatus_Receive"
+      "x-parser-unique-object-id": "Statistic_getServiceStatus_response"
     }
   },
   "components": {
     "schemas": {
-      "Statistic_getServiceStatus_Send": "$ref:$.channels.Send_Statistic_getServiceStatus.messages.Statistic.getServiceStatus_Send.message.payload",
-      "Statistic_getServiceStatus_Receive": "$ref:$.channels.Receive_Statistic_getServiceStatus.messages.Statistic.getServiceStatus_Receive.message.payload"
+      "Statistic_getServiceStatus_response": "$ref:$.channels.response_Statistic_getServiceStatus.messages.Statistic.getServiceStatus_response.message.payload"
     },
     "messages": {
-      "Statistic_getServiceStatus_Send": "$ref:$.channels.Send_Statistic_getServiceStatus.messages.Statistic.getServiceStatus_Send.message",
-      "Statistic_getServiceStatus_Receive": "$ref:$.channels.Receive_Statistic_getServiceStatus.messages.Statistic.getServiceStatus_Receive.message"
+      "Statistic_getServiceStatus_response": "$ref:$.channels.response_Statistic_getServiceStatus.messages.Statistic.getServiceStatus_response.message"
     }
   },
   "x-parser-spec-parsed": true,

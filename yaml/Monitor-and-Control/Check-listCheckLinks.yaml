@@ -13,52 +13,52 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Check_listCheckLinks:
-    address: Send_Check_listCheckLinks
+  request_Check_listCheckLinks:
+    address: request_Check_listCheckLinks
     messages:
-      Check.listCheckLinks_Send.message:
-        $ref: '#/components/messages/Check_listCheckLinks_Send'
+      Check.listCheckLinks_request.message:
+        $ref: '#/components/messages/Check_listCheckLinks_request'
     description: >
-      Send a **Check_listCheckLinks_Send** message in this channel to receive a
-      **Check_listCheckLinks_Receive** message over the **Receive_Check_listCheckLinks** channel.
-  Receive_Check_listCheckLinks:
-    address: Receive_Check_listCheckLinks
+      Send a **Check_listCheckLinks_request** message in this channel to receive a
+      **Check_listCheckLinks_response** message over the **response_Check_listCheckLinks** channel.
+  response_Check_listCheckLinks:
+    address: response_Check_listCheckLinks
     messages:
-      Check.listCheckLinks_Receive.message:
-        $ref: '#/components/messages/Check_listCheckLinks_Receive'
+      Check.listCheckLinks_response.message:
+        $ref: '#/components/messages/Check_listCheckLinks_response'
     description: >
-      Use this channel to receive Check listCheckLinks responses as **Check_listCheckLinks_Receive**
+      Use this channel to receive Check listCheckLinks responses as **Check_listCheckLinks_response**
       messages.
-  Error_Check_listCheckLinks:
-    address: Error_Check_listCheckLinks
+  error_Check_listCheckLinks:
+    address: error_Check_listCheckLinks
     messages:
-      Check.listCheckLinks_Error.message:
-        $ref: '#/components/messages/Check_listCheckLinks_Error'
+      Check.listCheckLinks_error.message:
+        $ref: '#/components/messages/Check_listCheckLinks_error'
     description: >
-      Use this channel to receive Check listCheckLinks errors as **Check_listCheckLinks_ReceiveErrors**
+      Use this channel to receive Check listCheckLinks errors as **Check_listCheckLinks_responseErrors**
       messages.
 operations:
-  Check_listCheckLinks_Send:
+  Check_listCheckLinks_request:
     action: send
     channel:
-      $ref: '#/channels/Send_Check_listCheckLinks'
+      $ref: '#/channels/request_Check_listCheckLinks'
     messages:
-      - $ref: '#/channels/Send_Check_listCheckLinks/messages/Check.listCheckLinks_Send.message'
-  Check_listCheckLinks_Receive:
+      - $ref: '#/channels/request_Check_listCheckLinks/messages/Check.listCheckLinks_request.message'
+  Check_listCheckLinks_response:
     action: receive
     channel:
-      $ref: '#/channels/Receive_Check_listCheckLinks'
+      $ref: '#/channels/response_Check_listCheckLinks'
     messages:
-      - $ref: '#/channels/Receive_Check_listCheckLinks/messages/Check.listCheckLinks_Receive.message'
-  Check_listCheckLinks_Error:
+      - $ref: '#/channels/response_Check_listCheckLinks/messages/Check.listCheckLinks_response.message'
+  Check_listCheckLinks_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Check_listCheckLinks'
+      $ref: '#/channels/error_Check_listCheckLinks'
     messages:
-      - $ref: '#/channels/Error_Check_listCheckLinks/messages/Check.listCheckLinks_Error.message'
+      - $ref: '#/channels/error_Check_listCheckLinks/messages/Check.listCheckLinks_error.message'
 components:
   schemas:
-    Check_listCheckLinks_Send:
+    Check_listCheckLinks_request:
       type: object
       properties:
         transactionId:
@@ -74,7 +74,7 @@ components:
             The request may contain the wildcard value of '0' to return all supported check links.
             The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.
             If a provided identifier does not include a wildcard and does not match an existing CheckIdentity object then this operation shall fail with an UNKNOWN error.
-    Check_listCheckLinks_Receive:
+    Check_listCheckLinks_response:
       type: object
       properties:
         transactionId:
@@ -84,7 +84,7 @@ components:
           $ref: '#/components/schemas/mc/check/CheckLinkSummary'
           description: |
             The response shall contain a list of CheckLinkSummary that contain the object instance identifiers of the CheckLink, CheckIdentity, and ParameterIdentity for the matched CheckIdentity objects.
-    Check_listCheckLinks_Error:
+    Check_listCheckLinks_error:
       type: object
       properties:
         transactionId:
@@ -146,15 +146,15 @@ components:
             type: integer
         type: object
   messages:
-    Check_listCheckLinks_Send:
+    Check_listCheckLinks_request:
       description: Check listCheckLinks request submission
       payload:
-        $ref: '#/components/schemas/Check_listCheckLinks_Send'
-    Check_listCheckLinks_Receive:
+        $ref: '#/components/schemas/Check_listCheckLinks_request'
+    Check_listCheckLinks_response:
       description: Check listCheckLinks update response
       payload:
-        $ref: '#/components/schemas/Check_listCheckLinks_Receive'
-    Check_listCheckLinks_Error:
+        $ref: '#/components/schemas/Check_listCheckLinks_response'
+    Check_listCheckLinks_error:
       description: Check listCheckLinks error response
       payload:
-        $ref: '#/components/schemas/Check_listCheckLinks_Error'
+        $ref: '#/components/schemas/Check_listCheckLinks_error'

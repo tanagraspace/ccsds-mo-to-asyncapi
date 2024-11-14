@@ -4,50 +4,33 @@
   "info": {
     "title": "Parameter Service addParameter API",
     "version": "1.0.0",
-    "description": "This API allows clients to interact with the addParameter iteraction of the Parameter Service."
+    "description": "This API allows clients to interact with the addParameter interaction of the Parameter Service."
   },
   "defaultContentType": "application/json",
   "servers": {
     "production": {
       "host": "localhost:{port}",
       "protocol": "mqtt",
-      "description": "MQTT server for the addParameter interaction.",
+      "description": "MQTT server for the Parameter Service's addParameter interaction.",
       "variables": {
         "port": {
-          "enum": [
-            "8883",
-            "8884"
-          ],
           "default": "8883"
-        }
-      },
-      "bindings": {
-        "mqtt": {
-          "clientId": "guest",
-          "cleanSession": false,
-          "keepAlive": 0,
-          "lastWill": {
-            "topic": "/will",
-            "qos": 0,
-            "message": "Guest gone offline.",
-            "retain": false
-          }
         }
       }
     }
   },
   "channels": {
-    "Send_Parameter_addParameter": {
-      "address": "Send_Parameter_addParameter",
+    "request_Parameter_addParameter": {
+      "address": "request_Parameter_addParameter",
       "messages": {
-        "Parameter.addParameter_Send.message": {
+        "Parameter.addParameter_request.message": {
           "description": "Parameter addParameter request submission",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-1>"
               },
               "paramDefDetails": {
@@ -117,7 +100,7 @@
                                   "type": "object",
                                   "x-parser-schema-id": "<anonymous-schema-8>"
                                 },
-                                "conversionId": "$ref:$.channels.Send_Parameter_addParameter.messages.Parameter.addParameter_Send.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items.properties.condition.properties.parameterId"
+                                "conversionId": "$ref:$.channels.request_Parameter_addParameter.messages.Parameter.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items.properties.condition.properties.parameterId"
                               },
                               "type": "object",
                               "x-parser-schema-id": "<anonymous-schema-7>"
@@ -167,7 +150,7 @@
                         "type": "number",
                         "x-parser-schema-id": "<anonymous-schema-22>"
                       },
-                      "validityExpression": "$ref:$.channels.Send_Parameter_addParameter.messages.Parameter.addParameter_Send.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items.properties.condition"
+                      "validityExpression": "$ref:$.channels.request_Parameter_addParameter.messages.Parameter.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items.properties.condition"
                     },
                     "type": "object",
                     "x-parser-schema-id": "<anonymous-schema-4>"
@@ -177,26 +160,26 @@
                 "x-parser-schema-id": "<anonymous-schema-2>"
               }
             },
-            "x-parser-schema-id": "Parameter_addParameter_Send"
+            "x-parser-schema-id": "Parameter_addParameter_request"
           },
-          "x-parser-unique-object-id": "Parameter.addParameter_Send.message",
-          "x-parser-message-name": "Parameter_addParameter_Send"
+          "x-parser-unique-object-id": "Parameter.addParameter_request.message",
+          "x-parser-message-name": "Parameter_addParameter_request"
         }
       },
-      "description": "Send a **Parameter_addParameter_Send** message in this channel to receive a **Parameter_addParameter_Receive** message over the **Receive_Parameter_addParameter** channel.\n",
-      "x-parser-unique-object-id": "Send_Parameter_addParameter"
+      "description": "Send a **Parameter_addParameter_request** message in this channel to receive a **Parameter_addParameter_response** message over the **response_Parameter_addParameter** channel.\n",
+      "x-parser-unique-object-id": "request_Parameter_addParameter"
     },
-    "Receive_Parameter_addParameter": {
-      "address": "Receive_Parameter_addParameter",
+    "response_Parameter_addParameter": {
+      "address": "response_Parameter_addParameter",
       "messages": {
-        "Parameter.addParameter_Receive.message": {
+        "Parameter.addParameter_response.message": {
           "description": "Parameter addParameter update response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-23>"
               },
               "newObjInstIds": {
@@ -218,26 +201,26 @@
                 "x-parser-schema-id": "<anonymous-schema-24>"
               }
             },
-            "x-parser-schema-id": "Parameter_addParameter_Receive"
+            "x-parser-schema-id": "Parameter_addParameter_response"
           },
-          "x-parser-unique-object-id": "Parameter.addParameter_Receive.message",
-          "x-parser-message-name": "Parameter_addParameter_Receive"
+          "x-parser-unique-object-id": "Parameter.addParameter_response.message",
+          "x-parser-message-name": "Parameter_addParameter_response"
         }
       },
-      "description": "Use this channel to receive Parameter addParameter responses as **Parameter_addParameter_Receive** messages.\n",
-      "x-parser-unique-object-id": "Receive_Parameter_addParameter"
+      "description": "Use this channel to receive Parameter addParameter responses as **Parameter_addParameter_response** messages.\n",
+      "x-parser-unique-object-id": "response_Parameter_addParameter"
     },
-    "Error_Parameter_addParameter": {
-      "address": "Error_Parameter_addParameter",
+    "error_Parameter_addParameter": {
+      "address": "error_Parameter_addParameter",
       "messages": {
-        "Parameter.addParameter_Error.message": {
+        "Parameter.addParameter_error.message": {
           "description": "Parameter addParameter error response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-27>"
               },
               "area": {
@@ -262,76 +245,76 @@
                 "items": {
                   "type": "integer",
                   "format": "uint32",
-                  "description": "A list of the indexes of the erroneous values from the originating list supplied or request list.",
+                  "description": "A list of the indexes of the error values shall be contained in the extra information field.",
                   "x-parser-schema-id": "<anonymous-schema-31>"
                 },
                 "x-parser-schema-id": "<anonymous-schema-30>"
               }
             },
-            "x-parser-schema-id": "Parameter_addParameter_Error"
+            "x-parser-schema-id": "Parameter_addParameter_error"
           },
-          "x-parser-unique-object-id": "Parameter.addParameter_Error.message",
-          "x-parser-message-name": "Parameter_addParameter_Error"
+          "x-parser-unique-object-id": "Parameter.addParameter_error.message",
+          "x-parser-message-name": "Parameter_addParameter_error"
         }
       },
-      "description": "Use this channel to receive Parameter addParameter errors as **Parameter_addParameter_ReceiveErrors** messages.\n",
-      "x-parser-unique-object-id": "Error_Parameter_addParameter"
+      "description": "Use this channel to receive Parameter addParameter errors as **Parameter_addParameter_responseErrors** messages.\n",
+      "x-parser-unique-object-id": "error_Parameter_addParameter"
     }
   },
   "operations": {
-    "Parameter_addParameter_Send": {
+    "Parameter_addParameter_request": {
       "action": "send",
-      "channel": "$ref:$.channels.Send_Parameter_addParameter",
+      "channel": "$ref:$.channels.request_Parameter_addParameter",
       "messages": [
-        "$ref:$.channels.Send_Parameter_addParameter.messages.Parameter.addParameter_Send.message"
+        "$ref:$.channels.request_Parameter_addParameter.messages.Parameter.addParameter_request.message"
       ],
-      "x-parser-unique-object-id": "Parameter_addParameter_Send"
+      "x-parser-unique-object-id": "Parameter_addParameter_request"
     },
-    "Parameter_addParameter_Receive": {
+    "Parameter_addParameter_response": {
       "action": "receive",
-      "channel": "$ref:$.channels.Receive_Parameter_addParameter",
+      "channel": "$ref:$.channels.response_Parameter_addParameter",
       "messages": [
-        "$ref:$.channels.Receive_Parameter_addParameter.messages.Parameter.addParameter_Receive.message"
+        "$ref:$.channels.response_Parameter_addParameter.messages.Parameter.addParameter_response.message"
       ],
-      "x-parser-unique-object-id": "Parameter_addParameter_Receive"
+      "x-parser-unique-object-id": "Parameter_addParameter_response"
     },
-    "Parameter_addParameter_Error": {
+    "Parameter_addParameter_error": {
       "action": "receive",
-      "channel": "$ref:$.channels.Error_Parameter_addParameter",
+      "channel": "$ref:$.channels.error_Parameter_addParameter",
       "messages": [
-        "$ref:$.channels.Error_Parameter_addParameter.messages.Parameter.addParameter_Error.message"
+        "$ref:$.channels.error_Parameter_addParameter.messages.Parameter.addParameter_error.message"
       ],
-      "x-parser-unique-object-id": "Parameter_addParameter_Error"
+      "x-parser-unique-object-id": "Parameter_addParameter_error"
     }
   },
   "components": {
     "schemas": {
-      "Parameter_addParameter_Send": "$ref:$.channels.Send_Parameter_addParameter.messages.Parameter.addParameter_Send.message.payload",
-      "Parameter_addParameter_Receive": "$ref:$.channels.Receive_Parameter_addParameter.messages.Parameter.addParameter_Receive.message.payload",
-      "Parameter_addParameter_Error": "$ref:$.channels.Error_Parameter_addParameter.messages.Parameter.addParameter_Error.message.payload",
+      "Parameter_addParameter_request": "$ref:$.channels.request_Parameter_addParameter.messages.Parameter.addParameter_request.message.payload",
+      "Parameter_addParameter_response": "$ref:$.channels.response_Parameter_addParameter.messages.Parameter.addParameter_response.message.payload",
+      "Parameter_addParameter_error": "$ref:$.channels.error_Parameter_addParameter.messages.Parameter.addParameter_error.message.payload",
       "mc": {
         "parameter": {
-          "ParameterConversion": "$ref:$.channels.Send_Parameter_addParameter.messages.Parameter.addParameter_Send.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion",
-          "ParameterCreationRequest": "$ref:$.channels.Send_Parameter_addParameter.messages.Parameter.addParameter_Send.message.payload.properties.paramDefDetails",
-          "ParameterDefinitionDetails": "$ref:$.channels.Send_Parameter_addParameter.messages.Parameter.addParameter_Send.message.payload.properties.paramDefDetails.properties.paramDefDetails"
+          "ParameterConversion": "$ref:$.channels.request_Parameter_addParameter.messages.Parameter.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion",
+          "ParameterCreationRequest": "$ref:$.channels.request_Parameter_addParameter.messages.Parameter.addParameter_request.message.payload.properties.paramDefDetails",
+          "ParameterDefinitionDetails": "$ref:$.channels.request_Parameter_addParameter.messages.Parameter.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails"
         },
-        "ConditionalConversion": "$ref:$.channels.Send_Parameter_addParameter.messages.Parameter.addParameter_Send.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items",
-        "ObjectInstancePair": "$ref:$.channels.Receive_Parameter_addParameter.messages.Parameter.addParameter_Receive.message.payload.properties.newObjInstIds",
-        "ParameterExpression": "$ref:$.channels.Send_Parameter_addParameter.messages.Parameter.addParameter_Send.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items.properties.condition",
+        "ConditionalConversion": "$ref:$.channels.request_Parameter_addParameter.messages.Parameter.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items",
+        "ObjectInstancePair": "$ref:$.channels.response_Parameter_addParameter.messages.Parameter.addParameter_response.message.payload.properties.newObjInstIds",
+        "ParameterExpression": "$ref:$.channels.request_Parameter_addParameter.messages.Parameter.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items.properties.condition",
         "x-parser-schema-id": "mc"
       },
       "com": {
         "archive": {
-          "ExpressionOperator": "$ref:$.channels.Send_Parameter_addParameter.messages.Parameter.addParameter_Send.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items.properties.condition.properties.operator"
+          "ExpressionOperator": "$ref:$.channels.request_Parameter_addParameter.messages.Parameter.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items.properties.condition.properties.operator"
         },
-        "ObjectKey": "$ref:$.channels.Send_Parameter_addParameter.messages.Parameter.addParameter_Send.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items.properties.condition.properties.parameterId",
+        "ObjectKey": "$ref:$.channels.request_Parameter_addParameter.messages.Parameter.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items.properties.condition.properties.parameterId",
         "x-parser-schema-id": "com"
       }
     },
     "messages": {
-      "Parameter_addParameter_Send": "$ref:$.channels.Send_Parameter_addParameter.messages.Parameter.addParameter_Send.message",
-      "Parameter_addParameter_Receive": "$ref:$.channels.Receive_Parameter_addParameter.messages.Parameter.addParameter_Receive.message",
-      "Parameter_addParameter_Error": "$ref:$.channels.Error_Parameter_addParameter.messages.Parameter.addParameter_Error.message"
+      "Parameter_addParameter_request": "$ref:$.channels.request_Parameter_addParameter.messages.Parameter.addParameter_request.message",
+      "Parameter_addParameter_response": "$ref:$.channels.response_Parameter_addParameter.messages.Parameter.addParameter_response.message",
+      "Parameter_addParameter_error": "$ref:$.channels.error_Parameter_addParameter.messages.Parameter.addParameter_error.message"
     }
   },
   "x-parser-spec-parsed": true,

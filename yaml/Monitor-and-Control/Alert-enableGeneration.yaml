@@ -13,52 +13,52 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Alert_enableGeneration:
-    address: Send_Alert_enableGeneration
+  request_Alert_enableGeneration:
+    address: request_Alert_enableGeneration
     messages:
-      Alert.enableGeneration_Send.message:
-        $ref: '#/components/messages/Alert_enableGeneration_Send'
+      Alert.enableGeneration_request.message:
+        $ref: '#/components/messages/Alert_enableGeneration_request'
     description: >
-      Send a **Alert_enableGeneration_Send** message in this channel to receive a
-      **Alert_enableGeneration_Receive** message over the **Receive_Alert_enableGeneration** channel.
-  Receive_Alert_enableGeneration:
-    address: Receive_Alert_enableGeneration
+      Send a **Alert_enableGeneration_request** message in this channel to receive a
+      **Alert_enableGeneration_response** message over the **response_Alert_enableGeneration** channel.
+  response_Alert_enableGeneration:
+    address: response_Alert_enableGeneration
     messages:
-      Alert.enableGeneration_Receive.message:
-        $ref: '#/components/messages/Alert_enableGeneration_Receive'
+      Alert.enableGeneration_response.message:
+        $ref: '#/components/messages/Alert_enableGeneration_response'
     description: >
-      Use this channel to receive Alert enableGeneration responses as **Alert_enableGeneration_Receive**
+      Use this channel to receive Alert enableGeneration responses as **Alert_enableGeneration_response**
       messages.
-  Error_Alert_enableGeneration:
-    address: Error_Alert_enableGeneration
+  error_Alert_enableGeneration:
+    address: error_Alert_enableGeneration
     messages:
-      Alert.enableGeneration_Error.message:
-        $ref: '#/components/messages/Alert_enableGeneration_Error'
+      Alert.enableGeneration_error.message:
+        $ref: '#/components/messages/Alert_enableGeneration_error'
     description: >
-      Use this channel to receive Alert enableGeneration errors as **Alert_enableGeneration_ReceiveErrors**
+      Use this channel to receive Alert enableGeneration errors as **Alert_enableGeneration_responseErrors**
       messages.
 operations:
-  Alert_enableGeneration_Send:
+  Alert_enableGeneration_request:
     action: send
     channel:
-      $ref: '#/channels/Send_Alert_enableGeneration'
+      $ref: '#/channels/request_Alert_enableGeneration'
     messages:
-      - $ref: '#/channels/Send_Alert_enableGeneration/messages/Alert.enableGeneration_Send.message'
-  Alert_enableGeneration_Receive:
+      - $ref: '#/channels/request_Alert_enableGeneration/messages/Alert.enableGeneration_request.message'
+  Alert_enableGeneration_response:
     action: receive
     channel:
-      $ref: '#/channels/Receive_Alert_enableGeneration'
+      $ref: '#/channels/response_Alert_enableGeneration'
     messages:
-      - $ref: '#/channels/Receive_Alert_enableGeneration/messages/Alert.enableGeneration_Receive.message'
-  Alert_enableGeneration_Error:
+      - $ref: '#/channels/response_Alert_enableGeneration/messages/Alert.enableGeneration_response.message'
+  Alert_enableGeneration_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Alert_enableGeneration'
+      $ref: '#/channels/error_Alert_enableGeneration'
     messages:
-      - $ref: '#/channels/Error_Alert_enableGeneration/messages/Alert.enableGeneration_Error.message'
+      - $ref: '#/channels/error_Alert_enableGeneration/messages/Alert.enableGeneration_error.message'
 components:
   schemas:
-    Alert_enableGeneration_Send:
+    Alert_enableGeneration_request:
       type: object
       properties:
         transactionId:
@@ -80,7 +80,7 @@ components:
             If a new AlertDefinition object is created then that new object shall be the current AlertDefinition used for the specific AlertIdentity.
         enableInstances:
           $ref: '#/components/schemas/com/InstanceBooleanPair'
-    Alert_enableGeneration_Receive:
+    Alert_enableGeneration_response:
       type: object
       properties:
         transactionId:
@@ -93,7 +93,7 @@ components:
             format: int64
           description: |
             The response shall contain the list of object instance identifiers for the new AlertDefinition objects.
-    Alert_enableGeneration_Error:
+    Alert_enableGeneration_error:
       type: object
       properties:
         transactionId:
@@ -103,8 +103,8 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MAL
             - COM
+            - MAL
         name:
           type: string
           description: A code representing the error.
@@ -129,15 +129,15 @@ components:
             type: boolean
         type: object
   messages:
-    Alert_enableGeneration_Send:
+    Alert_enableGeneration_request:
       description: Alert enableGeneration request submission
       payload:
-        $ref: '#/components/schemas/Alert_enableGeneration_Send'
-    Alert_enableGeneration_Receive:
+        $ref: '#/components/schemas/Alert_enableGeneration_request'
+    Alert_enableGeneration_response:
       description: Alert enableGeneration update response
       payload:
-        $ref: '#/components/schemas/Alert_enableGeneration_Receive'
-    Alert_enableGeneration_Error:
+        $ref: '#/components/schemas/Alert_enableGeneration_response'
+    Alert_enableGeneration_error:
       description: Alert enableGeneration error response
       payload:
-        $ref: '#/components/schemas/Alert_enableGeneration_Error'
+        $ref: '#/components/schemas/Alert_enableGeneration_error'

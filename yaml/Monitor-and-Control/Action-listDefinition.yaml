@@ -13,52 +13,52 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Action_listDefinition:
-    address: Send_Action_listDefinition
+  request_Action_listDefinition:
+    address: request_Action_listDefinition
     messages:
-      Action.listDefinition_Send.message:
-        $ref: '#/components/messages/Action_listDefinition_Send'
+      Action.listDefinition_request.message:
+        $ref: '#/components/messages/Action_listDefinition_request'
     description: >
-      Send a **Action_listDefinition_Send** message in this channel to receive a
-      **Action_listDefinition_Receive** message over the **Receive_Action_listDefinition** channel.
-  Receive_Action_listDefinition:
-    address: Receive_Action_listDefinition
+      Send a **Action_listDefinition_request** message in this channel to receive a
+      **Action_listDefinition_response** message over the **response_Action_listDefinition** channel.
+  response_Action_listDefinition:
+    address: response_Action_listDefinition
     messages:
-      Action.listDefinition_Receive.message:
-        $ref: '#/components/messages/Action_listDefinition_Receive'
+      Action.listDefinition_response.message:
+        $ref: '#/components/messages/Action_listDefinition_response'
     description: >
-      Use this channel to receive Action listDefinition responses as **Action_listDefinition_Receive**
+      Use this channel to receive Action listDefinition responses as **Action_listDefinition_response**
       messages.
-  Error_Action_listDefinition:
-    address: Error_Action_listDefinition
+  error_Action_listDefinition:
+    address: error_Action_listDefinition
     messages:
-      Action.listDefinition_Error.message:
-        $ref: '#/components/messages/Action_listDefinition_Error'
+      Action.listDefinition_error.message:
+        $ref: '#/components/messages/Action_listDefinition_error'
     description: >
-      Use this channel to receive Action listDefinition errors as **Action_listDefinition_ReceiveErrors**
+      Use this channel to receive Action listDefinition errors as **Action_listDefinition_responseErrors**
       messages.
 operations:
-  Action_listDefinition_Send:
+  Action_listDefinition_request:
     action: send
     channel:
-      $ref: '#/channels/Send_Action_listDefinition'
+      $ref: '#/channels/request_Action_listDefinition'
     messages:
-      - $ref: '#/channels/Send_Action_listDefinition/messages/Action.listDefinition_Send.message'
-  Action_listDefinition_Receive:
+      - $ref: '#/channels/request_Action_listDefinition/messages/Action.listDefinition_request.message'
+  Action_listDefinition_response:
     action: receive
     channel:
-      $ref: '#/channels/Receive_Action_listDefinition'
+      $ref: '#/channels/response_Action_listDefinition'
     messages:
-      - $ref: '#/channels/Receive_Action_listDefinition/messages/Action.listDefinition_Receive.message'
-  Action_listDefinition_Error:
+      - $ref: '#/channels/response_Action_listDefinition/messages/Action.listDefinition_response.message'
+  Action_listDefinition_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Action_listDefinition'
+      $ref: '#/channels/error_Action_listDefinition'
     messages:
-      - $ref: '#/channels/Error_Action_listDefinition/messages/Action.listDefinition_Error.message'
+      - $ref: '#/channels/error_Action_listDefinition/messages/Action.listDefinition_error.message'
 components:
   schemas:
-    Action_listDefinition_Send:
+    Action_listDefinition_request:
       type: object
       properties:
         transactionId:
@@ -73,7 +73,7 @@ components:
             The request may contain the wildcard value of '*' to return all supported ActionIdentity and ActionDefinition objects.
             The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.
             If a provided identifier does not include a wildcard and does not match an existing ActionIdentity object then this operation shall fail with an UNKNOWN error.
-    Action_listDefinition_Receive:
+    Action_listDefinition_response:
       type: object
       properties:
         transactionId:
@@ -84,7 +84,7 @@ components:
           description: |
             The response shall contain a list of matching ActionIdentity and ActionDefinition object instance identifiers.
             The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.
-    Action_listDefinition_Error:
+    Action_listDefinition_error:
       type: object
       properties:
         transactionId:
@@ -119,15 +119,15 @@ components:
             type: integer
         type: object
   messages:
-    Action_listDefinition_Send:
+    Action_listDefinition_request:
       description: Action listDefinition request submission
       payload:
-        $ref: '#/components/schemas/Action_listDefinition_Send'
-    Action_listDefinition_Receive:
+        $ref: '#/components/schemas/Action_listDefinition_request'
+    Action_listDefinition_response:
       description: Action listDefinition update response
       payload:
-        $ref: '#/components/schemas/Action_listDefinition_Receive'
-    Action_listDefinition_Error:
+        $ref: '#/components/schemas/Action_listDefinition_response'
+    Action_listDefinition_error:
       description: Action listDefinition error response
       payload:
-        $ref: '#/components/schemas/Action_listDefinition_Error'
+        $ref: '#/components/schemas/Action_listDefinition_error'

@@ -13,52 +13,52 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Aggregation_enableGeneration:
-    address: Send_Aggregation_enableGeneration
+  request_Aggregation_enableGeneration:
+    address: request_Aggregation_enableGeneration
     messages:
-      Aggregation.enableGeneration_Send.message:
-        $ref: '#/components/messages/Aggregation_enableGeneration_Send'
+      Aggregation.enableGeneration_request.message:
+        $ref: '#/components/messages/Aggregation_enableGeneration_request'
     description: >
-      Send a **Aggregation_enableGeneration_Send** message in this channel to receive a
-      **Aggregation_enableGeneration_Receive** message over the **Receive_Aggregation_enableGeneration** channel.
-  Receive_Aggregation_enableGeneration:
-    address: Receive_Aggregation_enableGeneration
+      Send a **Aggregation_enableGeneration_request** message in this channel to receive a
+      **Aggregation_enableGeneration_response** message over the **response_Aggregation_enableGeneration** channel.
+  response_Aggregation_enableGeneration:
+    address: response_Aggregation_enableGeneration
     messages:
-      Aggregation.enableGeneration_Receive.message:
-        $ref: '#/components/messages/Aggregation_enableGeneration_Receive'
+      Aggregation.enableGeneration_response.message:
+        $ref: '#/components/messages/Aggregation_enableGeneration_response'
     description: >
-      Use this channel to receive Aggregation enableGeneration responses as **Aggregation_enableGeneration_Receive**
+      Use this channel to receive Aggregation enableGeneration responses as **Aggregation_enableGeneration_response**
       messages.
-  Error_Aggregation_enableGeneration:
-    address: Error_Aggregation_enableGeneration
+  error_Aggregation_enableGeneration:
+    address: error_Aggregation_enableGeneration
     messages:
-      Aggregation.enableGeneration_Error.message:
-        $ref: '#/components/messages/Aggregation_enableGeneration_Error'
+      Aggregation.enableGeneration_error.message:
+        $ref: '#/components/messages/Aggregation_enableGeneration_error'
     description: >
-      Use this channel to receive Aggregation enableGeneration errors as **Aggregation_enableGeneration_ReceiveErrors**
+      Use this channel to receive Aggregation enableGeneration errors as **Aggregation_enableGeneration_responseErrors**
       messages.
 operations:
-  Aggregation_enableGeneration_Send:
+  Aggregation_enableGeneration_request:
     action: send
     channel:
-      $ref: '#/channels/Send_Aggregation_enableGeneration'
+      $ref: '#/channels/request_Aggregation_enableGeneration'
     messages:
-      - $ref: '#/channels/Send_Aggregation_enableGeneration/messages/Aggregation.enableGeneration_Send.message'
-  Aggregation_enableGeneration_Receive:
+      - $ref: '#/channels/request_Aggregation_enableGeneration/messages/Aggregation.enableGeneration_request.message'
+  Aggregation_enableGeneration_response:
     action: receive
     channel:
-      $ref: '#/channels/Receive_Aggregation_enableGeneration'
+      $ref: '#/channels/response_Aggregation_enableGeneration'
     messages:
-      - $ref: '#/channels/Receive_Aggregation_enableGeneration/messages/Aggregation.enableGeneration_Receive.message'
-  Aggregation_enableGeneration_Error:
+      - $ref: '#/channels/response_Aggregation_enableGeneration/messages/Aggregation.enableGeneration_response.message'
+  Aggregation_enableGeneration_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Aggregation_enableGeneration'
+      $ref: '#/channels/error_Aggregation_enableGeneration'
     messages:
-      - $ref: '#/channels/Error_Aggregation_enableGeneration/messages/Aggregation.enableGeneration_Error.message'
+      - $ref: '#/channels/error_Aggregation_enableGeneration/messages/Aggregation.enableGeneration_error.message'
 components:
   schemas:
-    Aggregation_enableGeneration_Send:
+    Aggregation_enableGeneration_request:
       type: object
       properties:
         transactionId:
@@ -82,7 +82,7 @@ components:
           $ref: '#/components/schemas/com/InstanceBooleanPair'
           description: |
             If the generation of reports is being enabled, and the aggregation is defined as being periodic, then the provider shall generate a report immediately and start the report interval from that report.
-    Aggregation_enableGeneration_Receive:
+    Aggregation_enableGeneration_response:
       type: object
       properties:
         transactionId:
@@ -95,7 +95,7 @@ components:
             format: int64
           description: |
             The response shall contain the list of object instance identifiers for the new AggregationDefinition objects.
-    Aggregation_enableGeneration_Error:
+    Aggregation_enableGeneration_error:
       type: object
       properties:
         transactionId:
@@ -105,8 +105,8 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MAL
             - COM
+            - MAL
         name:
           type: string
           description: A code representing the error.
@@ -131,15 +131,15 @@ components:
             type: boolean
         type: object
   messages:
-    Aggregation_enableGeneration_Send:
+    Aggregation_enableGeneration_request:
       description: Aggregation enableGeneration request submission
       payload:
-        $ref: '#/components/schemas/Aggregation_enableGeneration_Send'
-    Aggregation_enableGeneration_Receive:
+        $ref: '#/components/schemas/Aggregation_enableGeneration_request'
+    Aggregation_enableGeneration_response:
       description: Aggregation enableGeneration update response
       payload:
-        $ref: '#/components/schemas/Aggregation_enableGeneration_Receive'
-    Aggregation_enableGeneration_Error:
+        $ref: '#/components/schemas/Aggregation_enableGeneration_response'
+    Aggregation_enableGeneration_error:
       description: Aggregation enableGeneration error response
       payload:
-        $ref: '#/components/schemas/Aggregation_enableGeneration_Error'
+        $ref: '#/components/schemas/Aggregation_enableGeneration_error'

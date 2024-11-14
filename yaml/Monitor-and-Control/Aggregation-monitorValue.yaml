@@ -13,24 +13,24 @@ servers:
       port:
         default: '8883'
 channels:
-  Receive_Aggregation_monitorValue:
-    address: Receive_Aggregation_monitorValue
+  publishNotify_Aggregation_monitorValue:
+    address: publishNotify_Aggregation_monitorValue
     messages:
-      Aggregation.monitorValue_Receive.message:
-        $ref: '#/components/messages/Aggregation_monitorValue_Receive'
+      Aggregation.monitorValue_publishNotify.message:
+        $ref: '#/components/messages/Aggregation_monitorValue_publishNotify'
     description: >
-      Use this channel to receive Aggregation monitorValue responses as **Aggregation_monitorValue_Receive**
+      Use this channel to receive Aggregation monitorValue responses as **Aggregation_monitorValue_publishNotify**
       messages.
 operations:
-  Aggregation_monitorValue_Receive:
+  Aggregation_monitorValue_publishNotify:
     action: receive
     channel:
-      $ref: '#/channels/Receive_Aggregation_monitorValue'
+      $ref: '#/channels/publishNotify_Aggregation_monitorValue'
     messages:
-      - $ref: '#/channels/Receive_Aggregation_monitorValue/messages/Aggregation.monitorValue_Receive.message'
+      - $ref: '#/channels/publishNotify_Aggregation_monitorValue/messages/Aggregation.monitorValue_publishNotify.message'
 components:
   schemas:
-    Aggregation_monitorValue_Receive:
+    Aggregation_monitorValue_publishNotify:
       type: object
       properties:
         transactionId:
@@ -175,7 +175,7 @@ components:
               type: integer
           type: object
   messages:
-    Aggregation_monitorValue_Receive:
+    Aggregation_monitorValue_publishNotify:
       description: Aggregation monitorValue update response
       payload:
-        $ref: '#/components/schemas/Aggregation_monitorValue_Receive'
+        $ref: '#/components/schemas/Aggregation_monitorValue_publishNotify'

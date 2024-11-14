@@ -2,7 +2,7 @@ import os
 from abc import ABC, abstractmethod
 from xml.etree.ElementTree import Element
 
-from generators.common import InteractionType, InteractionPayloadElementPubSub, TransportType
+from generators.common import InteractionType, InteractionPayloadElementPubSub, TransportType, AsyncApiActionType
 from constants import SCHEMA_NAMESPACE, TYPE_MAPPING
 import utils
 
@@ -39,6 +39,14 @@ class AbstractYamlGenerator(ABC):
     """
     pass
 
+  @property
+  def receive_element_additional(self) -> str:
+    """
+    This only exists because the PROGRESS interaction type has more than one RECEIVE channel.
+    Override this implementation by the YamlGeneratorProgress subclass to signal that an additional RECEIVE channel needs to be defined.
+    """
+    return None
+
 
   def generate_service_schema(self, service_name: str, interaction_name: str) -> str:
     """
@@ -65,7 +73,7 @@ class AbstractYamlGenerator(ABC):
 
 
   def generate_channels_schema(self, service_name: str, interaction_name: str,
-    include_channel_send: bool, include_channel_receive: bool, include_channel_error: bool = False) -> str:
+    include_channel_send: bool, include_channel_receive: bool, include_channel_receive_additional : bool = False, include_channel_error: bool = False) -> str:
     """
     Generates the YAML string for a pubsubIP interaction.
     """
@@ -75,42 +83,53 @@ class AbstractYamlGenerator(ABC):
 
     # send channel
     if include_channel_send:
-      channels_schema += f"  {TransportType.SEND.value}_{service_name}_{interaction_name}:\n"
-      channels_schema += f"    address: {TransportType.SEND.value}_{service_name}_{interaction_name}\n"
+      channels_schema += f"  {self.send_element}_{service_name}_{interaction_name}:\n"
+      channels_schema += f"    address: {self.send_element}_{service_name}_{interaction_name}\n"
       channels_schema += f"    messages:\n"
-      channels_schema += f"      {service_name}.{interaction_name}_{TransportType.SEND.value}.message:\n"
-      channels_schema += f"        $ref: '#/components/messages/{service_name}_{interaction_name}_{TransportType.SEND.value}'\n"
+      channels_schema += f"      {service_name}.{interaction_name}_{self.send_element}.message:\n"
+      channels_schema += f"        $ref: '#/components/messages/{service_name}_{interaction_name}_{self.send_element}'\n"
       channels_schema += "    description: >\n"
-      channels_schema += f"      Send a **{service_name}_{interaction_name}_{TransportType.SEND.value}** message in this channel to receive a\n"
-      channels_schema += f"      **{service_name}_{interaction_name}_{TransportType.RECEIVE.value}** message over the **{TransportType.RECEIVE.value}_{service_name}_{interaction_name}** channel.\n"
+      channels_schema += f"      Send a **{service_name}_{interaction_name}_{self.send_element}** message in this channel to receive a\n"
+      channels_schema += f"      **{service_name}_{interaction_name}_{self.receive_element}** message over the **{self.receive_element}_{service_name}_{interaction_name}** channel.\n"
 
     # receive channel
     if include_channel_receive:
-      channels_schema += f"  {TransportType.RECEIVE.value}_{service_name}_{interaction_name}:\n"
-      channels_schema += f"    address: {TransportType.RECEIVE.value}_{service_name}_{interaction_name}\n"
+      channels_schema += f"  {self.receive_element}_{service_name}_{interaction_name}:\n"
+      channels_schema += f"    address: {self.receive_element}_{service_name}_{interaction_name}\n"
       channels_schema += f"    messages:\n"
-      channels_schema += f"      {service_name}.{interaction_name}_{TransportType.RECEIVE.value}.message:\n"
-      channels_schema += f"        $ref: '#/components/messages/{service_name}_{interaction_name}_{TransportType.RECEIVE.value}'\n"
+      channels_schema += f"      {service_name}.{interaction_name}_{self.receive_element}.message:\n"
+      channels_schema += f"        $ref: '#/components/messages/{service_name}_{interaction_name}_{self.receive_element}'\n"
       channels_schema += "    description: >\n"
-      channels_schema += f"      Use this channel to receive {service_name} {interaction_name} responses as **{service_name}_{interaction_name}_{TransportType.RECEIVE.value}**\n"
+      channels_schema += f"      Use this channel to receive {service_name} {interaction_name} responses as **{service_name}_{interaction_name}_{self.receive_element}**\n"
+      channels_schema += f"      messages.\n"
+
+    # receive channel (additional)
+    if include_channel_receive_additional:
+      channels_schema += f"  {self.receive_element_additional}_{service_name}_{interaction_name}:\n"
+      channels_schema += f"    address: {self.receive_element_additional}_{service_name}_{interaction_name}\n"
+      channels_schema += f"    messages:\n"
+      channels_schema += f"      {service_name}.{interaction_name}_{self.receive_element_additional}.message:\n"
+      channels_schema += f"        $ref: '#/components/messages/{service_name}_{interaction_name}_{self.receive_element_additional}'\n"
+      channels_schema += "    description: >\n"
+      channels_schema += f"      Use this channel to receive additional {service_name} {interaction_name} responses as **{service_name}_{interaction_name}_{self.receive_element_additional}**\n"
       channels_schema += f"      messages.\n"
 
     # error receive channel
     if include_channel_error:
-      channels_schema += f"  {TransportType.ERROR.value}_{service_name}_{interaction_name}:\n"
-      channels_schema += f"    address: {TransportType.ERROR.value}_{service_name}_{interaction_name}\n"
+      channels_schema += f"  {TransportType.ERROR.value.lower()}_{service_name}_{interaction_name}:\n"
+      channels_schema += f"    address: {TransportType.ERROR.value.lower()}_{service_name}_{interaction_name}\n"
       channels_schema += f"    messages:\n"
-      channels_schema += f"      {service_name}.{interaction_name}_{TransportType.ERROR.value}.message:\n"
-      channels_schema += f"        $ref: '#/components/messages/{service_name}_{interaction_name}_{TransportType.ERROR.value}'\n"
+      channels_schema += f"      {service_name}.{interaction_name}_{TransportType.ERROR.value.lower()}.message:\n"
+      channels_schema += f"        $ref: '#/components/messages/{service_name}_{interaction_name}_{TransportType.ERROR.value.lower()}'\n"
       channels_schema += "    description: >\n"
-      channels_schema += f"      Use this channel to receive {service_name} {interaction_name} errors as **{service_name}_{interaction_name}_{TransportType.RECEIVE.value}Errors**\n"
+      channels_schema += f"      Use this channel to receive {service_name} {interaction_name} errors as **{service_name}_{interaction_name}_{self.receive_element}Errors**\n"
       channels_schema += f"      messages.\n"
 
     return channels_schema
 
 
   def generate_operations_schema(self, service_name: str, interaction_name: str,
-    include_channel_send: bool, include_channel_receive: bool, include_channel_error: bool = False) -> str:
+    include_channel_send: bool, include_channel_receive: bool, include_channel_receive_additional : bool = False, include_channel_error: bool = False) -> str:
     """
     Generates the YAML string for operations related to a pubsubIP interaction.
     """
@@ -120,36 +139,46 @@ class AbstractYamlGenerator(ABC):
 
     # send operation
     if include_channel_send:
-      operations_schema += f"  {service_name}_{interaction_name}_{TransportType.SEND.value}:\n"
-      operations_schema += f"    action: {TransportType.SEND.value.lower()}\n"
+      operations_schema += f"  {service_name}_{interaction_name}_{self.send_element}:\n"
+      operations_schema += f"    action: {AsyncApiActionType.SEND.value}\n"
       operations_schema += f"    channel:\n"
-      operations_schema += f"      $ref: '#/channels/{TransportType.SEND.value}_{service_name}_{interaction_name}'\n"
+      operations_schema += f"      $ref: '#/channels/{self.send_element}_{service_name}_{interaction_name}'\n"
       operations_schema += f"    messages:\n"
-      operations_schema += f"      - $ref: '#/channels/{TransportType.SEND.value}_{service_name}_{interaction_name}/messages/{service_name}.{interaction_name}_{TransportType.SEND.value}.message'\n"
+      operations_schema += f"      - $ref: '#/channels/{self.send_element}_{service_name}_{interaction_name}/messages/{service_name}.{interaction_name}_{self.send_element}.message'\n"
 
     # receive operation
     if include_channel_receive:
-      operations_schema += f"  {service_name}_{interaction_name}_{TransportType.RECEIVE.value}:\n"
-      operations_schema += f"    action: {TransportType.RECEIVE.value.lower()}\n"
+      operations_schema += f"  {service_name}_{interaction_name}_{self.receive_element}:\n"
+      operations_schema += f"    action: {AsyncApiActionType.RECEIVE.value}\n"
       operations_schema += f"    channel:\n"
-      operations_schema += f"      $ref: '#/channels/{TransportType.RECEIVE.value}_{service_name}_{interaction_name}'\n"
+      operations_schema += f"      $ref: '#/channels/{self.receive_element}_{service_name}_{interaction_name}'\n"
       operations_schema += f"    messages:\n"
-      operations_schema += f"      - $ref: '#/channels/{TransportType.RECEIVE.value}_{service_name}_{interaction_name}/messages/{service_name}.{interaction_name}_{TransportType.RECEIVE.value}.message'\n"
+      operations_schema += f"      - $ref: '#/channels/{self.receive_element}_{service_name}_{interaction_name}/messages/{service_name}.{interaction_name}_{self.receive_element}.message'\n"
+
+    # receive operation
+    if include_channel_receive_additional:
+      operations_schema += f"  {service_name}_{interaction_name}_{self.receive_element_additional}:\n"
+      operations_schema += f"    action: {AsyncApiActionType.RECEIVE.value}\n"
+      operations_schema += f"    channel:\n"
+      operations_schema += f"      $ref: '#/channels/{self.receive_element_additional}_{service_name}_{interaction_name}'\n"
+      operations_schema += f"    messages:\n"
+      operations_schema += f"      - $ref: '#/channels/{self.receive_element_additional}_{service_name}_{interaction_name}/messages/{service_name}.{interaction_name}_{self.receive_element_additional}.message'\n"
+
 
     # error operation (optional)
     if include_channel_error:
-      operations_schema += f"  {service_name}_{interaction_name}_{TransportType.ERROR.value}:\n"
-      operations_schema += f"    action: {TransportType.RECEIVE.value.lower()}\n" # an error is a receive action
+      operations_schema += f"  {service_name}_{interaction_name}_{TransportType.ERROR.value.lower()}:\n"
+      operations_schema += f"    action: {AsyncApiActionType.RECEIVE.value}\n" # an error is a receive action
       operations_schema += f"    channel:\n"
-      operations_schema += f"      $ref: '#/channels/{TransportType.ERROR.value}_{service_name}_{interaction_name}'\n"
+      operations_schema += f"      $ref: '#/channels/{TransportType.ERROR.value.lower()}_{service_name}_{interaction_name}'\n"
       operations_schema += f"    messages:\n"
-      operations_schema += f"      - $ref: '#/channels/{TransportType.ERROR.value}_{service_name}_{interaction_name}/messages/{service_name}.{interaction_name}_{TransportType.ERROR.value}.message'\n"
+      operations_schema += f"      - $ref: '#/channels/{TransportType.ERROR.value.lower()}_{service_name}_{interaction_name}/messages/{service_name}.{interaction_name}_{TransportType.ERROR.value.lower()}.message'\n"
 
     return operations_schema
 
 
   def generate_components_messages_schema(self, service_name: str, interaction_name: str,
-    include_channel_send: bool, include_channel_receive: bool, include_channel_error: bool = False) -> str:
+    include_channel_send: bool, include_channel_receive: bool, include_channel_receive_additional : bool = False, include_channel_error: bool = False) -> str:
     """
     Generates the YAML string for messages related to a pubsubIP interaction.
     """
@@ -159,30 +188,37 @@ class AbstractYamlGenerator(ABC):
 
     # send message component
     if include_channel_send:
-      components_schema += f"    {service_name}_{interaction_name}_{TransportType.SEND.value}:\n"
+      components_schema += f"    {service_name}_{interaction_name}_{self.send_element}:\n"
       components_schema += f"      description: {service_name} {interaction_name} request submission\n"
       components_schema += f"      payload:\n"
-      components_schema += f"        $ref: '#/components/schemas/{service_name}_{interaction_name}_{TransportType.SEND.value}'\n"
+      components_schema += f"        $ref: '#/components/schemas/{service_name}_{interaction_name}_{self.send_element}'\n"
 
     # receive message component
     if include_channel_receive:
-      components_schema += f"    {service_name}_{interaction_name}_{TransportType.RECEIVE.value}:\n"
+      components_schema += f"    {service_name}_{interaction_name}_{self.receive_element}:\n"
       components_schema += f"      description: {service_name} {interaction_name} update response\n"
       components_schema += f"      payload:\n"
-      components_schema += f"        $ref: '#/components/schemas/{service_name}_{interaction_name}_{TransportType.RECEIVE.value}'\n"
+      components_schema += f"        $ref: '#/components/schemas/{service_name}_{interaction_name}_{self.receive_element}'\n"
+
+    # receive (additional) message component
+    if include_channel_receive_additional:
+      components_schema += f"    {service_name}_{interaction_name}_{self.receive_element_additional}:\n"
+      components_schema += f"      description: {service_name} {interaction_name} update response\n"
+      components_schema += f"      payload:\n"
+      components_schema += f"        $ref: '#/components/schemas/{service_name}_{interaction_name}_{self.receive_element_additional}'\n"
 
     # error message component (optional)
     if include_channel_error:
-      components_schema += f"    {service_name}_{interaction_name}_{TransportType.ERROR.value}:\n"
+      components_schema += f"    {service_name}_{interaction_name}_{TransportType.ERROR.value.lower()}:\n"
       components_schema += f"      description: {service_name} {interaction_name} error response\n"
       components_schema += f"      payload:\n"
-      components_schema += f"        $ref: '#/components/schemas/{service_name}_{interaction_name}_{TransportType.ERROR.value}'\n"
+      components_schema += f"        $ref: '#/components/schemas/{service_name}_{interaction_name}_{TransportType.ERROR.value.lower()}'\n"
 
     return components_schema
 
 
   def generate_components_schema(self, mo_asyncapi_src_dir_path: str, service_name: str, interaction_name: str,
-    send_fields: list[Element], receive_fields: list[Element], err_fields: list[Element], ns: dict[str, str]):
+    send_fields: list[Element], receive_fields: list[Element], receive_fields_additional: list[Element], err_fields: list[Element], ns: dict[str, str]):
     """
     Generates the YAML string for the components section based on the fields.
     """
@@ -195,7 +231,7 @@ class AbstractYamlGenerator(ABC):
 
     # build SEND components
     if len(send_fields) > 0:
-      components_yaml +=  f"    {service_name}_{interaction_name}_{TransportType.SEND.value}:\n"
+      components_yaml +=  f"    {service_name}_{interaction_name}_{self.send_element}:\n"
       components_yaml += "      type: object\n      properties:\n"
       components_yaml += self._generate_components_schema_field_transaction_id()
 
@@ -209,7 +245,7 @@ class AbstractYamlGenerator(ABC):
 
     # build RECEIVE components
     if len(receive_fields) > 0:
-      components_yaml +=  f"    {service_name}_{interaction_name}_{TransportType.RECEIVE.value}:\n"
+      components_yaml +=  f"    {service_name}_{interaction_name}_{self.receive_element}:\n"
       components_yaml += "      type: object\n      properties:\n"
       components_yaml += self._generate_components_schema_field_transaction_id()
 
@@ -221,9 +257,23 @@ class AbstractYamlGenerator(ABC):
         if composite_type:
           composite_type_list.append(composite_type)
 
+    # build RECEIVE ADDITIONAL components
+    if len(receive_fields_additional) > 0:
+      components_yaml +=  f"    {service_name}_{interaction_name}_{self.receive_element_additional}:\n"
+      components_yaml += "      type: object\n      properties:\n"
+      components_yaml += self._generate_components_schema_field_transaction_id()
+
+      for field in receive_fields_additional:
+        yaml_str, composite_type = self._generate_components_schema_fields(field, ns)
+        components_yaml += yaml_str
+
+        # collect the composite types for later
+        if composite_type:
+          composite_type_list.append(composite_type)
+
     # build ERROR components
     if len(err_fields) > 0:
-      components_yaml +=  f"    {service_name}_{interaction_name}_{TransportType.ERROR.value}:\n"
+      components_yaml +=  f"    {service_name}_{interaction_name}_{TransportType.ERROR.value.lower()}:\n"
       components_yaml += "      type: object\n      properties:\n"
       components_yaml += self._generate_components_schema_field_transaction_id()
 

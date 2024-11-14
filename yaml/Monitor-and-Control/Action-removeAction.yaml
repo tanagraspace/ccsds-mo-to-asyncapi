@@ -13,38 +13,38 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Action_removeAction:
-    address: Send_Action_removeAction
+  submit_Action_removeAction:
+    address: submit_Action_removeAction
     messages:
-      Action.removeAction_Send.message:
-        $ref: '#/components/messages/Action_removeAction_Send'
+      Action.removeAction_submit.message:
+        $ref: '#/components/messages/Action_removeAction_submit'
     description: >
-      Send a **Action_removeAction_Send** message in this channel to receive a
-      **Action_removeAction_Receive** message over the **Receive_Action_removeAction** channel.
-  Error_Action_removeAction:
-    address: Error_Action_removeAction
+      Send a **Action_removeAction_submit** message in this channel to receive a
+      **Action_removeAction_None** message over the **None_Action_removeAction** channel.
+  error_Action_removeAction:
+    address: error_Action_removeAction
     messages:
-      Action.removeAction_Error.message:
-        $ref: '#/components/messages/Action_removeAction_Error'
+      Action.removeAction_error.message:
+        $ref: '#/components/messages/Action_removeAction_error'
     description: >
-      Use this channel to receive Action removeAction errors as **Action_removeAction_ReceiveErrors**
+      Use this channel to receive Action removeAction errors as **Action_removeAction_NoneErrors**
       messages.
 operations:
-  Action_removeAction_Send:
+  Action_removeAction_submit:
     action: send
     channel:
-      $ref: '#/channels/Send_Action_removeAction'
+      $ref: '#/channels/submit_Action_removeAction'
     messages:
-      - $ref: '#/channels/Send_Action_removeAction/messages/Action.removeAction_Send.message'
-  Action_removeAction_Error:
+      - $ref: '#/channels/submit_Action_removeAction/messages/Action.removeAction_submit.message'
+  Action_removeAction_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Action_removeAction'
+      $ref: '#/channels/error_Action_removeAction'
     messages:
-      - $ref: '#/channels/Error_Action_removeAction/messages/Action.removeAction_Error.message'
+      - $ref: '#/channels/error_Action_removeAction/messages/Action.removeAction_error.message'
 components:
   schemas:
-    Action_removeAction_Send:
+    Action_removeAction_submit:
       type: object
       properties:
         transactionId:
@@ -64,7 +64,7 @@ components:
             Matched ActionIdentity objects shall not be removed from the COM archive only the list of ActionIdentity objects in the provider.
             Removed ActionIdentity object shall not be allowed to be referenced by new action instances.
             If an error is raised then no actions shall be removed as a result of this operation call.
-    Action_removeAction_Error:
+    Action_removeAction_error:
       type: object
       properties:
         transactionId:
@@ -87,11 +87,11 @@ components:
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
   messages:
-    Action_removeAction_Send:
+    Action_removeAction_submit:
       description: Action removeAction request submission
       payload:
-        $ref: '#/components/schemas/Action_removeAction_Send'
-    Action_removeAction_Error:
+        $ref: '#/components/schemas/Action_removeAction_submit'
+    Action_removeAction_error:
       description: Action removeAction error response
       payload:
-        $ref: '#/components/schemas/Action_removeAction_Error'
+        $ref: '#/components/schemas/Action_removeAction_error'

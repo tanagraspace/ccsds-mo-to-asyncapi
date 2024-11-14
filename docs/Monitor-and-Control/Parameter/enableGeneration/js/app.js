@@ -4,50 +4,33 @@
   "info": {
     "title": "Parameter Service enableGeneration API",
     "version": "1.0.0",
-    "description": "This API allows clients to interact with the enableGeneration iteraction of the Parameter Service."
+    "description": "This API allows clients to interact with the enableGeneration interaction of the Parameter Service."
   },
   "defaultContentType": "application/json",
   "servers": {
     "production": {
       "host": "localhost:{port}",
       "protocol": "mqtt",
-      "description": "MQTT server for the enableGeneration interaction.",
+      "description": "MQTT server for the Parameter Service's enableGeneration interaction.",
       "variables": {
         "port": {
-          "enum": [
-            "8883",
-            "8884"
-          ],
           "default": "8883"
-        }
-      },
-      "bindings": {
-        "mqtt": {
-          "clientId": "guest",
-          "cleanSession": false,
-          "keepAlive": 0,
-          "lastWill": {
-            "topic": "/will",
-            "qos": 0,
-            "message": "Guest gone offline.",
-            "retain": false
-          }
         }
       }
     }
   },
   "channels": {
-    "Send_Parameter_enableGeneration": {
-      "address": "Send_Parameter_enableGeneration",
+    "request_Parameter_enableGeneration": {
+      "address": "request_Parameter_enableGeneration",
       "messages": {
-        "Parameter.enableGeneration_Send.message": {
+        "Parameter.enableGeneration_request.message": {
           "description": "Parameter enableGeneration request submission",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-1>"
               },
               "isGroupIds": {
@@ -73,65 +56,69 @@
                 "x-parser-schema-id": "<anonymous-schema-3>"
               }
             },
-            "x-parser-schema-id": "Parameter_enableGeneration_Send"
+            "x-parser-schema-id": "Parameter_enableGeneration_request"
           },
-          "x-parser-unique-object-id": "Parameter.enableGeneration_Send.message",
-          "x-parser-message-name": "Parameter_enableGeneration_Send"
+          "x-parser-unique-object-id": "Parameter.enableGeneration_request.message",
+          "x-parser-message-name": "Parameter_enableGeneration_request"
         }
       },
-      "description": "Send a **Parameter_enableGeneration_Send** message in this channel to receive a **Parameter_enableGeneration_Receive** message over the **Receive_Parameter_enableGeneration** channel.\n",
-      "x-parser-unique-object-id": "Send_Parameter_enableGeneration"
+      "description": "Send a **Parameter_enableGeneration_request** message in this channel to receive a **Parameter_enableGeneration_response** message over the **response_Parameter_enableGeneration** channel.\n",
+      "x-parser-unique-object-id": "request_Parameter_enableGeneration"
     },
-    "Receive_Parameter_enableGeneration": {
-      "address": "Receive_Parameter_enableGeneration",
+    "response_Parameter_enableGeneration": {
+      "address": "response_Parameter_enableGeneration",
       "messages": {
-        "Parameter.enableGeneration_Receive.message": {
+        "Parameter.enableGeneration_response.message": {
           "description": "Parameter enableGeneration update response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-6>"
               },
               "newObjInstIds": {
-                "type": "integer",
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64",
+                  "x-parser-schema-id": "<anonymous-schema-8>"
+                },
                 "description": "The response shall contain the list of object instance identifiers for the new ParameterDefinition objects.\n",
-                "format": "int64",
                 "x-parser-schema-id": "<anonymous-schema-7>"
               }
             },
-            "x-parser-schema-id": "Parameter_enableGeneration_Receive"
+            "x-parser-schema-id": "Parameter_enableGeneration_response"
           },
-          "x-parser-unique-object-id": "Parameter.enableGeneration_Receive.message",
-          "x-parser-message-name": "Parameter_enableGeneration_Receive"
+          "x-parser-unique-object-id": "Parameter.enableGeneration_response.message",
+          "x-parser-message-name": "Parameter_enableGeneration_response"
         }
       },
-      "description": "Use this channel to receive Parameter enableGeneration responses as **Parameter_enableGeneration_Receive** messages.\n",
-      "x-parser-unique-object-id": "Receive_Parameter_enableGeneration"
+      "description": "Use this channel to receive Parameter enableGeneration responses as **Parameter_enableGeneration_response** messages.\n",
+      "x-parser-unique-object-id": "response_Parameter_enableGeneration"
     },
-    "Error_Parameter_enableGeneration": {
-      "address": "Error_Parameter_enableGeneration",
+    "error_Parameter_enableGeneration": {
+      "address": "error_Parameter_enableGeneration",
       "messages": {
-        "Parameter.enableGeneration_Error.message": {
+        "Parameter.enableGeneration_error.message": {
           "description": "Parameter enableGeneration error response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
-                "x-parser-schema-id": "<anonymous-schema-8>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "x-parser-schema-id": "<anonymous-schema-9>"
               },
               "area": {
                 "type": "string",
                 "description": "The area in which the error applies.",
                 "enum": [
-                  "MAL",
-                  "COM"
+                  "COM",
+                  "MAL"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-9>"
+                "x-parser-schema-id": "<anonymous-schema-10>"
               },
               "name": {
                 "type": "string",
@@ -140,69 +127,69 @@
                   "UNKNOWN",
                   "INVALID"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-10>"
+                "x-parser-schema-id": "<anonymous-schema-11>"
               },
               "extraInformation": {
                 "type": "array",
                 "items": {
                   "type": "integer",
                   "format": "uint32",
-                  "description": "A list of the indexes of the erroneous values from the originating list supplied or request list.",
-                  "x-parser-schema-id": "<anonymous-schema-12>"
+                  "description": "A list of the indexes of the error values shall be contained in the extra information field.",
+                  "x-parser-schema-id": "<anonymous-schema-13>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-11>"
+                "x-parser-schema-id": "<anonymous-schema-12>"
               }
             },
-            "x-parser-schema-id": "Parameter_enableGeneration_Error"
+            "x-parser-schema-id": "Parameter_enableGeneration_error"
           },
-          "x-parser-unique-object-id": "Parameter.enableGeneration_Error.message",
-          "x-parser-message-name": "Parameter_enableGeneration_Error"
+          "x-parser-unique-object-id": "Parameter.enableGeneration_error.message",
+          "x-parser-message-name": "Parameter_enableGeneration_error"
         }
       },
-      "description": "Use this channel to receive Parameter enableGeneration errors as **Parameter_enableGeneration_ReceiveErrors** messages.\n",
-      "x-parser-unique-object-id": "Error_Parameter_enableGeneration"
+      "description": "Use this channel to receive Parameter enableGeneration errors as **Parameter_enableGeneration_responseErrors** messages.\n",
+      "x-parser-unique-object-id": "error_Parameter_enableGeneration"
     }
   },
   "operations": {
-    "Parameter_enableGeneration_Send": {
+    "Parameter_enableGeneration_request": {
       "action": "send",
-      "channel": "$ref:$.channels.Send_Parameter_enableGeneration",
+      "channel": "$ref:$.channels.request_Parameter_enableGeneration",
       "messages": [
-        "$ref:$.channels.Send_Parameter_enableGeneration.messages.Parameter.enableGeneration_Send.message"
+        "$ref:$.channels.request_Parameter_enableGeneration.messages.Parameter.enableGeneration_request.message"
       ],
-      "x-parser-unique-object-id": "Parameter_enableGeneration_Send"
+      "x-parser-unique-object-id": "Parameter_enableGeneration_request"
     },
-    "Parameter_enableGeneration_Receive": {
+    "Parameter_enableGeneration_response": {
       "action": "receive",
-      "channel": "$ref:$.channels.Receive_Parameter_enableGeneration",
+      "channel": "$ref:$.channels.response_Parameter_enableGeneration",
       "messages": [
-        "$ref:$.channels.Receive_Parameter_enableGeneration.messages.Parameter.enableGeneration_Receive.message"
+        "$ref:$.channels.response_Parameter_enableGeneration.messages.Parameter.enableGeneration_response.message"
       ],
-      "x-parser-unique-object-id": "Parameter_enableGeneration_Receive"
+      "x-parser-unique-object-id": "Parameter_enableGeneration_response"
     },
-    "Parameter_enableGeneration_Error": {
+    "Parameter_enableGeneration_error": {
       "action": "receive",
-      "channel": "$ref:$.channels.Error_Parameter_enableGeneration",
+      "channel": "$ref:$.channels.error_Parameter_enableGeneration",
       "messages": [
-        "$ref:$.channels.Error_Parameter_enableGeneration.messages.Parameter.enableGeneration_Error.message"
+        "$ref:$.channels.error_Parameter_enableGeneration.messages.Parameter.enableGeneration_error.message"
       ],
-      "x-parser-unique-object-id": "Parameter_enableGeneration_Error"
+      "x-parser-unique-object-id": "Parameter_enableGeneration_error"
     }
   },
   "components": {
     "schemas": {
-      "Parameter_enableGeneration_Send": "$ref:$.channels.Send_Parameter_enableGeneration.messages.Parameter.enableGeneration_Send.message.payload",
-      "Parameter_enableGeneration_Receive": "$ref:$.channels.Receive_Parameter_enableGeneration.messages.Parameter.enableGeneration_Receive.message.payload",
-      "Parameter_enableGeneration_Error": "$ref:$.channels.Error_Parameter_enableGeneration.messages.Parameter.enableGeneration_Error.message.payload",
+      "Parameter_enableGeneration_request": "$ref:$.channels.request_Parameter_enableGeneration.messages.Parameter.enableGeneration_request.message.payload",
+      "Parameter_enableGeneration_response": "$ref:$.channels.response_Parameter_enableGeneration.messages.Parameter.enableGeneration_response.message.payload",
+      "Parameter_enableGeneration_error": "$ref:$.channels.error_Parameter_enableGeneration.messages.Parameter.enableGeneration_error.message.payload",
       "com": {
-        "InstanceBooleanPair": "$ref:$.channels.Send_Parameter_enableGeneration.messages.Parameter.enableGeneration_Send.message.payload.properties.enableInstances",
+        "InstanceBooleanPair": "$ref:$.channels.request_Parameter_enableGeneration.messages.Parameter.enableGeneration_request.message.payload.properties.enableInstances",
         "x-parser-schema-id": "com"
       }
     },
     "messages": {
-      "Parameter_enableGeneration_Send": "$ref:$.channels.Send_Parameter_enableGeneration.messages.Parameter.enableGeneration_Send.message",
-      "Parameter_enableGeneration_Receive": "$ref:$.channels.Receive_Parameter_enableGeneration.messages.Parameter.enableGeneration_Receive.message",
-      "Parameter_enableGeneration_Error": "$ref:$.channels.Error_Parameter_enableGeneration.messages.Parameter.enableGeneration_Error.message"
+      "Parameter_enableGeneration_request": "$ref:$.channels.request_Parameter_enableGeneration.messages.Parameter.enableGeneration_request.message",
+      "Parameter_enableGeneration_response": "$ref:$.channels.response_Parameter_enableGeneration.messages.Parameter.enableGeneration_response.message",
+      "Parameter_enableGeneration_error": "$ref:$.channels.error_Parameter_enableGeneration.messages.Parameter.enableGeneration_error.message"
     }
   },
   "x-parser-spec-parsed": true,

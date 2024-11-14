@@ -13,52 +13,52 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Parameter_getValue:
-    address: Send_Parameter_getValue
+  request_Parameter_getValue:
+    address: request_Parameter_getValue
     messages:
-      Parameter.getValue_Send.message:
-        $ref: '#/components/messages/Parameter_getValue_Send'
+      Parameter.getValue_request.message:
+        $ref: '#/components/messages/Parameter_getValue_request'
     description: >
-      Send a **Parameter_getValue_Send** message in this channel to receive a
-      **Parameter_getValue_Receive** message over the **Receive_Parameter_getValue** channel.
-  Receive_Parameter_getValue:
-    address: Receive_Parameter_getValue
+      Send a **Parameter_getValue_request** message in this channel to receive a
+      **Parameter_getValue_response** message over the **response_Parameter_getValue** channel.
+  response_Parameter_getValue:
+    address: response_Parameter_getValue
     messages:
-      Parameter.getValue_Receive.message:
-        $ref: '#/components/messages/Parameter_getValue_Receive'
+      Parameter.getValue_response.message:
+        $ref: '#/components/messages/Parameter_getValue_response'
     description: >
-      Use this channel to receive Parameter getValue responses as **Parameter_getValue_Receive**
+      Use this channel to receive Parameter getValue responses as **Parameter_getValue_response**
       messages.
-  Error_Parameter_getValue:
-    address: Error_Parameter_getValue
+  error_Parameter_getValue:
+    address: error_Parameter_getValue
     messages:
-      Parameter.getValue_Error.message:
-        $ref: '#/components/messages/Parameter_getValue_Error'
+      Parameter.getValue_error.message:
+        $ref: '#/components/messages/Parameter_getValue_error'
     description: >
-      Use this channel to receive Parameter getValue errors as **Parameter_getValue_ReceiveErrors**
+      Use this channel to receive Parameter getValue errors as **Parameter_getValue_responseErrors**
       messages.
 operations:
-  Parameter_getValue_Send:
+  Parameter_getValue_request:
     action: send
     channel:
-      $ref: '#/channels/Send_Parameter_getValue'
+      $ref: '#/channels/request_Parameter_getValue'
     messages:
-      - $ref: '#/channels/Send_Parameter_getValue/messages/Parameter.getValue_Send.message'
-  Parameter_getValue_Receive:
+      - $ref: '#/channels/request_Parameter_getValue/messages/Parameter.getValue_request.message'
+  Parameter_getValue_response:
     action: receive
     channel:
-      $ref: '#/channels/Receive_Parameter_getValue'
+      $ref: '#/channels/response_Parameter_getValue'
     messages:
-      - $ref: '#/channels/Receive_Parameter_getValue/messages/Parameter.getValue_Receive.message'
-  Parameter_getValue_Error:
+      - $ref: '#/channels/response_Parameter_getValue/messages/Parameter.getValue_response.message'
+  Parameter_getValue_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Parameter_getValue'
+      $ref: '#/channels/error_Parameter_getValue'
     messages:
-      - $ref: '#/channels/Error_Parameter_getValue/messages/Parameter.getValue_Error.message'
+      - $ref: '#/channels/error_Parameter_getValue/messages/Parameter.getValue_error.message'
 components:
   schemas:
-    Parameter_getValue_Send:
+    Parameter_getValue_request:
       type: object
       properties:
         transactionId:
@@ -75,7 +75,7 @@ components:
             The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
             If a requested parameter is unknown then an UNKNOWN error shall be returned.
             If a parameter is being reported periodically, using the operation shall not reset the reportInterval timer.
-    Parameter_getValue_Receive:
+    Parameter_getValue_response:
       type: object
       properties:
         transactionId:
@@ -86,7 +86,7 @@ components:
           description: |
             The response shall contain a list of returned ParameterIdentity and ParameterDefinition object instance identifier pairs and a matching list of parameter values.
             The new value shall not be published via the monitorValue operation.
-    Parameter_getValue_Error:
+    Parameter_getValue_error:
       type: object
       properties:
         transactionId:
@@ -144,15 +144,15 @@ components:
               description: The parameter value.
           type: object
   messages:
-    Parameter_getValue_Send:
+    Parameter_getValue_request:
       description: Parameter getValue request submission
       payload:
-        $ref: '#/components/schemas/Parameter_getValue_Send'
-    Parameter_getValue_Receive:
+        $ref: '#/components/schemas/Parameter_getValue_request'
+    Parameter_getValue_response:
       description: Parameter getValue update response
       payload:
-        $ref: '#/components/schemas/Parameter_getValue_Receive'
-    Parameter_getValue_Error:
+        $ref: '#/components/schemas/Parameter_getValue_response'
+    Parameter_getValue_error:
       description: Parameter getValue error response
       payload:
-        $ref: '#/components/schemas/Parameter_getValue_Error'
+        $ref: '#/components/schemas/Parameter_getValue_error'

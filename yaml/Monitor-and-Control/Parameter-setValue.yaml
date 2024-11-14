@@ -13,38 +13,38 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Parameter_setValue:
-    address: Send_Parameter_setValue
+  submit_Parameter_setValue:
+    address: submit_Parameter_setValue
     messages:
-      Parameter.setValue_Send.message:
-        $ref: '#/components/messages/Parameter_setValue_Send'
+      Parameter.setValue_submit.message:
+        $ref: '#/components/messages/Parameter_setValue_submit'
     description: >
-      Send a **Parameter_setValue_Send** message in this channel to receive a
-      **Parameter_setValue_Receive** message over the **Receive_Parameter_setValue** channel.
-  Error_Parameter_setValue:
-    address: Error_Parameter_setValue
+      Send a **Parameter_setValue_submit** message in this channel to receive a
+      **Parameter_setValue_None** message over the **None_Parameter_setValue** channel.
+  error_Parameter_setValue:
+    address: error_Parameter_setValue
     messages:
-      Parameter.setValue_Error.message:
-        $ref: '#/components/messages/Parameter_setValue_Error'
+      Parameter.setValue_error.message:
+        $ref: '#/components/messages/Parameter_setValue_error'
     description: >
-      Use this channel to receive Parameter setValue errors as **Parameter_setValue_ReceiveErrors**
+      Use this channel to receive Parameter setValue errors as **Parameter_setValue_NoneErrors**
       messages.
 operations:
-  Parameter_setValue_Send:
+  Parameter_setValue_submit:
     action: send
     channel:
-      $ref: '#/channels/Send_Parameter_setValue'
+      $ref: '#/channels/submit_Parameter_setValue'
     messages:
-      - $ref: '#/channels/Send_Parameter_setValue/messages/Parameter.setValue_Send.message'
-  Parameter_setValue_Error:
+      - $ref: '#/channels/submit_Parameter_setValue/messages/Parameter.setValue_submit.message'
+  Parameter_setValue_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Parameter_setValue'
+      $ref: '#/channels/error_Parameter_setValue'
     messages:
-      - $ref: '#/channels/Error_Parameter_setValue/messages/Parameter.setValue_Error.message'
+      - $ref: '#/channels/error_Parameter_setValue/messages/Parameter.setValue_error.message'
 components:
   schemas:
-    Parameter_setValue_Send:
+    Parameter_setValue_submit:
       type: object
       properties:
         transactionId:
@@ -62,7 +62,7 @@ components:
             If an error is raised then no modifications shall be made as a result of this operation call.
             The parameter values shall be set concurrently, by this it is meant that all values are set at the same time without interleaving of other values being (ATOMIC behaviour). How this is implemented is an implementation detail.
             The service provider shall create new ParameterValueInstance objects for the updated parameter values, store these in the COM Archive, and publish these new values.
-    Parameter_setValue_Error:
+    Parameter_setValue_error:
       type: object
       properties:
         transactionId:
@@ -72,9 +72,9 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MC
-            - MAL
             - COM
+            - MAL
+            - MC
         name:
           type: string
           description: A code representing the error.
@@ -102,11 +102,11 @@ components:
               type: string
           type: object
   messages:
-    Parameter_setValue_Send:
+    Parameter_setValue_submit:
       description: Parameter setValue request submission
       payload:
-        $ref: '#/components/schemas/Parameter_setValue_Send'
-    Parameter_setValue_Error:
+        $ref: '#/components/schemas/Parameter_setValue_submit'
+    Parameter_setValue_error:
       description: Parameter setValue error response
       payload:
-        $ref: '#/components/schemas/Parameter_setValue_Error'
+        $ref: '#/components/schemas/Parameter_setValue_error'

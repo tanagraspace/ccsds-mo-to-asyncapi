@@ -13,38 +13,38 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Parameter_monitorValue:
-    address: Send_Parameter_monitorValue
+  subscriptionKeys_Parameter_monitorValue:
+    address: subscriptionKeys_Parameter_monitorValue
     messages:
-      Parameter.monitorValue_Send.message:
-        $ref: '#/components/messages/Parameter_monitorValue_Send'
+      Parameter.monitorValue_subscriptionKeys.message:
+        $ref: '#/components/messages/Parameter_monitorValue_subscriptionKeys'
     description: >
-      Send a **Parameter_monitorValue_Send** message in this channel to receive a
-      **Parameter_monitorValue_Receive** message over the **Receive_Parameter_monitorValue** channel.
-  Receive_Parameter_monitorValue:
-    address: Receive_Parameter_monitorValue
+      Send a **Parameter_monitorValue_subscriptionKeys** message in this channel to receive a
+      **Parameter_monitorValue_publishNotify** message over the **publishNotify_Parameter_monitorValue** channel.
+  publishNotify_Parameter_monitorValue:
+    address: publishNotify_Parameter_monitorValue
     messages:
-      Parameter.monitorValue_Receive.message:
-        $ref: '#/components/messages/Parameter_monitorValue_Receive'
+      Parameter.monitorValue_publishNotify.message:
+        $ref: '#/components/messages/Parameter_monitorValue_publishNotify'
     description: >
-      Use this channel to receive Parameter monitorValue responses as **Parameter_monitorValue_Receive**
+      Use this channel to receive Parameter monitorValue responses as **Parameter_monitorValue_publishNotify**
       messages.
 operations:
-  Parameter_monitorValue_Send:
+  Parameter_monitorValue_subscriptionKeys:
     action: send
     channel:
-      $ref: '#/channels/Send_Parameter_monitorValue'
+      $ref: '#/channels/subscriptionKeys_Parameter_monitorValue'
     messages:
-      - $ref: '#/channels/Send_Parameter_monitorValue/messages/Parameter.monitorValue_Send.message'
-  Parameter_monitorValue_Receive:
+      - $ref: '#/channels/subscriptionKeys_Parameter_monitorValue/messages/Parameter.monitorValue_subscriptionKeys.message'
+  Parameter_monitorValue_publishNotify:
     action: receive
     channel:
-      $ref: '#/channels/Receive_Parameter_monitorValue'
+      $ref: '#/channels/publishNotify_Parameter_monitorValue'
     messages:
-      - $ref: '#/channels/Receive_Parameter_monitorValue/messages/Parameter.monitorValue_Receive.message'
+      - $ref: '#/channels/publishNotify_Parameter_monitorValue/messages/Parameter.monitorValue_publishNotify.message'
 components:
   schemas:
-    Parameter_monitorValue_Send:
+    Parameter_monitorValue_subscriptionKeys:
       type: object
       properties:
         transactionId:
@@ -64,7 +64,7 @@ components:
           format: int64
           description: |
             The parameter value instance.
-    Parameter_monitorValue_Receive:
+    Parameter_monitorValue_publishNotify:
       type: object
       properties:
         transactionId:
@@ -148,11 +148,11 @@ components:
               type: integer
           type: object
   messages:
-    Parameter_monitorValue_Send:
+    Parameter_monitorValue_subscriptionKeys:
       description: Parameter monitorValue request submission
       payload:
-        $ref: '#/components/schemas/Parameter_monitorValue_Send'
-    Parameter_monitorValue_Receive:
+        $ref: '#/components/schemas/Parameter_monitorValue_subscriptionKeys'
+    Parameter_monitorValue_publishNotify:
       description: Parameter monitorValue update response
       payload:
-        $ref: '#/components/schemas/Parameter_monitorValue_Receive'
+        $ref: '#/components/schemas/Parameter_monitorValue_publishNotify'

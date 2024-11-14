@@ -4,50 +4,33 @@
   "info": {
     "title": "Aggregation Service enableFilter API",
     "version": "1.0.0",
-    "description": "This API allows clients to interact with the enableFilter iteraction of the Aggregation Service."
+    "description": "This API allows clients to interact with the enableFilter interaction of the Aggregation Service."
   },
   "defaultContentType": "application/json",
   "servers": {
     "production": {
       "host": "localhost:{port}",
       "protocol": "mqtt",
-      "description": "MQTT server for the enableFilter interaction.",
+      "description": "MQTT server for the Aggregation Service's enableFilter interaction.",
       "variables": {
         "port": {
-          "enum": [
-            "8883",
-            "8884"
-          ],
           "default": "8883"
-        }
-      },
-      "bindings": {
-        "mqtt": {
-          "clientId": "guest",
-          "cleanSession": false,
-          "keepAlive": 0,
-          "lastWill": {
-            "topic": "/will",
-            "qos": 0,
-            "message": "Guest gone offline.",
-            "retain": false
-          }
         }
       }
     }
   },
   "channels": {
-    "Send_Aggregation_enableFilter": {
-      "address": "Send_Aggregation_enableFilter",
+    "submit_Aggregation_enableFilter": {
+      "address": "submit_Aggregation_enableFilter",
       "messages": {
-        "Aggregation.enableFilter_Send.message": {
+        "Aggregation.enableFilter_submit.message": {
           "description": "Aggregation enableFilter request submission",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-1>"
               },
               "isGroupIds": {
@@ -73,34 +56,34 @@
                 "x-parser-schema-id": "<anonymous-schema-3>"
               }
             },
-            "x-parser-schema-id": "Aggregation_enableFilter_Send"
+            "x-parser-schema-id": "Aggregation_enableFilter_submit"
           },
-          "x-parser-unique-object-id": "Aggregation.enableFilter_Send.message",
-          "x-parser-message-name": "Aggregation_enableFilter_Send"
+          "x-parser-unique-object-id": "Aggregation.enableFilter_submit.message",
+          "x-parser-message-name": "Aggregation_enableFilter_submit"
         }
       },
-      "description": "Send a **Aggregation_enableFilter_Send** message in this channel to receive a **Aggregation_enableFilter_Receive** message over the **Receive_Aggregation_enableFilter** channel.\n",
-      "x-parser-unique-object-id": "Send_Aggregation_enableFilter"
+      "description": "Send a **Aggregation_enableFilter_submit** message in this channel to receive a **Aggregation_enableFilter_None** message over the **None_Aggregation_enableFilter** channel.\n",
+      "x-parser-unique-object-id": "submit_Aggregation_enableFilter"
     },
-    "Error_Aggregation_enableFilter": {
-      "address": "Error_Aggregation_enableFilter",
+    "error_Aggregation_enableFilter": {
+      "address": "error_Aggregation_enableFilter",
       "messages": {
-        "Aggregation.enableFilter_Error.message": {
+        "Aggregation.enableFilter_error.message": {
           "description": "Aggregation enableFilter error response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-6>"
               },
               "area": {
                 "type": "string",
                 "description": "The area in which the error applies.",
                 "enum": [
-                  "MAL",
-                  "COM"
+                  "COM",
+                  "MAL"
                 ],
                 "x-parser-schema-id": "<anonymous-schema-7>"
               },
@@ -108,8 +91,8 @@
                 "type": "string",
                 "description": "A code representing the error.",
                 "enum": [
-                  "INVALID",
-                  "UNKNOWN"
+                  "UNKNOWN",
+                  "INVALID"
                 ],
                 "x-parser-schema-id": "<anonymous-schema-8>"
               },
@@ -118,52 +101,52 @@
                 "items": {
                   "type": "integer",
                   "format": "uint32",
-                  "description": "A list of the indexes of the erroneous values from the originating list supplied or request list.",
+                  "description": "A list of the indexes of the error values shall be contained in the extra information field.",
                   "x-parser-schema-id": "<anonymous-schema-10>"
                 },
                 "x-parser-schema-id": "<anonymous-schema-9>"
               }
             },
-            "x-parser-schema-id": "Aggregation_enableFilter_Error"
+            "x-parser-schema-id": "Aggregation_enableFilter_error"
           },
-          "x-parser-unique-object-id": "Aggregation.enableFilter_Error.message",
-          "x-parser-message-name": "Aggregation_enableFilter_Error"
+          "x-parser-unique-object-id": "Aggregation.enableFilter_error.message",
+          "x-parser-message-name": "Aggregation_enableFilter_error"
         }
       },
-      "description": "Use this channel to receive Aggregation enableFilter errors as **Aggregation_enableFilter_ReceiveErrors** messages.\n",
-      "x-parser-unique-object-id": "Error_Aggregation_enableFilter"
+      "description": "Use this channel to receive Aggregation enableFilter errors as **Aggregation_enableFilter_NoneErrors** messages.\n",
+      "x-parser-unique-object-id": "error_Aggregation_enableFilter"
     }
   },
   "operations": {
-    "Aggregation_enableFilter_Send": {
+    "Aggregation_enableFilter_submit": {
       "action": "send",
-      "channel": "$ref:$.channels.Send_Aggregation_enableFilter",
+      "channel": "$ref:$.channels.submit_Aggregation_enableFilter",
       "messages": [
-        "$ref:$.channels.Send_Aggregation_enableFilter.messages.Aggregation.enableFilter_Send.message"
+        "$ref:$.channels.submit_Aggregation_enableFilter.messages.Aggregation.enableFilter_submit.message"
       ],
-      "x-parser-unique-object-id": "Aggregation_enableFilter_Send"
+      "x-parser-unique-object-id": "Aggregation_enableFilter_submit"
     },
-    "Aggregation_enableFilter_Error": {
+    "Aggregation_enableFilter_error": {
       "action": "receive",
-      "channel": "$ref:$.channels.Error_Aggregation_enableFilter",
+      "channel": "$ref:$.channels.error_Aggregation_enableFilter",
       "messages": [
-        "$ref:$.channels.Error_Aggregation_enableFilter.messages.Aggregation.enableFilter_Error.message"
+        "$ref:$.channels.error_Aggregation_enableFilter.messages.Aggregation.enableFilter_error.message"
       ],
-      "x-parser-unique-object-id": "Aggregation_enableFilter_Error"
+      "x-parser-unique-object-id": "Aggregation_enableFilter_error"
     }
   },
   "components": {
     "schemas": {
-      "Aggregation_enableFilter_Send": "$ref:$.channels.Send_Aggregation_enableFilter.messages.Aggregation.enableFilter_Send.message.payload",
-      "Aggregation_enableFilter_Error": "$ref:$.channels.Error_Aggregation_enableFilter.messages.Aggregation.enableFilter_Error.message.payload",
+      "Aggregation_enableFilter_submit": "$ref:$.channels.submit_Aggregation_enableFilter.messages.Aggregation.enableFilter_submit.message.payload",
+      "Aggregation_enableFilter_error": "$ref:$.channels.error_Aggregation_enableFilter.messages.Aggregation.enableFilter_error.message.payload",
       "com": {
-        "InstanceBooleanPair": "$ref:$.channels.Send_Aggregation_enableFilter.messages.Aggregation.enableFilter_Send.message.payload.properties.enableInstances",
+        "InstanceBooleanPair": "$ref:$.channels.submit_Aggregation_enableFilter.messages.Aggregation.enableFilter_submit.message.payload.properties.enableInstances",
         "x-parser-schema-id": "com"
       }
     },
     "messages": {
-      "Aggregation_enableFilter_Send": "$ref:$.channels.Send_Aggregation_enableFilter.messages.Aggregation.enableFilter_Send.message",
-      "Aggregation_enableFilter_Error": "$ref:$.channels.Error_Aggregation_enableFilter.messages.Aggregation.enableFilter_Error.message"
+      "Aggregation_enableFilter_submit": "$ref:$.channels.submit_Aggregation_enableFilter.messages.Aggregation.enableFilter_submit.message",
+      "Aggregation_enableFilter_error": "$ref:$.channels.error_Aggregation_enableFilter.messages.Aggregation.enableFilter_error.message"
     }
   },
   "x-parser-spec-parsed": true,

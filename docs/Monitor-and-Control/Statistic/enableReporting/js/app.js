@@ -4,50 +4,33 @@
   "info": {
     "title": "Statistic Service enableReporting API",
     "version": "1.0.0",
-    "description": "This API allows clients to interact with the enableReporting iteraction of the Statistic Service."
+    "description": "This API allows clients to interact with the enableReporting interaction of the Statistic Service."
   },
   "defaultContentType": "application/json",
   "servers": {
     "production": {
       "host": "localhost:{port}",
       "protocol": "mqtt",
-      "description": "MQTT server for the enableReporting interaction.",
+      "description": "MQTT server for the Statistic Service's enableReporting interaction.",
       "variables": {
         "port": {
-          "enum": [
-            "8883",
-            "8884"
-          ],
           "default": "8883"
-        }
-      },
-      "bindings": {
-        "mqtt": {
-          "clientId": "guest",
-          "cleanSession": false,
-          "keepAlive": 0,
-          "lastWill": {
-            "topic": "/will",
-            "qos": 0,
-            "message": "Guest gone offline.",
-            "retain": false
-          }
         }
       }
     }
   },
   "channels": {
-    "Send_Statistic_enableReporting": {
-      "address": "Send_Statistic_enableReporting",
+    "submit_Statistic_enableReporting": {
+      "address": "submit_Statistic_enableReporting",
       "messages": {
-        "Statistic.enableReporting_Send.message": {
+        "Statistic.enableReporting_submit.message": {
           "description": "Statistic enableReporting request submission",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-1>"
               },
               "isGroupIds": {
@@ -73,34 +56,34 @@
                 "x-parser-schema-id": "<anonymous-schema-3>"
               }
             },
-            "x-parser-schema-id": "Statistic_enableReporting_Send"
+            "x-parser-schema-id": "Statistic_enableReporting_submit"
           },
-          "x-parser-unique-object-id": "Statistic.enableReporting_Send.message",
-          "x-parser-message-name": "Statistic_enableReporting_Send"
+          "x-parser-unique-object-id": "Statistic.enableReporting_submit.message",
+          "x-parser-message-name": "Statistic_enableReporting_submit"
         }
       },
-      "description": "Send a **Statistic_enableReporting_Send** message in this channel to receive a **Statistic_enableReporting_Receive** message over the **Receive_Statistic_enableReporting** channel.\n",
-      "x-parser-unique-object-id": "Send_Statistic_enableReporting"
+      "description": "Send a **Statistic_enableReporting_submit** message in this channel to receive a **Statistic_enableReporting_None** message over the **None_Statistic_enableReporting** channel.\n",
+      "x-parser-unique-object-id": "submit_Statistic_enableReporting"
     },
-    "Error_Statistic_enableReporting": {
-      "address": "Error_Statistic_enableReporting",
+    "error_Statistic_enableReporting": {
+      "address": "error_Statistic_enableReporting",
       "messages": {
-        "Statistic.enableReporting_Error.message": {
+        "Statistic.enableReporting_error.message": {
           "description": "Statistic enableReporting error response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-6>"
               },
               "area": {
                 "type": "string",
                 "description": "The area in which the error applies.",
                 "enum": [
-                  "MAL",
-                  "COM"
+                  "COM",
+                  "MAL"
                 ],
                 "x-parser-schema-id": "<anonymous-schema-7>"
               },
@@ -108,8 +91,8 @@
                 "type": "string",
                 "description": "A code representing the error.",
                 "enum": [
-                  "INVALID",
-                  "UNKNOWN"
+                  "UNKNOWN",
+                  "INVALID"
                 ],
                 "x-parser-schema-id": "<anonymous-schema-8>"
               },
@@ -118,52 +101,52 @@
                 "items": {
                   "type": "integer",
                   "format": "uint32",
-                  "description": "A list of the indexes of the erroneous values from the originating list supplied or request list.",
+                  "description": "A list of the indexes of the error values shall be contained in the extra information field.",
                   "x-parser-schema-id": "<anonymous-schema-10>"
                 },
                 "x-parser-schema-id": "<anonymous-schema-9>"
               }
             },
-            "x-parser-schema-id": "Statistic_enableReporting_Error"
+            "x-parser-schema-id": "Statistic_enableReporting_error"
           },
-          "x-parser-unique-object-id": "Statistic.enableReporting_Error.message",
-          "x-parser-message-name": "Statistic_enableReporting_Error"
+          "x-parser-unique-object-id": "Statistic.enableReporting_error.message",
+          "x-parser-message-name": "Statistic_enableReporting_error"
         }
       },
-      "description": "Use this channel to receive Statistic enableReporting errors as **Statistic_enableReporting_ReceiveErrors** messages.\n",
-      "x-parser-unique-object-id": "Error_Statistic_enableReporting"
+      "description": "Use this channel to receive Statistic enableReporting errors as **Statistic_enableReporting_NoneErrors** messages.\n",
+      "x-parser-unique-object-id": "error_Statistic_enableReporting"
     }
   },
   "operations": {
-    "Statistic_enableReporting_Send": {
+    "Statistic_enableReporting_submit": {
       "action": "send",
-      "channel": "$ref:$.channels.Send_Statistic_enableReporting",
+      "channel": "$ref:$.channels.submit_Statistic_enableReporting",
       "messages": [
-        "$ref:$.channels.Send_Statistic_enableReporting.messages.Statistic.enableReporting_Send.message"
+        "$ref:$.channels.submit_Statistic_enableReporting.messages.Statistic.enableReporting_submit.message"
       ],
-      "x-parser-unique-object-id": "Statistic_enableReporting_Send"
+      "x-parser-unique-object-id": "Statistic_enableReporting_submit"
     },
-    "Statistic_enableReporting_Error": {
+    "Statistic_enableReporting_error": {
       "action": "receive",
-      "channel": "$ref:$.channels.Error_Statistic_enableReporting",
+      "channel": "$ref:$.channels.error_Statistic_enableReporting",
       "messages": [
-        "$ref:$.channels.Error_Statistic_enableReporting.messages.Statistic.enableReporting_Error.message"
+        "$ref:$.channels.error_Statistic_enableReporting.messages.Statistic.enableReporting_error.message"
       ],
-      "x-parser-unique-object-id": "Statistic_enableReporting_Error"
+      "x-parser-unique-object-id": "Statistic_enableReporting_error"
     }
   },
   "components": {
     "schemas": {
-      "Statistic_enableReporting_Send": "$ref:$.channels.Send_Statistic_enableReporting.messages.Statistic.enableReporting_Send.message.payload",
-      "Statistic_enableReporting_Error": "$ref:$.channels.Error_Statistic_enableReporting.messages.Statistic.enableReporting_Error.message.payload",
+      "Statistic_enableReporting_submit": "$ref:$.channels.submit_Statistic_enableReporting.messages.Statistic.enableReporting_submit.message.payload",
+      "Statistic_enableReporting_error": "$ref:$.channels.error_Statistic_enableReporting.messages.Statistic.enableReporting_error.message.payload",
       "com": {
-        "InstanceBooleanPair": "$ref:$.channels.Send_Statistic_enableReporting.messages.Statistic.enableReporting_Send.message.payload.properties.enableInstances",
+        "InstanceBooleanPair": "$ref:$.channels.submit_Statistic_enableReporting.messages.Statistic.enableReporting_submit.message.payload.properties.enableInstances",
         "x-parser-schema-id": "com"
       }
     },
     "messages": {
-      "Statistic_enableReporting_Send": "$ref:$.channels.Send_Statistic_enableReporting.messages.Statistic.enableReporting_Send.message",
-      "Statistic_enableReporting_Error": "$ref:$.channels.Error_Statistic_enableReporting.messages.Statistic.enableReporting_Error.message"
+      "Statistic_enableReporting_submit": "$ref:$.channels.submit_Statistic_enableReporting.messages.Statistic.enableReporting_submit.message",
+      "Statistic_enableReporting_error": "$ref:$.channels.error_Statistic_enableReporting.messages.Statistic.enableReporting_error.message"
     }
   },
   "x-parser-spec-parsed": true,

@@ -13,38 +13,38 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Check_enableCheck:
-    address: Send_Check_enableCheck
+  submit_Check_enableCheck:
+    address: submit_Check_enableCheck
     messages:
-      Check.enableCheck_Send.message:
-        $ref: '#/components/messages/Check_enableCheck_Send'
+      Check.enableCheck_submit.message:
+        $ref: '#/components/messages/Check_enableCheck_submit'
     description: >
-      Send a **Check_enableCheck_Send** message in this channel to receive a
-      **Check_enableCheck_Receive** message over the **Receive_Check_enableCheck** channel.
-  Error_Check_enableCheck:
-    address: Error_Check_enableCheck
+      Send a **Check_enableCheck_submit** message in this channel to receive a
+      **Check_enableCheck_None** message over the **None_Check_enableCheck** channel.
+  error_Check_enableCheck:
+    address: error_Check_enableCheck
     messages:
-      Check.enableCheck_Error.message:
-        $ref: '#/components/messages/Check_enableCheck_Error'
+      Check.enableCheck_error.message:
+        $ref: '#/components/messages/Check_enableCheck_error'
     description: >
-      Use this channel to receive Check enableCheck errors as **Check_enableCheck_ReceiveErrors**
+      Use this channel to receive Check enableCheck errors as **Check_enableCheck_NoneErrors**
       messages.
 operations:
-  Check_enableCheck_Send:
+  Check_enableCheck_submit:
     action: send
     channel:
-      $ref: '#/channels/Send_Check_enableCheck'
+      $ref: '#/channels/submit_Check_enableCheck'
     messages:
-      - $ref: '#/channels/Send_Check_enableCheck/messages/Check.enableCheck_Send.message'
-  Check_enableCheck_Error:
+      - $ref: '#/channels/submit_Check_enableCheck/messages/Check.enableCheck_submit.message'
+  Check_enableCheck_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Check_enableCheck'
+      $ref: '#/channels/error_Check_enableCheck'
     messages:
-      - $ref: '#/channels/Error_Check_enableCheck/messages/Check.enableCheck_Error.message'
+      - $ref: '#/channels/error_Check_enableCheck/messages/Check.enableCheck_error.message'
 components:
   schemas:
-    Check_enableCheck_Send:
+    Check_enableCheck_submit:
       type: object
       properties:
         transactionId:
@@ -67,7 +67,7 @@ components:
           $ref: '#/components/schemas/com/InstanceBooleanPair'
           description: |
             If the check is being enabled, and the check is defined as being periodic in the check link definition, then the provider shall generate a check result immediately and start the checking interval from that check.
-    Check_enableCheck_Error:
+    Check_enableCheck_error:
       type: object
       properties:
         transactionId:
@@ -77,8 +77,8 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MAL
             - COM
+            - MAL
         name:
           type: string
           description: A code representing the error.
@@ -103,11 +103,11 @@ components:
             type: boolean
         type: object
   messages:
-    Check_enableCheck_Send:
+    Check_enableCheck_submit:
       description: Check enableCheck request submission
       payload:
-        $ref: '#/components/schemas/Check_enableCheck_Send'
-    Check_enableCheck_Error:
+        $ref: '#/components/schemas/Check_enableCheck_submit'
+    Check_enableCheck_error:
       description: Check enableCheck error response
       payload:
-        $ref: '#/components/schemas/Check_enableCheck_Error'
+        $ref: '#/components/schemas/Check_enableCheck_error'

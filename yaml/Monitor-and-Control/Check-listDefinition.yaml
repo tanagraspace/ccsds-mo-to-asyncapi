@@ -13,52 +13,52 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Check_listDefinition:
-    address: Send_Check_listDefinition
+  request_Check_listDefinition:
+    address: request_Check_listDefinition
     messages:
-      Check.listDefinition_Send.message:
-        $ref: '#/components/messages/Check_listDefinition_Send'
+      Check.listDefinition_request.message:
+        $ref: '#/components/messages/Check_listDefinition_request'
     description: >
-      Send a **Check_listDefinition_Send** message in this channel to receive a
-      **Check_listDefinition_Receive** message over the **Receive_Check_listDefinition** channel.
-  Receive_Check_listDefinition:
-    address: Receive_Check_listDefinition
+      Send a **Check_listDefinition_request** message in this channel to receive a
+      **Check_listDefinition_response** message over the **response_Check_listDefinition** channel.
+  response_Check_listDefinition:
+    address: response_Check_listDefinition
     messages:
-      Check.listDefinition_Receive.message:
-        $ref: '#/components/messages/Check_listDefinition_Receive'
+      Check.listDefinition_response.message:
+        $ref: '#/components/messages/Check_listDefinition_response'
     description: >
-      Use this channel to receive Check listDefinition responses as **Check_listDefinition_Receive**
+      Use this channel to receive Check listDefinition responses as **Check_listDefinition_response**
       messages.
-  Error_Check_listDefinition:
-    address: Error_Check_listDefinition
+  error_Check_listDefinition:
+    address: error_Check_listDefinition
     messages:
-      Check.listDefinition_Error.message:
-        $ref: '#/components/messages/Check_listDefinition_Error'
+      Check.listDefinition_error.message:
+        $ref: '#/components/messages/Check_listDefinition_error'
     description: >
-      Use this channel to receive Check listDefinition errors as **Check_listDefinition_ReceiveErrors**
+      Use this channel to receive Check listDefinition errors as **Check_listDefinition_responseErrors**
       messages.
 operations:
-  Check_listDefinition_Send:
+  Check_listDefinition_request:
     action: send
     channel:
-      $ref: '#/channels/Send_Check_listDefinition'
+      $ref: '#/channels/request_Check_listDefinition'
     messages:
-      - $ref: '#/channels/Send_Check_listDefinition/messages/Check.listDefinition_Send.message'
-  Check_listDefinition_Receive:
+      - $ref: '#/channels/request_Check_listDefinition/messages/Check.listDefinition_request.message'
+  Check_listDefinition_response:
     action: receive
     channel:
-      $ref: '#/channels/Receive_Check_listDefinition'
+      $ref: '#/channels/response_Check_listDefinition'
     messages:
-      - $ref: '#/channels/Receive_Check_listDefinition/messages/Check.listDefinition_Receive.message'
-  Check_listDefinition_Error:
+      - $ref: '#/channels/response_Check_listDefinition/messages/Check.listDefinition_response.message'
+  Check_listDefinition_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Check_listDefinition'
+      $ref: '#/channels/error_Check_listDefinition'
     messages:
-      - $ref: '#/channels/Error_Check_listDefinition/messages/Check.listDefinition_Error.message'
+      - $ref: '#/channels/error_Check_listDefinition/messages/Check.listDefinition_error.message'
 components:
   schemas:
-    Check_listDefinition_Send:
+    Check_listDefinition_request:
       type: object
       properties:
         transactionId:
@@ -73,7 +73,7 @@ components:
             The request may contain the wildcard value of '*' to return all supported check definitions.
             The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.
             If a provided identifier does not include a wildcard and does not match an existing CheckIdentity object then this operation shall fail with an UNKNOWN error.
-    Check_listDefinition_Receive:
+    Check_listDefinition_response:
       type: object
       properties:
         transactionId:
@@ -84,7 +84,7 @@ components:
           description: |
             The response shall contain a list of matching CheckIdentity and actual check definition object instance identifiers and the actual check definition object type.
             The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.
-    Check_listDefinition_Error:
+    Check_listDefinition_error:
       type: object
       properties:
         transactionId:
@@ -153,15 +153,15 @@ components:
             type: integer
         type: object
   messages:
-    Check_listDefinition_Send:
+    Check_listDefinition_request:
       description: Check listDefinition request submission
       payload:
-        $ref: '#/components/schemas/Check_listDefinition_Send'
-    Check_listDefinition_Receive:
+        $ref: '#/components/schemas/Check_listDefinition_request'
+    Check_listDefinition_response:
       description: Check listDefinition update response
       payload:
-        $ref: '#/components/schemas/Check_listDefinition_Receive'
-    Check_listDefinition_Error:
+        $ref: '#/components/schemas/Check_listDefinition_response'
+    Check_listDefinition_error:
       description: Check listDefinition error response
       payload:
-        $ref: '#/components/schemas/Check_listDefinition_Error'
+        $ref: '#/components/schemas/Check_listDefinition_error'

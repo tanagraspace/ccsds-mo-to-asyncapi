@@ -13,38 +13,38 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Action_submitAction:
-    address: Send_Action_submitAction
+  submit_Action_submitAction:
+    address: submit_Action_submitAction
     messages:
-      Action.submitAction_Send.message:
-        $ref: '#/components/messages/Action_submitAction_Send'
+      Action.submitAction_submit.message:
+        $ref: '#/components/messages/Action_submitAction_submit'
     description: >
-      Send a **Action_submitAction_Send** message in this channel to receive a
-      **Action_submitAction_Receive** message over the **Receive_Action_submitAction** channel.
-  Error_Action_submitAction:
-    address: Error_Action_submitAction
+      Send a **Action_submitAction_submit** message in this channel to receive a
+      **Action_submitAction_None** message over the **None_Action_submitAction** channel.
+  error_Action_submitAction:
+    address: error_Action_submitAction
     messages:
-      Action.submitAction_Error.message:
-        $ref: '#/components/messages/Action_submitAction_Error'
+      Action.submitAction_error.message:
+        $ref: '#/components/messages/Action_submitAction_error'
     description: >
-      Use this channel to receive Action submitAction errors as **Action_submitAction_ReceiveErrors**
+      Use this channel to receive Action submitAction errors as **Action_submitAction_NoneErrors**
       messages.
 operations:
-  Action_submitAction_Send:
+  Action_submitAction_submit:
     action: send
     channel:
-      $ref: '#/channels/Send_Action_submitAction'
+      $ref: '#/channels/submit_Action_submitAction'
     messages:
-      - $ref: '#/channels/Send_Action_submitAction/messages/Action.submitAction_Send.message'
-  Action_submitAction_Error:
+      - $ref: '#/channels/submit_Action_submitAction/messages/Action.submitAction_submit.message'
+  Action_submitAction_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Action_submitAction'
+      $ref: '#/channels/error_Action_submitAction'
     messages:
-      - $ref: '#/channels/Error_Action_submitAction/messages/Action.submitAction_Error.message'
+      - $ref: '#/channels/error_Action_submitAction/messages/Action.submitAction_error.message'
 components:
   schemas:
-    Action_submitAction_Send:
+    Action_submitAction_submit:
       type: object
       properties:
         transactionId:
@@ -67,7 +67,7 @@ components:
             A service provider may apply some deployment specific checks to the action instance and can return an INVALID error if they fail.
             If an error is raised then no action shall be executed.
             The SUBMIT acknowledgement shall be returned once the action has been accepted for execution but before execution starts.
-    Action_submitAction_Error:
+    Action_submitAction_error:
       type: object
       properties:
         transactionId:
@@ -77,8 +77,8 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MAL
             - COM
+            - MAL
         name:
           type: string
           description: A code representing the error.
@@ -144,11 +144,11 @@ components:
             type: string
         type: object
   messages:
-    Action_submitAction_Send:
+    Action_submitAction_submit:
       description: Action submitAction request submission
       payload:
-        $ref: '#/components/schemas/Action_submitAction_Send'
-    Action_submitAction_Error:
+        $ref: '#/components/schemas/Action_submitAction_submit'
+    Action_submitAction_error:
       description: Action submitAction error response
       payload:
-        $ref: '#/components/schemas/Action_submitAction_Error'
+        $ref: '#/components/schemas/Action_submitAction_error'

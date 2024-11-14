@@ -13,52 +13,52 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Alert_updateDefinition:
-    address: Send_Alert_updateDefinition
+  request_Alert_updateDefinition:
+    address: request_Alert_updateDefinition
     messages:
-      Alert.updateDefinition_Send.message:
-        $ref: '#/components/messages/Alert_updateDefinition_Send'
+      Alert.updateDefinition_request.message:
+        $ref: '#/components/messages/Alert_updateDefinition_request'
     description: >
-      Send a **Alert_updateDefinition_Send** message in this channel to receive a
-      **Alert_updateDefinition_Receive** message over the **Receive_Alert_updateDefinition** channel.
-  Receive_Alert_updateDefinition:
-    address: Receive_Alert_updateDefinition
+      Send a **Alert_updateDefinition_request** message in this channel to receive a
+      **Alert_updateDefinition_response** message over the **response_Alert_updateDefinition** channel.
+  response_Alert_updateDefinition:
+    address: response_Alert_updateDefinition
     messages:
-      Alert.updateDefinition_Receive.message:
-        $ref: '#/components/messages/Alert_updateDefinition_Receive'
+      Alert.updateDefinition_response.message:
+        $ref: '#/components/messages/Alert_updateDefinition_response'
     description: >
-      Use this channel to receive Alert updateDefinition responses as **Alert_updateDefinition_Receive**
+      Use this channel to receive Alert updateDefinition responses as **Alert_updateDefinition_response**
       messages.
-  Error_Alert_updateDefinition:
-    address: Error_Alert_updateDefinition
+  error_Alert_updateDefinition:
+    address: error_Alert_updateDefinition
     messages:
-      Alert.updateDefinition_Error.message:
-        $ref: '#/components/messages/Alert_updateDefinition_Error'
+      Alert.updateDefinition_error.message:
+        $ref: '#/components/messages/Alert_updateDefinition_error'
     description: >
-      Use this channel to receive Alert updateDefinition errors as **Alert_updateDefinition_ReceiveErrors**
+      Use this channel to receive Alert updateDefinition errors as **Alert_updateDefinition_responseErrors**
       messages.
 operations:
-  Alert_updateDefinition_Send:
+  Alert_updateDefinition_request:
     action: send
     channel:
-      $ref: '#/channels/Send_Alert_updateDefinition'
+      $ref: '#/channels/request_Alert_updateDefinition'
     messages:
-      - $ref: '#/channels/Send_Alert_updateDefinition/messages/Alert.updateDefinition_Send.message'
-  Alert_updateDefinition_Receive:
+      - $ref: '#/channels/request_Alert_updateDefinition/messages/Alert.updateDefinition_request.message'
+  Alert_updateDefinition_response:
     action: receive
     channel:
-      $ref: '#/channels/Receive_Alert_updateDefinition'
+      $ref: '#/channels/response_Alert_updateDefinition'
     messages:
-      - $ref: '#/channels/Receive_Alert_updateDefinition/messages/Alert.updateDefinition_Receive.message'
-  Alert_updateDefinition_Error:
+      - $ref: '#/channels/response_Alert_updateDefinition/messages/Alert.updateDefinition_response.message'
+  Alert_updateDefinition_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Alert_updateDefinition'
+      $ref: '#/channels/error_Alert_updateDefinition'
     messages:
-      - $ref: '#/channels/Error_Alert_updateDefinition/messages/Alert.updateDefinition_Error.message'
+      - $ref: '#/channels/error_Alert_updateDefinition/messages/Alert.updateDefinition_error.message'
 components:
   schemas:
-    Alert_updateDefinition_Send:
+    Alert_updateDefinition_request:
       type: object
       properties:
         transactionId:
@@ -82,7 +82,7 @@ components:
             If an error is raised then no definitions shall be updated as a result of this operation call.
             The provider shall create a new AlertDefinition object and store it in the COM archive.
             The new AlertDefinition object shall be the current AlertDefinition used for the specific AlertIdentity.
-    Alert_updateDefinition_Receive:
+    Alert_updateDefinition_response:
       type: object
       properties:
         transactionId:
@@ -96,7 +96,7 @@ components:
           description: |
             The response shall contain the list of object instance identifiers for the new AlertDefinition objects.
             The returned list shall maintain the same order as the submitted definitions.
-    Alert_updateDefinition_Error:
+    Alert_updateDefinition_error:
       type: object
       properties:
         transactionId:
@@ -106,8 +106,8 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MAL
             - COM
+            - MAL
         name:
           type: string
           description: A code representing the error.
@@ -241,15 +241,15 @@ components:
           - ICONTAINS
           type: string
   messages:
-    Alert_updateDefinition_Send:
+    Alert_updateDefinition_request:
       description: Alert updateDefinition request submission
       payload:
-        $ref: '#/components/schemas/Alert_updateDefinition_Send'
-    Alert_updateDefinition_Receive:
+        $ref: '#/components/schemas/Alert_updateDefinition_request'
+    Alert_updateDefinition_response:
       description: Alert updateDefinition update response
       payload:
-        $ref: '#/components/schemas/Alert_updateDefinition_Receive'
-    Alert_updateDefinition_Error:
+        $ref: '#/components/schemas/Alert_updateDefinition_response'
+    Alert_updateDefinition_error:
       description: Alert updateDefinition error response
       payload:
-        $ref: '#/components/schemas/Alert_updateDefinition_Error'
+        $ref: '#/components/schemas/Alert_updateDefinition_error'

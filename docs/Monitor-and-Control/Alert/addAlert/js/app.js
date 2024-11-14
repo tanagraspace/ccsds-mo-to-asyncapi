@@ -4,50 +4,33 @@
   "info": {
     "title": "Alert Service addAlert API",
     "version": "1.0.0",
-    "description": "This API allows clients to interact with the addAlert iteraction of the Alert Service."
+    "description": "This API allows clients to interact with the addAlert interaction of the Alert Service."
   },
   "defaultContentType": "application/json",
   "servers": {
     "production": {
       "host": "localhost:{port}",
       "protocol": "mqtt",
-      "description": "MQTT server for the addAlert interaction.",
+      "description": "MQTT server for the Alert Service's addAlert interaction.",
       "variables": {
         "port": {
-          "enum": [
-            "8883",
-            "8884"
-          ],
           "default": "8883"
-        }
-      },
-      "bindings": {
-        "mqtt": {
-          "clientId": "guest",
-          "cleanSession": false,
-          "keepAlive": 0,
-          "lastWill": {
-            "topic": "/will",
-            "qos": 0,
-            "message": "Guest gone offline.",
-            "retain": false
-          }
         }
       }
     }
   },
   "channels": {
-    "Send_Alert_addAlert": {
-      "address": "Send_Alert_addAlert",
+    "request_Alert_addAlert": {
+      "address": "request_Alert_addAlert",
       "messages": {
-        "Alert.addAlert_Send.message": {
+        "Alert.addAlert_request.message": {
           "description": "Alert addAlert request submission",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-1>"
               },
               "alertDefDetails": {
@@ -119,7 +102,7 @@
                                     "type": "object",
                                     "x-parser-schema-id": "<anonymous-schema-9>"
                                   },
-                                  "conversionId": "$ref:$.channels.Send_Alert_addAlert.messages.Alert.addAlert_Send.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.parameterId"
+                                  "conversionId": "$ref:$.channels.request_Alert_addAlert.messages.Alert.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.parameterId"
                                 },
                                 "type": "object",
                                 "x-parser-schema-id": "<anonymous-schema-8>"
@@ -197,26 +180,26 @@
                 "x-parser-schema-id": "<anonymous-schema-2>"
               }
             },
-            "x-parser-schema-id": "Alert_addAlert_Send"
+            "x-parser-schema-id": "Alert_addAlert_request"
           },
-          "x-parser-unique-object-id": "Alert.addAlert_Send.message",
-          "x-parser-message-name": "Alert_addAlert_Send"
+          "x-parser-unique-object-id": "Alert.addAlert_request.message",
+          "x-parser-message-name": "Alert_addAlert_request"
         }
       },
-      "description": "Send a **Alert_addAlert_Send** message in this channel to receive a **Alert_addAlert_Receive** message over the **Receive_Alert_addAlert** channel.\n",
-      "x-parser-unique-object-id": "Send_Alert_addAlert"
+      "description": "Send a **Alert_addAlert_request** message in this channel to receive a **Alert_addAlert_response** message over the **response_Alert_addAlert** channel.\n",
+      "x-parser-unique-object-id": "request_Alert_addAlert"
     },
-    "Receive_Alert_addAlert": {
-      "address": "Receive_Alert_addAlert",
+    "response_Alert_addAlert": {
+      "address": "response_Alert_addAlert",
       "messages": {
-        "Alert.addAlert_Receive.message": {
+        "Alert.addAlert_response.message": {
           "description": "Alert addAlert update response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-26>"
               },
               "newObjInstIds": {
@@ -238,26 +221,26 @@
                 "x-parser-schema-id": "<anonymous-schema-27>"
               }
             },
-            "x-parser-schema-id": "Alert_addAlert_Receive"
+            "x-parser-schema-id": "Alert_addAlert_response"
           },
-          "x-parser-unique-object-id": "Alert.addAlert_Receive.message",
-          "x-parser-message-name": "Alert_addAlert_Receive"
+          "x-parser-unique-object-id": "Alert.addAlert_response.message",
+          "x-parser-message-name": "Alert_addAlert_response"
         }
       },
-      "description": "Use this channel to receive Alert addAlert responses as **Alert_addAlert_Receive** messages.\n",
-      "x-parser-unique-object-id": "Receive_Alert_addAlert"
+      "description": "Use this channel to receive Alert addAlert responses as **Alert_addAlert_response** messages.\n",
+      "x-parser-unique-object-id": "response_Alert_addAlert"
     },
-    "Error_Alert_addAlert": {
-      "address": "Error_Alert_addAlert",
+    "error_Alert_addAlert": {
+      "address": "error_Alert_addAlert",
       "messages": {
-        "Alert.addAlert_Error.message": {
+        "Alert.addAlert_error.message": {
           "description": "Alert addAlert error response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-30>"
               },
               "area": {
@@ -282,77 +265,77 @@
                 "items": {
                   "type": "integer",
                   "format": "uint32",
-                  "description": "A list of the indexes of the erroneous values from the originating list supplied or request list.",
+                  "description": "A list of the indexes of the error values shall be contained in the extra information field.",
                   "x-parser-schema-id": "<anonymous-schema-34>"
                 },
                 "x-parser-schema-id": "<anonymous-schema-33>"
               }
             },
-            "x-parser-schema-id": "Alert_addAlert_Error"
+            "x-parser-schema-id": "Alert_addAlert_error"
           },
-          "x-parser-unique-object-id": "Alert.addAlert_Error.message",
-          "x-parser-message-name": "Alert_addAlert_Error"
+          "x-parser-unique-object-id": "Alert.addAlert_error.message",
+          "x-parser-message-name": "Alert_addAlert_error"
         }
       },
-      "description": "Use this channel to receive Alert addAlert errors as **Alert_addAlert_ReceiveErrors** messages.\n",
-      "x-parser-unique-object-id": "Error_Alert_addAlert"
+      "description": "Use this channel to receive Alert addAlert errors as **Alert_addAlert_responseErrors** messages.\n",
+      "x-parser-unique-object-id": "error_Alert_addAlert"
     }
   },
   "operations": {
-    "Alert_addAlert_Send": {
+    "Alert_addAlert_request": {
       "action": "send",
-      "channel": "$ref:$.channels.Send_Alert_addAlert",
+      "channel": "$ref:$.channels.request_Alert_addAlert",
       "messages": [
-        "$ref:$.channels.Send_Alert_addAlert.messages.Alert.addAlert_Send.message"
+        "$ref:$.channels.request_Alert_addAlert.messages.Alert.addAlert_request.message"
       ],
-      "x-parser-unique-object-id": "Alert_addAlert_Send"
+      "x-parser-unique-object-id": "Alert_addAlert_request"
     },
-    "Alert_addAlert_Receive": {
+    "Alert_addAlert_response": {
       "action": "receive",
-      "channel": "$ref:$.channels.Receive_Alert_addAlert",
+      "channel": "$ref:$.channels.response_Alert_addAlert",
       "messages": [
-        "$ref:$.channels.Receive_Alert_addAlert.messages.Alert.addAlert_Receive.message"
+        "$ref:$.channels.response_Alert_addAlert.messages.Alert.addAlert_response.message"
       ],
-      "x-parser-unique-object-id": "Alert_addAlert_Receive"
+      "x-parser-unique-object-id": "Alert_addAlert_response"
     },
-    "Alert_addAlert_Error": {
+    "Alert_addAlert_error": {
       "action": "receive",
-      "channel": "$ref:$.channels.Error_Alert_addAlert",
+      "channel": "$ref:$.channels.error_Alert_addAlert",
       "messages": [
-        "$ref:$.channels.Error_Alert_addAlert.messages.Alert.addAlert_Error.message"
+        "$ref:$.channels.error_Alert_addAlert.messages.Alert.addAlert_error.message"
       ],
-      "x-parser-unique-object-id": "Alert_addAlert_Error"
+      "x-parser-unique-object-id": "Alert_addAlert_error"
     }
   },
   "components": {
     "schemas": {
-      "Alert_addAlert_Send": "$ref:$.channels.Send_Alert_addAlert.messages.Alert.addAlert_Send.message.payload",
-      "Alert_addAlert_Receive": "$ref:$.channels.Receive_Alert_addAlert.messages.Alert.addAlert_Receive.message.payload",
-      "Alert_addAlert_Error": "$ref:$.channels.Error_Alert_addAlert.messages.Alert.addAlert_Error.message.payload",
+      "Alert_addAlert_request": "$ref:$.channels.request_Alert_addAlert.messages.Alert.addAlert_request.message.payload",
+      "Alert_addAlert_response": "$ref:$.channels.response_Alert_addAlert.messages.Alert.addAlert_response.message.payload",
+      "Alert_addAlert_error": "$ref:$.channels.error_Alert_addAlert.messages.Alert.addAlert_error.message.payload",
       "mc": {
         "alert": {
-          "AlertCreationRequest": "$ref:$.channels.Send_Alert_addAlert.messages.Alert.addAlert_Send.message.payload.properties.alertDefDetails",
-          "AlertDefinitionDetails": "$ref:$.channels.Send_Alert_addAlert.messages.Alert.addAlert_Send.message.payload.properties.alertDefDetails.properties.alertDefDetails"
+          "AlertCreationRequest": "$ref:$.channels.request_Alert_addAlert.messages.Alert.addAlert_request.message.payload.properties.alertDefDetails",
+          "AlertDefinitionDetails": "$ref:$.channels.request_Alert_addAlert.messages.Alert.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails"
         },
-        "ArgumentDefinitionDetails": "$ref:$.channels.Send_Alert_addAlert.messages.Alert.addAlert_Send.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items",
-        "ConditionalConversion": "$ref:$.channels.Send_Alert_addAlert.messages.Alert.addAlert_Send.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items.properties.conditionalConversions.items",
-        "ObjectInstancePair": "$ref:$.channels.Receive_Alert_addAlert.messages.Alert.addAlert_Receive.message.payload.properties.newObjInstIds",
-        "ParameterExpression": "$ref:$.channels.Send_Alert_addAlert.messages.Alert.addAlert_Send.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition",
-        "Severity": "$ref:$.channels.Send_Alert_addAlert.messages.Alert.addAlert_Send.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.severity",
+        "ArgumentDefinitionDetails": "$ref:$.channels.request_Alert_addAlert.messages.Alert.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items",
+        "ConditionalConversion": "$ref:$.channels.request_Alert_addAlert.messages.Alert.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items.properties.conditionalConversions.items",
+        "ObjectInstancePair": "$ref:$.channels.response_Alert_addAlert.messages.Alert.addAlert_response.message.payload.properties.newObjInstIds",
+        "ParameterExpression": "$ref:$.channels.request_Alert_addAlert.messages.Alert.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition",
+        "Severity": "$ref:$.channels.request_Alert_addAlert.messages.Alert.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.severity",
         "x-parser-schema-id": "mc"
       },
       "com": {
-        "ObjectKey": "$ref:$.channels.Send_Alert_addAlert.messages.Alert.addAlert_Send.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.parameterId",
+        "ObjectKey": "$ref:$.channels.request_Alert_addAlert.messages.Alert.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.parameterId",
         "archive": {
-          "ExpressionOperator": "$ref:$.channels.Send_Alert_addAlert.messages.Alert.addAlert_Send.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.operator"
+          "ExpressionOperator": "$ref:$.channels.request_Alert_addAlert.messages.Alert.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.operator"
         },
         "x-parser-schema-id": "com"
       }
     },
     "messages": {
-      "Alert_addAlert_Send": "$ref:$.channels.Send_Alert_addAlert.messages.Alert.addAlert_Send.message",
-      "Alert_addAlert_Receive": "$ref:$.channels.Receive_Alert_addAlert.messages.Alert.addAlert_Receive.message",
-      "Alert_addAlert_Error": "$ref:$.channels.Error_Alert_addAlert.messages.Alert.addAlert_Error.message"
+      "Alert_addAlert_request": "$ref:$.channels.request_Alert_addAlert.messages.Alert.addAlert_request.message",
+      "Alert_addAlert_response": "$ref:$.channels.response_Alert_addAlert.messages.Alert.addAlert_response.message",
+      "Alert_addAlert_error": "$ref:$.channels.error_Alert_addAlert.messages.Alert.addAlert_error.message"
     }
   },
   "x-parser-spec-parsed": true,

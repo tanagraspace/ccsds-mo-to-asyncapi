@@ -4,50 +4,33 @@
   "info": {
     "title": "Check Service enableCheck API",
     "version": "1.0.0",
-    "description": "This API allows clients to interact with the enableCheck iteraction of the Check Service."
+    "description": "This API allows clients to interact with the enableCheck interaction of the Check Service."
   },
   "defaultContentType": "application/json",
   "servers": {
     "production": {
       "host": "localhost:{port}",
       "protocol": "mqtt",
-      "description": "MQTT server for the enableCheck interaction.",
+      "description": "MQTT server for the Check Service's enableCheck interaction.",
       "variables": {
         "port": {
-          "enum": [
-            "8883",
-            "8884"
-          ],
           "default": "8883"
-        }
-      },
-      "bindings": {
-        "mqtt": {
-          "clientId": "guest",
-          "cleanSession": false,
-          "keepAlive": 0,
-          "lastWill": {
-            "topic": "/will",
-            "qos": 0,
-            "message": "Guest gone offline.",
-            "retain": false
-          }
         }
       }
     }
   },
   "channels": {
-    "Send_Check_enableCheck": {
-      "address": "Send_Check_enableCheck",
+    "submit_Check_enableCheck": {
+      "address": "submit_Check_enableCheck",
       "messages": {
-        "Check.enableCheck_Send.message": {
+        "Check.enableCheck_submit.message": {
           "description": "Check enableCheck request submission",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-1>"
               },
               "isGroupIds": {
@@ -73,34 +56,34 @@
                 "x-parser-schema-id": "<anonymous-schema-3>"
               }
             },
-            "x-parser-schema-id": "Check_enableCheck_Send"
+            "x-parser-schema-id": "Check_enableCheck_submit"
           },
-          "x-parser-unique-object-id": "Check.enableCheck_Send.message",
-          "x-parser-message-name": "Check_enableCheck_Send"
+          "x-parser-unique-object-id": "Check.enableCheck_submit.message",
+          "x-parser-message-name": "Check_enableCheck_submit"
         }
       },
-      "description": "Send a **Check_enableCheck_Send** message in this channel to receive a **Check_enableCheck_Receive** message over the **Receive_Check_enableCheck** channel.\n",
-      "x-parser-unique-object-id": "Send_Check_enableCheck"
+      "description": "Send a **Check_enableCheck_submit** message in this channel to receive a **Check_enableCheck_None** message over the **None_Check_enableCheck** channel.\n",
+      "x-parser-unique-object-id": "submit_Check_enableCheck"
     },
-    "Error_Check_enableCheck": {
-      "address": "Error_Check_enableCheck",
+    "error_Check_enableCheck": {
+      "address": "error_Check_enableCheck",
       "messages": {
-        "Check.enableCheck_Error.message": {
+        "Check.enableCheck_error.message": {
           "description": "Check enableCheck error response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-6>"
               },
               "area": {
                 "type": "string",
                 "description": "The area in which the error applies.",
                 "enum": [
-                  "MAL",
-                  "COM"
+                  "COM",
+                  "MAL"
                 ],
                 "x-parser-schema-id": "<anonymous-schema-7>"
               },
@@ -108,8 +91,8 @@
                 "type": "string",
                 "description": "A code representing the error.",
                 "enum": [
-                  "INVALID",
-                  "UNKNOWN"
+                  "UNKNOWN",
+                  "INVALID"
                 ],
                 "x-parser-schema-id": "<anonymous-schema-8>"
               },
@@ -118,52 +101,52 @@
                 "items": {
                   "type": "integer",
                   "format": "uint32",
-                  "description": "A list of the indexes of the erroneous values from the originating list supplied or request list.",
+                  "description": "A list of the indexes of the error values shall be contained in the extra information field.",
                   "x-parser-schema-id": "<anonymous-schema-10>"
                 },
                 "x-parser-schema-id": "<anonymous-schema-9>"
               }
             },
-            "x-parser-schema-id": "Check_enableCheck_Error"
+            "x-parser-schema-id": "Check_enableCheck_error"
           },
-          "x-parser-unique-object-id": "Check.enableCheck_Error.message",
-          "x-parser-message-name": "Check_enableCheck_Error"
+          "x-parser-unique-object-id": "Check.enableCheck_error.message",
+          "x-parser-message-name": "Check_enableCheck_error"
         }
       },
-      "description": "Use this channel to receive Check enableCheck errors as **Check_enableCheck_ReceiveErrors** messages.\n",
-      "x-parser-unique-object-id": "Error_Check_enableCheck"
+      "description": "Use this channel to receive Check enableCheck errors as **Check_enableCheck_NoneErrors** messages.\n",
+      "x-parser-unique-object-id": "error_Check_enableCheck"
     }
   },
   "operations": {
-    "Check_enableCheck_Send": {
+    "Check_enableCheck_submit": {
       "action": "send",
-      "channel": "$ref:$.channels.Send_Check_enableCheck",
+      "channel": "$ref:$.channels.submit_Check_enableCheck",
       "messages": [
-        "$ref:$.channels.Send_Check_enableCheck.messages.Check.enableCheck_Send.message"
+        "$ref:$.channels.submit_Check_enableCheck.messages.Check.enableCheck_submit.message"
       ],
-      "x-parser-unique-object-id": "Check_enableCheck_Send"
+      "x-parser-unique-object-id": "Check_enableCheck_submit"
     },
-    "Check_enableCheck_Error": {
+    "Check_enableCheck_error": {
       "action": "receive",
-      "channel": "$ref:$.channels.Error_Check_enableCheck",
+      "channel": "$ref:$.channels.error_Check_enableCheck",
       "messages": [
-        "$ref:$.channels.Error_Check_enableCheck.messages.Check.enableCheck_Error.message"
+        "$ref:$.channels.error_Check_enableCheck.messages.Check.enableCheck_error.message"
       ],
-      "x-parser-unique-object-id": "Check_enableCheck_Error"
+      "x-parser-unique-object-id": "Check_enableCheck_error"
     }
   },
   "components": {
     "schemas": {
-      "Check_enableCheck_Send": "$ref:$.channels.Send_Check_enableCheck.messages.Check.enableCheck_Send.message.payload",
-      "Check_enableCheck_Error": "$ref:$.channels.Error_Check_enableCheck.messages.Check.enableCheck_Error.message.payload",
+      "Check_enableCheck_submit": "$ref:$.channels.submit_Check_enableCheck.messages.Check.enableCheck_submit.message.payload",
+      "Check_enableCheck_error": "$ref:$.channels.error_Check_enableCheck.messages.Check.enableCheck_error.message.payload",
       "com": {
-        "InstanceBooleanPair": "$ref:$.channels.Send_Check_enableCheck.messages.Check.enableCheck_Send.message.payload.properties.enableInstances",
+        "InstanceBooleanPair": "$ref:$.channels.submit_Check_enableCheck.messages.Check.enableCheck_submit.message.payload.properties.enableInstances",
         "x-parser-schema-id": "com"
       }
     },
     "messages": {
-      "Check_enableCheck_Send": "$ref:$.channels.Send_Check_enableCheck.messages.Check.enableCheck_Send.message",
-      "Check_enableCheck_Error": "$ref:$.channels.Error_Check_enableCheck.messages.Check.enableCheck_Error.message"
+      "Check_enableCheck_submit": "$ref:$.channels.submit_Check_enableCheck.messages.Check.enableCheck_submit.message",
+      "Check_enableCheck_error": "$ref:$.channels.error_Check_enableCheck.messages.Check.enableCheck_error.message"
     }
   },
   "x-parser-spec-parsed": true,

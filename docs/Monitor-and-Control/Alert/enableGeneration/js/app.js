@@ -4,50 +4,33 @@
   "info": {
     "title": "Alert Service enableGeneration API",
     "version": "1.0.0",
-    "description": "This API allows clients to interact with the enableGeneration iteraction of the Alert Service."
+    "description": "This API allows clients to interact with the enableGeneration interaction of the Alert Service."
   },
   "defaultContentType": "application/json",
   "servers": {
     "production": {
       "host": "localhost:{port}",
       "protocol": "mqtt",
-      "description": "MQTT server for the enableGeneration interaction.",
+      "description": "MQTT server for the Alert Service's enableGeneration interaction.",
       "variables": {
         "port": {
-          "enum": [
-            "8883",
-            "8884"
-          ],
           "default": "8883"
-        }
-      },
-      "bindings": {
-        "mqtt": {
-          "clientId": "guest",
-          "cleanSession": false,
-          "keepAlive": 0,
-          "lastWill": {
-            "topic": "/will",
-            "qos": 0,
-            "message": "Guest gone offline.",
-            "retain": false
-          }
         }
       }
     }
   },
   "channels": {
-    "Send_Alert_enableGeneration": {
-      "address": "Send_Alert_enableGeneration",
+    "request_Alert_enableGeneration": {
+      "address": "request_Alert_enableGeneration",
       "messages": {
-        "Alert.enableGeneration_Send.message": {
+        "Alert.enableGeneration_request.message": {
           "description": "Alert enableGeneration request submission",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-1>"
               },
               "isGroupIds": {
@@ -73,65 +56,69 @@
                 "x-parser-schema-id": "<anonymous-schema-3>"
               }
             },
-            "x-parser-schema-id": "Alert_enableGeneration_Send"
+            "x-parser-schema-id": "Alert_enableGeneration_request"
           },
-          "x-parser-unique-object-id": "Alert.enableGeneration_Send.message",
-          "x-parser-message-name": "Alert_enableGeneration_Send"
+          "x-parser-unique-object-id": "Alert.enableGeneration_request.message",
+          "x-parser-message-name": "Alert_enableGeneration_request"
         }
       },
-      "description": "Send a **Alert_enableGeneration_Send** message in this channel to receive a **Alert_enableGeneration_Receive** message over the **Receive_Alert_enableGeneration** channel.\n",
-      "x-parser-unique-object-id": "Send_Alert_enableGeneration"
+      "description": "Send a **Alert_enableGeneration_request** message in this channel to receive a **Alert_enableGeneration_response** message over the **response_Alert_enableGeneration** channel.\n",
+      "x-parser-unique-object-id": "request_Alert_enableGeneration"
     },
-    "Receive_Alert_enableGeneration": {
-      "address": "Receive_Alert_enableGeneration",
+    "response_Alert_enableGeneration": {
+      "address": "response_Alert_enableGeneration",
       "messages": {
-        "Alert.enableGeneration_Receive.message": {
+        "Alert.enableGeneration_response.message": {
           "description": "Alert enableGeneration update response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-6>"
               },
               "newObjInstIds": {
-                "type": "integer",
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64",
+                  "x-parser-schema-id": "<anonymous-schema-8>"
+                },
                 "description": "The response shall contain the list of object instance identifiers for the new AlertDefinition objects.\n",
-                "format": "int64",
                 "x-parser-schema-id": "<anonymous-schema-7>"
               }
             },
-            "x-parser-schema-id": "Alert_enableGeneration_Receive"
+            "x-parser-schema-id": "Alert_enableGeneration_response"
           },
-          "x-parser-unique-object-id": "Alert.enableGeneration_Receive.message",
-          "x-parser-message-name": "Alert_enableGeneration_Receive"
+          "x-parser-unique-object-id": "Alert.enableGeneration_response.message",
+          "x-parser-message-name": "Alert_enableGeneration_response"
         }
       },
-      "description": "Use this channel to receive Alert enableGeneration responses as **Alert_enableGeneration_Receive** messages.\n",
-      "x-parser-unique-object-id": "Receive_Alert_enableGeneration"
+      "description": "Use this channel to receive Alert enableGeneration responses as **Alert_enableGeneration_response** messages.\n",
+      "x-parser-unique-object-id": "response_Alert_enableGeneration"
     },
-    "Error_Alert_enableGeneration": {
-      "address": "Error_Alert_enableGeneration",
+    "error_Alert_enableGeneration": {
+      "address": "error_Alert_enableGeneration",
       "messages": {
-        "Alert.enableGeneration_Error.message": {
+        "Alert.enableGeneration_error.message": {
           "description": "Alert enableGeneration error response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
-                "x-parser-schema-id": "<anonymous-schema-8>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "x-parser-schema-id": "<anonymous-schema-9>"
               },
               "area": {
                 "type": "string",
                 "description": "The area in which the error applies.",
                 "enum": [
-                  "MAL",
-                  "COM"
+                  "COM",
+                  "MAL"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-9>"
+                "x-parser-schema-id": "<anonymous-schema-10>"
               },
               "name": {
                 "type": "string",
@@ -140,69 +127,69 @@
                   "UNKNOWN",
                   "INVALID"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-10>"
+                "x-parser-schema-id": "<anonymous-schema-11>"
               },
               "extraInformation": {
                 "type": "array",
                 "items": {
                   "type": "integer",
                   "format": "uint32",
-                  "description": "A list of the indexes of the erroneous values from the originating list supplied or request list.",
-                  "x-parser-schema-id": "<anonymous-schema-12>"
+                  "description": "A list of the indexes of the error values shall be contained in the extra information field.",
+                  "x-parser-schema-id": "<anonymous-schema-13>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-11>"
+                "x-parser-schema-id": "<anonymous-schema-12>"
               }
             },
-            "x-parser-schema-id": "Alert_enableGeneration_Error"
+            "x-parser-schema-id": "Alert_enableGeneration_error"
           },
-          "x-parser-unique-object-id": "Alert.enableGeneration_Error.message",
-          "x-parser-message-name": "Alert_enableGeneration_Error"
+          "x-parser-unique-object-id": "Alert.enableGeneration_error.message",
+          "x-parser-message-name": "Alert_enableGeneration_error"
         }
       },
-      "description": "Use this channel to receive Alert enableGeneration errors as **Alert_enableGeneration_ReceiveErrors** messages.\n",
-      "x-parser-unique-object-id": "Error_Alert_enableGeneration"
+      "description": "Use this channel to receive Alert enableGeneration errors as **Alert_enableGeneration_responseErrors** messages.\n",
+      "x-parser-unique-object-id": "error_Alert_enableGeneration"
     }
   },
   "operations": {
-    "Alert_enableGeneration_Send": {
+    "Alert_enableGeneration_request": {
       "action": "send",
-      "channel": "$ref:$.channels.Send_Alert_enableGeneration",
+      "channel": "$ref:$.channels.request_Alert_enableGeneration",
       "messages": [
-        "$ref:$.channels.Send_Alert_enableGeneration.messages.Alert.enableGeneration_Send.message"
+        "$ref:$.channels.request_Alert_enableGeneration.messages.Alert.enableGeneration_request.message"
       ],
-      "x-parser-unique-object-id": "Alert_enableGeneration_Send"
+      "x-parser-unique-object-id": "Alert_enableGeneration_request"
     },
-    "Alert_enableGeneration_Receive": {
+    "Alert_enableGeneration_response": {
       "action": "receive",
-      "channel": "$ref:$.channels.Receive_Alert_enableGeneration",
+      "channel": "$ref:$.channels.response_Alert_enableGeneration",
       "messages": [
-        "$ref:$.channels.Receive_Alert_enableGeneration.messages.Alert.enableGeneration_Receive.message"
+        "$ref:$.channels.response_Alert_enableGeneration.messages.Alert.enableGeneration_response.message"
       ],
-      "x-parser-unique-object-id": "Alert_enableGeneration_Receive"
+      "x-parser-unique-object-id": "Alert_enableGeneration_response"
     },
-    "Alert_enableGeneration_Error": {
+    "Alert_enableGeneration_error": {
       "action": "receive",
-      "channel": "$ref:$.channels.Error_Alert_enableGeneration",
+      "channel": "$ref:$.channels.error_Alert_enableGeneration",
       "messages": [
-        "$ref:$.channels.Error_Alert_enableGeneration.messages.Alert.enableGeneration_Error.message"
+        "$ref:$.channels.error_Alert_enableGeneration.messages.Alert.enableGeneration_error.message"
       ],
-      "x-parser-unique-object-id": "Alert_enableGeneration_Error"
+      "x-parser-unique-object-id": "Alert_enableGeneration_error"
     }
   },
   "components": {
     "schemas": {
-      "Alert_enableGeneration_Send": "$ref:$.channels.Send_Alert_enableGeneration.messages.Alert.enableGeneration_Send.message.payload",
-      "Alert_enableGeneration_Receive": "$ref:$.channels.Receive_Alert_enableGeneration.messages.Alert.enableGeneration_Receive.message.payload",
-      "Alert_enableGeneration_Error": "$ref:$.channels.Error_Alert_enableGeneration.messages.Alert.enableGeneration_Error.message.payload",
+      "Alert_enableGeneration_request": "$ref:$.channels.request_Alert_enableGeneration.messages.Alert.enableGeneration_request.message.payload",
+      "Alert_enableGeneration_response": "$ref:$.channels.response_Alert_enableGeneration.messages.Alert.enableGeneration_response.message.payload",
+      "Alert_enableGeneration_error": "$ref:$.channels.error_Alert_enableGeneration.messages.Alert.enableGeneration_error.message.payload",
       "com": {
-        "InstanceBooleanPair": "$ref:$.channels.Send_Alert_enableGeneration.messages.Alert.enableGeneration_Send.message.payload.properties.enableInstances",
+        "InstanceBooleanPair": "$ref:$.channels.request_Alert_enableGeneration.messages.Alert.enableGeneration_request.message.payload.properties.enableInstances",
         "x-parser-schema-id": "com"
       }
     },
     "messages": {
-      "Alert_enableGeneration_Send": "$ref:$.channels.Send_Alert_enableGeneration.messages.Alert.enableGeneration_Send.message",
-      "Alert_enableGeneration_Receive": "$ref:$.channels.Receive_Alert_enableGeneration.messages.Alert.enableGeneration_Receive.message",
-      "Alert_enableGeneration_Error": "$ref:$.channels.Error_Alert_enableGeneration.messages.Alert.enableGeneration_Error.message"
+      "Alert_enableGeneration_request": "$ref:$.channels.request_Alert_enableGeneration.messages.Alert.enableGeneration_request.message",
+      "Alert_enableGeneration_response": "$ref:$.channels.response_Alert_enableGeneration.messages.Alert.enableGeneration_response.message",
+      "Alert_enableGeneration_error": "$ref:$.channels.error_Alert_enableGeneration.messages.Alert.enableGeneration_error.message"
     }
   },
   "x-parser-spec-parsed": true,

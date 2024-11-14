@@ -4,50 +4,33 @@
   "info": {
     "title": "Check Service enableService API",
     "version": "1.0.0",
-    "description": "This API allows clients to interact with the enableService iteraction of the Check Service."
+    "description": "This API allows clients to interact with the enableService interaction of the Check Service."
   },
   "defaultContentType": "application/json",
   "servers": {
     "production": {
       "host": "localhost:{port}",
       "protocol": "mqtt",
-      "description": "MQTT server for the enableService interaction.",
+      "description": "MQTT server for the Check Service's enableService interaction.",
       "variables": {
         "port": {
-          "enum": [
-            "8883",
-            "8884"
-          ],
           "default": "8883"
-        }
-      },
-      "bindings": {
-        "mqtt": {
-          "clientId": "guest",
-          "cleanSession": false,
-          "keepAlive": 0,
-          "lastWill": {
-            "topic": "/will",
-            "qos": 0,
-            "message": "Guest gone offline.",
-            "retain": false
-          }
         }
       }
     }
   },
   "channels": {
-    "Send_Check_enableService": {
-      "address": "Send_Check_enableService",
+    "submit_Check_enableService": {
+      "address": "submit_Check_enableService",
       "messages": {
-        "Check.enableService_Send.message": {
+        "Check.enableService_submit.message": {
           "description": "Check enableService request submission",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-1>"
               },
               "enableService": {
@@ -56,32 +39,32 @@
                 "x-parser-schema-id": "<anonymous-schema-2>"
               }
             },
-            "x-parser-schema-id": "Check_enableService_Send"
+            "x-parser-schema-id": "Check_enableService_submit"
           },
-          "x-parser-unique-object-id": "Check.enableService_Send.message",
-          "x-parser-message-name": "Check_enableService_Send"
+          "x-parser-unique-object-id": "Check.enableService_submit.message",
+          "x-parser-message-name": "Check_enableService_submit"
         }
       },
-      "description": "Send a **Check_enableService_Send** message in this channel to receive a **Check_enableService_Receive** message over the **Receive_Check_enableService** channel.\n",
-      "x-parser-unique-object-id": "Send_Check_enableService"
+      "description": "Send a **Check_enableService_submit** message in this channel to receive a **Check_enableService_None** message over the **None_Check_enableService** channel.\n",
+      "x-parser-unique-object-id": "submit_Check_enableService"
     }
   },
   "operations": {
-    "Check_enableService_Send": {
+    "Check_enableService_submit": {
       "action": "send",
-      "channel": "$ref:$.channels.Send_Check_enableService",
+      "channel": "$ref:$.channels.submit_Check_enableService",
       "messages": [
-        "$ref:$.channels.Send_Check_enableService.messages.Check.enableService_Send.message"
+        "$ref:$.channels.submit_Check_enableService.messages.Check.enableService_submit.message"
       ],
-      "x-parser-unique-object-id": "Check_enableService_Send"
+      "x-parser-unique-object-id": "Check_enableService_submit"
     }
   },
   "components": {
     "schemas": {
-      "Check_enableService_Send": "$ref:$.channels.Send_Check_enableService.messages.Check.enableService_Send.message.payload"
+      "Check_enableService_submit": "$ref:$.channels.submit_Check_enableService.messages.Check.enableService_submit.message.payload"
     },
     "messages": {
-      "Check_enableService_Send": "$ref:$.channels.Send_Check_enableService.messages.Check.enableService_Send.message"
+      "Check_enableService_submit": "$ref:$.channels.submit_Check_enableService.messages.Check.enableService_submit.message"
     }
   },
   "x-parser-spec-parsed": true,

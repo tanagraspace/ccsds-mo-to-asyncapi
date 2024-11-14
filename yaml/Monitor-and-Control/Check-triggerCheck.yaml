@@ -13,38 +13,38 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Check_triggerCheck:
-    address: Send_Check_triggerCheck
+  submit_Check_triggerCheck:
+    address: submit_Check_triggerCheck
     messages:
-      Check.triggerCheck_Send.message:
-        $ref: '#/components/messages/Check_triggerCheck_Send'
+      Check.triggerCheck_submit.message:
+        $ref: '#/components/messages/Check_triggerCheck_submit'
     description: >
-      Send a **Check_triggerCheck_Send** message in this channel to receive a
-      **Check_triggerCheck_Receive** message over the **Receive_Check_triggerCheck** channel.
-  Error_Check_triggerCheck:
-    address: Error_Check_triggerCheck
+      Send a **Check_triggerCheck_submit** message in this channel to receive a
+      **Check_triggerCheck_None** message over the **None_Check_triggerCheck** channel.
+  error_Check_triggerCheck:
+    address: error_Check_triggerCheck
     messages:
-      Check.triggerCheck_Error.message:
-        $ref: '#/components/messages/Check_triggerCheck_Error'
+      Check.triggerCheck_error.message:
+        $ref: '#/components/messages/Check_triggerCheck_error'
     description: >
-      Use this channel to receive Check triggerCheck errors as **Check_triggerCheck_ReceiveErrors**
+      Use this channel to receive Check triggerCheck errors as **Check_triggerCheck_NoneErrors**
       messages.
 operations:
-  Check_triggerCheck_Send:
+  Check_triggerCheck_submit:
     action: send
     channel:
-      $ref: '#/channels/Send_Check_triggerCheck'
+      $ref: '#/channels/submit_Check_triggerCheck'
     messages:
-      - $ref: '#/channels/Send_Check_triggerCheck/messages/Check.triggerCheck_Send.message'
-  Check_triggerCheck_Error:
+      - $ref: '#/channels/submit_Check_triggerCheck/messages/Check.triggerCheck_submit.message'
+  Check_triggerCheck_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Check_triggerCheck'
+      $ref: '#/channels/error_Check_triggerCheck'
     messages:
-      - $ref: '#/channels/Error_Check_triggerCheck/messages/Check.triggerCheck_Error.message'
+      - $ref: '#/channels/error_Check_triggerCheck/messages/Check.triggerCheck_error.message'
 components:
   schemas:
-    Check_triggerCheck_Send:
+    Check_triggerCheck_submit:
       type: object
       properties:
         transactionId:
@@ -72,7 +72,7 @@ components:
             The two lists shall be combined using 'OR' logic, where a CheckLink is evaluated if the identity of a check is in the first list or if the link is directly listed in the second list.
             Triggering a check shall ignore the nominalTime, nominalCount, violationTime and violationCount fields and requests an immediate evaluation of the checks.
             Triggering a check during a periodic check shall not influence the periodic check (e.g. it does not reset the checkInterval timer, the successive valid samples that passed/violated the check or the maxReportingInterval timer).
-    Check_triggerCheck_Error:
+    Check_triggerCheck_error:
       type: object
       properties:
         transactionId:
@@ -95,11 +95,11 @@ components:
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
   messages:
-    Check_triggerCheck_Send:
+    Check_triggerCheck_submit:
       description: Check triggerCheck request submission
       payload:
-        $ref: '#/components/schemas/Check_triggerCheck_Send'
-    Check_triggerCheck_Error:
+        $ref: '#/components/schemas/Check_triggerCheck_submit'
+    Check_triggerCheck_error:
       description: Check triggerCheck error response
       payload:
-        $ref: '#/components/schemas/Check_triggerCheck_Error'
+        $ref: '#/components/schemas/Check_triggerCheck_error'

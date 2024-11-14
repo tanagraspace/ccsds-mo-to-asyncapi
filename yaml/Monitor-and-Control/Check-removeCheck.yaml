@@ -13,38 +13,38 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Check_removeCheck:
-    address: Send_Check_removeCheck
+  submit_Check_removeCheck:
+    address: submit_Check_removeCheck
     messages:
-      Check.removeCheck_Send.message:
-        $ref: '#/components/messages/Check_removeCheck_Send'
+      Check.removeCheck_submit.message:
+        $ref: '#/components/messages/Check_removeCheck_submit'
     description: >
-      Send a **Check_removeCheck_Send** message in this channel to receive a
-      **Check_removeCheck_Receive** message over the **Receive_Check_removeCheck** channel.
-  Error_Check_removeCheck:
-    address: Error_Check_removeCheck
+      Send a **Check_removeCheck_submit** message in this channel to receive a
+      **Check_removeCheck_None** message over the **None_Check_removeCheck** channel.
+  error_Check_removeCheck:
+    address: error_Check_removeCheck
     messages:
-      Check.removeCheck_Error.message:
-        $ref: '#/components/messages/Check_removeCheck_Error'
+      Check.removeCheck_error.message:
+        $ref: '#/components/messages/Check_removeCheck_error'
     description: >
-      Use this channel to receive Check removeCheck errors as **Check_removeCheck_ReceiveErrors**
+      Use this channel to receive Check removeCheck errors as **Check_removeCheck_NoneErrors**
       messages.
 operations:
-  Check_removeCheck_Send:
+  Check_removeCheck_submit:
     action: send
     channel:
-      $ref: '#/channels/Send_Check_removeCheck'
+      $ref: '#/channels/submit_Check_removeCheck'
     messages:
-      - $ref: '#/channels/Send_Check_removeCheck/messages/Check.removeCheck_Send.message'
-  Check_removeCheck_Error:
+      - $ref: '#/channels/submit_Check_removeCheck/messages/Check.removeCheck_submit.message'
+  Check_removeCheck_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Check_removeCheck'
+      $ref: '#/channels/error_Check_removeCheck'
     messages:
-      - $ref: '#/channels/Error_Check_removeCheck/messages/Check.removeCheck_Error.message'
+      - $ref: '#/channels/error_Check_removeCheck/messages/Check.removeCheck_error.message'
 components:
   schemas:
-    Check_removeCheck_Send:
+    Check_removeCheck_submit:
       type: object
       properties:
         transactionId:
@@ -64,7 +64,7 @@ components:
             Matched CheckIdentity objects shall not be removed from the COM archive only the list of available CheckIdentity objects in the provider.
             If an error is raised then no CheckIdentity objects shall be removed as a result of this operation call.
             If the operation succeeds then the provider shall not allow new CheckLink objects to be created for the matched CheckIdentity anymore, existing CheckLink objects are not affected.
-    Check_removeCheck_Error:
+    Check_removeCheck_error:
       type: object
       properties:
         transactionId:
@@ -74,8 +74,8 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MC
             - MAL
+            - MC
         name:
           type: string
           description: A code representing the error.
@@ -89,11 +89,11 @@ components:
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
   messages:
-    Check_removeCheck_Send:
+    Check_removeCheck_submit:
       description: Check removeCheck request submission
       payload:
-        $ref: '#/components/schemas/Check_removeCheck_Send'
-    Check_removeCheck_Error:
+        $ref: '#/components/schemas/Check_removeCheck_submit'
+    Check_removeCheck_error:
       description: Check removeCheck error response
       payload:
-        $ref: '#/components/schemas/Check_removeCheck_Error'
+        $ref: '#/components/schemas/Check_removeCheck_error'

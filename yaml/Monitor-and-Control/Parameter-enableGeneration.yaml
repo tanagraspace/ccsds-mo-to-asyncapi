@@ -13,52 +13,52 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Parameter_enableGeneration:
-    address: Send_Parameter_enableGeneration
+  request_Parameter_enableGeneration:
+    address: request_Parameter_enableGeneration
     messages:
-      Parameter.enableGeneration_Send.message:
-        $ref: '#/components/messages/Parameter_enableGeneration_Send'
+      Parameter.enableGeneration_request.message:
+        $ref: '#/components/messages/Parameter_enableGeneration_request'
     description: >
-      Send a **Parameter_enableGeneration_Send** message in this channel to receive a
-      **Parameter_enableGeneration_Receive** message over the **Receive_Parameter_enableGeneration** channel.
-  Receive_Parameter_enableGeneration:
-    address: Receive_Parameter_enableGeneration
+      Send a **Parameter_enableGeneration_request** message in this channel to receive a
+      **Parameter_enableGeneration_response** message over the **response_Parameter_enableGeneration** channel.
+  response_Parameter_enableGeneration:
+    address: response_Parameter_enableGeneration
     messages:
-      Parameter.enableGeneration_Receive.message:
-        $ref: '#/components/messages/Parameter_enableGeneration_Receive'
+      Parameter.enableGeneration_response.message:
+        $ref: '#/components/messages/Parameter_enableGeneration_response'
     description: >
-      Use this channel to receive Parameter enableGeneration responses as **Parameter_enableGeneration_Receive**
+      Use this channel to receive Parameter enableGeneration responses as **Parameter_enableGeneration_response**
       messages.
-  Error_Parameter_enableGeneration:
-    address: Error_Parameter_enableGeneration
+  error_Parameter_enableGeneration:
+    address: error_Parameter_enableGeneration
     messages:
-      Parameter.enableGeneration_Error.message:
-        $ref: '#/components/messages/Parameter_enableGeneration_Error'
+      Parameter.enableGeneration_error.message:
+        $ref: '#/components/messages/Parameter_enableGeneration_error'
     description: >
-      Use this channel to receive Parameter enableGeneration errors as **Parameter_enableGeneration_ReceiveErrors**
+      Use this channel to receive Parameter enableGeneration errors as **Parameter_enableGeneration_responseErrors**
       messages.
 operations:
-  Parameter_enableGeneration_Send:
+  Parameter_enableGeneration_request:
     action: send
     channel:
-      $ref: '#/channels/Send_Parameter_enableGeneration'
+      $ref: '#/channels/request_Parameter_enableGeneration'
     messages:
-      - $ref: '#/channels/Send_Parameter_enableGeneration/messages/Parameter.enableGeneration_Send.message'
-  Parameter_enableGeneration_Receive:
+      - $ref: '#/channels/request_Parameter_enableGeneration/messages/Parameter.enableGeneration_request.message'
+  Parameter_enableGeneration_response:
     action: receive
     channel:
-      $ref: '#/channels/Receive_Parameter_enableGeneration'
+      $ref: '#/channels/response_Parameter_enableGeneration'
     messages:
-      - $ref: '#/channels/Receive_Parameter_enableGeneration/messages/Parameter.enableGeneration_Receive.message'
-  Parameter_enableGeneration_Error:
+      - $ref: '#/channels/response_Parameter_enableGeneration/messages/Parameter.enableGeneration_response.message'
+  Parameter_enableGeneration_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Parameter_enableGeneration'
+      $ref: '#/channels/error_Parameter_enableGeneration'
     messages:
-      - $ref: '#/channels/Error_Parameter_enableGeneration/messages/Parameter.enableGeneration_Error.message'
+      - $ref: '#/channels/error_Parameter_enableGeneration/messages/Parameter.enableGeneration_error.message'
 components:
   schemas:
-    Parameter_enableGeneration_Send:
+    Parameter_enableGeneration_request:
       type: object
       properties:
         transactionId:
@@ -82,7 +82,7 @@ components:
           $ref: '#/components/schemas/com/InstanceBooleanPair'
           description: |
             If the generation of reports is being enabled, and the parameter is defined as being periodic, then the provider shall generate a report immediately and start the report interval from that report.
-    Parameter_enableGeneration_Receive:
+    Parameter_enableGeneration_response:
       type: object
       properties:
         transactionId:
@@ -95,7 +95,7 @@ components:
             format: int64
           description: |
             The response shall contain the list of object instance identifiers for the new ParameterDefinition objects.
-    Parameter_enableGeneration_Error:
+    Parameter_enableGeneration_error:
       type: object
       properties:
         transactionId:
@@ -105,8 +105,8 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MAL
             - COM
+            - MAL
         name:
           type: string
           description: A code representing the error.
@@ -131,15 +131,15 @@ components:
             type: boolean
         type: object
   messages:
-    Parameter_enableGeneration_Send:
+    Parameter_enableGeneration_request:
       description: Parameter enableGeneration request submission
       payload:
-        $ref: '#/components/schemas/Parameter_enableGeneration_Send'
-    Parameter_enableGeneration_Receive:
+        $ref: '#/components/schemas/Parameter_enableGeneration_request'
+    Parameter_enableGeneration_response:
       description: Parameter enableGeneration update response
       payload:
-        $ref: '#/components/schemas/Parameter_enableGeneration_Receive'
-    Parameter_enableGeneration_Error:
+        $ref: '#/components/schemas/Parameter_enableGeneration_response'
+    Parameter_enableGeneration_error:
       description: Parameter enableGeneration error response
       payload:
-        $ref: '#/components/schemas/Parameter_enableGeneration_Error'
+        $ref: '#/components/schemas/Parameter_enableGeneration_error'

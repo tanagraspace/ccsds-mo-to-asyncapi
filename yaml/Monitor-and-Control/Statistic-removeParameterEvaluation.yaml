@@ -13,38 +13,38 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Statistic_removeParameterEvaluation:
-    address: Send_Statistic_removeParameterEvaluation
+  submit_Statistic_removeParameterEvaluation:
+    address: submit_Statistic_removeParameterEvaluation
     messages:
-      Statistic.removeParameterEvaluation_Send.message:
-        $ref: '#/components/messages/Statistic_removeParameterEvaluation_Send'
+      Statistic.removeParameterEvaluation_submit.message:
+        $ref: '#/components/messages/Statistic_removeParameterEvaluation_submit'
     description: >
-      Send a **Statistic_removeParameterEvaluation_Send** message in this channel to receive a
-      **Statistic_removeParameterEvaluation_Receive** message over the **Receive_Statistic_removeParameterEvaluation** channel.
-  Error_Statistic_removeParameterEvaluation:
-    address: Error_Statistic_removeParameterEvaluation
+      Send a **Statistic_removeParameterEvaluation_submit** message in this channel to receive a
+      **Statistic_removeParameterEvaluation_None** message over the **None_Statistic_removeParameterEvaluation** channel.
+  error_Statistic_removeParameterEvaluation:
+    address: error_Statistic_removeParameterEvaluation
     messages:
-      Statistic.removeParameterEvaluation_Error.message:
-        $ref: '#/components/messages/Statistic_removeParameterEvaluation_Error'
+      Statistic.removeParameterEvaluation_error.message:
+        $ref: '#/components/messages/Statistic_removeParameterEvaluation_error'
     description: >
-      Use this channel to receive Statistic removeParameterEvaluation errors as **Statistic_removeParameterEvaluation_ReceiveErrors**
+      Use this channel to receive Statistic removeParameterEvaluation errors as **Statistic_removeParameterEvaluation_NoneErrors**
       messages.
 operations:
-  Statistic_removeParameterEvaluation_Send:
+  Statistic_removeParameterEvaluation_submit:
     action: send
     channel:
-      $ref: '#/channels/Send_Statistic_removeParameterEvaluation'
+      $ref: '#/channels/submit_Statistic_removeParameterEvaluation'
     messages:
-      - $ref: '#/channels/Send_Statistic_removeParameterEvaluation/messages/Statistic.removeParameterEvaluation_Send.message'
-  Statistic_removeParameterEvaluation_Error:
+      - $ref: '#/channels/submit_Statistic_removeParameterEvaluation/messages/Statistic.removeParameterEvaluation_submit.message'
+  Statistic_removeParameterEvaluation_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Statistic_removeParameterEvaluation'
+      $ref: '#/channels/error_Statistic_removeParameterEvaluation'
     messages:
-      - $ref: '#/channels/Error_Statistic_removeParameterEvaluation/messages/Statistic.removeParameterEvaluation_Error.message'
+      - $ref: '#/channels/error_Statistic_removeParameterEvaluation/messages/Statistic.removeParameterEvaluation_error.message'
 components:
   schemas:
-    Statistic_removeParameterEvaluation_Send:
+    Statistic_removeParameterEvaluation_submit:
       type: object
       properties:
         transactionId:
@@ -63,7 +63,7 @@ components:
             Matched StatisticLink objects shall not be removed from the COM archive only the list of evaluated StatisticLink objects in the provider.
             If an error is raised then no StatisticLink objects shall be removed as a result of this operation call.
             If the operation succeeds then the provider shall not evaluate those parameter/function definition combinations for the deleted StatisticLink objects anymore.
-    Statistic_removeParameterEvaluation_Error:
+    Statistic_removeParameterEvaluation_error:
       type: object
       properties:
         transactionId:
@@ -86,11 +86,11 @@ components:
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
   messages:
-    Statistic_removeParameterEvaluation_Send:
+    Statistic_removeParameterEvaluation_submit:
       description: Statistic removeParameterEvaluation request submission
       payload:
-        $ref: '#/components/schemas/Statistic_removeParameterEvaluation_Send'
-    Statistic_removeParameterEvaluation_Error:
+        $ref: '#/components/schemas/Statistic_removeParameterEvaluation_submit'
+    Statistic_removeParameterEvaluation_error:
       description: Statistic removeParameterEvaluation error response
       payload:
-        $ref: '#/components/schemas/Statistic_removeParameterEvaluation_Error'
+        $ref: '#/components/schemas/Statistic_removeParameterEvaluation_error'

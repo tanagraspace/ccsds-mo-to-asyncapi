@@ -13,24 +13,24 @@ servers:
       port:
         default: '8883'
 channels:
-  Receive_Statistic_getServiceStatus:
-    address: Receive_Statistic_getServiceStatus
+  response_Statistic_getServiceStatus:
+    address: response_Statistic_getServiceStatus
     messages:
-      Statistic.getServiceStatus_Receive.message:
-        $ref: '#/components/messages/Statistic_getServiceStatus_Receive'
+      Statistic.getServiceStatus_response.message:
+        $ref: '#/components/messages/Statistic_getServiceStatus_response'
     description: >
-      Use this channel to receive Statistic getServiceStatus responses as **Statistic_getServiceStatus_Receive**
+      Use this channel to receive Statistic getServiceStatus responses as **Statistic_getServiceStatus_response**
       messages.
 operations:
-  Statistic_getServiceStatus_Receive:
+  Statistic_getServiceStatus_response:
     action: receive
     channel:
-      $ref: '#/channels/Receive_Statistic_getServiceStatus'
+      $ref: '#/channels/response_Statistic_getServiceStatus'
     messages:
-      - $ref: '#/channels/Receive_Statistic_getServiceStatus/messages/Statistic.getServiceStatus_Receive.message'
+      - $ref: '#/channels/response_Statistic_getServiceStatus/messages/Statistic.getServiceStatus_response.message'
 components:
   schemas:
-    Statistic_getServiceStatus_Receive:
+    Statistic_getServiceStatus_response:
       type: object
       properties:
         transactionId:
@@ -41,7 +41,7 @@ components:
           description: |
             The operation shall return TRUE if the service is currently enabled or FALSE if the service is currently disabled.
   messages:
-    Statistic_getServiceStatus_Receive:
+    Statistic_getServiceStatus_response:
       description: Statistic getServiceStatus update response
       payload:
-        $ref: '#/components/schemas/Statistic_getServiceStatus_Receive'
+        $ref: '#/components/schemas/Statistic_getServiceStatus_response'
