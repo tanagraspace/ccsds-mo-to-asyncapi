@@ -4,50 +4,33 @@
   "info": {
     "title": "Parameter Service monitorValue API",
     "version": "1.0.0",
-    "description": "This API allows clients to interact with the monitorValue iteraction of the Parameter Service."
+    "description": "This API allows clients to interact with the monitorValue interaction of the Parameter Service."
   },
   "defaultContentType": "application/json",
   "servers": {
     "production": {
       "host": "localhost:{port}",
       "protocol": "mqtt",
-      "description": "MQTT server for the monitorValue interaction.",
+      "description": "MQTT server for the Parameter Service's monitorValue interaction.",
       "variables": {
         "port": {
-          "enum": [
-            "8883",
-            "8884"
-          ],
           "default": "8883"
-        }
-      },
-      "bindings": {
-        "mqtt": {
-          "clientId": "guest",
-          "cleanSession": false,
-          "keepAlive": 0,
-          "lastWill": {
-            "topic": "/will",
-            "qos": 0,
-            "message": "Guest gone offline.",
-            "retain": false
-          }
         }
       }
     }
   },
   "channels": {
-    "Send_Parameter_monitorValue": {
-      "address": "Send_Parameter_monitorValue",
+    "subscriptionKeys_Parameter_monitorValue": {
+      "address": "subscriptionKeys_Parameter_monitorValue",
       "messages": {
-        "Parameter.monitorValue_Send.message": {
+        "Parameter.monitorValue_subscriptionKeys.message": {
           "description": "Parameter monitorValue request submission",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-1>"
               },
               "name": {
@@ -57,37 +40,37 @@
               },
               "parameterDefinitionId": {
                 "type": "integer",
-                "description": "The parameter identity.\n",
                 "format": "int64",
+                "description": "The parameter identity.\n",
                 "x-parser-schema-id": "<anonymous-schema-3>"
               },
               "parameterValueInstance": {
                 "type": "integer",
-                "description": "The parameter value instance.\n",
                 "format": "int64",
+                "description": "The parameter value instance.\n",
                 "x-parser-schema-id": "<anonymous-schema-4>"
               }
             },
-            "x-parser-schema-id": "Parameter_monitorValue_Send"
+            "x-parser-schema-id": "Parameter_monitorValue_subscriptionKeys"
           },
-          "x-parser-unique-object-id": "Parameter.monitorValue_Send.message",
-          "x-parser-message-name": "Parameter_monitorValue_Send"
+          "x-parser-unique-object-id": "Parameter.monitorValue_subscriptionKeys.message",
+          "x-parser-message-name": "Parameter_monitorValue_subscriptionKeys"
         }
       },
-      "description": "Send a **Parameter_monitorValue_Send** message in this channel to receive a **Parameter_monitorValue_Receive** message over the **Receive_Parameter_monitorValue** channel.\n",
-      "x-parser-unique-object-id": "Send_Parameter_monitorValue"
+      "description": "Send a **Parameter_monitorValue_subscriptionKeys** message in this channel to receive a **Parameter_monitorValue_publishNotify** message over the **publishNotify_Parameter_monitorValue** channel.\n",
+      "x-parser-unique-object-id": "subscriptionKeys_Parameter_monitorValue"
     },
-    "Receive_Parameter_monitorValue": {
-      "address": "Receive_Parameter_monitorValue",
+    "publishNotify_Parameter_monitorValue": {
+      "address": "publishNotify_Parameter_monitorValue",
       "messages": {
-        "Parameter.monitorValue_Receive.message": {
+        "Parameter.monitorValue_publishNotify.message": {
           "description": "Parameter monitorValue update response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-5>"
               },
               "objId": {
@@ -170,54 +153,54 @@
                 "x-parser-schema-id": "<anonymous-schema-16>"
               }
             },
-            "x-parser-schema-id": "Parameter_monitorValue_Receive"
+            "x-parser-schema-id": "Parameter_monitorValue_publishNotify"
           },
-          "x-parser-unique-object-id": "Parameter.monitorValue_Receive.message",
-          "x-parser-message-name": "Parameter_monitorValue_Receive"
+          "x-parser-unique-object-id": "Parameter.monitorValue_publishNotify.message",
+          "x-parser-message-name": "Parameter_monitorValue_publishNotify"
         }
       },
-      "description": "Use this channel to receive Parameter monitorValue responses as **Parameter_monitorValue_Receive** messages.\n",
-      "x-parser-unique-object-id": "Receive_Parameter_monitorValue"
+      "description": "Use this channel to receive Parameter monitorValue responses as **Parameter_monitorValue_publishNotify** messages.\n",
+      "x-parser-unique-object-id": "publishNotify_Parameter_monitorValue"
     }
   },
   "operations": {
-    "Parameter_monitorValue_Send": {
+    "Parameter_monitorValue_subscriptionKeys": {
       "action": "send",
-      "channel": "$ref:$.channels.Send_Parameter_monitorValue",
+      "channel": "$ref:$.channels.subscriptionKeys_Parameter_monitorValue",
       "messages": [
-        "$ref:$.channels.Send_Parameter_monitorValue.messages.Parameter.monitorValue_Send.message"
+        "$ref:$.channels.subscriptionKeys_Parameter_monitorValue.messages.Parameter.monitorValue_subscriptionKeys.message"
       ],
-      "x-parser-unique-object-id": "Parameter_monitorValue_Send"
+      "x-parser-unique-object-id": "Parameter_monitorValue_subscriptionKeys"
     },
-    "Parameter_monitorValue_Receive": {
+    "Parameter_monitorValue_publishNotify": {
       "action": "receive",
-      "channel": "$ref:$.channels.Receive_Parameter_monitorValue",
+      "channel": "$ref:$.channels.publishNotify_Parameter_monitorValue",
       "messages": [
-        "$ref:$.channels.Receive_Parameter_monitorValue.messages.Parameter.monitorValue_Receive.message"
+        "$ref:$.channels.publishNotify_Parameter_monitorValue.messages.Parameter.monitorValue_publishNotify.message"
       ],
-      "x-parser-unique-object-id": "Parameter_monitorValue_Receive"
+      "x-parser-unique-object-id": "Parameter_monitorValue_publishNotify"
     }
   },
   "components": {
     "schemas": {
-      "Parameter_monitorValue_Send": "$ref:$.channels.Send_Parameter_monitorValue.messages.Parameter.monitorValue_Send.message.payload",
-      "Parameter_monitorValue_Receive": "$ref:$.channels.Receive_Parameter_monitorValue.messages.Parameter.monitorValue_Receive.message.payload",
+      "Parameter_monitorValue_subscriptionKeys": "$ref:$.channels.subscriptionKeys_Parameter_monitorValue.messages.Parameter.monitorValue_subscriptionKeys.message.payload",
+      "Parameter_monitorValue_publishNotify": "$ref:$.channels.publishNotify_Parameter_monitorValue.messages.Parameter.monitorValue_publishNotify.message.payload",
       "com": {
-        "ObjectId": "$ref:$.channels.Receive_Parameter_monitorValue.messages.Parameter.monitorValue_Receive.message.payload.properties.objId",
-        "ObjectKey": "$ref:$.channels.Receive_Parameter_monitorValue.messages.Parameter.monitorValue_Receive.message.payload.properties.objId.properties.key",
-        "ObjectType": "$ref:$.channels.Receive_Parameter_monitorValue.messages.Parameter.monitorValue_Receive.message.payload.properties.objId.properties.type_",
+        "ObjectId": "$ref:$.channels.publishNotify_Parameter_monitorValue.messages.Parameter.monitorValue_publishNotify.message.payload.properties.objId",
+        "ObjectKey": "$ref:$.channels.publishNotify_Parameter_monitorValue.messages.Parameter.monitorValue_publishNotify.message.payload.properties.objId.properties.key",
+        "ObjectType": "$ref:$.channels.publishNotify_Parameter_monitorValue.messages.Parameter.monitorValue_publishNotify.message.payload.properties.objId.properties.type_",
         "x-parser-schema-id": "com"
       },
       "mc": {
         "parameter": {
-          "ParameterValue": "$ref:$.channels.Receive_Parameter_monitorValue.messages.Parameter.monitorValue_Receive.message.payload.properties.newValue"
+          "ParameterValue": "$ref:$.channels.publishNotify_Parameter_monitorValue.messages.Parameter.monitorValue_publishNotify.message.payload.properties.newValue"
         },
         "x-parser-schema-id": "mc"
       }
     },
     "messages": {
-      "Parameter_monitorValue_Send": "$ref:$.channels.Send_Parameter_monitorValue.messages.Parameter.monitorValue_Send.message",
-      "Parameter_monitorValue_Receive": "$ref:$.channels.Receive_Parameter_monitorValue.messages.Parameter.monitorValue_Receive.message"
+      "Parameter_monitorValue_subscriptionKeys": "$ref:$.channels.subscriptionKeys_Parameter_monitorValue.messages.Parameter.monitorValue_subscriptionKeys.message",
+      "Parameter_monitorValue_publishNotify": "$ref:$.channels.publishNotify_Parameter_monitorValue.messages.Parameter.monitorValue_publishNotify.message"
     }
   },
   "x-parser-spec-parsed": true,

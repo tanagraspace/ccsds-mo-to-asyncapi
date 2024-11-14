@@ -4,50 +4,33 @@
   "info": {
     "title": "Action Service addAction API",
     "version": "1.0.0",
-    "description": "This API allows clients to interact with the addAction iteraction of the Action Service."
+    "description": "This API allows clients to interact with the addAction interaction of the Action Service."
   },
   "defaultContentType": "application/json",
   "servers": {
     "production": {
       "host": "localhost:{port}",
       "protocol": "mqtt",
-      "description": "MQTT server for the addAction interaction.",
+      "description": "MQTT server for the Action Service's addAction interaction.",
       "variables": {
         "port": {
-          "enum": [
-            "8883",
-            "8884"
-          ],
           "default": "8883"
-        }
-      },
-      "bindings": {
-        "mqtt": {
-          "clientId": "guest",
-          "cleanSession": false,
-          "keepAlive": 0,
-          "lastWill": {
-            "topic": "/will",
-            "qos": 0,
-            "message": "Guest gone offline.",
-            "retain": false
-          }
         }
       }
     }
   },
   "channels": {
-    "Send_Action_addAction": {
-      "address": "Send_Action_addAction",
+    "request_Action_addAction": {
+      "address": "request_Action_addAction",
       "messages": {
-        "Action.addAction_Send.message": {
+        "Action.addAction_request.message": {
           "description": "Action addAction request submission",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-1>"
               },
               "actionDefDetails": {
@@ -119,7 +102,7 @@
                                     "type": "object",
                                     "x-parser-schema-id": "<anonymous-schema-9>"
                                   },
-                                  "conversionId": "$ref:$.channels.Send_Action_addAction.messages.Action.addAction_Send.message.payload.properties.actionDefDetails.properties.actionDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.parameterId"
+                                  "conversionId": "$ref:$.channels.request_Action_addAction.messages.Action.addAction_request.message.payload.properties.actionDefDetails.properties.actionDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.parameterId"
                                 },
                                 "type": "object",
                                 "x-parser-schema-id": "<anonymous-schema-8>"
@@ -192,26 +175,26 @@
                 "x-parser-schema-id": "<anonymous-schema-2>"
               }
             },
-            "x-parser-schema-id": "Action_addAction_Send"
+            "x-parser-schema-id": "Action_addAction_request"
           },
-          "x-parser-unique-object-id": "Action.addAction_Send.message",
-          "x-parser-message-name": "Action_addAction_Send"
+          "x-parser-unique-object-id": "Action.addAction_request.message",
+          "x-parser-message-name": "Action_addAction_request"
         }
       },
-      "description": "Send a **Action_addAction_Send** message in this channel to receive a **Action_addAction_Receive** message over the **Receive_Action_addAction** channel.\n",
-      "x-parser-unique-object-id": "Send_Action_addAction"
+      "description": "Send a **Action_addAction_request** message in this channel to receive a **Action_addAction_response** message over the **response_Action_addAction** channel.\n",
+      "x-parser-unique-object-id": "request_Action_addAction"
     },
-    "Receive_Action_addAction": {
-      "address": "Receive_Action_addAction",
+    "response_Action_addAction": {
+      "address": "response_Action_addAction",
       "messages": {
-        "Action.addAction_Receive.message": {
+        "Action.addAction_response.message": {
           "description": "Action addAction update response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-26>"
               },
               "newObjInstIds": {
@@ -233,26 +216,26 @@
                 "x-parser-schema-id": "<anonymous-schema-27>"
               }
             },
-            "x-parser-schema-id": "Action_addAction_Receive"
+            "x-parser-schema-id": "Action_addAction_response"
           },
-          "x-parser-unique-object-id": "Action.addAction_Receive.message",
-          "x-parser-message-name": "Action_addAction_Receive"
+          "x-parser-unique-object-id": "Action.addAction_response.message",
+          "x-parser-message-name": "Action_addAction_response"
         }
       },
-      "description": "Use this channel to receive Action addAction responses as **Action_addAction_Receive** messages.\n",
-      "x-parser-unique-object-id": "Receive_Action_addAction"
+      "description": "Use this channel to receive Action addAction responses as **Action_addAction_response** messages.\n",
+      "x-parser-unique-object-id": "response_Action_addAction"
     },
-    "Error_Action_addAction": {
-      "address": "Error_Action_addAction",
+    "error_Action_addAction": {
+      "address": "error_Action_addAction",
       "messages": {
-        "Action.addAction_Error.message": {
+        "Action.addAction_error.message": {
           "description": "Action addAction error response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-30>"
               },
               "area": {
@@ -277,76 +260,76 @@
                 "items": {
                   "type": "integer",
                   "format": "uint32",
-                  "description": "A list of the indexes of the erroneous values from the originating list supplied or request list.",
+                  "description": "A list of the indexes of the error values shall be contained in the extra information field.",
                   "x-parser-schema-id": "<anonymous-schema-34>"
                 },
                 "x-parser-schema-id": "<anonymous-schema-33>"
               }
             },
-            "x-parser-schema-id": "Action_addAction_Error"
+            "x-parser-schema-id": "Action_addAction_error"
           },
-          "x-parser-unique-object-id": "Action.addAction_Error.message",
-          "x-parser-message-name": "Action_addAction_Error"
+          "x-parser-unique-object-id": "Action.addAction_error.message",
+          "x-parser-message-name": "Action_addAction_error"
         }
       },
-      "description": "Use this channel to receive Action addAction errors as **Action_addAction_ReceiveErrors** messages.\n",
-      "x-parser-unique-object-id": "Error_Action_addAction"
+      "description": "Use this channel to receive Action addAction errors as **Action_addAction_responseErrors** messages.\n",
+      "x-parser-unique-object-id": "error_Action_addAction"
     }
   },
   "operations": {
-    "Action_addAction_Send": {
+    "Action_addAction_request": {
       "action": "send",
-      "channel": "$ref:$.channels.Send_Action_addAction",
+      "channel": "$ref:$.channels.request_Action_addAction",
       "messages": [
-        "$ref:$.channels.Send_Action_addAction.messages.Action.addAction_Send.message"
+        "$ref:$.channels.request_Action_addAction.messages.Action.addAction_request.message"
       ],
-      "x-parser-unique-object-id": "Action_addAction_Send"
+      "x-parser-unique-object-id": "Action_addAction_request"
     },
-    "Action_addAction_Receive": {
+    "Action_addAction_response": {
       "action": "receive",
-      "channel": "$ref:$.channels.Receive_Action_addAction",
+      "channel": "$ref:$.channels.response_Action_addAction",
       "messages": [
-        "$ref:$.channels.Receive_Action_addAction.messages.Action.addAction_Receive.message"
+        "$ref:$.channels.response_Action_addAction.messages.Action.addAction_response.message"
       ],
-      "x-parser-unique-object-id": "Action_addAction_Receive"
+      "x-parser-unique-object-id": "Action_addAction_response"
     },
-    "Action_addAction_Error": {
+    "Action_addAction_error": {
       "action": "receive",
-      "channel": "$ref:$.channels.Error_Action_addAction",
+      "channel": "$ref:$.channels.error_Action_addAction",
       "messages": [
-        "$ref:$.channels.Error_Action_addAction.messages.Action.addAction_Error.message"
+        "$ref:$.channels.error_Action_addAction.messages.Action.addAction_error.message"
       ],
-      "x-parser-unique-object-id": "Action_addAction_Error"
+      "x-parser-unique-object-id": "Action_addAction_error"
     }
   },
   "components": {
     "schemas": {
-      "Action_addAction_Send": "$ref:$.channels.Send_Action_addAction.messages.Action.addAction_Send.message.payload",
-      "Action_addAction_Receive": "$ref:$.channels.Receive_Action_addAction.messages.Action.addAction_Receive.message.payload",
-      "Action_addAction_Error": "$ref:$.channels.Error_Action_addAction.messages.Action.addAction_Error.message.payload",
+      "Action_addAction_request": "$ref:$.channels.request_Action_addAction.messages.Action.addAction_request.message.payload",
+      "Action_addAction_response": "$ref:$.channels.response_Action_addAction.messages.Action.addAction_response.message.payload",
+      "Action_addAction_error": "$ref:$.channels.error_Action_addAction.messages.Action.addAction_error.message.payload",
       "mc": {
         "action": {
-          "ActionCreationRequest": "$ref:$.channels.Send_Action_addAction.messages.Action.addAction_Send.message.payload.properties.actionDefDetails",
-          "ActionDefinitionDetails": "$ref:$.channels.Send_Action_addAction.messages.Action.addAction_Send.message.payload.properties.actionDefDetails.properties.actionDefDetails"
+          "ActionCreationRequest": "$ref:$.channels.request_Action_addAction.messages.Action.addAction_request.message.payload.properties.actionDefDetails",
+          "ActionDefinitionDetails": "$ref:$.channels.request_Action_addAction.messages.Action.addAction_request.message.payload.properties.actionDefDetails.properties.actionDefDetails"
         },
-        "ArgumentDefinitionDetails": "$ref:$.channels.Send_Action_addAction.messages.Action.addAction_Send.message.payload.properties.actionDefDetails.properties.actionDefDetails.properties.arguments.items",
-        "ConditionalConversion": "$ref:$.channels.Send_Action_addAction.messages.Action.addAction_Send.message.payload.properties.actionDefDetails.properties.actionDefDetails.properties.arguments.items.properties.conditionalConversions.items",
-        "ObjectInstancePair": "$ref:$.channels.Receive_Action_addAction.messages.Action.addAction_Receive.message.payload.properties.newObjInstIds",
-        "ParameterExpression": "$ref:$.channels.Send_Action_addAction.messages.Action.addAction_Send.message.payload.properties.actionDefDetails.properties.actionDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition",
+        "ArgumentDefinitionDetails": "$ref:$.channels.request_Action_addAction.messages.Action.addAction_request.message.payload.properties.actionDefDetails.properties.actionDefDetails.properties.arguments.items",
+        "ConditionalConversion": "$ref:$.channels.request_Action_addAction.messages.Action.addAction_request.message.payload.properties.actionDefDetails.properties.actionDefDetails.properties.arguments.items.properties.conditionalConversions.items",
+        "ObjectInstancePair": "$ref:$.channels.response_Action_addAction.messages.Action.addAction_response.message.payload.properties.newObjInstIds",
+        "ParameterExpression": "$ref:$.channels.request_Action_addAction.messages.Action.addAction_request.message.payload.properties.actionDefDetails.properties.actionDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition",
         "x-parser-schema-id": "mc"
       },
       "com": {
-        "ObjectKey": "$ref:$.channels.Send_Action_addAction.messages.Action.addAction_Send.message.payload.properties.actionDefDetails.properties.actionDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.parameterId",
+        "ObjectKey": "$ref:$.channels.request_Action_addAction.messages.Action.addAction_request.message.payload.properties.actionDefDetails.properties.actionDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.parameterId",
         "archive": {
-          "ExpressionOperator": "$ref:$.channels.Send_Action_addAction.messages.Action.addAction_Send.message.payload.properties.actionDefDetails.properties.actionDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.operator"
+          "ExpressionOperator": "$ref:$.channels.request_Action_addAction.messages.Action.addAction_request.message.payload.properties.actionDefDetails.properties.actionDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.operator"
         },
         "x-parser-schema-id": "com"
       }
     },
     "messages": {
-      "Action_addAction_Send": "$ref:$.channels.Send_Action_addAction.messages.Action.addAction_Send.message",
-      "Action_addAction_Receive": "$ref:$.channels.Receive_Action_addAction.messages.Action.addAction_Receive.message",
-      "Action_addAction_Error": "$ref:$.channels.Error_Action_addAction.messages.Action.addAction_Error.message"
+      "Action_addAction_request": "$ref:$.channels.request_Action_addAction.messages.Action.addAction_request.message",
+      "Action_addAction_response": "$ref:$.channels.response_Action_addAction.messages.Action.addAction_response.message",
+      "Action_addAction_error": "$ref:$.channels.error_Action_addAction.messages.Action.addAction_error.message"
     }
   },
   "x-parser-spec-parsed": true,

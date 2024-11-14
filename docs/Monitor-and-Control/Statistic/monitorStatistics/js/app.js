@@ -4,80 +4,40 @@
   "info": {
     "title": "Statistic Service monitorStatistics API",
     "version": "1.0.0",
-    "description": "This API allows clients to interact with the monitorStatistics iteraction of the Statistic Service."
+    "description": "This API allows clients to interact with the monitorStatistics interaction of the Statistic Service."
   },
   "defaultContentType": "application/json",
   "servers": {
     "production": {
       "host": "localhost:{port}",
       "protocol": "mqtt",
-      "description": "MQTT server for the monitorStatistics interaction.",
+      "description": "MQTT server for the Statistic Service's monitorStatistics interaction.",
       "variables": {
         "port": {
-          "enum": [
-            "8883",
-            "8884"
-          ],
           "default": "8883"
-        }
-      },
-      "bindings": {
-        "mqtt": {
-          "clientId": "guest",
-          "cleanSession": false,
-          "keepAlive": 0,
-          "lastWill": {
-            "topic": "/will",
-            "qos": 0,
-            "message": "Guest gone offline.",
-            "retain": false
-          }
         }
       }
     }
   },
   "channels": {
-    "Send_Statistic_monitorStatistics": {
-      "address": "Send_Statistic_monitorStatistics",
+    "publishNotify_Statistic_monitorStatistics": {
+      "address": "publishNotify_Statistic_monitorStatistics",
       "messages": {
-        "Statistic.monitorStatistics_Send.message": {
-          "description": "Statistic monitorStatistics request submission",
-          "payload": {
-            "type": "object",
-            "properties": {
-              "transactionId": {
-                "type": "string",
-                "description": "A unique identifier to map the response to the request.",
-                "x-parser-schema-id": "<anonymous-schema-1>"
-              }
-            },
-            "x-parser-schema-id": "Statistic_monitorStatistics_Send"
-          },
-          "x-parser-unique-object-id": "Statistic.monitorStatistics_Send.message",
-          "x-parser-message-name": "Statistic_monitorStatistics_Send"
-        }
-      },
-      "description": "Send a **Statistic_monitorStatistics_Send** message in this channel to receive a **Statistic_monitorStatistics_Receive** message over the **Receive_Statistic_monitorStatistics** channel.\n",
-      "x-parser-unique-object-id": "Send_Statistic_monitorStatistics"
-    },
-    "Receive_Statistic_monitorStatistics": {
-      "address": "Receive_Statistic_monitorStatistics",
-      "messages": {
-        "Statistic.monitorStatistics_Receive.message": {
+        "Statistic.monitorStatistics_publishNotify.message": {
           "description": "Statistic monitorStatistics update response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
-                "x-parser-schema-id": "<anonymous-schema-2>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "x-parser-schema-id": "<anonymous-schema-1>"
               },
               "relatedId": {
                 "type": "integer",
-                "description": "The MAL EntityKey.firstSubKey shall contain the statistic function name.\nThe MAL EntityKey.secondSubKey shall contain the StatisticLink object instance identifier.\nThe MAL EntityKey.thirdSubKey shall contain the ParameterIdentity object instance identifier.\nThe MAL EntityKey.fourthSubKey shall contain the new StatisticValueInstance object instance identifier.\nThe timestamp of the StatisticValueInstance report shall be taken from the publish message.\nThe related link of the update shall be held in the relatedId field.\n",
                 "format": "int64",
-                "x-parser-schema-id": "<anonymous-schema-3>"
+                "description": "The MAL EntityKey.firstSubKey shall contain the statistic function name.\nThe MAL EntityKey.secondSubKey shall contain the StatisticLink object instance identifier.\nThe MAL EntityKey.thirdSubKey shall contain the ParameterIdentity object instance identifier.\nThe MAL EntityKey.fourthSubKey shall contain the new StatisticValueInstance object instance identifier.\nThe timestamp of the StatisticValueInstance report shall be taken from the publish message.\nThe related link of the update shall be held in the relatedId field.\n",
+                "x-parser-schema-id": "<anonymous-schema-2>"
               },
               "sourceId": {
                 "properties": {
@@ -87,20 +47,20 @@
                         "description": "The domain of the object instance.",
                         "items": {
                           "type": "string",
-                          "x-parser-schema-id": "<anonymous-schema-7>"
+                          "x-parser-schema-id": "<anonymous-schema-6>"
                         },
                         "type": "array",
-                        "x-parser-schema-id": "<anonymous-schema-6>"
+                        "x-parser-schema-id": "<anonymous-schema-5>"
                       },
                       "instId": {
                         "description": "The unique identifier of the object instance. Must not be '0' for values as this is the wildcard.",
                         "format": "int64",
                         "type": "integer",
-                        "x-parser-schema-id": "<anonymous-schema-8>"
+                        "x-parser-schema-id": "<anonymous-schema-7>"
                       }
                     },
                     "type": "object",
-                    "x-parser-schema-id": "<anonymous-schema-5>"
+                    "x-parser-schema-id": "<anonymous-schema-4>"
                   },
                   "type_": {
                     "properties": {
@@ -108,33 +68,33 @@
                         "description": "Area Number where the object type is defined. Must not be '0' for values as this is the wildcard.",
                         "format": "uint16",
                         "type": "integer",
-                        "x-parser-schema-id": "<anonymous-schema-10>"
+                        "x-parser-schema-id": "<anonymous-schema-9>"
                       },
                       "number": {
                         "description": "The service specific object number. Must not be '0' for values as this is the wildcard.",
                         "format": "uint16",
                         "type": "integer",
-                        "x-parser-schema-id": "<anonymous-schema-11>"
+                        "x-parser-schema-id": "<anonymous-schema-10>"
                       },
                       "service": {
                         "description": "Service Number of the service where the object type is defined. Must not be '0' for values as this is the wildcard.",
                         "format": "uint16",
                         "type": "integer",
-                        "x-parser-schema-id": "<anonymous-schema-12>"
+                        "x-parser-schema-id": "<anonymous-schema-11>"
                       },
                       "version": {
                         "description": "Area Version of the service where the object type is defined. Must not be '0' for values as this is the wildcard.",
                         "format": "uint8",
                         "type": "integer",
-                        "x-parser-schema-id": "<anonymous-schema-13>"
+                        "x-parser-schema-id": "<anonymous-schema-12>"
                       }
                     },
                     "type": "object",
-                    "x-parser-schema-id": "<anonymous-schema-9>"
+                    "x-parser-schema-id": "<anonymous-schema-8>"
                   }
                 },
                 "type": "object",
-                "x-parser-schema-id": "<anonymous-schema-4>"
+                "x-parser-schema-id": "<anonymous-schema-3>"
               },
               "statisticValue": {
                 "properties": {
@@ -142,90 +102,80 @@
                     "description": "Time the statistic calculations ended. This value can be NULL if the time can be derived by other means, e.g., other times in a set of StatisticValue structures.",
                     "format": "uint64",
                     "type": "number",
-                    "x-parser-schema-id": "<anonymous-schema-15>"
+                    "x-parser-schema-id": "<anonymous-schema-14>"
                   },
                   "paramDefInstId": {
                     "description": "The object instance identifier of the ParameterDefinition object used for the parameter.",
                     "format": "int64",
                     "type": "integer",
-                    "x-parser-schema-id": "<anonymous-schema-16>"
+                    "x-parser-schema-id": "<anonymous-schema-15>"
                   },
                   "sampleCount": {
                     "description": "Holds the number of samples that contributed to the statistic value. For calculated values such as 'mean average' this holds the number of samples that were used to calculate the value, for non-calculated values such as 'min' then it is the number of samples that were in the set evaluated.",
                     "format": "uint32",
                     "type": "integer",
-                    "x-parser-schema-id": "<anonymous-schema-17>"
+                    "x-parser-schema-id": "<anonymous-schema-16>"
                   },
                   "startTime": {
                     "description": "Time the statistic calculations started. This value can be NULL if the start time can be derived by other means, e.g., other start times in a set of StatisticValue structures.",
                     "format": "uint64",
                     "type": "number",
-                    "x-parser-schema-id": "<anonymous-schema-18>"
+                    "x-parser-schema-id": "<anonymous-schema-17>"
                   },
                   "value": {
                     "description": "Value of the statistic.",
                     "type": "string",
-                    "x-parser-schema-id": "<anonymous-schema-19>"
+                    "x-parser-schema-id": "<anonymous-schema-18>"
                   },
                   "valueTime": {
                     "description": "Time the statistic value was reached. The time is only applicable for particular statistic values such as min or max. Shall be NULL if not applicable for cases such as 'mean average'.",
                     "format": "uint64",
                     "type": "number",
-                    "x-parser-schema-id": "<anonymous-schema-20>"
+                    "x-parser-schema-id": "<anonymous-schema-19>"
                   }
                 },
                 "type": "object",
-                "x-parser-schema-id": "<anonymous-schema-14>"
+                "x-parser-schema-id": "<anonymous-schema-13>"
               }
             },
-            "x-parser-schema-id": "Statistic_monitorStatistics_Receive"
+            "x-parser-schema-id": "Statistic_monitorStatistics_publishNotify"
           },
-          "x-parser-unique-object-id": "Statistic.monitorStatistics_Receive.message",
-          "x-parser-message-name": "Statistic_monitorStatistics_Receive"
+          "x-parser-unique-object-id": "Statistic.monitorStatistics_publishNotify.message",
+          "x-parser-message-name": "Statistic_monitorStatistics_publishNotify"
         }
       },
-      "description": "Use this channel to receive Statistic monitorStatistics responses as **Statistic_monitorStatistics_Receive** messages.\n",
-      "x-parser-unique-object-id": "Receive_Statistic_monitorStatistics"
+      "description": "Use this channel to receive Statistic monitorStatistics responses as **Statistic_monitorStatistics_publishNotify** messages.\n",
+      "x-parser-unique-object-id": "publishNotify_Statistic_monitorStatistics"
     }
   },
   "operations": {
-    "Statistic_monitorStatistics_Send": {
-      "action": "send",
-      "channel": "$ref:$.channels.Send_Statistic_monitorStatistics",
-      "messages": [
-        "$ref:$.channels.Send_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_Send.message"
-      ],
-      "x-parser-unique-object-id": "Statistic_monitorStatistics_Send"
-    },
-    "Statistic_monitorStatistics_Receive": {
+    "Statistic_monitorStatistics_publishNotify": {
       "action": "receive",
-      "channel": "$ref:$.channels.Receive_Statistic_monitorStatistics",
+      "channel": "$ref:$.channels.publishNotify_Statistic_monitorStatistics",
       "messages": [
-        "$ref:$.channels.Receive_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_Receive.message"
+        "$ref:$.channels.publishNotify_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_publishNotify.message"
       ],
-      "x-parser-unique-object-id": "Statistic_monitorStatistics_Receive"
+      "x-parser-unique-object-id": "Statistic_monitorStatistics_publishNotify"
     }
   },
   "components": {
     "schemas": {
-      "Statistic_monitorStatistics_Send": "$ref:$.channels.Send_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_Send.message.payload",
-      "Statistic_monitorStatistics_Receive": "$ref:$.channels.Receive_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_Receive.message.payload",
+      "Statistic_monitorStatistics_publishNotify": "$ref:$.channels.publishNotify_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_publishNotify.message.payload",
       "com": {
-        "ObjectId": "$ref:$.channels.Receive_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_Receive.message.payload.properties.sourceId",
-        "ObjectKey": "$ref:$.channels.Receive_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_Receive.message.payload.properties.sourceId.properties.key",
-        "ObjectType": "$ref:$.channels.Receive_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_Receive.message.payload.properties.sourceId.properties.type_",
+        "ObjectId": "$ref:$.channels.publishNotify_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_publishNotify.message.payload.properties.sourceId",
+        "ObjectKey": "$ref:$.channels.publishNotify_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_publishNotify.message.payload.properties.sourceId.properties.key",
+        "ObjectType": "$ref:$.channels.publishNotify_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_publishNotify.message.payload.properties.sourceId.properties.type_",
         "x-parser-schema-id": "com"
       },
       "mc": {
         "statistic": {
-          "StatisticValue": "$ref:$.channels.Receive_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_Receive.message.payload.properties.statisticValue"
+          "StatisticValue": "$ref:$.channels.publishNotify_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_publishNotify.message.payload.properties.statisticValue"
         },
         "x-parser-schema-id": "mc"
       }
     },
     "messages": {
-      "Statistic_monitorStatistics_Send": "$ref:$.channels.Send_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_Send.message",
-      "Statistic_monitorStatistics_Receive": "$ref:$.channels.Receive_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_Receive.message"
+      "Statistic_monitorStatistics_publishNotify": "$ref:$.channels.publishNotify_Statistic_monitorStatistics.messages.Statistic.monitorStatistics_publishNotify.message"
     }
   },
   "x-parser-spec-parsed": true,

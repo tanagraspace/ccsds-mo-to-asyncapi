@@ -13,24 +13,24 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Statistic_enableService:
-    address: Send_Statistic_enableService
+  submit_Statistic_enableService:
+    address: submit_Statistic_enableService
     messages:
-      Statistic.enableService_Send.message:
-        $ref: '#/components/messages/Statistic_enableService_Send'
+      Statistic.enableService_submit.message:
+        $ref: '#/components/messages/Statistic_enableService_submit'
     description: >
-      Send a **Statistic_enableService_Send** message in this channel to receive a
-      **Statistic_enableService_Receive** message over the **Receive_Statistic_enableService** channel.
+      Send a **Statistic_enableService_submit** message in this channel to receive a
+      **Statistic_enableService_None** message over the **None_Statistic_enableService** channel.
 operations:
-  Statistic_enableService_Send:
+  Statistic_enableService_submit:
     action: send
     channel:
-      $ref: '#/channels/Send_Statistic_enableService'
+      $ref: '#/channels/submit_Statistic_enableService'
     messages:
-      - $ref: '#/channels/Send_Statistic_enableService/messages/Statistic.enableService_Send.message'
+      - $ref: '#/channels/submit_Statistic_enableService/messages/Statistic.enableService_submit.message'
 components:
   schemas:
-    Statistic_enableService_Send:
+    Statistic_enableService_submit:
       type: object
       properties:
         transactionId:
@@ -43,7 +43,7 @@ components:
             If enableService is set to FALSE then all evaluation of statistics shall be suspended and no statistics will be reported.
             If the enableService value matches the current enabled state of the service then no change shall be made and no error reported. Enabling an already enabled service has no effect.
   messages:
-    Statistic_enableService_Send:
+    Statistic_enableService_submit:
       description: Statistic enableService request submission
       payload:
-        $ref: '#/components/schemas/Statistic_enableService_Send'
+        $ref: '#/components/schemas/Statistic_enableService_submit'

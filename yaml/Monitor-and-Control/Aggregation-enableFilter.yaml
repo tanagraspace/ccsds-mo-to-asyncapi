@@ -13,38 +13,38 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Aggregation_enableFilter:
-    address: Send_Aggregation_enableFilter
+  submit_Aggregation_enableFilter:
+    address: submit_Aggregation_enableFilter
     messages:
-      Aggregation.enableFilter_Send.message:
-        $ref: '#/components/messages/Aggregation_enableFilter_Send'
+      Aggregation.enableFilter_submit.message:
+        $ref: '#/components/messages/Aggregation_enableFilter_submit'
     description: >
-      Send a **Aggregation_enableFilter_Send** message in this channel to receive a
-      **Aggregation_enableFilter_Receive** message over the **Receive_Aggregation_enableFilter** channel.
-  Error_Aggregation_enableFilter:
-    address: Error_Aggregation_enableFilter
+      Send a **Aggregation_enableFilter_submit** message in this channel to receive a
+      **Aggregation_enableFilter_None** message over the **None_Aggregation_enableFilter** channel.
+  error_Aggregation_enableFilter:
+    address: error_Aggregation_enableFilter
     messages:
-      Aggregation.enableFilter_Error.message:
-        $ref: '#/components/messages/Aggregation_enableFilter_Error'
+      Aggregation.enableFilter_error.message:
+        $ref: '#/components/messages/Aggregation_enableFilter_error'
     description: >
-      Use this channel to receive Aggregation enableFilter errors as **Aggregation_enableFilter_ReceiveErrors**
+      Use this channel to receive Aggregation enableFilter errors as **Aggregation_enableFilter_NoneErrors**
       messages.
 operations:
-  Aggregation_enableFilter_Send:
+  Aggregation_enableFilter_submit:
     action: send
     channel:
-      $ref: '#/channels/Send_Aggregation_enableFilter'
+      $ref: '#/channels/submit_Aggregation_enableFilter'
     messages:
-      - $ref: '#/channels/Send_Aggregation_enableFilter/messages/Aggregation.enableFilter_Send.message'
-  Aggregation_enableFilter_Error:
+      - $ref: '#/channels/submit_Aggregation_enableFilter/messages/Aggregation.enableFilter_submit.message'
+  Aggregation_enableFilter_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Aggregation_enableFilter'
+      $ref: '#/channels/error_Aggregation_enableFilter'
     messages:
-      - $ref: '#/channels/Error_Aggregation_enableFilter/messages/Aggregation.enableFilter_Error.message'
+      - $ref: '#/channels/error_Aggregation_enableFilter/messages/Aggregation.enableFilter_error.message'
 components:
   schemas:
-    Aggregation_enableFilter_Send:
+    Aggregation_enableFilter_submit:
       type: object
       properties:
         transactionId:
@@ -66,7 +66,7 @@ components:
             If a new AggregationDefinition object is created then that new object shall be the current AggregationDefinition used for the specific AggregationIdentity.
         enableInstances:
           $ref: '#/components/schemas/com/InstanceBooleanPair'
-    Aggregation_enableFilter_Error:
+    Aggregation_enableFilter_error:
       type: object
       properties:
         transactionId:
@@ -76,8 +76,8 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MAL
             - COM
+            - MAL
         name:
           type: string
           description: A code representing the error.
@@ -102,11 +102,11 @@ components:
             type: boolean
         type: object
   messages:
-    Aggregation_enableFilter_Send:
+    Aggregation_enableFilter_submit:
       description: Aggregation enableFilter request submission
       payload:
-        $ref: '#/components/schemas/Aggregation_enableFilter_Send'
-    Aggregation_enableFilter_Error:
+        $ref: '#/components/schemas/Aggregation_enableFilter_submit'
+    Aggregation_enableFilter_error:
       description: Aggregation enableFilter error response
       payload:
-        $ref: '#/components/schemas/Aggregation_enableFilter_Error'
+        $ref: '#/components/schemas/Aggregation_enableFilter_error'

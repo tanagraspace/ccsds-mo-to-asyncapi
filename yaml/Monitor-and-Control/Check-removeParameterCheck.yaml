@@ -13,38 +13,38 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Check_removeParameterCheck:
-    address: Send_Check_removeParameterCheck
+  submit_Check_removeParameterCheck:
+    address: submit_Check_removeParameterCheck
     messages:
-      Check.removeParameterCheck_Send.message:
-        $ref: '#/components/messages/Check_removeParameterCheck_Send'
+      Check.removeParameterCheck_submit.message:
+        $ref: '#/components/messages/Check_removeParameterCheck_submit'
     description: >
-      Send a **Check_removeParameterCheck_Send** message in this channel to receive a
-      **Check_removeParameterCheck_Receive** message over the **Receive_Check_removeParameterCheck** channel.
-  Error_Check_removeParameterCheck:
-    address: Error_Check_removeParameterCheck
+      Send a **Check_removeParameterCheck_submit** message in this channel to receive a
+      **Check_removeParameterCheck_None** message over the **None_Check_removeParameterCheck** channel.
+  error_Check_removeParameterCheck:
+    address: error_Check_removeParameterCheck
     messages:
-      Check.removeParameterCheck_Error.message:
-        $ref: '#/components/messages/Check_removeParameterCheck_Error'
+      Check.removeParameterCheck_error.message:
+        $ref: '#/components/messages/Check_removeParameterCheck_error'
     description: >
-      Use this channel to receive Check removeParameterCheck errors as **Check_removeParameterCheck_ReceiveErrors**
+      Use this channel to receive Check removeParameterCheck errors as **Check_removeParameterCheck_NoneErrors**
       messages.
 operations:
-  Check_removeParameterCheck_Send:
+  Check_removeParameterCheck_submit:
     action: send
     channel:
-      $ref: '#/channels/Send_Check_removeParameterCheck'
+      $ref: '#/channels/submit_Check_removeParameterCheck'
     messages:
-      - $ref: '#/channels/Send_Check_removeParameterCheck/messages/Check.removeParameterCheck_Send.message'
-  Check_removeParameterCheck_Error:
+      - $ref: '#/channels/submit_Check_removeParameterCheck/messages/Check.removeParameterCheck_submit.message'
+  Check_removeParameterCheck_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Check_removeParameterCheck'
+      $ref: '#/channels/error_Check_removeParameterCheck'
     messages:
-      - $ref: '#/channels/Error_Check_removeParameterCheck/messages/Check.removeParameterCheck_Error.message'
+      - $ref: '#/channels/error_Check_removeParameterCheck/messages/Check.removeParameterCheck_error.message'
 components:
   schemas:
-    Check_removeParameterCheck_Send:
+    Check_removeParameterCheck_submit:
       type: object
       properties:
         transactionId:
@@ -63,7 +63,7 @@ components:
             Matched CheckLink objects shall not be removed from the COM archive only the list of available CheckLink objects in the provider.
             If an error is raised then no CheckLink objects shall be removed as a result of this operation call.
             If the operation succeeds then the provider shall not evaluate those parameter/check definition combinations for the deleted CheckLink objects anymore.
-    Check_removeParameterCheck_Error:
+    Check_removeParameterCheck_error:
       type: object
       properties:
         transactionId:
@@ -86,11 +86,11 @@ components:
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
   messages:
-    Check_removeParameterCheck_Send:
+    Check_removeParameterCheck_submit:
       description: Check removeParameterCheck request submission
       payload:
-        $ref: '#/components/schemas/Check_removeParameterCheck_Send'
-    Check_removeParameterCheck_Error:
+        $ref: '#/components/schemas/Check_removeParameterCheck_submit'
+    Check_removeParameterCheck_error:
       description: Check removeParameterCheck error response
       payload:
-        $ref: '#/components/schemas/Check_removeParameterCheck_Error'
+        $ref: '#/components/schemas/Check_removeParameterCheck_error'

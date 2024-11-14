@@ -1,0 +1,225 @@
+asyncapi: 3.0.0
+info:
+  title: Check Service getSummaryReport API
+  version: 1.0.0
+  description: This API allows clients to interact with the getSummaryReport interaction of the Check Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the Check Service's getSummaryReport interaction.
+    variables:
+      port:
+        default: '8883'
+channels:
+  progress_Check_getSummaryReport:
+    address: progress_Check_getSummaryReport
+    messages:
+      Check.getSummaryReport_progress.message:
+        $ref: '#/components/messages/Check_getSummaryReport_progress'
+    description: >
+      Send a **Check_getSummaryReport_progress** message in this channel to receive a
+      **Check_getSummaryReport_update** message over the **update_Check_getSummaryReport** channel.
+  update_Check_getSummaryReport:
+    address: update_Check_getSummaryReport
+    messages:
+      Check.getSummaryReport_update.message:
+        $ref: '#/components/messages/Check_getSummaryReport_update'
+    description: >
+      Use this channel to receive Check getSummaryReport responses as **Check_getSummaryReport_update**
+      messages.
+  response_Check_getSummaryReport:
+    address: response_Check_getSummaryReport
+    messages:
+      Check.getSummaryReport_response.message:
+        $ref: '#/components/messages/Check_getSummaryReport_response'
+    description: >
+      Use this channel to receive additional Check getSummaryReport responses as **Check_getSummaryReport_response**
+      messages.
+  error_Check_getSummaryReport:
+    address: error_Check_getSummaryReport
+    messages:
+      Check.getSummaryReport_error.message:
+        $ref: '#/components/messages/Check_getSummaryReport_error'
+    description: >
+      Use this channel to receive Check getSummaryReport errors as **Check_getSummaryReport_updateErrors**
+      messages.
+operations:
+  Check_getSummaryReport_progress:
+    action: send
+    channel:
+      $ref: '#/channels/progress_Check_getSummaryReport'
+    messages:
+      - $ref: '#/channels/progress_Check_getSummaryReport/messages/Check.getSummaryReport_progress.message'
+  Check_getSummaryReport_update:
+    action: receive
+    channel:
+      $ref: '#/channels/update_Check_getSummaryReport'
+    messages:
+      - $ref: '#/channels/update_Check_getSummaryReport/messages/Check.getSummaryReport_update.message'
+  Check_getSummaryReport_response:
+    action: receive
+    channel:
+      $ref: '#/channels/response_Check_getSummaryReport'
+    messages:
+      - $ref: '#/channels/response_Check_getSummaryReport/messages/Check.getSummaryReport_response.message'
+  Check_getSummaryReport_error:
+    action: receive
+    channel:
+      $ref: '#/channels/error_Check_getSummaryReport'
+    messages:
+      - $ref: '#/channels/error_Check_getSummaryReport/messages/Check.getSummaryReport_error.message'
+components:
+  schemas:
+    Check_getSummaryReport_progress:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        objInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The objInstIds field shall hold one or more CheckIdentity object instance identifiers of which a check report is required.
+            A wildcard value of '0' shall report on all checks.
+            The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
+            If a requested check is unknown then an UNKNOWN error shall be returned in the ACKNOWLEDGE message and the operation shall end.
+    Check_getSummaryReport_update:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        updateObjInstIds:
+          type: integer
+          format: int64
+          description: |
+            The returned updates and final response shall contain an entry for each requested CheckIdentity.
+            The first part of the update shall be the CheckIdentity object instance identifier.
+            The second part shall be the list of all CheckLink object instance identifiers and CheckResults associated with that CheckIdentity.
+        updateSummaries:
+          $ref: '#/components/schemas/mc/check/CheckResultSummary'
+    Check_getSummaryReport_response:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        responseObjInstIds:
+          type: integer
+        responseSummaries:
+          $ref: '#/components/schemas/mc/check/CheckResultSummary'
+    Check_getSummaryReport_error:
+      type: object
+      properties:
+        transactionId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    mc:
+      check:
+        CheckResult:
+          properties:
+            checkedValue:
+              description: This is the value of the parameter or for a compound check the number
+                of checks in violation at the time of a check state transition, or if it is
+                a report due to the CheckDefinitionDetails maxReportingInterval expiring, then
+                it is the value or the number when the interval expired.
+              type: string
+            currentCheckState:
+              $ref: '#/components/schemas/mc/check/CheckState'
+              description: The current evaluation state of the check
+            paramDefInstId:
+              description: The object instance identifier of the ParameterDefinition used for
+                the check evaluation. NULL if compound check.
+              format: int64
+              type: integer
+            previousCheckState:
+              $ref: '#/components/schemas/mc/check/CheckState'
+              description: The previous evaluation state of the check. Initially UNCHECKED for
+                the first transition of a check. For check evaluations that do not detect a
+                check transition, this value will be the same as the currentCheckState.
+          type: object
+        CheckResultSummary:
+          properties:
+            checkEnabled:
+              description: The current enabled state of the check link.
+              type: boolean
+            evaluationTime:
+              description: The timestamp of the check result. If as a result of max reporting
+                interval expiring then it shall contain the expiration timestamp.
+              format: uint64
+              type: number
+            linkId:
+              description: The object instance identifier of the check link.
+              format: int64
+              type: integer
+            parameterId:
+              $ref: '#/components/schemas/com/ObjectKey'
+              description: The object instance key of the ParameterIdentity being checked. NULL
+                only for Compound checks.
+            result:
+              $ref: '#/components/schemas/mc/check/CheckResult'
+              description: The check result value.
+          type: object
+        CheckState:
+          description: The CheckState enumeration holds the possible basic states of a check.
+            The meaning of the NOT_OK value is check specific and detailed in the relevant check
+            type definition.
+          enum:
+          - DISABLED
+          - UNCHECKED
+          - INVALID
+          - OK
+          - NOT_OK
+          type: string
+    com:
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
+  messages:
+    Check_getSummaryReport_progress:
+      description: Check getSummaryReport request submission
+      payload:
+        $ref: '#/components/schemas/Check_getSummaryReport_progress'
+    Check_getSummaryReport_update:
+      description: Check getSummaryReport update response
+      payload:
+        $ref: '#/components/schemas/Check_getSummaryReport_update'
+    Check_getSummaryReport_response:
+      description: Check getSummaryReport update response
+      payload:
+        $ref: '#/components/schemas/Check_getSummaryReport_response'
+    Check_getSummaryReport_error:
+      description: Check getSummaryReport error response
+      payload:
+        $ref: '#/components/schemas/Check_getSummaryReport_error'

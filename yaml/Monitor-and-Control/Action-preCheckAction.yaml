@@ -13,52 +13,52 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Action_preCheckAction:
-    address: Send_Action_preCheckAction
+  request_Action_preCheckAction:
+    address: request_Action_preCheckAction
     messages:
-      Action.preCheckAction_Send.message:
-        $ref: '#/components/messages/Action_preCheckAction_Send'
+      Action.preCheckAction_request.message:
+        $ref: '#/components/messages/Action_preCheckAction_request'
     description: >
-      Send a **Action_preCheckAction_Send** message in this channel to receive a
-      **Action_preCheckAction_Receive** message over the **Receive_Action_preCheckAction** channel.
-  Receive_Action_preCheckAction:
-    address: Receive_Action_preCheckAction
+      Send a **Action_preCheckAction_request** message in this channel to receive a
+      **Action_preCheckAction_response** message over the **response_Action_preCheckAction** channel.
+  response_Action_preCheckAction:
+    address: response_Action_preCheckAction
     messages:
-      Action.preCheckAction_Receive.message:
-        $ref: '#/components/messages/Action_preCheckAction_Receive'
+      Action.preCheckAction_response.message:
+        $ref: '#/components/messages/Action_preCheckAction_response'
     description: >
-      Use this channel to receive Action preCheckAction responses as **Action_preCheckAction_Receive**
+      Use this channel to receive Action preCheckAction responses as **Action_preCheckAction_response**
       messages.
-  Error_Action_preCheckAction:
-    address: Error_Action_preCheckAction
+  error_Action_preCheckAction:
+    address: error_Action_preCheckAction
     messages:
-      Action.preCheckAction_Error.message:
-        $ref: '#/components/messages/Action_preCheckAction_Error'
+      Action.preCheckAction_error.message:
+        $ref: '#/components/messages/Action_preCheckAction_error'
     description: >
-      Use this channel to receive Action preCheckAction errors as **Action_preCheckAction_ReceiveErrors**
+      Use this channel to receive Action preCheckAction errors as **Action_preCheckAction_responseErrors**
       messages.
 operations:
-  Action_preCheckAction_Send:
+  Action_preCheckAction_request:
     action: send
     channel:
-      $ref: '#/channels/Send_Action_preCheckAction'
+      $ref: '#/channels/request_Action_preCheckAction'
     messages:
-      - $ref: '#/channels/Send_Action_preCheckAction/messages/Action.preCheckAction_Send.message'
-  Action_preCheckAction_Receive:
+      - $ref: '#/channels/request_Action_preCheckAction/messages/Action.preCheckAction_request.message'
+  Action_preCheckAction_response:
     action: receive
     channel:
-      $ref: '#/channels/Receive_Action_preCheckAction'
+      $ref: '#/channels/response_Action_preCheckAction'
     messages:
-      - $ref: '#/channels/Receive_Action_preCheckAction/messages/Action.preCheckAction_Receive.message'
-  Action_preCheckAction_Error:
+      - $ref: '#/channels/response_Action_preCheckAction/messages/Action.preCheckAction_response.message'
+  Action_preCheckAction_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Action_preCheckAction'
+      $ref: '#/channels/error_Action_preCheckAction'
     messages:
-      - $ref: '#/channels/Error_Action_preCheckAction/messages/Action.preCheckAction_Error.message'
+      - $ref: '#/channels/error_Action_preCheckAction/messages/Action.preCheckAction_error.message'
 components:
   schemas:
-    Action_preCheckAction_Send:
+    Action_preCheckAction_request:
       type: object
       properties:
         transactionId:
@@ -71,7 +71,7 @@ components:
             If the ActionInstanceDetails structure contains an argumentIds field value then this shall be compared to the same field in the matched ActionDefinition object and must be the same size and contain the same values, an INVALID error shall be returned if this is not the case.
             If the supplied argument values do not match the attribute type specified in the action definition then an INVALID error shall be returned.
             A service provider may apply some deployment specific checks to the action instance and can return an INVALID error if they fail.
-    Action_preCheckAction_Receive:
+    Action_preCheckAction_response:
       type: object
       properties:
         transactionId:
@@ -81,7 +81,7 @@ components:
           type: boolean
           description: |
             The returned Boolean shall be set to TRUE if the action would be accepted successfully; otherwise the operation shall return FALSE.
-    Action_preCheckAction_Error:
+    Action_preCheckAction_error:
       type: object
       properties:
         transactionId:
@@ -91,8 +91,8 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MAL
             - COM
+            - MAL
         name:
           type: string
           description: A code representing the error.
@@ -158,15 +158,15 @@ components:
             type: string
         type: object
   messages:
-    Action_preCheckAction_Send:
+    Action_preCheckAction_request:
       description: Action preCheckAction request submission
       payload:
-        $ref: '#/components/schemas/Action_preCheckAction_Send'
-    Action_preCheckAction_Receive:
+        $ref: '#/components/schemas/Action_preCheckAction_request'
+    Action_preCheckAction_response:
       description: Action preCheckAction update response
       payload:
-        $ref: '#/components/schemas/Action_preCheckAction_Receive'
-    Action_preCheckAction_Error:
+        $ref: '#/components/schemas/Action_preCheckAction_response'
+    Action_preCheckAction_error:
       description: Action preCheckAction error response
       payload:
-        $ref: '#/components/schemas/Action_preCheckAction_Error'
+        $ref: '#/components/schemas/Action_preCheckAction_error'

@@ -13,52 +13,52 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Statistic_addParameterEvaluation:
-    address: Send_Statistic_addParameterEvaluation
+  request_Statistic_addParameterEvaluation:
+    address: request_Statistic_addParameterEvaluation
     messages:
-      Statistic.addParameterEvaluation_Send.message:
-        $ref: '#/components/messages/Statistic_addParameterEvaluation_Send'
+      Statistic.addParameterEvaluation_request.message:
+        $ref: '#/components/messages/Statistic_addParameterEvaluation_request'
     description: >
-      Send a **Statistic_addParameterEvaluation_Send** message in this channel to receive a
-      **Statistic_addParameterEvaluation_Receive** message over the **Receive_Statistic_addParameterEvaluation** channel.
-  Receive_Statistic_addParameterEvaluation:
-    address: Receive_Statistic_addParameterEvaluation
+      Send a **Statistic_addParameterEvaluation_request** message in this channel to receive a
+      **Statistic_addParameterEvaluation_response** message over the **response_Statistic_addParameterEvaluation** channel.
+  response_Statistic_addParameterEvaluation:
+    address: response_Statistic_addParameterEvaluation
     messages:
-      Statistic.addParameterEvaluation_Receive.message:
-        $ref: '#/components/messages/Statistic_addParameterEvaluation_Receive'
+      Statistic.addParameterEvaluation_response.message:
+        $ref: '#/components/messages/Statistic_addParameterEvaluation_response'
     description: >
-      Use this channel to receive Statistic addParameterEvaluation responses as **Statistic_addParameterEvaluation_Receive**
+      Use this channel to receive Statistic addParameterEvaluation responses as **Statistic_addParameterEvaluation_response**
       messages.
-  Error_Statistic_addParameterEvaluation:
-    address: Error_Statistic_addParameterEvaluation
+  error_Statistic_addParameterEvaluation:
+    address: error_Statistic_addParameterEvaluation
     messages:
-      Statistic.addParameterEvaluation_Error.message:
-        $ref: '#/components/messages/Statistic_addParameterEvaluation_Error'
+      Statistic.addParameterEvaluation_error.message:
+        $ref: '#/components/messages/Statistic_addParameterEvaluation_error'
     description: >
-      Use this channel to receive Statistic addParameterEvaluation errors as **Statistic_addParameterEvaluation_ReceiveErrors**
+      Use this channel to receive Statistic addParameterEvaluation errors as **Statistic_addParameterEvaluation_responseErrors**
       messages.
 operations:
-  Statistic_addParameterEvaluation_Send:
+  Statistic_addParameterEvaluation_request:
     action: send
     channel:
-      $ref: '#/channels/Send_Statistic_addParameterEvaluation'
+      $ref: '#/channels/request_Statistic_addParameterEvaluation'
     messages:
-      - $ref: '#/channels/Send_Statistic_addParameterEvaluation/messages/Statistic.addParameterEvaluation_Send.message'
-  Statistic_addParameterEvaluation_Receive:
+      - $ref: '#/channels/request_Statistic_addParameterEvaluation/messages/Statistic.addParameterEvaluation_request.message'
+  Statistic_addParameterEvaluation_response:
     action: receive
     channel:
-      $ref: '#/channels/Receive_Statistic_addParameterEvaluation'
+      $ref: '#/channels/response_Statistic_addParameterEvaluation'
     messages:
-      - $ref: '#/channels/Receive_Statistic_addParameterEvaluation/messages/Statistic.addParameterEvaluation_Receive.message'
-  Statistic_addParameterEvaluation_Error:
+      - $ref: '#/channels/response_Statistic_addParameterEvaluation/messages/Statistic.addParameterEvaluation_response.message'
+  Statistic_addParameterEvaluation_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Statistic_addParameterEvaluation'
+      $ref: '#/channels/error_Statistic_addParameterEvaluation'
     messages:
-      - $ref: '#/channels/Error_Statistic_addParameterEvaluation/messages/Statistic.addParameterEvaluation_Error.message'
+      - $ref: '#/channels/error_Statistic_addParameterEvaluation/messages/Statistic.addParameterEvaluation_error.message'
 components:
   schemas:
-    Statistic_addParameterEvaluation_Send:
+    Statistic_addParameterEvaluation_request:
       type: object
       properties:
         transactionId:
@@ -78,7 +78,7 @@ components:
             If an error is raised then no new StatisticLink object shall be created and stored as a result of this operation call.
             If no error is to be raised then StatisticLink and StatisticLinkDefinition objects shall be created for each function/parameter link and stored in the COM archive.
             The referenced parameter shall be sampled immediately and the sampling, reporting and collection intervals started.
-    Statistic_addParameterEvaluation_Receive:
+    Statistic_addParameterEvaluation_response:
       type: object
       properties:
         transactionId:
@@ -90,7 +90,7 @@ components:
             The response shall contain the list of object instance identifiers for the new StatisticLink and StatisticLinkDefinition objects.
             The object instance identifiers of the StatisticLink and StatisticLinkDefinition objects shall be held in the first and second fields of the ObjectInstancePair structure respectively.
             The returned list shall maintain the same order as the submitted links.
-    Statistic_addParameterEvaluation_Error:
+    Statistic_addParameterEvaluation_error:
       type: object
       properties:
         transactionId:
@@ -100,8 +100,8 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MAL
             - COM
+            - MAL
         name:
           type: string
           description: A code representing the error.
@@ -186,15 +186,15 @@ components:
             type: integer
         type: object
   messages:
-    Statistic_addParameterEvaluation_Send:
+    Statistic_addParameterEvaluation_request:
       description: Statistic addParameterEvaluation request submission
       payload:
-        $ref: '#/components/schemas/Statistic_addParameterEvaluation_Send'
-    Statistic_addParameterEvaluation_Receive:
+        $ref: '#/components/schemas/Statistic_addParameterEvaluation_request'
+    Statistic_addParameterEvaluation_response:
       description: Statistic addParameterEvaluation update response
       payload:
-        $ref: '#/components/schemas/Statistic_addParameterEvaluation_Receive'
-    Statistic_addParameterEvaluation_Error:
+        $ref: '#/components/schemas/Statistic_addParameterEvaluation_response'
+    Statistic_addParameterEvaluation_error:
       description: Statistic addParameterEvaluation error response
       payload:
-        $ref: '#/components/schemas/Statistic_addParameterEvaluation_Error'
+        $ref: '#/components/schemas/Statistic_addParameterEvaluation_error'

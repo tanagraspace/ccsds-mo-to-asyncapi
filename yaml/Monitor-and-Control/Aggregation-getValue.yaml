@@ -13,52 +13,52 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Aggregation_getValue:
-    address: Send_Aggregation_getValue
+  request_Aggregation_getValue:
+    address: request_Aggregation_getValue
     messages:
-      Aggregation.getValue_Send.message:
-        $ref: '#/components/messages/Aggregation_getValue_Send'
+      Aggregation.getValue_request.message:
+        $ref: '#/components/messages/Aggregation_getValue_request'
     description: >
-      Send a **Aggregation_getValue_Send** message in this channel to receive a
-      **Aggregation_getValue_Receive** message over the **Receive_Aggregation_getValue** channel.
-  Receive_Aggregation_getValue:
-    address: Receive_Aggregation_getValue
+      Send a **Aggregation_getValue_request** message in this channel to receive a
+      **Aggregation_getValue_response** message over the **response_Aggregation_getValue** channel.
+  response_Aggregation_getValue:
+    address: response_Aggregation_getValue
     messages:
-      Aggregation.getValue_Receive.message:
-        $ref: '#/components/messages/Aggregation_getValue_Receive'
+      Aggregation.getValue_response.message:
+        $ref: '#/components/messages/Aggregation_getValue_response'
     description: >
-      Use this channel to receive Aggregation getValue responses as **Aggregation_getValue_Receive**
+      Use this channel to receive Aggregation getValue responses as **Aggregation_getValue_response**
       messages.
-  Error_Aggregation_getValue:
-    address: Error_Aggregation_getValue
+  error_Aggregation_getValue:
+    address: error_Aggregation_getValue
     messages:
-      Aggregation.getValue_Error.message:
-        $ref: '#/components/messages/Aggregation_getValue_Error'
+      Aggregation.getValue_error.message:
+        $ref: '#/components/messages/Aggregation_getValue_error'
     description: >
-      Use this channel to receive Aggregation getValue errors as **Aggregation_getValue_ReceiveErrors**
+      Use this channel to receive Aggregation getValue errors as **Aggregation_getValue_responseErrors**
       messages.
 operations:
-  Aggregation_getValue_Send:
+  Aggregation_getValue_request:
     action: send
     channel:
-      $ref: '#/channels/Send_Aggregation_getValue'
+      $ref: '#/channels/request_Aggregation_getValue'
     messages:
-      - $ref: '#/channels/Send_Aggregation_getValue/messages/Aggregation.getValue_Send.message'
-  Aggregation_getValue_Receive:
+      - $ref: '#/channels/request_Aggregation_getValue/messages/Aggregation.getValue_request.message'
+  Aggregation_getValue_response:
     action: receive
     channel:
-      $ref: '#/channels/Receive_Aggregation_getValue'
+      $ref: '#/channels/response_Aggregation_getValue'
     messages:
-      - $ref: '#/channels/Receive_Aggregation_getValue/messages/Aggregation.getValue_Receive.message'
-  Aggregation_getValue_Error:
+      - $ref: '#/channels/response_Aggregation_getValue/messages/Aggregation.getValue_response.message'
+  Aggregation_getValue_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Aggregation_getValue'
+      $ref: '#/channels/error_Aggregation_getValue'
     messages:
-      - $ref: '#/channels/Error_Aggregation_getValue/messages/Aggregation.getValue_Error.message'
+      - $ref: '#/channels/error_Aggregation_getValue/messages/Aggregation.getValue_error.message'
 components:
   schemas:
-    Aggregation_getValue_Send:
+    Aggregation_getValue_request:
       type: object
       properties:
         transactionId:
@@ -76,7 +76,7 @@ components:
             If a requested aggregation is unknown then an UNKNOWN error shall be returned.
             The filter shall not be applied for the getValue operation.
             If an aggregation is being reported periodically, using the operation shall not reset the reportInterval or filteredTimeout timer.
-    Aggregation_getValue_Receive:
+    Aggregation_getValue_response:
       type: object
       properties:
         transactionId:
@@ -87,7 +87,7 @@ components:
           description: |
             The response shall contain a list of returned AggregationIdentity and AggregationDefinition object instance identifier pairs and a matching list of AggregationValues.
             The new value shall not be published via the monitorValue operation.
-    Aggregation_getValue_Error:
+    Aggregation_getValue_error:
       type: object
       properties:
         transactionId:
@@ -207,15 +207,15 @@ components:
               type: integer
           type: object
   messages:
-    Aggregation_getValue_Send:
+    Aggregation_getValue_request:
       description: Aggregation getValue request submission
       payload:
-        $ref: '#/components/schemas/Aggregation_getValue_Send'
-    Aggregation_getValue_Receive:
+        $ref: '#/components/schemas/Aggregation_getValue_request'
+    Aggregation_getValue_response:
       description: Aggregation getValue update response
       payload:
-        $ref: '#/components/schemas/Aggregation_getValue_Receive'
-    Aggregation_getValue_Error:
+        $ref: '#/components/schemas/Aggregation_getValue_response'
+    Aggregation_getValue_error:
       description: Aggregation getValue error response
       payload:
-        $ref: '#/components/schemas/Aggregation_getValue_Error'
+        $ref: '#/components/schemas/Aggregation_getValue_error'

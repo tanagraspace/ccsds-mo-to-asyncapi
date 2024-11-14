@@ -13,52 +13,52 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Action_updateDefinition:
-    address: Send_Action_updateDefinition
+  request_Action_updateDefinition:
+    address: request_Action_updateDefinition
     messages:
-      Action.updateDefinition_Send.message:
-        $ref: '#/components/messages/Action_updateDefinition_Send'
+      Action.updateDefinition_request.message:
+        $ref: '#/components/messages/Action_updateDefinition_request'
     description: >
-      Send a **Action_updateDefinition_Send** message in this channel to receive a
-      **Action_updateDefinition_Receive** message over the **Receive_Action_updateDefinition** channel.
-  Receive_Action_updateDefinition:
-    address: Receive_Action_updateDefinition
+      Send a **Action_updateDefinition_request** message in this channel to receive a
+      **Action_updateDefinition_response** message over the **response_Action_updateDefinition** channel.
+  response_Action_updateDefinition:
+    address: response_Action_updateDefinition
     messages:
-      Action.updateDefinition_Receive.message:
-        $ref: '#/components/messages/Action_updateDefinition_Receive'
+      Action.updateDefinition_response.message:
+        $ref: '#/components/messages/Action_updateDefinition_response'
     description: >
-      Use this channel to receive Action updateDefinition responses as **Action_updateDefinition_Receive**
+      Use this channel to receive Action updateDefinition responses as **Action_updateDefinition_response**
       messages.
-  Error_Action_updateDefinition:
-    address: Error_Action_updateDefinition
+  error_Action_updateDefinition:
+    address: error_Action_updateDefinition
     messages:
-      Action.updateDefinition_Error.message:
-        $ref: '#/components/messages/Action_updateDefinition_Error'
+      Action.updateDefinition_error.message:
+        $ref: '#/components/messages/Action_updateDefinition_error'
     description: >
-      Use this channel to receive Action updateDefinition errors as **Action_updateDefinition_ReceiveErrors**
+      Use this channel to receive Action updateDefinition errors as **Action_updateDefinition_responseErrors**
       messages.
 operations:
-  Action_updateDefinition_Send:
+  Action_updateDefinition_request:
     action: send
     channel:
-      $ref: '#/channels/Send_Action_updateDefinition'
+      $ref: '#/channels/request_Action_updateDefinition'
     messages:
-      - $ref: '#/channels/Send_Action_updateDefinition/messages/Action.updateDefinition_Send.message'
-  Action_updateDefinition_Receive:
+      - $ref: '#/channels/request_Action_updateDefinition/messages/Action.updateDefinition_request.message'
+  Action_updateDefinition_response:
     action: receive
     channel:
-      $ref: '#/channels/Receive_Action_updateDefinition'
+      $ref: '#/channels/response_Action_updateDefinition'
     messages:
-      - $ref: '#/channels/Receive_Action_updateDefinition/messages/Action.updateDefinition_Receive.message'
-  Action_updateDefinition_Error:
+      - $ref: '#/channels/response_Action_updateDefinition/messages/Action.updateDefinition_response.message'
+  Action_updateDefinition_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Action_updateDefinition'
+      $ref: '#/channels/error_Action_updateDefinition'
     messages:
-      - $ref: '#/channels/Error_Action_updateDefinition/messages/Action.updateDefinition_Error.message'
+      - $ref: '#/channels/error_Action_updateDefinition/messages/Action.updateDefinition_error.message'
 components:
   schemas:
-    Action_updateDefinition_Send:
+    Action_updateDefinition_request:
       type: object
       properties:
         transactionId:
@@ -82,7 +82,7 @@ components:
             If an error is raised then no definitions shall be modified as a result of this operation call.
             The provider shall create a new ActionDefinition object and store it in the COM archive.
             The new ActionDefinition object shall be the current ActionDefinition used for the specific ActionIdentity.
-    Action_updateDefinition_Receive:
+    Action_updateDefinition_response:
       type: object
       properties:
         transactionId:
@@ -96,7 +96,7 @@ components:
           description: |
             The response shall contain the list of object instance identifiers for the new ActionDefinition objects.
             The returned list shall maintain the same order as the submitted definitions.
-    Action_updateDefinition_Error:
+    Action_updateDefinition_error:
       type: object
       properties:
         transactionId:
@@ -106,8 +106,8 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MAL
             - COM
+            - MAL
         name:
           type: string
           description: A code representing the error.
@@ -234,15 +234,15 @@ components:
           - ICONTAINS
           type: string
   messages:
-    Action_updateDefinition_Send:
+    Action_updateDefinition_request:
       description: Action updateDefinition request submission
       payload:
-        $ref: '#/components/schemas/Action_updateDefinition_Send'
-    Action_updateDefinition_Receive:
+        $ref: '#/components/schemas/Action_updateDefinition_request'
+    Action_updateDefinition_response:
       description: Action updateDefinition update response
       payload:
-        $ref: '#/components/schemas/Action_updateDefinition_Receive'
-    Action_updateDefinition_Error:
+        $ref: '#/components/schemas/Action_updateDefinition_response'
+    Action_updateDefinition_error:
       description: Action updateDefinition error response
       payload:
-        $ref: '#/components/schemas/Action_updateDefinition_Error'
+        $ref: '#/components/schemas/Action_updateDefinition_error'

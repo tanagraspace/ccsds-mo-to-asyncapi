@@ -13,52 +13,52 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Check_addParameterCheck:
-    address: Send_Check_addParameterCheck
+  request_Check_addParameterCheck:
+    address: request_Check_addParameterCheck
     messages:
-      Check.addParameterCheck_Send.message:
-        $ref: '#/components/messages/Check_addParameterCheck_Send'
+      Check.addParameterCheck_request.message:
+        $ref: '#/components/messages/Check_addParameterCheck_request'
     description: >
-      Send a **Check_addParameterCheck_Send** message in this channel to receive a
-      **Check_addParameterCheck_Receive** message over the **Receive_Check_addParameterCheck** channel.
-  Receive_Check_addParameterCheck:
-    address: Receive_Check_addParameterCheck
+      Send a **Check_addParameterCheck_request** message in this channel to receive a
+      **Check_addParameterCheck_response** message over the **response_Check_addParameterCheck** channel.
+  response_Check_addParameterCheck:
+    address: response_Check_addParameterCheck
     messages:
-      Check.addParameterCheck_Receive.message:
-        $ref: '#/components/messages/Check_addParameterCheck_Receive'
+      Check.addParameterCheck_response.message:
+        $ref: '#/components/messages/Check_addParameterCheck_response'
     description: >
-      Use this channel to receive Check addParameterCheck responses as **Check_addParameterCheck_Receive**
+      Use this channel to receive Check addParameterCheck responses as **Check_addParameterCheck_response**
       messages.
-  Error_Check_addParameterCheck:
-    address: Error_Check_addParameterCheck
+  error_Check_addParameterCheck:
+    address: error_Check_addParameterCheck
     messages:
-      Check.addParameterCheck_Error.message:
-        $ref: '#/components/messages/Check_addParameterCheck_Error'
+      Check.addParameterCheck_error.message:
+        $ref: '#/components/messages/Check_addParameterCheck_error'
     description: >
-      Use this channel to receive Check addParameterCheck errors as **Check_addParameterCheck_ReceiveErrors**
+      Use this channel to receive Check addParameterCheck errors as **Check_addParameterCheck_responseErrors**
       messages.
 operations:
-  Check_addParameterCheck_Send:
+  Check_addParameterCheck_request:
     action: send
     channel:
-      $ref: '#/channels/Send_Check_addParameterCheck'
+      $ref: '#/channels/request_Check_addParameterCheck'
     messages:
-      - $ref: '#/channels/Send_Check_addParameterCheck/messages/Check.addParameterCheck_Send.message'
-  Check_addParameterCheck_Receive:
+      - $ref: '#/channels/request_Check_addParameterCheck/messages/Check.addParameterCheck_request.message'
+  Check_addParameterCheck_response:
     action: receive
     channel:
-      $ref: '#/channels/Receive_Check_addParameterCheck'
+      $ref: '#/channels/response_Check_addParameterCheck'
     messages:
-      - $ref: '#/channels/Receive_Check_addParameterCheck/messages/Check.addParameterCheck_Receive.message'
-  Check_addParameterCheck_Error:
+      - $ref: '#/channels/response_Check_addParameterCheck/messages/Check.addParameterCheck_response.message'
+  Check_addParameterCheck_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Check_addParameterCheck'
+      $ref: '#/channels/error_Check_addParameterCheck'
     messages:
-      - $ref: '#/channels/Error_Check_addParameterCheck/messages/Check.addParameterCheck_Error.message'
+      - $ref: '#/channels/error_Check_addParameterCheck/messages/Check.addParameterCheck_error.message'
 components:
   schemas:
-    Check_addParameterCheck_Send:
+    Check_addParameterCheck_request:
       type: object
       properties:
         transactionId:
@@ -80,7 +80,7 @@ components:
             If an interval that is not supported by the provider is requested then an INVALID error shall be returned.
             If the checkInterval is not '0' and the checkOnChange Value is TRUE, then an INVALID error shall be returned.
             The provider shall create new CheckLink and CheckLinkDefinition objects for each pair and store them in the COM archive.
-    Check_addParameterCheck_Receive:
+    Check_addParameterCheck_response:
       type: object
       properties:
         transactionId:
@@ -91,7 +91,7 @@ components:
           description: |
             The response shall contain the list of object instance identifiers for the new CheckLink and CheckLinkDefinition objects.
             The returned list shall maintain the same order as the submitted links.
-    Check_addParameterCheck_Error:
+    Check_addParameterCheck_error:
       type: object
       properties:
         transactionId:
@@ -101,8 +101,8 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MAL
             - COM
+            - MAL
         name:
           type: string
           description: A code representing the error.
@@ -244,15 +244,15 @@ components:
           - ICONTAINS
           type: string
   messages:
-    Check_addParameterCheck_Send:
+    Check_addParameterCheck_request:
       description: Check addParameterCheck request submission
       payload:
-        $ref: '#/components/schemas/Check_addParameterCheck_Send'
-    Check_addParameterCheck_Receive:
+        $ref: '#/components/schemas/Check_addParameterCheck_request'
+    Check_addParameterCheck_response:
       description: Check addParameterCheck update response
       payload:
-        $ref: '#/components/schemas/Check_addParameterCheck_Receive'
-    Check_addParameterCheck_Error:
+        $ref: '#/components/schemas/Check_addParameterCheck_response'
+    Check_addParameterCheck_error:
       description: Check addParameterCheck error response
       payload:
-        $ref: '#/components/schemas/Check_addParameterCheck_Error'
+        $ref: '#/components/schemas/Check_addParameterCheck_error'

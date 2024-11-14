@@ -13,52 +13,52 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Alert_addAlert:
-    address: Send_Alert_addAlert
+  request_Alert_addAlert:
+    address: request_Alert_addAlert
     messages:
-      Alert.addAlert_Send.message:
-        $ref: '#/components/messages/Alert_addAlert_Send'
+      Alert.addAlert_request.message:
+        $ref: '#/components/messages/Alert_addAlert_request'
     description: >
-      Send a **Alert_addAlert_Send** message in this channel to receive a
-      **Alert_addAlert_Receive** message over the **Receive_Alert_addAlert** channel.
-  Receive_Alert_addAlert:
-    address: Receive_Alert_addAlert
+      Send a **Alert_addAlert_request** message in this channel to receive a
+      **Alert_addAlert_response** message over the **response_Alert_addAlert** channel.
+  response_Alert_addAlert:
+    address: response_Alert_addAlert
     messages:
-      Alert.addAlert_Receive.message:
-        $ref: '#/components/messages/Alert_addAlert_Receive'
+      Alert.addAlert_response.message:
+        $ref: '#/components/messages/Alert_addAlert_response'
     description: >
-      Use this channel to receive Alert addAlert responses as **Alert_addAlert_Receive**
+      Use this channel to receive Alert addAlert responses as **Alert_addAlert_response**
       messages.
-  Error_Alert_addAlert:
-    address: Error_Alert_addAlert
+  error_Alert_addAlert:
+    address: error_Alert_addAlert
     messages:
-      Alert.addAlert_Error.message:
-        $ref: '#/components/messages/Alert_addAlert_Error'
+      Alert.addAlert_error.message:
+        $ref: '#/components/messages/Alert_addAlert_error'
     description: >
-      Use this channel to receive Alert addAlert errors as **Alert_addAlert_ReceiveErrors**
+      Use this channel to receive Alert addAlert errors as **Alert_addAlert_responseErrors**
       messages.
 operations:
-  Alert_addAlert_Send:
+  Alert_addAlert_request:
     action: send
     channel:
-      $ref: '#/channels/Send_Alert_addAlert'
+      $ref: '#/channels/request_Alert_addAlert'
     messages:
-      - $ref: '#/channels/Send_Alert_addAlert/messages/Alert.addAlert_Send.message'
-  Alert_addAlert_Receive:
+      - $ref: '#/channels/request_Alert_addAlert/messages/Alert.addAlert_request.message'
+  Alert_addAlert_response:
     action: receive
     channel:
-      $ref: '#/channels/Receive_Alert_addAlert'
+      $ref: '#/channels/response_Alert_addAlert'
     messages:
-      - $ref: '#/channels/Receive_Alert_addAlert/messages/Alert.addAlert_Receive.message'
-  Alert_addAlert_Error:
+      - $ref: '#/channels/response_Alert_addAlert/messages/Alert.addAlert_response.message'
+  Alert_addAlert_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Alert_addAlert'
+      $ref: '#/channels/error_Alert_addAlert'
     messages:
-      - $ref: '#/channels/Error_Alert_addAlert/messages/Alert.addAlert_Error.message'
+      - $ref: '#/channels/error_Alert_addAlert/messages/Alert.addAlert_error.message'
 components:
   schemas:
-    Alert_addAlert_Send:
+    Alert_addAlert_request:
       type: object
       properties:
         transactionId:
@@ -73,7 +73,7 @@ components:
             If an error is raised then no new identities and definitions shall be added as a result of this operation call.
             If the supplied name matches an existing, but removed, AlertIdentity then that AlertIdentity shall be reused otherwise a new AlertIdentity shall be created.
             The provider shall create a new AlertDefinition object and store it, and any new AlertIdentity objects, in the COM archive.
-    Alert_addAlert_Receive:
+    Alert_addAlert_response:
       type: object
       properties:
         transactionId:
@@ -84,7 +84,7 @@ components:
           description: |
             The response shall contain the list of object instance identifiers for the AlertIdentity and new AlertDefinition objects.
             The returned list shall maintain the same order as the submitted definitions.
-    Alert_addAlert_Error:
+    Alert_addAlert_error:
       type: object
       properties:
         transactionId:
@@ -99,8 +99,8 @@ components:
           type: string
           description: A code representing the error.
           enum:
-            - DUPLICATE
             - INVALID
+            - DUPLICATE
         extraInformation:
           type: array
           items:
@@ -248,15 +248,15 @@ components:
           - ICONTAINS
           type: string
   messages:
-    Alert_addAlert_Send:
+    Alert_addAlert_request:
       description: Alert addAlert request submission
       payload:
-        $ref: '#/components/schemas/Alert_addAlert_Send'
-    Alert_addAlert_Receive:
+        $ref: '#/components/schemas/Alert_addAlert_request'
+    Alert_addAlert_response:
       description: Alert addAlert update response
       payload:
-        $ref: '#/components/schemas/Alert_addAlert_Receive'
-    Alert_addAlert_Error:
+        $ref: '#/components/schemas/Alert_addAlert_response'
+    Alert_addAlert_error:
       description: Alert addAlert error response
       payload:
-        $ref: '#/components/schemas/Alert_addAlert_Error'
+        $ref: '#/components/schemas/Alert_addAlert_error'

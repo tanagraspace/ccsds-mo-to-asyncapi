@@ -13,52 +13,52 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Parameter_addParameter:
-    address: Send_Parameter_addParameter
+  request_Parameter_addParameter:
+    address: request_Parameter_addParameter
     messages:
-      Parameter.addParameter_Send.message:
-        $ref: '#/components/messages/Parameter_addParameter_Send'
+      Parameter.addParameter_request.message:
+        $ref: '#/components/messages/Parameter_addParameter_request'
     description: >
-      Send a **Parameter_addParameter_Send** message in this channel to receive a
-      **Parameter_addParameter_Receive** message over the **Receive_Parameter_addParameter** channel.
-  Receive_Parameter_addParameter:
-    address: Receive_Parameter_addParameter
+      Send a **Parameter_addParameter_request** message in this channel to receive a
+      **Parameter_addParameter_response** message over the **response_Parameter_addParameter** channel.
+  response_Parameter_addParameter:
+    address: response_Parameter_addParameter
     messages:
-      Parameter.addParameter_Receive.message:
-        $ref: '#/components/messages/Parameter_addParameter_Receive'
+      Parameter.addParameter_response.message:
+        $ref: '#/components/messages/Parameter_addParameter_response'
     description: >
-      Use this channel to receive Parameter addParameter responses as **Parameter_addParameter_Receive**
+      Use this channel to receive Parameter addParameter responses as **Parameter_addParameter_response**
       messages.
-  Error_Parameter_addParameter:
-    address: Error_Parameter_addParameter
+  error_Parameter_addParameter:
+    address: error_Parameter_addParameter
     messages:
-      Parameter.addParameter_Error.message:
-        $ref: '#/components/messages/Parameter_addParameter_Error'
+      Parameter.addParameter_error.message:
+        $ref: '#/components/messages/Parameter_addParameter_error'
     description: >
-      Use this channel to receive Parameter addParameter errors as **Parameter_addParameter_ReceiveErrors**
+      Use this channel to receive Parameter addParameter errors as **Parameter_addParameter_responseErrors**
       messages.
 operations:
-  Parameter_addParameter_Send:
+  Parameter_addParameter_request:
     action: send
     channel:
-      $ref: '#/channels/Send_Parameter_addParameter'
+      $ref: '#/channels/request_Parameter_addParameter'
     messages:
-      - $ref: '#/channels/Send_Parameter_addParameter/messages/Parameter.addParameter_Send.message'
-  Parameter_addParameter_Receive:
+      - $ref: '#/channels/request_Parameter_addParameter/messages/Parameter.addParameter_request.message'
+  Parameter_addParameter_response:
     action: receive
     channel:
-      $ref: '#/channels/Receive_Parameter_addParameter'
+      $ref: '#/channels/response_Parameter_addParameter'
     messages:
-      - $ref: '#/channels/Receive_Parameter_addParameter/messages/Parameter.addParameter_Receive.message'
-  Parameter_addParameter_Error:
+      - $ref: '#/channels/response_Parameter_addParameter/messages/Parameter.addParameter_response.message'
+  Parameter_addParameter_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Parameter_addParameter'
+      $ref: '#/channels/error_Parameter_addParameter'
     messages:
-      - $ref: '#/channels/Error_Parameter_addParameter/messages/Parameter.addParameter_Error.message'
+      - $ref: '#/channels/error_Parameter_addParameter/messages/Parameter.addParameter_error.message'
 components:
   schemas:
-    Parameter_addParameter_Send:
+    Parameter_addParameter_request:
       type: object
       properties:
         transactionId:
@@ -74,7 +74,7 @@ components:
             If an error is raised then no new identities and definitions shall be added as a result of this operation call.
             If the supplied name matches an existing, but removed, ParameterIdentity then that ParameterIdentity shall be reused otherwise a new ParameterIdentity shall be created.
             The provider shall create a new ParameterDefinition object and store it, and any new ParameterIdentity objects, in the COM archive.
-    Parameter_addParameter_Receive:
+    Parameter_addParameter_response:
       type: object
       properties:
         transactionId:
@@ -85,7 +85,7 @@ components:
           description: |
             The response shall contain the list of object instance identifiers for the ParameterIdentity and new ParameterDefinition objects.
             The returned list shall maintain the same order as the submitted definitions.
-    Parameter_addParameter_Error:
+    Parameter_addParameter_error:
       type: object
       properties:
         transactionId:
@@ -100,8 +100,8 @@ components:
           type: string
           description: A code representing the error.
           enum:
-            - DUPLICATE
             - INVALID
+            - DUPLICATE
         extraInformation:
           type: array
           items:
@@ -235,15 +235,15 @@ components:
             type: integer
         type: object
   messages:
-    Parameter_addParameter_Send:
+    Parameter_addParameter_request:
       description: Parameter addParameter request submission
       payload:
-        $ref: '#/components/schemas/Parameter_addParameter_Send'
-    Parameter_addParameter_Receive:
+        $ref: '#/components/schemas/Parameter_addParameter_request'
+    Parameter_addParameter_response:
       description: Parameter addParameter update response
       payload:
-        $ref: '#/components/schemas/Parameter_addParameter_Receive'
-    Parameter_addParameter_Error:
+        $ref: '#/components/schemas/Parameter_addParameter_response'
+    Parameter_addParameter_error:
       description: Parameter addParameter error response
       payload:
-        $ref: '#/components/schemas/Parameter_addParameter_Error'
+        $ref: '#/components/schemas/Parameter_addParameter_error'

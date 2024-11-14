@@ -4,50 +4,33 @@
   "info": {
     "title": "Aggregation Service enableGeneration API",
     "version": "1.0.0",
-    "description": "This API allows clients to interact with the enableGeneration iteraction of the Aggregation Service."
+    "description": "This API allows clients to interact with the enableGeneration interaction of the Aggregation Service."
   },
   "defaultContentType": "application/json",
   "servers": {
     "production": {
       "host": "localhost:{port}",
       "protocol": "mqtt",
-      "description": "MQTT server for the enableGeneration interaction.",
+      "description": "MQTT server for the Aggregation Service's enableGeneration interaction.",
       "variables": {
         "port": {
-          "enum": [
-            "8883",
-            "8884"
-          ],
           "default": "8883"
-        }
-      },
-      "bindings": {
-        "mqtt": {
-          "clientId": "guest",
-          "cleanSession": false,
-          "keepAlive": 0,
-          "lastWill": {
-            "topic": "/will",
-            "qos": 0,
-            "message": "Guest gone offline.",
-            "retain": false
-          }
         }
       }
     }
   },
   "channels": {
-    "Send_Aggregation_enableGeneration": {
-      "address": "Send_Aggregation_enableGeneration",
+    "request_Aggregation_enableGeneration": {
+      "address": "request_Aggregation_enableGeneration",
       "messages": {
-        "Aggregation.enableGeneration_Send.message": {
+        "Aggregation.enableGeneration_request.message": {
           "description": "Aggregation enableGeneration request submission",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-1>"
               },
               "isGroupIds": {
@@ -73,65 +56,69 @@
                 "x-parser-schema-id": "<anonymous-schema-3>"
               }
             },
-            "x-parser-schema-id": "Aggregation_enableGeneration_Send"
+            "x-parser-schema-id": "Aggregation_enableGeneration_request"
           },
-          "x-parser-unique-object-id": "Aggregation.enableGeneration_Send.message",
-          "x-parser-message-name": "Aggregation_enableGeneration_Send"
+          "x-parser-unique-object-id": "Aggregation.enableGeneration_request.message",
+          "x-parser-message-name": "Aggregation_enableGeneration_request"
         }
       },
-      "description": "Send a **Aggregation_enableGeneration_Send** message in this channel to receive a **Aggregation_enableGeneration_Receive** message over the **Receive_Aggregation_enableGeneration** channel.\n",
-      "x-parser-unique-object-id": "Send_Aggregation_enableGeneration"
+      "description": "Send a **Aggregation_enableGeneration_request** message in this channel to receive a **Aggregation_enableGeneration_response** message over the **response_Aggregation_enableGeneration** channel.\n",
+      "x-parser-unique-object-id": "request_Aggregation_enableGeneration"
     },
-    "Receive_Aggregation_enableGeneration": {
-      "address": "Receive_Aggregation_enableGeneration",
+    "response_Aggregation_enableGeneration": {
+      "address": "response_Aggregation_enableGeneration",
       "messages": {
-        "Aggregation.enableGeneration_Receive.message": {
+        "Aggregation.enableGeneration_response.message": {
           "description": "Aggregation enableGeneration update response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-6>"
               },
               "newObjInstIds": {
-                "type": "integer",
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64",
+                  "x-parser-schema-id": "<anonymous-schema-8>"
+                },
                 "description": "The response shall contain the list of object instance identifiers for the new AggregationDefinition objects.\n",
-                "format": "int64",
                 "x-parser-schema-id": "<anonymous-schema-7>"
               }
             },
-            "x-parser-schema-id": "Aggregation_enableGeneration_Receive"
+            "x-parser-schema-id": "Aggregation_enableGeneration_response"
           },
-          "x-parser-unique-object-id": "Aggregation.enableGeneration_Receive.message",
-          "x-parser-message-name": "Aggregation_enableGeneration_Receive"
+          "x-parser-unique-object-id": "Aggregation.enableGeneration_response.message",
+          "x-parser-message-name": "Aggregation_enableGeneration_response"
         }
       },
-      "description": "Use this channel to receive Aggregation enableGeneration responses as **Aggregation_enableGeneration_Receive** messages.\n",
-      "x-parser-unique-object-id": "Receive_Aggregation_enableGeneration"
+      "description": "Use this channel to receive Aggregation enableGeneration responses as **Aggregation_enableGeneration_response** messages.\n",
+      "x-parser-unique-object-id": "response_Aggregation_enableGeneration"
     },
-    "Error_Aggregation_enableGeneration": {
-      "address": "Error_Aggregation_enableGeneration",
+    "error_Aggregation_enableGeneration": {
+      "address": "error_Aggregation_enableGeneration",
       "messages": {
-        "Aggregation.enableGeneration_Error.message": {
+        "Aggregation.enableGeneration_error.message": {
           "description": "Aggregation enableGeneration error response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
-                "x-parser-schema-id": "<anonymous-schema-8>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "x-parser-schema-id": "<anonymous-schema-9>"
               },
               "area": {
                 "type": "string",
                 "description": "The area in which the error applies.",
                 "enum": [
-                  "MAL",
-                  "COM"
+                  "COM",
+                  "MAL"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-9>"
+                "x-parser-schema-id": "<anonymous-schema-10>"
               },
               "name": {
                 "type": "string",
@@ -140,69 +127,69 @@
                   "UNKNOWN",
                   "INVALID"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-10>"
+                "x-parser-schema-id": "<anonymous-schema-11>"
               },
               "extraInformation": {
                 "type": "array",
                 "items": {
                   "type": "integer",
                   "format": "uint32",
-                  "description": "A list of the indexes of the erroneous values from the originating list supplied or request list.",
-                  "x-parser-schema-id": "<anonymous-schema-12>"
+                  "description": "A list of the indexes of the error values shall be contained in the extra information field.",
+                  "x-parser-schema-id": "<anonymous-schema-13>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-11>"
+                "x-parser-schema-id": "<anonymous-schema-12>"
               }
             },
-            "x-parser-schema-id": "Aggregation_enableGeneration_Error"
+            "x-parser-schema-id": "Aggregation_enableGeneration_error"
           },
-          "x-parser-unique-object-id": "Aggregation.enableGeneration_Error.message",
-          "x-parser-message-name": "Aggregation_enableGeneration_Error"
+          "x-parser-unique-object-id": "Aggregation.enableGeneration_error.message",
+          "x-parser-message-name": "Aggregation_enableGeneration_error"
         }
       },
-      "description": "Use this channel to receive Aggregation enableGeneration errors as **Aggregation_enableGeneration_ReceiveErrors** messages.\n",
-      "x-parser-unique-object-id": "Error_Aggregation_enableGeneration"
+      "description": "Use this channel to receive Aggregation enableGeneration errors as **Aggregation_enableGeneration_responseErrors** messages.\n",
+      "x-parser-unique-object-id": "error_Aggregation_enableGeneration"
     }
   },
   "operations": {
-    "Aggregation_enableGeneration_Send": {
+    "Aggregation_enableGeneration_request": {
       "action": "send",
-      "channel": "$ref:$.channels.Send_Aggregation_enableGeneration",
+      "channel": "$ref:$.channels.request_Aggregation_enableGeneration",
       "messages": [
-        "$ref:$.channels.Send_Aggregation_enableGeneration.messages.Aggregation.enableGeneration_Send.message"
+        "$ref:$.channels.request_Aggregation_enableGeneration.messages.Aggregation.enableGeneration_request.message"
       ],
-      "x-parser-unique-object-id": "Aggregation_enableGeneration_Send"
+      "x-parser-unique-object-id": "Aggregation_enableGeneration_request"
     },
-    "Aggregation_enableGeneration_Receive": {
+    "Aggregation_enableGeneration_response": {
       "action": "receive",
-      "channel": "$ref:$.channels.Receive_Aggregation_enableGeneration",
+      "channel": "$ref:$.channels.response_Aggregation_enableGeneration",
       "messages": [
-        "$ref:$.channels.Receive_Aggregation_enableGeneration.messages.Aggregation.enableGeneration_Receive.message"
+        "$ref:$.channels.response_Aggregation_enableGeneration.messages.Aggregation.enableGeneration_response.message"
       ],
-      "x-parser-unique-object-id": "Aggregation_enableGeneration_Receive"
+      "x-parser-unique-object-id": "Aggregation_enableGeneration_response"
     },
-    "Aggregation_enableGeneration_Error": {
+    "Aggregation_enableGeneration_error": {
       "action": "receive",
-      "channel": "$ref:$.channels.Error_Aggregation_enableGeneration",
+      "channel": "$ref:$.channels.error_Aggregation_enableGeneration",
       "messages": [
-        "$ref:$.channels.Error_Aggregation_enableGeneration.messages.Aggregation.enableGeneration_Error.message"
+        "$ref:$.channels.error_Aggregation_enableGeneration.messages.Aggregation.enableGeneration_error.message"
       ],
-      "x-parser-unique-object-id": "Aggregation_enableGeneration_Error"
+      "x-parser-unique-object-id": "Aggregation_enableGeneration_error"
     }
   },
   "components": {
     "schemas": {
-      "Aggregation_enableGeneration_Send": "$ref:$.channels.Send_Aggregation_enableGeneration.messages.Aggregation.enableGeneration_Send.message.payload",
-      "Aggregation_enableGeneration_Receive": "$ref:$.channels.Receive_Aggregation_enableGeneration.messages.Aggregation.enableGeneration_Receive.message.payload",
-      "Aggregation_enableGeneration_Error": "$ref:$.channels.Error_Aggregation_enableGeneration.messages.Aggregation.enableGeneration_Error.message.payload",
+      "Aggregation_enableGeneration_request": "$ref:$.channels.request_Aggregation_enableGeneration.messages.Aggregation.enableGeneration_request.message.payload",
+      "Aggregation_enableGeneration_response": "$ref:$.channels.response_Aggregation_enableGeneration.messages.Aggregation.enableGeneration_response.message.payload",
+      "Aggregation_enableGeneration_error": "$ref:$.channels.error_Aggregation_enableGeneration.messages.Aggregation.enableGeneration_error.message.payload",
       "com": {
-        "InstanceBooleanPair": "$ref:$.channels.Send_Aggregation_enableGeneration.messages.Aggregation.enableGeneration_Send.message.payload.properties.enableInstances",
+        "InstanceBooleanPair": "$ref:$.channels.request_Aggregation_enableGeneration.messages.Aggregation.enableGeneration_request.message.payload.properties.enableInstances",
         "x-parser-schema-id": "com"
       }
     },
     "messages": {
-      "Aggregation_enableGeneration_Send": "$ref:$.channels.Send_Aggregation_enableGeneration.messages.Aggregation.enableGeneration_Send.message",
-      "Aggregation_enableGeneration_Receive": "$ref:$.channels.Receive_Aggregation_enableGeneration.messages.Aggregation.enableGeneration_Receive.message",
-      "Aggregation_enableGeneration_Error": "$ref:$.channels.Error_Aggregation_enableGeneration.messages.Aggregation.enableGeneration_Error.message"
+      "Aggregation_enableGeneration_request": "$ref:$.channels.request_Aggregation_enableGeneration.messages.Aggregation.enableGeneration_request.message",
+      "Aggregation_enableGeneration_response": "$ref:$.channels.response_Aggregation_enableGeneration.messages.Aggregation.enableGeneration_response.message",
+      "Aggregation_enableGeneration_error": "$ref:$.channels.error_Aggregation_enableGeneration.messages.Aggregation.enableGeneration_error.message"
     }
   },
   "x-parser-spec-parsed": true,

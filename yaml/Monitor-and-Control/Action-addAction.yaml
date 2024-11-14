@@ -13,52 +13,52 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Action_addAction:
-    address: Send_Action_addAction
+  request_Action_addAction:
+    address: request_Action_addAction
     messages:
-      Action.addAction_Send.message:
-        $ref: '#/components/messages/Action_addAction_Send'
+      Action.addAction_request.message:
+        $ref: '#/components/messages/Action_addAction_request'
     description: >
-      Send a **Action_addAction_Send** message in this channel to receive a
-      **Action_addAction_Receive** message over the **Receive_Action_addAction** channel.
-  Receive_Action_addAction:
-    address: Receive_Action_addAction
+      Send a **Action_addAction_request** message in this channel to receive a
+      **Action_addAction_response** message over the **response_Action_addAction** channel.
+  response_Action_addAction:
+    address: response_Action_addAction
     messages:
-      Action.addAction_Receive.message:
-        $ref: '#/components/messages/Action_addAction_Receive'
+      Action.addAction_response.message:
+        $ref: '#/components/messages/Action_addAction_response'
     description: >
-      Use this channel to receive Action addAction responses as **Action_addAction_Receive**
+      Use this channel to receive Action addAction responses as **Action_addAction_response**
       messages.
-  Error_Action_addAction:
-    address: Error_Action_addAction
+  error_Action_addAction:
+    address: error_Action_addAction
     messages:
-      Action.addAction_Error.message:
-        $ref: '#/components/messages/Action_addAction_Error'
+      Action.addAction_error.message:
+        $ref: '#/components/messages/Action_addAction_error'
     description: >
-      Use this channel to receive Action addAction errors as **Action_addAction_ReceiveErrors**
+      Use this channel to receive Action addAction errors as **Action_addAction_responseErrors**
       messages.
 operations:
-  Action_addAction_Send:
+  Action_addAction_request:
     action: send
     channel:
-      $ref: '#/channels/Send_Action_addAction'
+      $ref: '#/channels/request_Action_addAction'
     messages:
-      - $ref: '#/channels/Send_Action_addAction/messages/Action.addAction_Send.message'
-  Action_addAction_Receive:
+      - $ref: '#/channels/request_Action_addAction/messages/Action.addAction_request.message'
+  Action_addAction_response:
     action: receive
     channel:
-      $ref: '#/channels/Receive_Action_addAction'
+      $ref: '#/channels/response_Action_addAction'
     messages:
-      - $ref: '#/channels/Receive_Action_addAction/messages/Action.addAction_Receive.message'
-  Action_addAction_Error:
+      - $ref: '#/channels/response_Action_addAction/messages/Action.addAction_response.message'
+  Action_addAction_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Action_addAction'
+      $ref: '#/channels/error_Action_addAction'
     messages:
-      - $ref: '#/channels/Error_Action_addAction/messages/Action.addAction_Error.message'
+      - $ref: '#/channels/error_Action_addAction/messages/Action.addAction_error.message'
 components:
   schemas:
-    Action_addAction_Send:
+    Action_addAction_request:
       type: object
       properties:
         transactionId:
@@ -73,7 +73,7 @@ components:
             If an error is raised then no new identities and definitions shall be added as a result of this operation call.
             If the supplied name matches an existing, but removed, ActionIdentity then that ActionIdentity shall be reused otherwise a new ActionIdentity shall be created.
             The provider shall create a new ActionDefinition object and store it, and any new ActionIdentity objects, in the COM archive.
-    Action_addAction_Receive:
+    Action_addAction_response:
       type: object
       properties:
         transactionId:
@@ -84,7 +84,7 @@ components:
           description: |
             The response shall contain the list of object instance identifiers for the ActionIdentity and new ActionDefinition objects.
             The returned list shall maintain the same order as the submitted definitions.
-    Action_addAction_Error:
+    Action_addAction_error:
       type: object
       properties:
         transactionId:
@@ -99,8 +99,8 @@ components:
           type: string
           description: A code representing the error.
           enum:
-            - DUPLICATE
             - INVALID
+            - DUPLICATE
         extraInformation:
           type: array
           items:
@@ -241,15 +241,15 @@ components:
           - ICONTAINS
           type: string
   messages:
-    Action_addAction_Send:
+    Action_addAction_request:
       description: Action addAction request submission
       payload:
-        $ref: '#/components/schemas/Action_addAction_Send'
-    Action_addAction_Receive:
+        $ref: '#/components/schemas/Action_addAction_request'
+    Action_addAction_response:
       description: Action addAction update response
       payload:
-        $ref: '#/components/schemas/Action_addAction_Receive'
-    Action_addAction_Error:
+        $ref: '#/components/schemas/Action_addAction_response'
+    Action_addAction_error:
       description: Action addAction error response
       payload:
-        $ref: '#/components/schemas/Action_addAction_Error'
+        $ref: '#/components/schemas/Action_addAction_error'

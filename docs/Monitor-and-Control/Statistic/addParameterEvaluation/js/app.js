@@ -4,50 +4,33 @@
   "info": {
     "title": "Statistic Service addParameterEvaluation API",
     "version": "1.0.0",
-    "description": "This API allows clients to interact with the addParameterEvaluation iteraction of the Statistic Service."
+    "description": "This API allows clients to interact with the addParameterEvaluation interaction of the Statistic Service."
   },
   "defaultContentType": "application/json",
   "servers": {
     "production": {
       "host": "localhost:{port}",
       "protocol": "mqtt",
-      "description": "MQTT server for the addParameterEvaluation interaction.",
+      "description": "MQTT server for the Statistic Service's addParameterEvaluation interaction.",
       "variables": {
         "port": {
-          "enum": [
-            "8883",
-            "8884"
-          ],
           "default": "8883"
-        }
-      },
-      "bindings": {
-        "mqtt": {
-          "clientId": "guest",
-          "cleanSession": false,
-          "keepAlive": 0,
-          "lastWill": {
-            "topic": "/will",
-            "qos": 0,
-            "message": "Guest gone offline.",
-            "retain": false
-          }
         }
       }
     }
   },
   "channels": {
-    "Send_Statistic_addParameterEvaluation": {
-      "address": "Send_Statistic_addParameterEvaluation",
+    "request_Statistic_addParameterEvaluation": {
+      "address": "request_Statistic_addParameterEvaluation",
       "messages": {
-        "Statistic.addParameterEvaluation_Send.message": {
+        "Statistic.addParameterEvaluation_request.message": {
           "description": "Statistic addParameterEvaluation request submission",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-1>"
               },
               "newDetails": {
@@ -123,26 +106,26 @@
                 "x-parser-schema-id": "<anonymous-schema-2>"
               }
             },
-            "x-parser-schema-id": "Statistic_addParameterEvaluation_Send"
+            "x-parser-schema-id": "Statistic_addParameterEvaluation_request"
           },
-          "x-parser-unique-object-id": "Statistic.addParameterEvaluation_Send.message",
-          "x-parser-message-name": "Statistic_addParameterEvaluation_Send"
+          "x-parser-unique-object-id": "Statistic.addParameterEvaluation_request.message",
+          "x-parser-message-name": "Statistic_addParameterEvaluation_request"
         }
       },
-      "description": "Send a **Statistic_addParameterEvaluation_Send** message in this channel to receive a **Statistic_addParameterEvaluation_Receive** message over the **Receive_Statistic_addParameterEvaluation** channel.\n",
-      "x-parser-unique-object-id": "Send_Statistic_addParameterEvaluation"
+      "description": "Send a **Statistic_addParameterEvaluation_request** message in this channel to receive a **Statistic_addParameterEvaluation_response** message over the **response_Statistic_addParameterEvaluation** channel.\n",
+      "x-parser-unique-object-id": "request_Statistic_addParameterEvaluation"
     },
-    "Receive_Statistic_addParameterEvaluation": {
-      "address": "Receive_Statistic_addParameterEvaluation",
+    "response_Statistic_addParameterEvaluation": {
+      "address": "response_Statistic_addParameterEvaluation",
       "messages": {
-        "Statistic.addParameterEvaluation_Receive.message": {
+        "Statistic.addParameterEvaluation_response.message": {
           "description": "Statistic addParameterEvaluation update response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-15>"
               },
               "newObjInstIds": {
@@ -164,34 +147,34 @@
                 "x-parser-schema-id": "<anonymous-schema-16>"
               }
             },
-            "x-parser-schema-id": "Statistic_addParameterEvaluation_Receive"
+            "x-parser-schema-id": "Statistic_addParameterEvaluation_response"
           },
-          "x-parser-unique-object-id": "Statistic.addParameterEvaluation_Receive.message",
-          "x-parser-message-name": "Statistic_addParameterEvaluation_Receive"
+          "x-parser-unique-object-id": "Statistic.addParameterEvaluation_response.message",
+          "x-parser-message-name": "Statistic_addParameterEvaluation_response"
         }
       },
-      "description": "Use this channel to receive Statistic addParameterEvaluation responses as **Statistic_addParameterEvaluation_Receive** messages.\n",
-      "x-parser-unique-object-id": "Receive_Statistic_addParameterEvaluation"
+      "description": "Use this channel to receive Statistic addParameterEvaluation responses as **Statistic_addParameterEvaluation_response** messages.\n",
+      "x-parser-unique-object-id": "response_Statistic_addParameterEvaluation"
     },
-    "Error_Statistic_addParameterEvaluation": {
-      "address": "Error_Statistic_addParameterEvaluation",
+    "error_Statistic_addParameterEvaluation": {
+      "address": "error_Statistic_addParameterEvaluation",
       "messages": {
-        "Statistic.addParameterEvaluation_Error.message": {
+        "Statistic.addParameterEvaluation_error.message": {
           "description": "Statistic addParameterEvaluation error response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-19>"
               },
               "area": {
                 "type": "string",
                 "description": "The area in which the error applies.",
                 "enum": [
-                  "MAL",
-                  "COM"
+                  "COM",
+                  "MAL"
                 ],
                 "x-parser-schema-id": "<anonymous-schema-20>"
               },
@@ -209,70 +192,70 @@
                 "items": {
                   "type": "integer",
                   "format": "uint32",
-                  "description": "A list of the indexes of the erroneous values from the originating list supplied or request list.",
+                  "description": "A list of the indexes of the error values shall be contained in the extra information field.",
                   "x-parser-schema-id": "<anonymous-schema-23>"
                 },
                 "x-parser-schema-id": "<anonymous-schema-22>"
               }
             },
-            "x-parser-schema-id": "Statistic_addParameterEvaluation_Error"
+            "x-parser-schema-id": "Statistic_addParameterEvaluation_error"
           },
-          "x-parser-unique-object-id": "Statistic.addParameterEvaluation_Error.message",
-          "x-parser-message-name": "Statistic_addParameterEvaluation_Error"
+          "x-parser-unique-object-id": "Statistic.addParameterEvaluation_error.message",
+          "x-parser-message-name": "Statistic_addParameterEvaluation_error"
         }
       },
-      "description": "Use this channel to receive Statistic addParameterEvaluation errors as **Statistic_addParameterEvaluation_ReceiveErrors** messages.\n",
-      "x-parser-unique-object-id": "Error_Statistic_addParameterEvaluation"
+      "description": "Use this channel to receive Statistic addParameterEvaluation errors as **Statistic_addParameterEvaluation_responseErrors** messages.\n",
+      "x-parser-unique-object-id": "error_Statistic_addParameterEvaluation"
     }
   },
   "operations": {
-    "Statistic_addParameterEvaluation_Send": {
+    "Statistic_addParameterEvaluation_request": {
       "action": "send",
-      "channel": "$ref:$.channels.Send_Statistic_addParameterEvaluation",
+      "channel": "$ref:$.channels.request_Statistic_addParameterEvaluation",
       "messages": [
-        "$ref:$.channels.Send_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_Send.message"
+        "$ref:$.channels.request_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_request.message"
       ],
-      "x-parser-unique-object-id": "Statistic_addParameterEvaluation_Send"
+      "x-parser-unique-object-id": "Statistic_addParameterEvaluation_request"
     },
-    "Statistic_addParameterEvaluation_Receive": {
+    "Statistic_addParameterEvaluation_response": {
       "action": "receive",
-      "channel": "$ref:$.channels.Receive_Statistic_addParameterEvaluation",
+      "channel": "$ref:$.channels.response_Statistic_addParameterEvaluation",
       "messages": [
-        "$ref:$.channels.Receive_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_Receive.message"
+        "$ref:$.channels.response_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_response.message"
       ],
-      "x-parser-unique-object-id": "Statistic_addParameterEvaluation_Receive"
+      "x-parser-unique-object-id": "Statistic_addParameterEvaluation_response"
     },
-    "Statistic_addParameterEvaluation_Error": {
+    "Statistic_addParameterEvaluation_error": {
       "action": "receive",
-      "channel": "$ref:$.channels.Error_Statistic_addParameterEvaluation",
+      "channel": "$ref:$.channels.error_Statistic_addParameterEvaluation",
       "messages": [
-        "$ref:$.channels.Error_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_Error.message"
+        "$ref:$.channels.error_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_error.message"
       ],
-      "x-parser-unique-object-id": "Statistic_addParameterEvaluation_Error"
+      "x-parser-unique-object-id": "Statistic_addParameterEvaluation_error"
     }
   },
   "components": {
     "schemas": {
-      "Statistic_addParameterEvaluation_Send": "$ref:$.channels.Send_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_Send.message.payload",
-      "Statistic_addParameterEvaluation_Receive": "$ref:$.channels.Receive_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_Receive.message.payload",
-      "Statistic_addParameterEvaluation_Error": "$ref:$.channels.Error_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_Error.message.payload",
+      "Statistic_addParameterEvaluation_request": "$ref:$.channels.request_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_request.message.payload",
+      "Statistic_addParameterEvaluation_response": "$ref:$.channels.response_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_response.message.payload",
+      "Statistic_addParameterEvaluation_error": "$ref:$.channels.error_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_error.message.payload",
       "mc": {
         "statistic": {
-          "StatisticCreationRequest": "$ref:$.channels.Send_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_Send.message.payload.properties.newDetails",
-          "StatisticLinkDetails": "$ref:$.channels.Send_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_Send.message.payload.properties.newDetails.properties.linkDetails"
+          "StatisticCreationRequest": "$ref:$.channels.request_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_request.message.payload.properties.newDetails",
+          "StatisticLinkDetails": "$ref:$.channels.request_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_request.message.payload.properties.newDetails.properties.linkDetails"
         },
-        "ObjectInstancePair": "$ref:$.channels.Receive_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_Receive.message.payload.properties.newObjInstIds",
+        "ObjectInstancePair": "$ref:$.channels.response_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_response.message.payload.properties.newObjInstIds",
         "x-parser-schema-id": "mc"
       },
       "com": {
-        "ObjectKey": "$ref:$.channels.Send_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_Send.message.payload.properties.newDetails.properties.parameterId",
+        "ObjectKey": "$ref:$.channels.request_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_request.message.payload.properties.newDetails.properties.parameterId",
         "x-parser-schema-id": "com"
       }
     },
     "messages": {
-      "Statistic_addParameterEvaluation_Send": "$ref:$.channels.Send_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_Send.message",
-      "Statistic_addParameterEvaluation_Receive": "$ref:$.channels.Receive_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_Receive.message",
-      "Statistic_addParameterEvaluation_Error": "$ref:$.channels.Error_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_Error.message"
+      "Statistic_addParameterEvaluation_request": "$ref:$.channels.request_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_request.message",
+      "Statistic_addParameterEvaluation_response": "$ref:$.channels.response_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_response.message",
+      "Statistic_addParameterEvaluation_error": "$ref:$.channels.error_Statistic_addParameterEvaluation.messages.Statistic.addParameterEvaluation_error.message"
     }
   },
   "x-parser-spec-parsed": true,

@@ -13,38 +13,38 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Parameter_removeParameter:
-    address: Send_Parameter_removeParameter
+  submit_Parameter_removeParameter:
+    address: submit_Parameter_removeParameter
     messages:
-      Parameter.removeParameter_Send.message:
-        $ref: '#/components/messages/Parameter_removeParameter_Send'
+      Parameter.removeParameter_submit.message:
+        $ref: '#/components/messages/Parameter_removeParameter_submit'
     description: >
-      Send a **Parameter_removeParameter_Send** message in this channel to receive a
-      **Parameter_removeParameter_Receive** message over the **Receive_Parameter_removeParameter** channel.
-  Error_Parameter_removeParameter:
-    address: Error_Parameter_removeParameter
+      Send a **Parameter_removeParameter_submit** message in this channel to receive a
+      **Parameter_removeParameter_None** message over the **None_Parameter_removeParameter** channel.
+  error_Parameter_removeParameter:
+    address: error_Parameter_removeParameter
     messages:
-      Parameter.removeParameter_Error.message:
-        $ref: '#/components/messages/Parameter_removeParameter_Error'
+      Parameter.removeParameter_error.message:
+        $ref: '#/components/messages/Parameter_removeParameter_error'
     description: >
-      Use this channel to receive Parameter removeParameter errors as **Parameter_removeParameter_ReceiveErrors**
+      Use this channel to receive Parameter removeParameter errors as **Parameter_removeParameter_NoneErrors**
       messages.
 operations:
-  Parameter_removeParameter_Send:
+  Parameter_removeParameter_submit:
     action: send
     channel:
-      $ref: '#/channels/Send_Parameter_removeParameter'
+      $ref: '#/channels/submit_Parameter_removeParameter'
     messages:
-      - $ref: '#/channels/Send_Parameter_removeParameter/messages/Parameter.removeParameter_Send.message'
-  Parameter_removeParameter_Error:
+      - $ref: '#/channels/submit_Parameter_removeParameter/messages/Parameter.removeParameter_submit.message'
+  Parameter_removeParameter_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Parameter_removeParameter'
+      $ref: '#/channels/error_Parameter_removeParameter'
     messages:
-      - $ref: '#/channels/Error_Parameter_removeParameter/messages/Parameter.removeParameter_Error.message'
+      - $ref: '#/channels/error_Parameter_removeParameter/messages/Parameter.removeParameter_error.message'
 components:
   schemas:
-    Parameter_removeParameter_Send:
+    Parameter_removeParameter_submit:
       type: object
       properties:
         transactionId:
@@ -63,7 +63,7 @@ components:
             Matched ParameterIdentity and ParameterDefinition objects shall not be removed from the COM archive only the list of ParameterIdentity and ParameterDefinition objects from the provider.
             If an error is raised then no parameters shall be removed as a result of this operation call.
             If the operation succeeds then the provider shall not publish parameter values for the deleted ParameterIdentity objects anymore.
-    Parameter_removeParameter_Error:
+    Parameter_removeParameter_error:
       type: object
       properties:
         transactionId:
@@ -86,11 +86,11 @@ components:
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
   messages:
-    Parameter_removeParameter_Send:
+    Parameter_removeParameter_submit:
       description: Parameter removeParameter request submission
       payload:
-        $ref: '#/components/schemas/Parameter_removeParameter_Send'
-    Parameter_removeParameter_Error:
+        $ref: '#/components/schemas/Parameter_removeParameter_submit'
+    Parameter_removeParameter_error:
       description: Parameter removeParameter error response
       payload:
-        $ref: '#/components/schemas/Parameter_removeParameter_Error'
+        $ref: '#/components/schemas/Parameter_removeParameter_error'

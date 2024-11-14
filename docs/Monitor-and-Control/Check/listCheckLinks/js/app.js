@@ -4,105 +4,92 @@
   "info": {
     "title": "Check Service listCheckLinks API",
     "version": "1.0.0",
-    "description": "This API allows clients to interact with the listCheckLinks iteraction of the Check Service."
+    "description": "This API allows clients to interact with the listCheckLinks interaction of the Check Service."
   },
   "defaultContentType": "application/json",
   "servers": {
     "production": {
       "host": "localhost:{port}",
       "protocol": "mqtt",
-      "description": "MQTT server for the listCheckLinks interaction.",
+      "description": "MQTT server for the Check Service's listCheckLinks interaction.",
       "variables": {
         "port": {
-          "enum": [
-            "8883",
-            "8884"
-          ],
           "default": "8883"
-        }
-      },
-      "bindings": {
-        "mqtt": {
-          "clientId": "guest",
-          "cleanSession": false,
-          "keepAlive": 0,
-          "lastWill": {
-            "topic": "/will",
-            "qos": 0,
-            "message": "Guest gone offline.",
-            "retain": false
-          }
         }
       }
     }
   },
   "channels": {
-    "Send_Check_listCheckLinks": {
-      "address": "Send_Check_listCheckLinks",
+    "request_Check_listCheckLinks": {
+      "address": "request_Check_listCheckLinks",
       "messages": {
-        "Check.listCheckLinks_Send.message": {
+        "Check.listCheckLinks_request.message": {
           "description": "Check listCheckLinks request submission",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-1>"
               },
               "checkObjInstIds": {
-                "type": "integer",
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64",
+                  "x-parser-schema-id": "<anonymous-schema-3>"
+                },
                 "description": "The checkObjInstIds field shall hold a list of CheckIdentity object instance identifiers to retrieve the CheckLink object instance identifiers for.\nThe request may contain the wildcard value of '0' to return all supported check links.\nThe wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.\nIf a provided identifier does not include a wildcard and does not match an existing CheckIdentity object then this operation shall fail with an UNKNOWN error.\n",
-                "format": "int64",
                 "x-parser-schema-id": "<anonymous-schema-2>"
               }
             },
-            "x-parser-schema-id": "Check_listCheckLinks_Send"
+            "x-parser-schema-id": "Check_listCheckLinks_request"
           },
-          "x-parser-unique-object-id": "Check.listCheckLinks_Send.message",
-          "x-parser-message-name": "Check_listCheckLinks_Send"
+          "x-parser-unique-object-id": "Check.listCheckLinks_request.message",
+          "x-parser-message-name": "Check_listCheckLinks_request"
         }
       },
-      "description": "Send a **Check_listCheckLinks_Send** message in this channel to receive a **Check_listCheckLinks_Receive** message over the **Receive_Check_listCheckLinks** channel.\n",
-      "x-parser-unique-object-id": "Send_Check_listCheckLinks"
+      "description": "Send a **Check_listCheckLinks_request** message in this channel to receive a **Check_listCheckLinks_response** message over the **response_Check_listCheckLinks** channel.\n",
+      "x-parser-unique-object-id": "request_Check_listCheckLinks"
     },
-    "Receive_Check_listCheckLinks": {
-      "address": "Receive_Check_listCheckLinks",
+    "response_Check_listCheckLinks": {
+      "address": "response_Check_listCheckLinks",
       "messages": {
-        "Check.listCheckLinks_Receive.message": {
+        "Check.listCheckLinks_response.message": {
           "description": "Check listCheckLinks update response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
-                "x-parser-schema-id": "<anonymous-schema-3>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "x-parser-schema-id": "<anonymous-schema-4>"
               },
               "chkLinkObjInstIds": {
                 "properties": {
                   "checkEnabled": {
                     "description": "TRUE if the check instance is enabled.",
                     "type": "boolean",
-                    "x-parser-schema-id": "<anonymous-schema-5>"
+                    "x-parser-schema-id": "<anonymous-schema-6>"
                   },
                   "checkId": {
                     "description": "The object instance identifier of the CheckIdentity object.",
                     "format": "int64",
                     "type": "integer",
-                    "x-parser-schema-id": "<anonymous-schema-6>"
+                    "x-parser-schema-id": "<anonymous-schema-7>"
                   },
                   "linkDefinitionId": {
                     "description": "Contains the object instance identifier of the CheckLinkDefinition object.",
                     "format": "int64",
                     "type": "integer",
-                    "x-parser-schema-id": "<anonymous-schema-7>"
+                    "x-parser-schema-id": "<anonymous-schema-8>"
                   },
                   "linkId": {
                     "description": "The object instance identifier of the CheckLink object.",
                     "format": "int64",
                     "type": "integer",
-                    "x-parser-schema-id": "<anonymous-schema-8>"
+                    "x-parser-schema-id": "<anonymous-schema-9>"
                   },
                   "parameterId": {
                     "properties": {
@@ -110,47 +97,47 @@
                         "description": "The domain of the object instance.",
                         "items": {
                           "type": "string",
-                          "x-parser-schema-id": "<anonymous-schema-11>"
+                          "x-parser-schema-id": "<anonymous-schema-12>"
                         },
                         "type": "array",
-                        "x-parser-schema-id": "<anonymous-schema-10>"
+                        "x-parser-schema-id": "<anonymous-schema-11>"
                       },
                       "instId": {
                         "description": "The unique identifier of the object instance. Must not be '0' for values as this is the wildcard.",
                         "format": "int64",
                         "type": "integer",
-                        "x-parser-schema-id": "<anonymous-schema-12>"
+                        "x-parser-schema-id": "<anonymous-schema-13>"
                       }
                     },
                     "type": "object",
-                    "x-parser-schema-id": "<anonymous-schema-9>"
+                    "x-parser-schema-id": "<anonymous-schema-10>"
                   }
                 },
                 "type": "object",
-                "x-parser-schema-id": "<anonymous-schema-4>"
+                "x-parser-schema-id": "<anonymous-schema-5>"
               }
             },
-            "x-parser-schema-id": "Check_listCheckLinks_Receive"
+            "x-parser-schema-id": "Check_listCheckLinks_response"
           },
-          "x-parser-unique-object-id": "Check.listCheckLinks_Receive.message",
-          "x-parser-message-name": "Check_listCheckLinks_Receive"
+          "x-parser-unique-object-id": "Check.listCheckLinks_response.message",
+          "x-parser-message-name": "Check_listCheckLinks_response"
         }
       },
-      "description": "Use this channel to receive Check listCheckLinks responses as **Check_listCheckLinks_Receive** messages.\n",
-      "x-parser-unique-object-id": "Receive_Check_listCheckLinks"
+      "description": "Use this channel to receive Check listCheckLinks responses as **Check_listCheckLinks_response** messages.\n",
+      "x-parser-unique-object-id": "response_Check_listCheckLinks"
     },
-    "Error_Check_listCheckLinks": {
-      "address": "Error_Check_listCheckLinks",
+    "error_Check_listCheckLinks": {
+      "address": "error_Check_listCheckLinks",
       "messages": {
-        "Check.listCheckLinks_Error.message": {
+        "Check.listCheckLinks_error.message": {
           "description": "Check listCheckLinks error response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
-                "x-parser-schema-id": "<anonymous-schema-13>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "x-parser-schema-id": "<anonymous-schema-14>"
               },
               "area": {
                 "type": "string",
@@ -158,7 +145,7 @@
                 "enum": [
                   "MAL"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-14>"
+                "x-parser-schema-id": "<anonymous-schema-15>"
               },
               "name": {
                 "type": "string",
@@ -166,75 +153,75 @@
                 "enum": [
                   "UNKNOWN"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-15>"
+                "x-parser-schema-id": "<anonymous-schema-16>"
               },
               "extraInformation": {
                 "type": "array",
                 "items": {
                   "type": "integer",
                   "format": "uint32",
-                  "description": "A list of the indexes of the erroneous values from the originating list supplied or request list.",
-                  "x-parser-schema-id": "<anonymous-schema-17>"
+                  "description": "A list of the indexes of the error values shall be contained in the extra information field.",
+                  "x-parser-schema-id": "<anonymous-schema-18>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-16>"
+                "x-parser-schema-id": "<anonymous-schema-17>"
               }
             },
-            "x-parser-schema-id": "Check_listCheckLinks_Error"
+            "x-parser-schema-id": "Check_listCheckLinks_error"
           },
-          "x-parser-unique-object-id": "Check.listCheckLinks_Error.message",
-          "x-parser-message-name": "Check_listCheckLinks_Error"
+          "x-parser-unique-object-id": "Check.listCheckLinks_error.message",
+          "x-parser-message-name": "Check_listCheckLinks_error"
         }
       },
-      "description": "Use this channel to receive Check listCheckLinks errors as **Check_listCheckLinks_ReceiveErrors** messages.\n",
-      "x-parser-unique-object-id": "Error_Check_listCheckLinks"
+      "description": "Use this channel to receive Check listCheckLinks errors as **Check_listCheckLinks_responseErrors** messages.\n",
+      "x-parser-unique-object-id": "error_Check_listCheckLinks"
     }
   },
   "operations": {
-    "Check_listCheckLinks_Send": {
+    "Check_listCheckLinks_request": {
       "action": "send",
-      "channel": "$ref:$.channels.Send_Check_listCheckLinks",
+      "channel": "$ref:$.channels.request_Check_listCheckLinks",
       "messages": [
-        "$ref:$.channels.Send_Check_listCheckLinks.messages.Check.listCheckLinks_Send.message"
+        "$ref:$.channels.request_Check_listCheckLinks.messages.Check.listCheckLinks_request.message"
       ],
-      "x-parser-unique-object-id": "Check_listCheckLinks_Send"
+      "x-parser-unique-object-id": "Check_listCheckLinks_request"
     },
-    "Check_listCheckLinks_Receive": {
+    "Check_listCheckLinks_response": {
       "action": "receive",
-      "channel": "$ref:$.channels.Receive_Check_listCheckLinks",
+      "channel": "$ref:$.channels.response_Check_listCheckLinks",
       "messages": [
-        "$ref:$.channels.Receive_Check_listCheckLinks.messages.Check.listCheckLinks_Receive.message"
+        "$ref:$.channels.response_Check_listCheckLinks.messages.Check.listCheckLinks_response.message"
       ],
-      "x-parser-unique-object-id": "Check_listCheckLinks_Receive"
+      "x-parser-unique-object-id": "Check_listCheckLinks_response"
     },
-    "Check_listCheckLinks_Error": {
+    "Check_listCheckLinks_error": {
       "action": "receive",
-      "channel": "$ref:$.channels.Error_Check_listCheckLinks",
+      "channel": "$ref:$.channels.error_Check_listCheckLinks",
       "messages": [
-        "$ref:$.channels.Error_Check_listCheckLinks.messages.Check.listCheckLinks_Error.message"
+        "$ref:$.channels.error_Check_listCheckLinks.messages.Check.listCheckLinks_error.message"
       ],
-      "x-parser-unique-object-id": "Check_listCheckLinks_Error"
+      "x-parser-unique-object-id": "Check_listCheckLinks_error"
     }
   },
   "components": {
     "schemas": {
-      "Check_listCheckLinks_Send": "$ref:$.channels.Send_Check_listCheckLinks.messages.Check.listCheckLinks_Send.message.payload",
-      "Check_listCheckLinks_Receive": "$ref:$.channels.Receive_Check_listCheckLinks.messages.Check.listCheckLinks_Receive.message.payload",
-      "Check_listCheckLinks_Error": "$ref:$.channels.Error_Check_listCheckLinks.messages.Check.listCheckLinks_Error.message.payload",
+      "Check_listCheckLinks_request": "$ref:$.channels.request_Check_listCheckLinks.messages.Check.listCheckLinks_request.message.payload",
+      "Check_listCheckLinks_response": "$ref:$.channels.response_Check_listCheckLinks.messages.Check.listCheckLinks_response.message.payload",
+      "Check_listCheckLinks_error": "$ref:$.channels.error_Check_listCheckLinks.messages.Check.listCheckLinks_error.message.payload",
       "mc": {
         "check": {
-          "CheckLinkSummary": "$ref:$.channels.Receive_Check_listCheckLinks.messages.Check.listCheckLinks_Receive.message.payload.properties.chkLinkObjInstIds"
+          "CheckLinkSummary": "$ref:$.channels.response_Check_listCheckLinks.messages.Check.listCheckLinks_response.message.payload.properties.chkLinkObjInstIds"
         },
         "x-parser-schema-id": "mc"
       },
       "com": {
-        "ObjectKey": "$ref:$.channels.Receive_Check_listCheckLinks.messages.Check.listCheckLinks_Receive.message.payload.properties.chkLinkObjInstIds.properties.parameterId",
+        "ObjectKey": "$ref:$.channels.response_Check_listCheckLinks.messages.Check.listCheckLinks_response.message.payload.properties.chkLinkObjInstIds.properties.parameterId",
         "x-parser-schema-id": "com"
       }
     },
     "messages": {
-      "Check_listCheckLinks_Send": "$ref:$.channels.Send_Check_listCheckLinks.messages.Check.listCheckLinks_Send.message",
-      "Check_listCheckLinks_Receive": "$ref:$.channels.Receive_Check_listCheckLinks.messages.Check.listCheckLinks_Receive.message",
-      "Check_listCheckLinks_Error": "$ref:$.channels.Error_Check_listCheckLinks.messages.Check.listCheckLinks_Error.message"
+      "Check_listCheckLinks_request": "$ref:$.channels.request_Check_listCheckLinks.messages.Check.listCheckLinks_request.message",
+      "Check_listCheckLinks_response": "$ref:$.channels.response_Check_listCheckLinks.messages.Check.listCheckLinks_response.message",
+      "Check_listCheckLinks_error": "$ref:$.channels.error_Check_listCheckLinks.messages.Check.listCheckLinks_error.message"
     }
   },
   "x-parser-spec-parsed": true,

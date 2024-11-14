@@ -13,52 +13,52 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Aggregation_updateDefinition:
-    address: Send_Aggregation_updateDefinition
+  request_Aggregation_updateDefinition:
+    address: request_Aggregation_updateDefinition
     messages:
-      Aggregation.updateDefinition_Send.message:
-        $ref: '#/components/messages/Aggregation_updateDefinition_Send'
+      Aggregation.updateDefinition_request.message:
+        $ref: '#/components/messages/Aggregation_updateDefinition_request'
     description: >
-      Send a **Aggregation_updateDefinition_Send** message in this channel to receive a
-      **Aggregation_updateDefinition_Receive** message over the **Receive_Aggregation_updateDefinition** channel.
-  Receive_Aggregation_updateDefinition:
-    address: Receive_Aggregation_updateDefinition
+      Send a **Aggregation_updateDefinition_request** message in this channel to receive a
+      **Aggregation_updateDefinition_response** message over the **response_Aggregation_updateDefinition** channel.
+  response_Aggregation_updateDefinition:
+    address: response_Aggregation_updateDefinition
     messages:
-      Aggregation.updateDefinition_Receive.message:
-        $ref: '#/components/messages/Aggregation_updateDefinition_Receive'
+      Aggregation.updateDefinition_response.message:
+        $ref: '#/components/messages/Aggregation_updateDefinition_response'
     description: >
-      Use this channel to receive Aggregation updateDefinition responses as **Aggregation_updateDefinition_Receive**
+      Use this channel to receive Aggregation updateDefinition responses as **Aggregation_updateDefinition_response**
       messages.
-  Error_Aggregation_updateDefinition:
-    address: Error_Aggregation_updateDefinition
+  error_Aggregation_updateDefinition:
+    address: error_Aggregation_updateDefinition
     messages:
-      Aggregation.updateDefinition_Error.message:
-        $ref: '#/components/messages/Aggregation_updateDefinition_Error'
+      Aggregation.updateDefinition_error.message:
+        $ref: '#/components/messages/Aggregation_updateDefinition_error'
     description: >
-      Use this channel to receive Aggregation updateDefinition errors as **Aggregation_updateDefinition_ReceiveErrors**
+      Use this channel to receive Aggregation updateDefinition errors as **Aggregation_updateDefinition_responseErrors**
       messages.
 operations:
-  Aggregation_updateDefinition_Send:
+  Aggregation_updateDefinition_request:
     action: send
     channel:
-      $ref: '#/channels/Send_Aggregation_updateDefinition'
+      $ref: '#/channels/request_Aggregation_updateDefinition'
     messages:
-      - $ref: '#/channels/Send_Aggregation_updateDefinition/messages/Aggregation.updateDefinition_Send.message'
-  Aggregation_updateDefinition_Receive:
+      - $ref: '#/channels/request_Aggregation_updateDefinition/messages/Aggregation.updateDefinition_request.message'
+  Aggregation_updateDefinition_response:
     action: receive
     channel:
-      $ref: '#/channels/Receive_Aggregation_updateDefinition'
+      $ref: '#/channels/response_Aggregation_updateDefinition'
     messages:
-      - $ref: '#/channels/Receive_Aggregation_updateDefinition/messages/Aggregation.updateDefinition_Receive.message'
-  Aggregation_updateDefinition_Error:
+      - $ref: '#/channels/response_Aggregation_updateDefinition/messages/Aggregation.updateDefinition_response.message'
+  Aggregation_updateDefinition_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Aggregation_updateDefinition'
+      $ref: '#/channels/error_Aggregation_updateDefinition'
     messages:
-      - $ref: '#/channels/Error_Aggregation_updateDefinition/messages/Aggregation.updateDefinition_Error.message'
+      - $ref: '#/channels/error_Aggregation_updateDefinition/messages/Aggregation.updateDefinition_error.message'
 components:
   schemas:
-    Aggregation_updateDefinition_Send:
+    Aggregation_updateDefinition_request:
       type: object
       properties:
         transactionId:
@@ -83,7 +83,7 @@ components:
             If an error is raised then no definitions shall be updated as a result of this operation call.
             The provider shall create a new AggregationDefinition object and store it in the COM archive.
             The new AggregationDefinition object shall be the current AggregationDefinition used for the specific AggregationIdentity.
-    Aggregation_updateDefinition_Receive:
+    Aggregation_updateDefinition_response:
       type: object
       properties:
         transactionId:
@@ -97,7 +97,7 @@ components:
           description: |
             The response shall contain the list of object instance identifiers for the new AggregationDefinition objects.
             The returned list shall maintain the same order as the submitted definitions.
-    Aggregation_updateDefinition_Error:
+    Aggregation_updateDefinition_error:
       type: object
       properties:
         transactionId:
@@ -107,8 +107,8 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MAL
             - COM
+            - MAL
         name:
           type: string
           description: A code representing the error.
@@ -211,15 +211,15 @@ components:
           - DELTA
           type: string
   messages:
-    Aggregation_updateDefinition_Send:
+    Aggregation_updateDefinition_request:
       description: Aggregation updateDefinition request submission
       payload:
-        $ref: '#/components/schemas/Aggregation_updateDefinition_Send'
-    Aggregation_updateDefinition_Receive:
+        $ref: '#/components/schemas/Aggregation_updateDefinition_request'
+    Aggregation_updateDefinition_response:
       description: Aggregation updateDefinition update response
       payload:
-        $ref: '#/components/schemas/Aggregation_updateDefinition_Receive'
-    Aggregation_updateDefinition_Error:
+        $ref: '#/components/schemas/Aggregation_updateDefinition_response'
+    Aggregation_updateDefinition_error:
       description: Aggregation updateDefinition error response
       payload:
-        $ref: '#/components/schemas/Aggregation_updateDefinition_Error'
+        $ref: '#/components/schemas/Aggregation_updateDefinition_error'

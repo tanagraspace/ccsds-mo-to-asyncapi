@@ -13,24 +13,24 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Check_enableService:
-    address: Send_Check_enableService
+  submit_Check_enableService:
+    address: submit_Check_enableService
     messages:
-      Check.enableService_Send.message:
-        $ref: '#/components/messages/Check_enableService_Send'
+      Check.enableService_submit.message:
+        $ref: '#/components/messages/Check_enableService_submit'
     description: >
-      Send a **Check_enableService_Send** message in this channel to receive a
-      **Check_enableService_Receive** message over the **Receive_Check_enableService** channel.
+      Send a **Check_enableService_submit** message in this channel to receive a
+      **Check_enableService_None** message over the **None_Check_enableService** channel.
 operations:
-  Check_enableService_Send:
+  Check_enableService_submit:
     action: send
     channel:
-      $ref: '#/channels/Send_Check_enableService'
+      $ref: '#/channels/submit_Check_enableService'
     messages:
-      - $ref: '#/channels/Send_Check_enableService/messages/Check.enableService_Send.message'
+      - $ref: '#/channels/submit_Check_enableService/messages/Check.enableService_submit.message'
 components:
   schemas:
-    Check_enableService_Send:
+    Check_enableService_submit:
       type: object
       properties:
         transactionId:
@@ -43,7 +43,7 @@ components:
             If enableService is set to FALSE then all evaluation of checks shall be suspended and no check transitions will be reported.
             If the enableService value matches the current enabled state of the service then no change shall be made and no error reported. Enabling an already enabled service has no effect.
   messages:
-    Check_enableService_Send:
+    Check_enableService_submit:
       description: Check enableService request submission
       payload:
-        $ref: '#/components/schemas/Check_enableService_Send'
+        $ref: '#/components/schemas/Check_enableService_submit'

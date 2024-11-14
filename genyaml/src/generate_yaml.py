@@ -7,6 +7,7 @@ from generators.abstract_yaml_generator import AbstractYamlGenerator
 from generators.yaml_generator_pubsub import YamlGeneratorPubSub
 from generators.yaml_generator_request import YamlGeneratorRequest
 from generators.yaml_generator_submit import YamlGeneratorSubmit
+from generators.yaml_generator_progress import YamlGeneratorSubmitProgress
 
 from generators.common import InteractionType
 
@@ -69,12 +70,21 @@ def list_services_with_capabilities_and_interactions_in_mc_xml(
           # DEBUG TIP: to debug a specific interaction you can add an inteaction_name debug filter here or code in a condition (e.g. and interaction_name == "removeAlert")
           if interaction_type_name == yaml_gen.interaction_type:
 
-            # the send and receive fields
+            # the send fields
             send_fields = interaction_type.findall(f".//mal:{yaml_gen.send_element}//mal:field", ns)
             include_channel_send = True if len(send_fields) > 0 else False
 
+            # the receive fields
             receive_fields = interaction_type.findall(f".//mal:{yaml_gen.receive_element}//mal:field", ns)
             include_channel_receive = True if len(receive_fields) > 0 else False
+
+            # this only applies to PROGRESS interaction type, which has the updates receive channel but also an additiaonl RECEIVE channel for RESPONSE
+            # TODO: what about mal:acknowledgement?
+            receive_fields_additional = []
+            include_channel_receive_additional = False
+            if yaml_gen.receive_element_additional:
+              receive_fields_additional = interaction_type.findall(f".//mal:{yaml_gen.receive_element_additional}//mal:field", ns)
+              include_channel_receive_additional = True if len(receive_fields) > 0 else False
 
             # the error fields
             err_fields = interaction_type.findall(f".//mal:errors//mal:errorRef", ns)
@@ -89,6 +99,7 @@ def list_services_with_capabilities_and_interactions_in_mc_xml(
               interaction_name=interaction_name,
               include_channel_send=include_channel_send,
               include_channel_receive=include_channel_receive,
+              include_channel_receive_additional=include_channel_receive_additional,
               include_channel_error=include_channel_error)
 
             yaml_operations_schema = yaml_gen.generate_operations_schema(
@@ -96,6 +107,7 @@ def list_services_with_capabilities_and_interactions_in_mc_xml(
               interaction_name=interaction_name,
               include_channel_send=include_channel_send,
               include_channel_receive=include_channel_receive,
+              include_channel_receive_additional=include_channel_receive_additional,
               include_channel_error=include_channel_error)
 
             yaml_components_schema = yaml_gen.generate_components_schema(
@@ -104,6 +116,7 @@ def list_services_with_capabilities_and_interactions_in_mc_xml(
               interaction_name=interaction_name,
               send_fields=send_fields,
               receive_fields=receive_fields,
+              receive_fields_additional=receive_fields_additional,
               err_fields=err_fields,
               ns=ns)
 
@@ -112,6 +125,7 @@ def list_services_with_capabilities_and_interactions_in_mc_xml(
               interaction_name=interaction_name,
               include_channel_send=include_channel_send,
               include_channel_receive=include_channel_receive,
+              include_channel_receive_additional=include_channel_receive_additional,
               include_channel_error=include_channel_error)
 
             # path to the output file
@@ -148,11 +162,11 @@ def list_services_with_capabilities_and_interactions_in_mc_xml(
 
 
 def main(xml_file_path: str, mo_asyncapi_src_dir_path: str, target_yaml_directory_path: str):
-  
-  # generate YAML for the following interaction types: PubSub, Request, and Submit
-  # TODO: extend this list once other generators are implemented. i.e. Progress, and Invoke
-  yaml_generators = [YamlGeneratorPubSub(), YamlGeneratorRequest(), YamlGeneratorSubmit()]
-  
+
+  # generate YAML for the following interaction types: PUBSUB, REQUEST, SUBMIT and PROGRESS
+  # TODO: extend this list tp include INVOKE interaction types
+  yaml_generators = [YamlGeneratorPubSub(), YamlGeneratorRequest(), YamlGeneratorSubmit(), YamlGeneratorSubmitProgress()]
+
   # get the list of services with capability sets, interaction names, and types
   mc_services_with_capabilities_and_interactions = list_services_with_capabilities_and_interactions_in_mc_xml(
     xml_file_path=xml_file_path, 

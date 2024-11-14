@@ -13,52 +13,52 @@ servers:
       port:
         default: '8883'
 channels:
-  Send_Parameter_updateDefinition:
-    address: Send_Parameter_updateDefinition
+  request_Parameter_updateDefinition:
+    address: request_Parameter_updateDefinition
     messages:
-      Parameter.updateDefinition_Send.message:
-        $ref: '#/components/messages/Parameter_updateDefinition_Send'
+      Parameter.updateDefinition_request.message:
+        $ref: '#/components/messages/Parameter_updateDefinition_request'
     description: >
-      Send a **Parameter_updateDefinition_Send** message in this channel to receive a
-      **Parameter_updateDefinition_Receive** message over the **Receive_Parameter_updateDefinition** channel.
-  Receive_Parameter_updateDefinition:
-    address: Receive_Parameter_updateDefinition
+      Send a **Parameter_updateDefinition_request** message in this channel to receive a
+      **Parameter_updateDefinition_response** message over the **response_Parameter_updateDefinition** channel.
+  response_Parameter_updateDefinition:
+    address: response_Parameter_updateDefinition
     messages:
-      Parameter.updateDefinition_Receive.message:
-        $ref: '#/components/messages/Parameter_updateDefinition_Receive'
+      Parameter.updateDefinition_response.message:
+        $ref: '#/components/messages/Parameter_updateDefinition_response'
     description: >
-      Use this channel to receive Parameter updateDefinition responses as **Parameter_updateDefinition_Receive**
+      Use this channel to receive Parameter updateDefinition responses as **Parameter_updateDefinition_response**
       messages.
-  Error_Parameter_updateDefinition:
-    address: Error_Parameter_updateDefinition
+  error_Parameter_updateDefinition:
+    address: error_Parameter_updateDefinition
     messages:
-      Parameter.updateDefinition_Error.message:
-        $ref: '#/components/messages/Parameter_updateDefinition_Error'
+      Parameter.updateDefinition_error.message:
+        $ref: '#/components/messages/Parameter_updateDefinition_error'
     description: >
-      Use this channel to receive Parameter updateDefinition errors as **Parameter_updateDefinition_ReceiveErrors**
+      Use this channel to receive Parameter updateDefinition errors as **Parameter_updateDefinition_responseErrors**
       messages.
 operations:
-  Parameter_updateDefinition_Send:
+  Parameter_updateDefinition_request:
     action: send
     channel:
-      $ref: '#/channels/Send_Parameter_updateDefinition'
+      $ref: '#/channels/request_Parameter_updateDefinition'
     messages:
-      - $ref: '#/channels/Send_Parameter_updateDefinition/messages/Parameter.updateDefinition_Send.message'
-  Parameter_updateDefinition_Receive:
+      - $ref: '#/channels/request_Parameter_updateDefinition/messages/Parameter.updateDefinition_request.message'
+  Parameter_updateDefinition_response:
     action: receive
     channel:
-      $ref: '#/channels/Receive_Parameter_updateDefinition'
+      $ref: '#/channels/response_Parameter_updateDefinition'
     messages:
-      - $ref: '#/channels/Receive_Parameter_updateDefinition/messages/Parameter.updateDefinition_Receive.message'
-  Parameter_updateDefinition_Error:
+      - $ref: '#/channels/response_Parameter_updateDefinition/messages/Parameter.updateDefinition_response.message'
+  Parameter_updateDefinition_error:
     action: receive
     channel:
-      $ref: '#/channels/Error_Parameter_updateDefinition'
+      $ref: '#/channels/error_Parameter_updateDefinition'
     messages:
-      - $ref: '#/channels/Error_Parameter_updateDefinition/messages/Parameter.updateDefinition_Error.message'
+      - $ref: '#/channels/error_Parameter_updateDefinition/messages/Parameter.updateDefinition_error.message'
 components:
   schemas:
-    Parameter_updateDefinition_Send:
+    Parameter_updateDefinition_request:
       type: object
       properties:
         transactionId:
@@ -83,7 +83,7 @@ components:
             If an error is raised then no definitions shall be updated as a result of this operation call.
             The provider shall create a new ParameterDefinition object and store it in the COM archive.
             The new ParameterDefinition object shall be the current ParameterDefinition used for the specific ParameterIdentity.
-    Parameter_updateDefinition_Receive:
+    Parameter_updateDefinition_response:
       type: object
       properties:
         transactionId:
@@ -97,7 +97,7 @@ components:
           description: |
             The response shall contain the list of object instance identifiers for the new ParameterDefinition objects.
             The returned list shall maintain the same order as the submitted definitions.
-    Parameter_updateDefinition_Error:
+    Parameter_updateDefinition_error:
       type: object
       properties:
         transactionId:
@@ -107,8 +107,8 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MAL
             - COM
+            - MAL
         name:
           type: string
           description: A code representing the error.
@@ -228,15 +228,15 @@ components:
             type: integer
         type: object
   messages:
-    Parameter_updateDefinition_Send:
+    Parameter_updateDefinition_request:
       description: Parameter updateDefinition request submission
       payload:
-        $ref: '#/components/schemas/Parameter_updateDefinition_Send'
-    Parameter_updateDefinition_Receive:
+        $ref: '#/components/schemas/Parameter_updateDefinition_request'
+    Parameter_updateDefinition_response:
       description: Parameter updateDefinition update response
       payload:
-        $ref: '#/components/schemas/Parameter_updateDefinition_Receive'
-    Parameter_updateDefinition_Error:
+        $ref: '#/components/schemas/Parameter_updateDefinition_response'
+    Parameter_updateDefinition_error:
       description: Parameter updateDefinition error response
       payload:
-        $ref: '#/components/schemas/Parameter_updateDefinition_Error'
+        $ref: '#/components/schemas/Parameter_updateDefinition_error'

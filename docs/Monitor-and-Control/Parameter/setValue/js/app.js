@@ -4,50 +4,33 @@
   "info": {
     "title": "Parameter Service setValue API",
     "version": "1.0.0",
-    "description": "This API allows clients to interact with the setValue iteraction of the Parameter Service."
+    "description": "This API allows clients to interact with the setValue interaction of the Parameter Service."
   },
   "defaultContentType": "application/json",
   "servers": {
     "production": {
       "host": "localhost:{port}",
       "protocol": "mqtt",
-      "description": "MQTT server for the setValue interaction.",
+      "description": "MQTT server for the Parameter Service's setValue interaction.",
       "variables": {
         "port": {
-          "enum": [
-            "8883",
-            "8884"
-          ],
           "default": "8883"
-        }
-      },
-      "bindings": {
-        "mqtt": {
-          "clientId": "guest",
-          "cleanSession": false,
-          "keepAlive": 0,
-          "lastWill": {
-            "topic": "/will",
-            "qos": 0,
-            "message": "Guest gone offline.",
-            "retain": false
-          }
         }
       }
     }
   },
   "channels": {
-    "Send_Parameter_setValue": {
-      "address": "Send_Parameter_setValue",
+    "submit_Parameter_setValue": {
+      "address": "submit_Parameter_setValue",
       "messages": {
-        "Parameter.setValue_Send.message": {
+        "Parameter.setValue_submit.message": {
           "description": "Parameter setValue request submission",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-1>"
               },
               "newRawValues": {
@@ -68,35 +51,35 @@
                 "x-parser-schema-id": "<anonymous-schema-2>"
               }
             },
-            "x-parser-schema-id": "Parameter_setValue_Send"
+            "x-parser-schema-id": "Parameter_setValue_submit"
           },
-          "x-parser-unique-object-id": "Parameter.setValue_Send.message",
-          "x-parser-message-name": "Parameter_setValue_Send"
+          "x-parser-unique-object-id": "Parameter.setValue_submit.message",
+          "x-parser-message-name": "Parameter_setValue_submit"
         }
       },
-      "description": "Send a **Parameter_setValue_Send** message in this channel to receive a **Parameter_setValue_Receive** message over the **Receive_Parameter_setValue** channel.\n",
-      "x-parser-unique-object-id": "Send_Parameter_setValue"
+      "description": "Send a **Parameter_setValue_submit** message in this channel to receive a **Parameter_setValue_None** message over the **None_Parameter_setValue** channel.\n",
+      "x-parser-unique-object-id": "submit_Parameter_setValue"
     },
-    "Error_Parameter_setValue": {
-      "address": "Error_Parameter_setValue",
+    "error_Parameter_setValue": {
+      "address": "error_Parameter_setValue",
       "messages": {
-        "Parameter.setValue_Error.message": {
+        "Parameter.setValue_error.message": {
           "description": "Parameter setValue error response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-5>"
               },
               "area": {
                 "type": "string",
                 "description": "The area in which the error applies.",
                 "enum": [
+                  "COM",
                   "MAL",
-                  "MC",
-                  "COM"
+                  "MC"
                 ],
                 "x-parser-schema-id": "<anonymous-schema-6>"
               },
@@ -104,9 +87,9 @@
                 "type": "string",
                 "description": "A code representing the error.",
                 "enum": [
-                  "INVALID",
                   "UNKNOWN",
-                  "READONLY"
+                  "READONLY",
+                  "INVALID"
                 ],
                 "x-parser-schema-id": "<anonymous-schema-7>"
               },
@@ -115,54 +98,54 @@
                 "items": {
                   "type": "integer",
                   "format": "uint32",
-                  "description": "A list of the indexes of the erroneous values from the originating list supplied or request list.",
+                  "description": "A list of the indexes of the error values shall be contained in the extra information field.",
                   "x-parser-schema-id": "<anonymous-schema-9>"
                 },
                 "x-parser-schema-id": "<anonymous-schema-8>"
               }
             },
-            "x-parser-schema-id": "Parameter_setValue_Error"
+            "x-parser-schema-id": "Parameter_setValue_error"
           },
-          "x-parser-unique-object-id": "Parameter.setValue_Error.message",
-          "x-parser-message-name": "Parameter_setValue_Error"
+          "x-parser-unique-object-id": "Parameter.setValue_error.message",
+          "x-parser-message-name": "Parameter_setValue_error"
         }
       },
-      "description": "Use this channel to receive Parameter setValue errors as **Parameter_setValue_ReceiveErrors** messages.\n",
-      "x-parser-unique-object-id": "Error_Parameter_setValue"
+      "description": "Use this channel to receive Parameter setValue errors as **Parameter_setValue_NoneErrors** messages.\n",
+      "x-parser-unique-object-id": "error_Parameter_setValue"
     }
   },
   "operations": {
-    "Parameter_setValue_Send": {
+    "Parameter_setValue_submit": {
       "action": "send",
-      "channel": "$ref:$.channels.Send_Parameter_setValue",
+      "channel": "$ref:$.channels.submit_Parameter_setValue",
       "messages": [
-        "$ref:$.channels.Send_Parameter_setValue.messages.Parameter.setValue_Send.message"
+        "$ref:$.channels.submit_Parameter_setValue.messages.Parameter.setValue_submit.message"
       ],
-      "x-parser-unique-object-id": "Parameter_setValue_Send"
+      "x-parser-unique-object-id": "Parameter_setValue_submit"
     },
-    "Parameter_setValue_Error": {
+    "Parameter_setValue_error": {
       "action": "receive",
-      "channel": "$ref:$.channels.Error_Parameter_setValue",
+      "channel": "$ref:$.channels.error_Parameter_setValue",
       "messages": [
-        "$ref:$.channels.Error_Parameter_setValue.messages.Parameter.setValue_Error.message"
+        "$ref:$.channels.error_Parameter_setValue.messages.Parameter.setValue_error.message"
       ],
-      "x-parser-unique-object-id": "Parameter_setValue_Error"
+      "x-parser-unique-object-id": "Parameter_setValue_error"
     }
   },
   "components": {
     "schemas": {
-      "Parameter_setValue_Send": "$ref:$.channels.Send_Parameter_setValue.messages.Parameter.setValue_Send.message.payload",
-      "Parameter_setValue_Error": "$ref:$.channels.Error_Parameter_setValue.messages.Parameter.setValue_Error.message.payload",
+      "Parameter_setValue_submit": "$ref:$.channels.submit_Parameter_setValue.messages.Parameter.setValue_submit.message.payload",
+      "Parameter_setValue_error": "$ref:$.channels.error_Parameter_setValue.messages.Parameter.setValue_error.message.payload",
       "mc": {
         "parameter": {
-          "ParameterRawValue": "$ref:$.channels.Send_Parameter_setValue.messages.Parameter.setValue_Send.message.payload.properties.newRawValues"
+          "ParameterRawValue": "$ref:$.channels.submit_Parameter_setValue.messages.Parameter.setValue_submit.message.payload.properties.newRawValues"
         },
         "x-parser-schema-id": "mc"
       }
     },
     "messages": {
-      "Parameter_setValue_Send": "$ref:$.channels.Send_Parameter_setValue.messages.Parameter.setValue_Send.message",
-      "Parameter_setValue_Error": "$ref:$.channels.Error_Parameter_setValue.messages.Parameter.setValue_Error.message"
+      "Parameter_setValue_submit": "$ref:$.channels.submit_Parameter_setValue.messages.Parameter.setValue_submit.message",
+      "Parameter_setValue_error": "$ref:$.channels.error_Parameter_setValue.messages.Parameter.setValue_error.message"
     }
   },
   "x-parser-spec-parsed": true,

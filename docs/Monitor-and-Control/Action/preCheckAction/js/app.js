@@ -4,50 +4,33 @@
   "info": {
     "title": "Action Service preCheckAction API",
     "version": "1.0.0",
-    "description": "This API allows clients to interact with the preCheckAction iteraction of the Action Service."
+    "description": "This API allows clients to interact with the preCheckAction interaction of the Action Service."
   },
   "defaultContentType": "application/json",
   "servers": {
     "production": {
       "host": "localhost:{port}",
       "protocol": "mqtt",
-      "description": "MQTT server for the preCheckAction interaction.",
+      "description": "MQTT server for the Action Service's preCheckAction interaction.",
       "variables": {
         "port": {
-          "enum": [
-            "8883",
-            "8884"
-          ],
           "default": "8883"
-        }
-      },
-      "bindings": {
-        "mqtt": {
-          "clientId": "guest",
-          "cleanSession": false,
-          "keepAlive": 0,
-          "lastWill": {
-            "topic": "/will",
-            "qos": 0,
-            "message": "Guest gone offline.",
-            "retain": false
-          }
         }
       }
     }
   },
   "channels": {
-    "Send_Action_preCheckAction": {
-      "address": "Send_Action_preCheckAction",
+    "request_Action_preCheckAction": {
+      "address": "request_Action_preCheckAction",
       "messages": {
-        "Action.preCheckAction_Send.message": {
+        "Action.preCheckAction_request.message": {
           "description": "Action preCheckAction request submission",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-1>"
               },
               "actionDetails": {
@@ -112,26 +95,26 @@
                 "x-parser-schema-id": "<anonymous-schema-2>"
               }
             },
-            "x-parser-schema-id": "Action_preCheckAction_Send"
+            "x-parser-schema-id": "Action_preCheckAction_request"
           },
-          "x-parser-unique-object-id": "Action.preCheckAction_Send.message",
-          "x-parser-message-name": "Action_preCheckAction_Send"
+          "x-parser-unique-object-id": "Action.preCheckAction_request.message",
+          "x-parser-message-name": "Action_preCheckAction_request"
         }
       },
-      "description": "Send a **Action_preCheckAction_Send** message in this channel to receive a **Action_preCheckAction_Receive** message over the **Receive_Action_preCheckAction** channel.\n",
-      "x-parser-unique-object-id": "Send_Action_preCheckAction"
+      "description": "Send a **Action_preCheckAction_request** message in this channel to receive a **Action_preCheckAction_response** message over the **response_Action_preCheckAction** channel.\n",
+      "x-parser-unique-object-id": "request_Action_preCheckAction"
     },
-    "Receive_Action_preCheckAction": {
-      "address": "Receive_Action_preCheckAction",
+    "response_Action_preCheckAction": {
+      "address": "response_Action_preCheckAction",
       "messages": {
-        "Action.preCheckAction_Receive.message": {
+        "Action.preCheckAction_response.message": {
           "description": "Action preCheckAction update response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-14>"
               },
               "accepted": {
@@ -140,34 +123,34 @@
                 "x-parser-schema-id": "<anonymous-schema-15>"
               }
             },
-            "x-parser-schema-id": "Action_preCheckAction_Receive"
+            "x-parser-schema-id": "Action_preCheckAction_response"
           },
-          "x-parser-unique-object-id": "Action.preCheckAction_Receive.message",
-          "x-parser-message-name": "Action_preCheckAction_Receive"
+          "x-parser-unique-object-id": "Action.preCheckAction_response.message",
+          "x-parser-message-name": "Action_preCheckAction_response"
         }
       },
-      "description": "Use this channel to receive Action preCheckAction responses as **Action_preCheckAction_Receive** messages.\n",
-      "x-parser-unique-object-id": "Receive_Action_preCheckAction"
+      "description": "Use this channel to receive Action preCheckAction responses as **Action_preCheckAction_response** messages.\n",
+      "x-parser-unique-object-id": "response_Action_preCheckAction"
     },
-    "Error_Action_preCheckAction": {
-      "address": "Error_Action_preCheckAction",
+    "error_Action_preCheckAction": {
+      "address": "error_Action_preCheckAction",
       "messages": {
-        "Action.preCheckAction_Error.message": {
+        "Action.preCheckAction_error.message": {
           "description": "Action preCheckAction error response",
           "payload": {
             "type": "object",
             "properties": {
               "transactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response to the request.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-16>"
               },
               "area": {
                 "type": "string",
                 "description": "The area in which the error applies.",
                 "enum": [
-                  "MAL",
-                  "COM"
+                  "COM",
+                  "MAL"
                 ],
                 "x-parser-schema-id": "<anonymous-schema-17>"
               },
@@ -185,65 +168,65 @@
                 "items": {
                   "type": "integer",
                   "format": "uint32",
-                  "description": "A list of the indexes of the erroneous values from the originating list supplied or request list.",
+                  "description": "A list of the indexes of the error values shall be contained in the extra information field.",
                   "x-parser-schema-id": "<anonymous-schema-20>"
                 },
                 "x-parser-schema-id": "<anonymous-schema-19>"
               }
             },
-            "x-parser-schema-id": "Action_preCheckAction_Error"
+            "x-parser-schema-id": "Action_preCheckAction_error"
           },
-          "x-parser-unique-object-id": "Action.preCheckAction_Error.message",
-          "x-parser-message-name": "Action_preCheckAction_Error"
+          "x-parser-unique-object-id": "Action.preCheckAction_error.message",
+          "x-parser-message-name": "Action_preCheckAction_error"
         }
       },
-      "description": "Use this channel to receive Action preCheckAction errors as **Action_preCheckAction_ReceiveErrors** messages.\n",
-      "x-parser-unique-object-id": "Error_Action_preCheckAction"
+      "description": "Use this channel to receive Action preCheckAction errors as **Action_preCheckAction_responseErrors** messages.\n",
+      "x-parser-unique-object-id": "error_Action_preCheckAction"
     }
   },
   "operations": {
-    "Action_preCheckAction_Send": {
+    "Action_preCheckAction_request": {
       "action": "send",
-      "channel": "$ref:$.channels.Send_Action_preCheckAction",
+      "channel": "$ref:$.channels.request_Action_preCheckAction",
       "messages": [
-        "$ref:$.channels.Send_Action_preCheckAction.messages.Action.preCheckAction_Send.message"
+        "$ref:$.channels.request_Action_preCheckAction.messages.Action.preCheckAction_request.message"
       ],
-      "x-parser-unique-object-id": "Action_preCheckAction_Send"
+      "x-parser-unique-object-id": "Action_preCheckAction_request"
     },
-    "Action_preCheckAction_Receive": {
+    "Action_preCheckAction_response": {
       "action": "receive",
-      "channel": "$ref:$.channels.Receive_Action_preCheckAction",
+      "channel": "$ref:$.channels.response_Action_preCheckAction",
       "messages": [
-        "$ref:$.channels.Receive_Action_preCheckAction.messages.Action.preCheckAction_Receive.message"
+        "$ref:$.channels.response_Action_preCheckAction.messages.Action.preCheckAction_response.message"
       ],
-      "x-parser-unique-object-id": "Action_preCheckAction_Receive"
+      "x-parser-unique-object-id": "Action_preCheckAction_response"
     },
-    "Action_preCheckAction_Error": {
+    "Action_preCheckAction_error": {
       "action": "receive",
-      "channel": "$ref:$.channels.Error_Action_preCheckAction",
+      "channel": "$ref:$.channels.error_Action_preCheckAction",
       "messages": [
-        "$ref:$.channels.Error_Action_preCheckAction.messages.Action.preCheckAction_Error.message"
+        "$ref:$.channels.error_Action_preCheckAction.messages.Action.preCheckAction_error.message"
       ],
-      "x-parser-unique-object-id": "Action_preCheckAction_Error"
+      "x-parser-unique-object-id": "Action_preCheckAction_error"
     }
   },
   "components": {
     "schemas": {
-      "Action_preCheckAction_Send": "$ref:$.channels.Send_Action_preCheckAction.messages.Action.preCheckAction_Send.message.payload",
-      "Action_preCheckAction_Receive": "$ref:$.channels.Receive_Action_preCheckAction.messages.Action.preCheckAction_Receive.message.payload",
-      "Action_preCheckAction_Error": "$ref:$.channels.Error_Action_preCheckAction.messages.Action.preCheckAction_Error.message.payload",
+      "Action_preCheckAction_request": "$ref:$.channels.request_Action_preCheckAction.messages.Action.preCheckAction_request.message.payload",
+      "Action_preCheckAction_response": "$ref:$.channels.response_Action_preCheckAction.messages.Action.preCheckAction_response.message.payload",
+      "Action_preCheckAction_error": "$ref:$.channels.error_Action_preCheckAction.messages.Action.preCheckAction_error.message.payload",
       "mc": {
         "action": {
-          "ActionInstanceDetails": "$ref:$.channels.Send_Action_preCheckAction.messages.Action.preCheckAction_Send.message.payload.properties.actionDetails"
+          "ActionInstanceDetails": "$ref:$.channels.request_Action_preCheckAction.messages.Action.preCheckAction_request.message.payload.properties.actionDetails"
         },
-        "AttributeValue": "$ref:$.channels.Send_Action_preCheckAction.messages.Action.preCheckAction_Send.message.payload.properties.actionDetails.properties.argumentValues.items",
+        "AttributeValue": "$ref:$.channels.request_Action_preCheckAction.messages.Action.preCheckAction_request.message.payload.properties.actionDetails.properties.argumentValues.items",
         "x-parser-schema-id": "mc"
       }
     },
     "messages": {
-      "Action_preCheckAction_Send": "$ref:$.channels.Send_Action_preCheckAction.messages.Action.preCheckAction_Send.message",
-      "Action_preCheckAction_Receive": "$ref:$.channels.Receive_Action_preCheckAction.messages.Action.preCheckAction_Receive.message",
-      "Action_preCheckAction_Error": "$ref:$.channels.Error_Action_preCheckAction.messages.Action.preCheckAction_Error.message"
+      "Action_preCheckAction_request": "$ref:$.channels.request_Action_preCheckAction.messages.Action.preCheckAction_request.message",
+      "Action_preCheckAction_response": "$ref:$.channels.response_Action_preCheckAction.messages.Action.preCheckAction_response.message",
+      "Action_preCheckAction_error": "$ref:$.channels.error_Action_preCheckAction.messages.Action.preCheckAction_error.message"
     }
   },
   "x-parser-spec-parsed": true,
