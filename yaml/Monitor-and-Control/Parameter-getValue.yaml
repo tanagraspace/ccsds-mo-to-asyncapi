@@ -2,29 +2,16 @@ asyncapi: 3.0.0
 info:
   title: Parameter Service getValue API
   version: 1.0.0
-  description: This API allows clients to interact with the getValue iteraction of the Parameter Service.
+  description: This API allows clients to interact with the getValue interaction of the Parameter Service.
 defaultContentType: application/json
 servers:
   production:
     host: 'localhost:{port}'
     protocol: mqtt
-    description: MQTT server for the getValue interaction.
+    description: MQTT server for the Parameter Service's getValue interaction.
     variables:
       port:
-        enum:
-          - '8883'
-          - '8884'
         default: '8883'
-    bindings:
-      mqtt:
-        clientId: guest
-        cleanSession: false
-        keepAlive: 0
-        lastWill:
-          topic: /will
-          qos: 0
-          message: Guest gone offline.
-          retain: false
 channels:
   Send_Parameter_getValue:
     address: Send_Parameter_getValue

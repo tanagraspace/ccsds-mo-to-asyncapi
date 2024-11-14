@@ -2,29 +2,16 @@ asyncapi: 3.0.0
 info:
   title: Alert Service updateDefinition API
   version: 1.0.0
-  description: This API allows clients to interact with the updateDefinition iteraction of the Alert Service.
+  description: This API allows clients to interact with the updateDefinition interaction of the Alert Service.
 defaultContentType: application/json
 servers:
   production:
     host: 'localhost:{port}'
     protocol: mqtt
-    description: MQTT server for the updateDefinition interaction.
+    description: MQTT server for the Alert Service's updateDefinition interaction.
     variables:
       port:
-        enum:
-          - '8883'
-          - '8884'
         default: '8883'
-    bindings:
-      mqtt:
-        clientId: guest
-        cleanSession: false
-        keepAlive: 0
-        lastWill:
-          topic: /will
-          qos: 0
-          message: Guest gone offline.
-          retain: false
 channels:
   Send_Alert_updateDefinition:
     address: Send_Alert_updateDefinition

@@ -2,29 +2,16 @@ asyncapi: 3.0.0
 info:
   title: Check Service removeCheck API
   version: 1.0.0
-  description: This API allows clients to interact with the removeCheck iteraction of the Check Service.
+  description: This API allows clients to interact with the removeCheck interaction of the Check Service.
 defaultContentType: application/json
 servers:
   production:
     host: 'localhost:{port}'
     protocol: mqtt
-    description: MQTT server for the removeCheck interaction.
+    description: MQTT server for the Check Service's removeCheck interaction.
     variables:
       port:
-        enum:
-          - '8883'
-          - '8884'
         default: '8883'
-    bindings:
-      mqtt:
-        clientId: guest
-        cleanSession: false
-        keepAlive: 0
-        lastWill:
-          topic: /will
-          qos: 0
-          message: Guest gone offline.
-          retain: false
 channels:
   Send_Check_removeCheck:
     address: Send_Check_removeCheck
@@ -87,8 +74,8 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MAL
             - MC
+            - MAL
         name:
           type: string
           description: A code representing the error.

@@ -2,29 +2,16 @@ asyncapi: 3.0.0
 info:
   title: Aggregation Service enableFilter API
   version: 1.0.0
-  description: This API allows clients to interact with the enableFilter iteraction of the Aggregation Service.
+  description: This API allows clients to interact with the enableFilter interaction of the Aggregation Service.
 defaultContentType: application/json
 servers:
   production:
     host: 'localhost:{port}'
     protocol: mqtt
-    description: MQTT server for the enableFilter interaction.
+    description: MQTT server for the Aggregation Service's enableFilter interaction.
     variables:
       port:
-        enum:
-          - '8883'
-          - '8884'
         default: '8883'
-    bindings:
-      mqtt:
-        clientId: guest
-        cleanSession: false
-        keepAlive: 0
-        lastWill:
-          topic: /will
-          qos: 0
-          message: Guest gone offline.
-          retain: false
 channels:
   Send_Aggregation_enableFilter:
     address: Send_Aggregation_enableFilter
