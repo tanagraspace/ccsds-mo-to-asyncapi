@@ -42,36 +42,26 @@ class AbstractYamlGenerator(ABC):
 
   def generate_service_schema(self, service_name: str, interaction_name: str) -> str:
     """
-    Base implementation for generating the YAML string that defines the service.
-    Can be overridden by subclasses for customization.
+    Generates the YAML string for the base AsyncAPI service schema.
     """
-    return f"""asyncapi: 3.0.0
-info:
-  title: {service_name} Service {interaction_name} API
-  version: 1.0.0
-  description: This API allows clients to interact with the {interaction_name} iteraction of the {service_name} Service.
-defaultContentType: application/json
-servers:
-  production:
-    host: 'localhost:{{port}}'
-    protocol: mqtt
-    description: MQTT server for the {interaction_name} interaction.
-    variables:
-      port:
-        enum:
-          - '8883'
-          - '8884'
-        default: '8883'
-    bindings:
-      mqtt:
-        clientId: guest
-        cleanSession: false
-        keepAlive: 0
-        lastWill:
-          topic: /will
-          qos: 0
-          message: Guest gone offline.
-          retain: false\n"""
+
+    schema = ""
+    schema += "asyncapi: 3.0.0\n"
+    schema += "info:\n"
+    schema += f"  title: {service_name} Service {interaction_name} API\n"
+    schema += "  version: 1.0.0\n"
+    schema += f"  description: This API allows clients to interact with the {interaction_name} interaction of the {service_name} Service.\n"
+    schema += "defaultContentType: application/json\n"
+    schema += "servers:\n"
+    schema += "  production:\n"
+    schema += f"    host: 'localhost:{{port}}'\n"
+    schema += "    protocol: mqtt\n"
+    schema += f"    description: MQTT server for the {service_name} Service's {interaction_name} interaction.\n"
+    schema += "    variables:\n"
+    schema += "      port:\n"
+    schema += "        default: '8883'\n"
+
+    return schema
 
 
   def generate_channels_schema(self, service_name: str, interaction_name: str,

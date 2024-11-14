@@ -2,29 +2,16 @@ asyncapi: 3.0.0
 info:
   title: Statistic Service monitorStatistics API
   version: 1.0.0
-  description: This API allows clients to interact with the monitorStatistics iteraction of the Statistic Service.
+  description: This API allows clients to interact with the monitorStatistics interaction of the Statistic Service.
 defaultContentType: application/json
 servers:
   production:
     host: 'localhost:{port}'
     protocol: mqtt
-    description: MQTT server for the monitorStatistics interaction.
+    description: MQTT server for the Statistic Service's monitorStatistics interaction.
     variables:
       port:
-        enum:
-          - '8883'
-          - '8884'
         default: '8883'
-    bindings:
-      mqtt:
-        clientId: guest
-        cleanSession: false
-        keepAlive: 0
-        lastWill:
-          topic: /will
-          qos: 0
-          message: Guest gone offline.
-          retain: false
 channels:
   Receive_Statistic_monitorStatistics:
     address: Receive_Statistic_monitorStatistics
