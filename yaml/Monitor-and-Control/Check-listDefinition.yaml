@@ -78,7 +78,9 @@ components:
           type: string
           description: A unique identifier to map the response to the request.
         names:
-          type: string
+          type: array
+          items:
+            type: string
           description: |
             The names field shall hold a list of CheckIdentity names to retrieve the CheckIdentity and actual check definition object instance identifiers for.
             The request may contain the wildcard value of '*' to return all supported check definitions.
@@ -116,7 +118,7 @@ components:
           items:
             type: integer
             format: uint32
-            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+            description: A list of the indexes of the error values shall be contained in the extra information field.
     mc:
       check:
         CheckTypedInstance:

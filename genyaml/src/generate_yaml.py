@@ -66,6 +66,7 @@ def list_services_with_capabilities_and_interactions_in_mc_xml(
 
         # iterate over each generator and check if it matches the interaction type
         for yaml_gen in yaml_generators:
+          # DEBUG TIP: to debug a specific interaction you can add an inteaction_name debug filter here or code in a condition (e.g. and interaction_name == "removeAlert")
           if interaction_type_name == yaml_gen.interaction_type:
 
             # the send and receive fields

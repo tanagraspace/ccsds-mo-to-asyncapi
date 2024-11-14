@@ -64,12 +64,17 @@ components:
           type: string
           description: A unique identifier to map the response to the request.
         checkObjInstIds:
-          type: integer
+          type: array
+          items:
+            type: integer
+            format: int64
           description: |
             The checkObjInstIds field shall hold a list of CheckIdentity object instance identifiers to trigger the evaluation of all linked checks.
-          format: int64
         linkObjInstIds:
-          type: integer
+          type: array
+          items:
+            type: integer
+            format: int64
           description: |
             The linkObjInstIds field shall hold a list of CheckLink object instance identifiers to trigger the evaluation of.
             The wildcard value of '0' shall be permitted in either list.
@@ -80,7 +85,6 @@ components:
             The two lists shall be combined using 'OR' logic, where a CheckLink is evaluated if the identity of a check is in the first list or if the link is directly listed in the second list.
             Triggering a check shall ignore the nominalTime, nominalCount, violationTime and violationCount fields and requests an immediate evaluation of the checks.
             Triggering a check during a periodic check shall not influence the periodic check (e.g. it does not reset the checkInterval timer, the successive valid samples that passed/violated the check or the maxReportingInterval timer).
-          format: int64
     Check_triggerCheck_Error:
       type: object
       properties:
@@ -102,7 +106,7 @@ components:
           items:
             type: integer
             format: uint32
-            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+            description: A list of the indexes of the error values shall be contained in the extra information field.
   messages:
     Check_triggerCheck_Send:
       description: Check triggerCheck request submission

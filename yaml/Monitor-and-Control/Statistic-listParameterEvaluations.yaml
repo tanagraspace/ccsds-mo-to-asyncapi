@@ -78,13 +78,15 @@ components:
           type: string
           description: A unique identifier to map the response to the request.
         statObjInstIds:
-          type: integer
+          type: array
+          items:
+            type: integer
+            format: int64
           description: |
             The statObjInstIds field shall hold a list of StatisticFunction object instance identifiers to retrieve the StatisticLink object instance identifiers for.
             The request may contain the wildcard value of '0' to return all supported statistic links.
             The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.
             If a provided identifier does not include a wildcard and does not match an existing StatisticFunction object then this operation shall fail with an UNKNOWN error.
-          format: int64
     Statistic_listParameterEvaluations_Receive:
       type: object
       properties:
@@ -116,7 +118,7 @@ components:
           items:
             type: integer
             format: uint32
-            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+            description: A list of the indexes of the error values shall be contained in the extra information field.
     mc:
       statistic:
         StatisticLinkSummary:

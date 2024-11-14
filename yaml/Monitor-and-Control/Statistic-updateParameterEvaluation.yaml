@@ -78,13 +78,15 @@ components:
           type: string
           description: A unique identifier to map the response to the request.
         linkIds:
-          type: integer
+          type: array
+          items:
+            type: integer
+            format: int64
           description: |
             The linkIds field shall contain the object instance identifiers of the StatisticLink objects to be updated.
             If the linkIds list contains either NULL or '0' an INVALID error shall be raised.
             The supplied object instance identifiers shall match existing link objects, an UNKNOWN error shall be raised if this is not the case.
             If the supplied samplingInterval is not supported for the requested parameter then an INVALID error shall be returned.
-          format: int64
         newDetails:
           $ref: '#/components/schemas/mc/statistic/StatisticLinkDetails'
           description: |
@@ -101,11 +103,13 @@ components:
           type: string
           description: A unique identifier to map the response to the request.
         newLinkDefIds:
-          type: integer
+          type: array
+          items:
+            type: integer
+            format: int64
           description: |
             The response shall contain the list of object instance identifiers for the new StatisticLinkDefinition objects.
             The returned list shall maintain the same order as the submitted links.
-          format: int64
     Statistic_updateParameterEvaluation_Error:
       type: object
       properties:
@@ -116,20 +120,20 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MAL
             - COM
+            - MAL
         name:
           type: string
           description: A code representing the error.
           enum:
-            - INVALID
             - UNKNOWN
+            - INVALID
         extraInformation:
           type: array
           items:
             type: integer
             format: uint32
-            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+            description: A list of the indexes of the error values shall be contained in the extra information field.
     mc:
       statistic:
         StatisticLinkDetails:

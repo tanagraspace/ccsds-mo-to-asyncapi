@@ -85,22 +85,22 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MAL
             - MC
             - COM
+            - MAL
         name:
           type: string
           description: A code representing the error.
           enum:
-            - INVALID
             - UNKNOWN
             - READONLY
+            - INVALID
         extraInformation:
           type: array
           items:
             type: integer
             format: uint32
-            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+            description: A list of the indexes of the error values shall be contained in the extra information field.
     mc:
       parameter:
         ParameterRawValue:

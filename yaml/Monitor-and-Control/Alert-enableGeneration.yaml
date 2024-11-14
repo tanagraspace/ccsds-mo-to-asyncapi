@@ -100,10 +100,12 @@ components:
           type: string
           description: A unique identifier to map the response to the request.
         newObjInstIds:
-          type: integer
+          type: array
+          items:
+            type: integer
+            format: int64
           description: |
             The response shall contain the list of object instance identifiers for the new AlertDefinition objects.
-          format: int64
     Alert_enableGeneration_Error:
       type: object
       properties:
@@ -114,20 +116,20 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MAL
             - COM
+            - MAL
         name:
           type: string
           description: A code representing the error.
           enum:
-            - INVALID
             - UNKNOWN
+            - INVALID
         extraInformation:
           type: array
           items:
             type: integer
             format: uint32
-            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+            description: A list of the indexes of the error values shall be contained in the extra information field.
     com:
       InstanceBooleanPair:
         properties:

@@ -64,7 +64,10 @@ components:
           type: string
           description: A unique identifier to map the response to the request.
         paramInstIds:
-          type: integer
+          type: array
+          items:
+            type: integer
+            format: int64
           description: |
             The paramInstIds field shall hold the object instance identifiers of the ParameterIdentity objects to be removed from the provider.
             The list may contain the wildcard value of '0'.
@@ -73,7 +76,6 @@ components:
             Matched ParameterIdentity and ParameterDefinition objects shall not be removed from the COM archive only the list of ParameterIdentity and ParameterDefinition objects from the provider.
             If an error is raised then no parameters shall be removed as a result of this operation call.
             If the operation succeeds then the provider shall not publish parameter values for the deleted ParameterIdentity objects anymore.
-          format: int64
     Parameter_removeParameter_Error:
       type: object
       properties:
@@ -95,7 +97,7 @@ components:
           items:
             type: integer
             format: uint32
-            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+            description: A list of the indexes of the error values shall be contained in the extra information field.
   messages:
     Parameter_removeParameter_Send:
       description: Parameter removeParameter request submission

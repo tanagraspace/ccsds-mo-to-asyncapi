@@ -308,6 +308,7 @@ servers:
 
     field_name = field.get('name')
     field_comment = field.get('comment')
+    field_is_list = field.find('mal:type', ns).get('list', 'false').lower() == 'true'
     field_type = field.find('mal:type', ns).get('name')
     service = field.find('mal:type', ns).get('service')
     area = field.find('mal:type', ns).get('area')
@@ -318,15 +319,19 @@ servers:
     if field_type in TYPE_MAPPING:
       asyncapi_type, asyncapi_format, _ = TYPE_MAPPING[field_type]
 
-      components_schema_yaml += f"          type: {asyncapi_type}\n"
+      components_schema_yaml += f"          type: {'array' if field_is_list else asyncapi_type}\n"
+      if field_is_list:
+        components_schema_yaml += "          items:\n"
+        components_schema_yaml += f"            type: {asyncapi_type}\n"
 
       # properly format multiline comments with YAML indentation
       if field_comment:
+        if asyncapi_format:
+          components_schema_yaml += f"          {'  ' if field_is_list else ''}format: {asyncapi_format}\n"
+
         formatted_comment = '\n'.join([f"            {line}" for line in field_comment.splitlines()])
         components_schema_yaml += f"          description: |\n{formatted_comment}\n"
 
-      if asyncapi_format:
-        components_schema_yaml += f"          format: {asyncapi_format}\n"
     else:
       # if it's not a simple field type then it's a composite type
       # for composite types we only want a reference to the definition rather than the definition itself

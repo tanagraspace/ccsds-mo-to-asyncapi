@@ -64,7 +64,10 @@ components:
           type: string
           description: A unique identifier to map the response to the request.
         alertInstIds:
-          type: integer
+          type: array
+          items:
+            type: integer
+            format: int64
           description: |
             The alertInstIds field shall hold the object instance identifiers of the AlertIdentity objects to be removed from the provider.
             The list may contain the wildcard value of '0'.
@@ -73,7 +76,6 @@ components:
             Matched AlertIdentity objects shall not be removed from the COM archive only the list of AlertIdentity objects in the provider.
             If an error is raised then no alerts shall be removed as a result of this operation call.
             If the operation succeeds then the provider shall not publish AlertEvent events for the deleted AlertIdentity objects anymore.
-          format: int64
     Alert_removeAlert_Error:
       type: object
       properties:
@@ -95,7 +97,7 @@ components:
           items:
             type: integer
             format: uint32
-            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+            description: A list of the indexes of the error values shall be contained in the extra information field.
   messages:
     Alert_removeAlert_Send:
       description: Alert removeAlert request submission

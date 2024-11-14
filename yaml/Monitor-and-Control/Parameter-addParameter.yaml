@@ -113,14 +113,14 @@ components:
           type: string
           description: A code representing the error.
           enum:
-            - INVALID
             - DUPLICATE
+            - INVALID
         extraInformation:
           type: array
           items:
             type: integer
             format: uint32
-            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+            description: A list of the indexes of the error values shall be contained in the extra information field.
     mc:
       parameter:
         ParameterConversion:

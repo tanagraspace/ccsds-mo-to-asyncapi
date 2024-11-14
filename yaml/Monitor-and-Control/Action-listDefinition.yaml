@@ -78,7 +78,9 @@ components:
           type: string
           description: A unique identifier to map the response to the request.
         actionNames:
-          type: string
+          type: array
+          items:
+            type: string
           description: |
             The actionNames field shall contain a list of action names to retrieve the ActionIdentity and ActionDefinition object instance identifiers for.
             The request may contain the wildcard value of '*' to return all supported ActionIdentity and ActionDefinition objects.
@@ -116,7 +118,7 @@ components:
           items:
             type: integer
             format: uint32
-            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+            description: A list of the indexes of the error values shall be contained in the extra information field.
     mc:
       ObjectInstancePair:
         properties:

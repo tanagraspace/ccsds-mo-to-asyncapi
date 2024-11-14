@@ -64,7 +64,10 @@ components:
           type: string
           description: A unique identifier to map the response to the request.
         actionInstIds:
-          type: integer
+          type: array
+          items:
+            type: integer
+            format: int64
           description: |
             The actionInstIds field shall hold the object instance identifiers of the ActionIdentity objects to be removed from the provider.
             The wildcard value of '0' in the list of object instance identifiers shall be supported and matches all actions of the provider.
@@ -74,7 +77,6 @@ components:
             Matched ActionIdentity objects shall not be removed from the COM archive only the list of ActionIdentity objects in the provider.
             Removed ActionIdentity object shall not be allowed to be referenced by new action instances.
             If an error is raised then no actions shall be removed as a result of this operation call.
-          format: int64
     Action_removeAction_Error:
       type: object
       properties:
@@ -96,7 +98,7 @@ components:
           items:
             type: integer
             format: uint32
-            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+            description: A list of the indexes of the error values shall be contained in the extra information field.
   messages:
     Action_removeAction_Send:
       description: Action removeAction request submission

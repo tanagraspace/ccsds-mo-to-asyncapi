@@ -78,12 +78,14 @@ components:
           type: string
           description: A unique identifier to map the response to the request.
         actionObjInstIds:
-          type: integer
+          type: array
+          items:
+            type: integer
+            format: int64
           description: |
             The actionObjInstIds field shall contain the list of object instance identifiers of the ActionIdentity objects to be updated.
             The supplied object instance identifiers shall match existing identity objects, an UNKNOWN error shall be raised if this is not the case.
             If the actionObjInstIds list contains either NULL or '0' an INVALID error shall be raised.
-          format: int64
         actionDefDetails:
           $ref: '#/components/schemas/mc/action/ActionDefinitionDetails'
           description: |
@@ -100,11 +102,13 @@ components:
           type: string
           description: A unique identifier to map the response to the request.
         newDefInstIds:
-          type: integer
+          type: array
+          items:
+            type: integer
+            format: int64
           description: |
             The response shall contain the list of object instance identifiers for the new ActionDefinition objects.
             The returned list shall maintain the same order as the submitted definitions.
-          format: int64
     Action_updateDefinition_Error:
       type: object
       properties:
@@ -115,20 +119,20 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MAL
             - COM
+            - MAL
         name:
           type: string
           description: A code representing the error.
           enum:
-            - INVALID
             - UNKNOWN
+            - INVALID
         extraInformation:
           type: array
           items:
             type: integer
             format: uint32
-            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+            description: A list of the indexes of the error values shall be contained in the extra information field.
     mc:
       action:
         ActionDefinitionDetails:
