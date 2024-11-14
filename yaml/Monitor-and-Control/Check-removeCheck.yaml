@@ -64,7 +64,10 @@ components:
           type: string
           description: A unique identifier to map the response to the request.
         objInstIds:
-          type: integer
+          type: array
+          items:
+            type: integer
+            format: int64
           description: |
             The objInstIds field holds the object instance identifiers of the CheckIdentity objects to be removed from the provider.
             The list may contain the wildcard value of '0'.
@@ -74,7 +77,6 @@ components:
             Matched CheckIdentity objects shall not be removed from the COM archive only the list of available CheckIdentity objects in the provider.
             If an error is raised then no CheckIdentity objects shall be removed as a result of this operation call.
             If the operation succeeds then the provider shall not allow new CheckLink objects to be created for the matched CheckIdentity anymore, existing CheckLink objects are not affected.
-          format: int64
     Check_removeCheck_Error:
       type: object
       properties:
@@ -85,8 +87,8 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MAL
             - MC
+            - MAL
         name:
           type: string
           description: A code representing the error.
@@ -98,7 +100,7 @@ components:
           items:
             type: integer
             format: uint32
-            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+            description: A list of the indexes of the error values shall be contained in the extra information field.
   messages:
     Check_removeCheck_Send:
       description: Check removeCheck request submission

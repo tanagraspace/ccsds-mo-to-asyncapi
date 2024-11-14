@@ -78,7 +78,10 @@ components:
           type: string
           description: A unique identifier to map the response to the request.
         aggInstIds:
-          type: integer
+          type: array
+          items:
+            type: integer
+            format: int64
           description: |
             The aggInstIds field shall provide the list of AggregationIdentity object instance identifiers.
             The wildcard value of '0' shall be supported and matches all aggregations of the provider.
@@ -86,7 +89,6 @@ components:
             If a requested aggregation is unknown then an UNKNOWN error shall be returned.
             The filter shall not be applied for the getValue operation.
             If an aggregation is being reported periodically, using the operation shall not reset the reportInterval or filteredTimeout timer.
-          format: int64
     Aggregation_getValue_Receive:
       type: object
       properties:
@@ -119,7 +121,7 @@ components:
           items:
             type: integer
             format: uint32
-            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+            description: A list of the indexes of the error values shall be contained in the extra information field.
     mc:
       aggregation:
         AggregationParameterValue:

@@ -84,12 +84,14 @@ components:
             If the isStatLinkGroup field is TRUE, the requested Group, or the Group objects referenced by that Group, must contain StatisticLink objects otherwise an INVALID error shall be returned.
             The StatisticLink objects referenced, either indirectly via statistic functions or indirectly via groups, by the objInstIds field shall be the StatisticLink objects to match.
         objInstIds:
-          type: integer
+          type: array
+          items:
+            type: integer
+            format: int64
           description: |
             The objInstIds field shall support the wildcard value of '0' and matches all StatisticLink objects of the provider.
             The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
             If a requested function or group is unknown then an UNKNOWN error shall be returned.
-          format: int64
         returnLatestEval:
           type: boolean
           description: |
@@ -113,20 +115,20 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MAL
             - COM
+            - MAL
         name:
           type: string
           description: A code representing the error.
           enum:
-            - INVALID
             - UNKNOWN
+            - INVALID
         extraInformation:
           type: array
           items:
             type: integer
             format: uint32
-            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+            description: A list of the indexes of the error values shall be contained in the extra information field.
     mc:
       statistic:
         StatisticEvaluationReport:

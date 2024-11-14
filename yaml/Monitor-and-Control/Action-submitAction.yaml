@@ -65,9 +65,9 @@ components:
           description: A unique identifier to map the response to the request.
         actionInstId:
           type: integer
+          format: int64
           description: |
             The actionInstId field of the submission shall contain the object instance identifier of the ActionInstance to be used for activity tracking events.
-          format: int64
         actionDetails:
           $ref: '#/components/schemas/mc/action/ActionInstanceDetails'
           description: |
@@ -90,20 +90,20 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MAL
             - COM
+            - MAL
         name:
           type: string
           description: A code representing the error.
           enum:
-            - INVALID
             - UNKNOWN
+            - INVALID
         extraInformation:
           type: array
           items:
             type: integer
             format: uint32
-            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+            description: A list of the indexes of the error values shall be contained in the extra information field.
     mc:
       action:
         ActionInstanceDetails:

@@ -78,7 +78,9 @@ components:
           type: string
           description: A unique identifier to map the response to the request.
         checkNames:
-          type: string
+          type: array
+          items:
+            type: string
           description: |
             The checkNames field shall hold the names of the checks to be added.
             The checkNames field must not contain NULL, the wildcard '*', or empty value (an INVALID error shall be returned in this case).
@@ -120,14 +122,14 @@ components:
           type: string
           description: A code representing the error.
           enum:
-            - INVALID
             - DUPLICATE
+            - INVALID
         extraInformation:
           type: array
           items:
             type: integer
             format: uint32
-            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+            description: A list of the indexes of the error values shall be contained in the extra information field.
     mc:
       check:
         CheckDefinitionDetails:

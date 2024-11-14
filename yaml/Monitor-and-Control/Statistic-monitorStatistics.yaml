@@ -71,6 +71,7 @@ components:
           description: A unique identifier to map the response to the request.
         relatedId:
           type: integer
+          format: int64
           description: |
             The MAL EntityKey.firstSubKey shall contain the statistic function name.
             The MAL EntityKey.secondSubKey shall contain the StatisticLink object instance identifier.
@@ -78,7 +79,6 @@ components:
             The MAL EntityKey.fourthSubKey shall contain the new StatisticValueInstance object instance identifier.
             The timestamp of the StatisticValueInstance report shall be taken from the publish message.
             The related link of the update shall be held in the relatedId field.
-          format: int64
         sourceId:
           $ref: '#/components/schemas/com/ObjectId'
           description: |

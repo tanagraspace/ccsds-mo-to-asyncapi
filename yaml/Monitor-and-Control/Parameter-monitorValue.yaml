@@ -69,14 +69,14 @@ components:
             The parameter name.
         parameterDefinitionId:
           type: integer
+          format: int64
           description: |
             The parameter identity.
-          format: int64
         parameterValueInstance:
           type: integer
+          format: int64
           description: |
             The parameter value instance.
-          format: int64
     Parameter_monitorValue_Receive:
       type: object
       properties:

@@ -78,14 +78,16 @@ components:
           type: string
           description: A unique identifier to map the response to the request.
         paramInstIds:
-          type: integer
+          type: array
+          items:
+            type: integer
+            format: int64
           description: |
             The paramInstIds field shall provide the list of ParameterIdentity object instance identifiers.
             The wildcard value of '0' shall be supported and matches all parameters of the provider.
             The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
             If a requested parameter is unknown then an UNKNOWN error shall be returned.
             If a parameter is being reported periodically, using the operation shall not reset the reportInterval timer.
-          format: int64
     Parameter_getValue_Receive:
       type: object
       properties:
@@ -118,7 +120,7 @@ components:
           items:
             type: integer
             format: uint32
-            description: A list of the indexes of the erroneous values from the originating list supplied or request list.
+            description: A list of the indexes of the error values shall be contained in the extra information field.
     mc:
       parameter:
         ParameterValue:
