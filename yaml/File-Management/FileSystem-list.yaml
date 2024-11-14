@@ -1,0 +1,165 @@
+asyncapi: 3.0.0
+info:
+  title: FileSystem Service list API
+  version: 1.0.0
+  description: This API allows clients to interact with the list interaction of the FileSystem Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the FileSystem Service's list interaction.
+    variables:
+      port:
+        default: '8883'
+channels:
+  request_FileSystem_list:
+    address: request_FileSystem_list
+    messages:
+      FileSystem.list_request.message:
+        $ref: '#/components/messages/FileSystem_list_request'
+    description: >
+      Send a **FileSystem_list_request** message in this channel to receive a
+      **FileSystem_list_response** message over the **response_FileSystem_list** channel.
+  response_FileSystem_list:
+    address: response_FileSystem_list
+    messages:
+      FileSystem.list_response.message:
+        $ref: '#/components/messages/FileSystem_list_response'
+    description: >
+      Use this channel to receive FileSystem list responses as **FileSystem_list_response**
+      messages.
+  error_FileSystem_list:
+    address: error_FileSystem_list
+    messages:
+      FileSystem.list_error.message:
+        $ref: '#/components/messages/FileSystem_list_error'
+    description: >
+      Use this channel to receive FileSystem list errors as **FileSystem_list_responseErrors**
+      messages.
+operations:
+  FileSystem_list_request:
+    action: send
+    channel:
+      $ref: '#/channels/request_FileSystem_list'
+    messages:
+      - $ref: '#/channels/request_FileSystem_list/messages/FileSystem.list_request.message'
+  FileSystem_list_response:
+    action: receive
+    channel:
+      $ref: '#/channels/response_FileSystem_list'
+    messages:
+      - $ref: '#/channels/response_FileSystem_list/messages/FileSystem.list_response.message'
+  FileSystem_list_error:
+    action: receive
+    channel:
+      $ref: '#/channels/error_FileSystem_list'
+    messages:
+      - $ref: '#/channels/error_FileSystem_list/messages/FileSystem.list_error.message'
+components:
+  schemas:
+    FileSystem_list_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        path:
+          type: string
+        toFile:
+          type: boolean
+          description: |
+            Set to true if the list should be written to a file. If toFile is true then the Response contails the path to the file with the list.
+        nameRegexFilter:
+          type: string
+          description: |
+            Name filter to be applied. All files and folders that pass the filter will be added to the list.
+        lastModifiedTimeFilter:
+          type: number
+          format: uint64
+          description: |
+            Time filters to be applied. All files and folders with last modified time larger than or equal to the filter will be added to the list.
+        recursive:
+          type: boolean
+          description: |
+            Set to true to do a recursive list
+    FileSystem_list_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        nodes:
+          $ref: '#/components/schemas/fm/file_system/Node'
+    FileSystem_list_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - PERMISSION_DENIED
+            - INVALID_PATH
+            - NODE_NOT_FOUND
+            - NOT_A_DIRECTORY
+            - IO_ERROR
+            - OTHER
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    fm:
+      file_system:
+        Node:
+          properties:
+            lmTime:
+              description: 'Last modified time in seconds. Settable: no'
+              format: int64
+              type: integer
+            owner:
+              description: The owner of the file
+              type: string
+            path:
+              description: ''
+              format: uri
+              type: string
+            permissions:
+              description: 'The node permissions. Settable: no'
+              type: string
+            size:
+              description: 'Size of the node in byte. Settable: no'
+              format: uint32
+              type: integer
+            type_:
+              $ref: '#/components/schemas/fm/file_system/NodeType'
+              description: ''
+          type: object
+        NodeType:
+          description: List of possible node types
+          enum:
+          - FILE
+          - DIRECTORY
+          type: string
+  messages:
+    FileSystem_list_request:
+      description: FileSystem list request submission
+      payload:
+        $ref: '#/components/schemas/FileSystem_list_request'
+    FileSystem_list_response:
+      description: FileSystem list update response
+      payload:
+        $ref: '#/components/schemas/FileSystem_list_response'
+    FileSystem_list_error:
+      description: FileSystem list error response
+      payload:
+        $ref: '#/components/schemas/FileSystem_list_error'

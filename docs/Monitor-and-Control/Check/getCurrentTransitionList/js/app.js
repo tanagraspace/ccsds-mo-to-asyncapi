@@ -28,7 +28,7 @@
           "payload": {
             "type": "object",
             "properties": {
-              "transactionId": {
+              "sequenceId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-1>"
@@ -102,7 +102,7 @@
           "payload": {
             "type": "object",
             "properties": {
-              "transactionId": {
+              "sequenceId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-11>"
@@ -188,7 +188,7 @@
           "payload": {
             "type": "object",
             "properties": {
-              "transactionId": {
+              "sequenceId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-23>"
@@ -212,7 +212,7 @@
           "payload": {
             "type": "object",
             "properties": {
-              "transactionId": {
+              "sequenceId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-24>"
@@ -230,8 +230,8 @@
                 "type": "string",
                 "description": "A code representing the error.",
                 "enum": [
-                  "UNKNOWN",
-                  "INVALID"
+                  "INVALID",
+                  "UNKNOWN"
                 ],
                 "x-parser-schema-id": "<anonymous-schema-26>"
               },

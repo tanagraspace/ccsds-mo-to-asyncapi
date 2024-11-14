@@ -19,4 +19,5 @@ TYPE_MAPPING = {
   'Time': ('number', 'uint64', 'float'),
   'FineTime': ('number', 'uint64', 'float'),
   'URI': ('string', 'uri', 'str'),
+  'Blob': ('string', 'binary', 'str')
 }

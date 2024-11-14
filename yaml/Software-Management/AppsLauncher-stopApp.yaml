@@ -1,0 +1,79 @@
+asyncapi: 3.0.0
+info:
+  title: AppsLauncher Service stopApp API
+  version: 1.0.0
+  description: This API allows clients to interact with the stopApp interaction of the AppsLauncher Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the AppsLauncher Service's stopApp interaction.
+    variables:
+      port:
+        default: '8883'
+channels:
+  progress_AppsLauncher_stopApp:
+    address: progress_AppsLauncher_stopApp
+    messages:
+      AppsLauncher.stopApp_progress.message:
+        $ref: '#/components/messages/AppsLauncher_stopApp_progress'
+    description: >
+      Send a **AppsLauncher_stopApp_progress** message in this channel to receive a
+      **AppsLauncher_stopApp_update** message over the **update_AppsLauncher_stopApp** channel.
+  update_AppsLauncher_stopApp:
+    address: update_AppsLauncher_stopApp
+    messages:
+      AppsLauncher.stopApp_update.message:
+        $ref: '#/components/messages/AppsLauncher_stopApp_update'
+    description: >
+      Use this channel to receive AppsLauncher stopApp responses as **AppsLauncher_stopApp_update**
+      messages.
+operations:
+  AppsLauncher_stopApp_progress:
+    action: send
+    channel:
+      $ref: '#/channels/progress_AppsLauncher_stopApp'
+    messages:
+      - $ref: '#/channels/progress_AppsLauncher_stopApp/messages/AppsLauncher.stopApp_progress.message'
+  AppsLauncher_stopApp_update:
+    action: receive
+    channel:
+      $ref: '#/channels/update_AppsLauncher_stopApp'
+    messages:
+      - $ref: '#/channels/update_AppsLauncher_stopApp/messages/AppsLauncher.stopApp_update.message'
+components:
+  schemas:
+    AppsLauncher_stopApp_progress:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        appInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The appInstIds field contains the list of apps to stop.
+    AppsLauncher_stopApp_update:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        appClosing:
+          type: integer
+          format: int64
+          description: |
+            The appClosing field shall contain the object instance identifier of an app. This update shall be sent after the app acknowledges the reception of the command to stop.
+  messages:
+    AppsLauncher_stopApp_progress:
+      description: AppsLauncher stopApp request submission
+      payload:
+        $ref: '#/components/schemas/AppsLauncher_stopApp_progress'
+    AppsLauncher_stopApp_update:
+      description: AppsLauncher stopApp update response
+      payload:
+        $ref: '#/components/schemas/AppsLauncher_stopApp_update'

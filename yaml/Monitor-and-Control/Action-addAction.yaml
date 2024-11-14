@@ -61,7 +61,7 @@ components:
     Action_addAction_request:
       type: object
       properties:
-        transactionId:
+        sequenceId:
           type: string
           description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
         actionDefDetails:
@@ -76,7 +76,7 @@ components:
     Action_addAction_response:
       type: object
       properties:
-        transactionId:
+        sequenceId:
           type: string
           description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
         newObjInstIds:
@@ -87,7 +87,7 @@ components:
     Action_addAction_error:
       type: object
       properties:
-        transactionId:
+        sequenceId:
           type: string
           description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
         area:

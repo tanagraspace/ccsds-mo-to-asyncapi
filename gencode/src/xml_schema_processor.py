@@ -84,7 +84,7 @@ def process_xml_content(xml_content, defined_types: dict[str, str], target_src_c
   if area is None:
     raise ValueError("Error: No area element found in the XML.")
 
-  area_name = area.get('name').lower()
+  area_name = utils.to_snake_case(area.get('name'))
   area_version = area.get('version')
   version = f"{area.get('number')}.{area_version}"
 
@@ -151,7 +151,7 @@ def process_xml_content(xml_content, defined_types: dict[str, str], target_src_c
       area_name=area_name)
 
     for service in root.findall('./mal:area/mal:service', namespaces=namespaces):
-      service_name = service.get('name').lower()
+      service_name = utils.to_snake_case(service.get('name'))
 
       process_enums(
         element=service,

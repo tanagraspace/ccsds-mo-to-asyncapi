@@ -27,10 +27,77 @@
   <div class="container-fluid">
     <div class="d-flex align-items-start" style="width:100%">
       <div class="nav flex-column nav-pills me-3 sidebar" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-        <button class="nav-link active" id="v-pills-Monitor-and-Control-tab" data-bs-toggle="pill" data-bs-target="#v-pills-Monitor-and-Control" type="button" role="tab" aria-controls="v-pills-Monitor-and-Control" aria-selected="true">Monitor and Control</button>
+        <button class="nav-link active" id="v-pills-Software-Management-tab" data-bs-toggle="pill" data-bs-target="#v-pills-Software-Management" type="button" role="tab" aria-controls="v-pills-Software-Management" aria-selected="true">Software Management</button>
+        <button class="nav-link " id="v-pills-File-Management-tab" data-bs-toggle="pill" data-bs-target="#v-pills-File-Management" type="button" role="tab" aria-controls="v-pills-File-Management" aria-selected="true">File Management</button>
+        <button class="nav-link " id="v-pills-Monitor-and-Control-tab" data-bs-toggle="pill" data-bs-target="#v-pills-Monitor-and-Control" type="button" role="tab" aria-controls="v-pills-Monitor-and-Control" aria-selected="true">Monitor and Control</button>
       </div>
       <div class="tab-content main-content" id="v-pills-tabContent">
-        <div class="tab-pane fade show active" id="v-pills-Monitor-and-Control" role="tabpanel" aria-labelledby="v-pills-Monitor-and-Control-tab">
+        <div class="tab-pane fade show active" id="v-pills-Software-Management" role="tabpanel" aria-labelledby="v-pills-Software-Management-tab">
+          <h1>Software Management</h1>
+          <div class="card mb-4">
+            <div class="card-header">Heartbeat Service</div>
+            <div class="card-body">
+              <p class="card-text"><a href="Software-Management/Heartbeat/getPeriod/index.html">getPeriod</a></p>
+            </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-header">PackageManagement Service</div>
+            <div class="card-body">
+              <p class="card-text"><a href="Software-Management/PackageManagement/checkPackageIntegrity/index.html">checkPackageIntegrity</a></p>
+              <p class="card-text"><a href="Software-Management/PackageManagement/findPackage/index.html">findPackage</a></p>
+            </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-header">AppsLauncher Service</div>
+            <div class="card-body">
+              <p class="card-text"><a href="Software-Management/AppsLauncher/monitorExecution/index.html">monitorExecution</a></p>
+              <p class="card-text"><a href="Software-Management/AppsLauncher/listApp/index.html">listApp</a></p>
+              <p class="card-text"><a href="Software-Management/AppsLauncher/runApp/index.html">runApp</a></p>
+              <p class="card-text"><a href="Software-Management/AppsLauncher/killApp/index.html">killApp</a></p>
+              <p class="card-text"><a href="Software-Management/AppsLauncher/stopApp/index.html">stopApp</a></p>
+            </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-header">CommandExecutor Service</div>
+            <div class="card-body">
+              <p class="card-text"><a href="Software-Management/CommandExecutor/runCommand/index.html">runCommand</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade " id="v-pills-File-Management" role="tabpanel" aria-labelledby="v-pills-File-Management-tab">
+          <h1>File Management</h1>
+          <div class="card mb-4">
+            <div class="card-header">FileTransfer Service</div>
+            <div class="card-body">
+              <p class="card-text"><a href="File-Management/FileTransfer/cancel/index.html">cancel</a></p>
+              <p class="card-text"><a href="File-Management/FileTransfer/listTransactions/index.html">listTransactions</a></p>
+              <p class="card-text"><a href="File-Management/FileTransfer/suspend/index.html">suspend</a></p>
+              <p class="card-text"><a href="File-Management/FileTransfer/resumeAll/index.html">resumeAll</a></p>
+              <p class="card-text"><a href="File-Management/FileTransfer/getTransactionReport/index.html">getTransactionReport</a></p>
+              <p class="card-text"><a href="File-Management/FileTransfer/getWindowStatus/index.html">getWindowStatus</a></p>
+              <p class="card-text"><a href="File-Management/FileTransfer/suspendAll/index.html">suspendAll</a></p>
+              <p class="card-text"><a href="File-Management/FileTransfer/resume/index.html">resume</a></p>
+              <p class="card-text"><a href="File-Management/FileTransfer/cancelAll/index.html">cancelAll</a></p>
+            </div>
+          </div>
+          <div class="card mb-4">
+            <div class="card-header">FileSystem Service</div>
+            <div class="card-body">
+              <p class="card-text"><a href="File-Management/FileSystem/truncate/index.html">truncate</a></p>
+              <p class="card-text"><a href="File-Management/FileSystem/setAttributes/index.html">setAttributes</a></p>
+              <p class="card-text"><a href="File-Management/FileSystem/create/index.html">create</a></p>
+              <p class="card-text"><a href="File-Management/FileSystem/delete/index.html">delete</a></p>
+              <p class="card-text"><a href="File-Management/FileSystem/find/index.html">find</a></p>
+              <p class="card-text"><a href="File-Management/FileSystem/move/index.html">move</a></p>
+              <p class="card-text"><a href="File-Management/FileSystem/copy/index.html">copy</a></p>
+              <p class="card-text"><a href="File-Management/FileSystem/append/index.html">append</a></p>
+              <p class="card-text"><a href="File-Management/FileSystem/getAttributes/index.html">getAttributes</a></p>
+              <p class="card-text"><a href="File-Management/FileSystem/read/index.html">read</a></p>
+              <p class="card-text"><a href="File-Management/FileSystem/list/index.html">list</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade " id="v-pills-Monitor-and-Control" role="tabpanel" aria-labelledby="v-pills-Monitor-and-Control-tab">
           <h1>Monitor and Control</h1>
           <div class="card mb-4">
             <div class="card-header">Aggregation Service</div>

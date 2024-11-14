@@ -1,0 +1,167 @@
+asyncapi: 3.0.0
+info:
+  title: FileSystem Service getAttributes API
+  version: 1.0.0
+  description: This API allows clients to interact with the getAttributes interaction of the FileSystem Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the FileSystem Service's getAttributes interaction.
+    variables:
+      port:
+        default: '8883'
+channels:
+  request_FileSystem_getAttributes:
+    address: request_FileSystem_getAttributes
+    messages:
+      FileSystem.getAttributes_request.message:
+        $ref: '#/components/messages/FileSystem_getAttributes_request'
+    description: >
+      Send a **FileSystem_getAttributes_request** message in this channel to receive a
+      **FileSystem_getAttributes_response** message over the **response_FileSystem_getAttributes** channel.
+  response_FileSystem_getAttributes:
+    address: response_FileSystem_getAttributes
+    messages:
+      FileSystem.getAttributes_response.message:
+        $ref: '#/components/messages/FileSystem_getAttributes_response'
+    description: >
+      Use this channel to receive FileSystem getAttributes responses as **FileSystem_getAttributes_response**
+      messages.
+  error_FileSystem_getAttributes:
+    address: error_FileSystem_getAttributes
+    messages:
+      FileSystem.getAttributes_error.message:
+        $ref: '#/components/messages/FileSystem_getAttributes_error'
+    description: >
+      Use this channel to receive FileSystem getAttributes errors as **FileSystem_getAttributes_responseErrors**
+      messages.
+operations:
+  FileSystem_getAttributes_request:
+    action: send
+    channel:
+      $ref: '#/channels/request_FileSystem_getAttributes'
+    messages:
+      - $ref: '#/channels/request_FileSystem_getAttributes/messages/FileSystem.getAttributes_request.message'
+  FileSystem_getAttributes_response:
+    action: receive
+    channel:
+      $ref: '#/channels/response_FileSystem_getAttributes'
+    messages:
+      - $ref: '#/channels/response_FileSystem_getAttributes/messages/FileSystem.getAttributes_response.message'
+  FileSystem_getAttributes_error:
+    action: receive
+    channel:
+      $ref: '#/channels/error_FileSystem_getAttributes'
+    messages:
+      - $ref: '#/channels/error_FileSystem_getAttributes/messages/FileSystem.getAttributes_error.message'
+components:
+  schemas:
+    FileSystem_getAttributes_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        path:
+          type: string
+          format: uri
+          description: |
+            The path of the node to be queried
+    FileSystem_getAttributes_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        attributes:
+          $ref: '#/components/schemas/fm/file_system/NodeAttributes'
+          description: |
+            List of node attributes
+    FileSystem_getAttributes_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - PERMISSION_DENIED
+            - INVALID_PATH
+            - NODE_NOT_FOUND
+            - OTHER
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    fm:
+      file_system:
+        NodeAttributes:
+          properties:
+            accessPermissions:
+              description: 'Settable: yes'
+              items:
+                type: string
+              type: array
+            creationTime:
+              description: 'Settable: no'
+              items:
+                type: string
+              type: array
+            lastAccessTime:
+              description: 'Settable: no'
+              items:
+                type: string
+              type: array
+            lastChangeTime:
+              description: 'Settable: no'
+              items:
+                type: string
+              type: array
+            lastModificationTime:
+              description: 'Settable: no'
+              items:
+                type: string
+              type: array
+            owner:
+              description: 'Settable: yes'
+              items:
+                type: string
+              type: array
+            size:
+              description: 'Size of the node in Kibibyte (1024 byte). Settable: no'
+              format: uint32
+              type: integer
+            type_:
+              $ref: '#/components/schemas/fm/file_system/NodeType'
+              description: 'Returns the type of this node: File or Directory. Settable: no'
+          type: object
+        NodeType:
+          description: List of possible node types
+          enum:
+          - FILE
+          - DIRECTORY
+          type: string
+  messages:
+    FileSystem_getAttributes_request:
+      description: FileSystem getAttributes request submission
+      payload:
+        $ref: '#/components/schemas/FileSystem_getAttributes_request'
+    FileSystem_getAttributes_response:
+      description: FileSystem getAttributes update response
+      payload:
+        $ref: '#/components/schemas/FileSystem_getAttributes_response'
+    FileSystem_getAttributes_error:
+      description: FileSystem getAttributes error response
+      payload:
+        $ref: '#/components/schemas/FileSystem_getAttributes_error'
