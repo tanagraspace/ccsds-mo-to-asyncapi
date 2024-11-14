@@ -24,11 +24,12 @@ def print_help():
     """)
 
 
-def list_services_with_capabilities_and_interactions_in_mc_xml(
+def list_services_with_capabilities_and_interactions(
   xml_file_path: str,
   mo_asyncapi_src_dir_path: str,
   target_yaml_directory_path: str,
-  yaml_generators: list[AbstractYamlGenerator]
+  yaml_generators: list[AbstractYamlGenerator],
+  ignores: dict[str, list[str]]
 ):
   tree = ET.parse(xml_file_path)
   root = tree.getroot()
@@ -59,8 +60,14 @@ def list_services_with_capabilities_and_interactions_in_mc_xml(
       for interaction_type in cs:
         interaction_name = interaction_type.attrib.get('name')
 
-         # extract tag name without the "mal" namespace (e.g. requestIP vs mal:requestIP)
+        # extract tag name without the "mal" namespace (e.g. requestIP vs mal:requestIP)
         interaction_type_name = interaction_type.tag.split("}")[1]
+
+        # skip this capability set?
+        ignore_interaction = False
+        if ignores.get(service_name):
+          if interaction_name in ignores.get(service_name):
+            ignore_interaction = True
 
         # TODO: convert to logger debug
         #print(f"    {interaction_name} (Type: {interaction_type_name})")
@@ -68,7 +75,7 @@ def list_services_with_capabilities_and_interactions_in_mc_xml(
         # iterate over each generator and check if it matches the interaction type
         for yaml_gen in yaml_generators:
           # DEBUG TIP: to debug a specific interaction you can add an inteaction_name debug filter here or code in a condition (e.g. and interaction_name == "removeAlert")
-          if interaction_type_name == yaml_gen.interaction_type:
+          if interaction_type_name == yaml_gen.interaction_type and not ignore_interaction:
 
             # the send fields
             send_fields = interaction_type.findall(f".//mal:{yaml_gen.send_element}//mal:field", ns)
@@ -84,7 +91,7 @@ def list_services_with_capabilities_and_interactions_in_mc_xml(
             include_channel_receive_additional = False
             if yaml_gen.receive_element_additional:
               receive_fields_additional = interaction_type.findall(f".//mal:{yaml_gen.receive_element_additional}//mal:field", ns)
-              include_channel_receive_additional = True if len(receive_fields) > 0 else False
+              include_channel_receive_additional = True if len(receive_fields_additional) > 0 else False
 
             # the error fields
             err_fields = interaction_type.findall(f".//mal:errors//mal:errorRef", ns)
@@ -167,12 +174,18 @@ def main(xml_file_path: str, mo_asyncapi_src_dir_path: str, target_yaml_director
   # TODO: extend this list tp include INVOKE interaction types
   yaml_generators = [YamlGeneratorPubSub(), YamlGeneratorRequest(), YamlGeneratorSubmit(), YamlGeneratorSubmitProgress()]
 
+  # interaction types to ignore
+  # key is the Service name and list value is the list of interactions to ignore for that service
+  # ignore Hearbeat/beat because it is poorly defined
+  ignores = {'Heartbeat': ['beat']}
+
   # get the list of services with capability sets, interaction names, and types
-  mc_services_with_capabilities_and_interactions = list_services_with_capabilities_and_interactions_in_mc_xml(
+  services_with_capabilities_and_interactions = list_services_with_capabilities_and_interactions(
     xml_file_path=xml_file_path, 
     mo_asyncapi_src_dir_path=mo_asyncapi_src_dir_path,
     target_yaml_directory_path=target_yaml_directory_path,
-    yaml_generators=yaml_generators)
+    yaml_generators=yaml_generators,
+    ignores=ignores)
 
 
 if __name__ == "__main__":

@@ -7,6 +7,8 @@ XML_FILE_PATHS=(
   "area001-v003-MAL.xml"
   "area002-v001-COM.xml"
   "area004-v002-Monitor-and-Control.xml"
+  "area007-v001-Software-Management.xml"
+  "area020-v001-File-Management.xml"
 )
 
 TARGET_SRC_DIR_PATH="mo-asyncapi/src/"

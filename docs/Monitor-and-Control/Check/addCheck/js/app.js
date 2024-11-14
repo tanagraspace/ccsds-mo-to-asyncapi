@@ -28,7 +28,7 @@
           "payload": {
             "type": "object",
             "properties": {
-              "transactionId": {
+              "sequenceId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-1>"
@@ -113,7 +113,7 @@
           "payload": {
             "type": "object",
             "properties": {
-              "transactionId": {
+              "sequenceId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-12>"
@@ -154,7 +154,7 @@
           "payload": {
             "type": "object",
             "properties": {
-              "transactionId": {
+              "sequenceId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
                 "x-parser-schema-id": "<anonymous-schema-16>"

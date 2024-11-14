@@ -233,7 +233,7 @@ class AbstractYamlGenerator(ABC):
     if len(send_fields) > 0:
       components_yaml +=  f"    {service_name}_{interaction_name}_{self.send_element}:\n"
       components_yaml += "      type: object\n      properties:\n"
-      components_yaml += self._generate_components_schema_field_transaction_id()
+      components_yaml += self._generate_components_schema_field_sequence_id()
 
       for field in send_fields:
         yaml_str, composite_type = self._generate_components_schema_fields(field, ns)
@@ -247,7 +247,7 @@ class AbstractYamlGenerator(ABC):
     if len(receive_fields) > 0:
       components_yaml +=  f"    {service_name}_{interaction_name}_{self.receive_element}:\n"
       components_yaml += "      type: object\n      properties:\n"
-      components_yaml += self._generate_components_schema_field_transaction_id()
+      components_yaml += self._generate_components_schema_field_sequence_id()
 
       for field in receive_fields:
         yaml_str, composite_type = self._generate_components_schema_fields(field, ns)
@@ -261,7 +261,7 @@ class AbstractYamlGenerator(ABC):
     if len(receive_fields_additional) > 0:
       components_yaml +=  f"    {service_name}_{interaction_name}_{self.receive_element_additional}:\n"
       components_yaml += "      type: object\n      properties:\n"
-      components_yaml += self._generate_components_schema_field_transaction_id()
+      components_yaml += self._generate_components_schema_field_sequence_id()
 
       for field in receive_fields_additional:
         yaml_str, composite_type = self._generate_components_schema_fields(field, ns)
@@ -275,7 +275,7 @@ class AbstractYamlGenerator(ABC):
     if len(err_fields) > 0:
       components_yaml +=  f"    {service_name}_{interaction_name}_{TransportType.ERROR.value.lower()}:\n"
       components_yaml += "      type: object\n      properties:\n"
-      components_yaml += self._generate_components_schema_field_transaction_id()
+      components_yaml += self._generate_components_schema_field_sequence_id()
 
 
       yaml_str = self._generate_components_schema_error_fields(err_fields, ns)
@@ -339,12 +339,12 @@ class AbstractYamlGenerator(ABC):
     return components_yaml + composite_type_namespace_yaml
 
 
-  def _generate_components_schema_field_transaction_id(self):
+  def _generate_components_schema_field_sequence_id(self):
     # a unique identifier to map the response to the request
-    transaction_id_field = f"        transactionId:\n"
-    transaction_id_field += f"          type: string\n"
-    transaction_id_field += f"          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.\n"
-    return transaction_id_field
+    sequence_id_field = f"        sequenceId:\n"
+    sequence_id_field += f"          type: string\n"
+    sequence_id_field += f"          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.\n"
+    return sequence_id_field
 
 
   def _generate_components_schema_fields(self, field: Element, ns: dict[str, str]):
@@ -381,16 +381,16 @@ class AbstractYamlGenerator(ABC):
       # if it's not a simple field type then it's a composite type
       # for composite types we only want a reference to the definition rather than the definition itself
       if service:
-        components_schema_yaml += f"          $ref: '{SCHEMA_NAMESPACE}/{area.lower()}/{service.lower()}/{field_type}'\n"
+        components_schema_yaml += f"          $ref: '{SCHEMA_NAMESPACE}/{utils.to_snake_case(area)}/{utils.to_snake_case(service)}/{field_type}'\n"
       else:
-        components_schema_yaml += f"          $ref: '{SCHEMA_NAMESPACE}/{area.lower()}/{field_type}'\n"
+        components_schema_yaml += f"          $ref: '{SCHEMA_NAMESPACE}/{utils.to_snake_case(area)}/{field_type}'\n"
 
       if field_comment:
         formatted_comment = '\n'.join([f"            {line}" for line in field_comment.splitlines()])
         components_schema_yaml += f"          description: |\n{formatted_comment}\n"
 
 
-      composite_type = (area.lower(), service.lower() if service else None, field_type)
+      composite_type = (utils.to_snake_case(area), utils.to_snake_case(service) if service else None, field_type)
 
     return components_schema_yaml, composite_type
 

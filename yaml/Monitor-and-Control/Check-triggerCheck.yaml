@@ -47,7 +47,7 @@ components:
     Check_triggerCheck_submit:
       type: object
       properties:
-        transactionId:
+        sequenceId:
           type: string
           description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
         checkObjInstIds:
@@ -75,7 +75,7 @@ components:
     Check_triggerCheck_error:
       type: object
       properties:
-        transactionId:
+        sequenceId:
           type: string
           description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
         area:

@@ -1,0 +1,48 @@
+asyncapi: 3.0.0
+info:
+  title: Heartbeat Service getPeriod API
+  version: 1.0.0
+  description: This API allows clients to interact with the getPeriod interaction of the Heartbeat Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the Heartbeat Service's getPeriod interaction.
+    variables:
+      port:
+        default: '8883'
+channels:
+  response_Heartbeat_getPeriod:
+    address: response_Heartbeat_getPeriod
+    messages:
+      Heartbeat.getPeriod_response.message:
+        $ref: '#/components/messages/Heartbeat_getPeriod_response'
+    description: >
+      Use this channel to receive Heartbeat getPeriod responses as **Heartbeat_getPeriod_response**
+      messages.
+operations:
+  Heartbeat_getPeriod_response:
+    action: receive
+    channel:
+      $ref: '#/channels/response_Heartbeat_getPeriod'
+    messages:
+      - $ref: '#/channels/response_Heartbeat_getPeriod/messages/Heartbeat.getPeriod_response.message'
+components:
+  schemas:
+    Heartbeat_getPeriod_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        period:
+          type: number
+          format: uint64
+          description: |
+            The period field shall hold period of the heartbeat message.
+  messages:
+    Heartbeat_getPeriod_response:
+      description: Heartbeat getPeriod update response
+      payload:
+        $ref: '#/components/schemas/Heartbeat_getPeriod_response'

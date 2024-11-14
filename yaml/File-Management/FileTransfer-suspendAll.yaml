@@ -1,0 +1,102 @@
+asyncapi: 3.0.0
+info:
+  title: FileTransfer Service suspendAll API
+  version: 1.0.0
+  description: This API allows clients to interact with the suspendAll interaction of the FileTransfer Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the FileTransfer Service's suspendAll interaction.
+    variables:
+      port:
+        default: '8883'
+channels:
+  submit_FileTransfer_suspendAll:
+    address: submit_FileTransfer_suspendAll
+    messages:
+      FileTransfer.suspendAll_submit.message:
+        $ref: '#/components/messages/FileTransfer_suspendAll_submit'
+    description: >
+      Send a **FileTransfer_suspendAll_submit** message in this channel to receive a
+      **FileTransfer_suspendAll_None** message over the **None_FileTransfer_suspendAll** channel.
+  error_FileTransfer_suspendAll:
+    address: error_FileTransfer_suspendAll
+    messages:
+      FileTransfer.suspendAll_error.message:
+        $ref: '#/components/messages/FileTransfer_suspendAll_error'
+    description: >
+      Use this channel to receive FileTransfer suspendAll errors as **FileTransfer_suspendAll_NoneErrors**
+      messages.
+operations:
+  FileTransfer_suspendAll_submit:
+    action: send
+    channel:
+      $ref: '#/channels/submit_FileTransfer_suspendAll'
+    messages:
+      - $ref: '#/channels/submit_FileTransfer_suspendAll/messages/FileTransfer.suspendAll_submit.message'
+  FileTransfer_suspendAll_error:
+    action: receive
+    channel:
+      $ref: '#/channels/error_FileTransfer_suspendAll'
+    messages:
+      - $ref: '#/channels/error_FileTransfer_suspendAll/messages/FileTransfer.suspendAll_error.message'
+components:
+  schemas:
+    FileTransfer_suspendAll_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        entityId:
+          type: string
+        window:
+          $ref: '#/components/schemas/fm/file_transfer/FileTransferWindow'
+          description: |
+            The Transmit (Tx) and/or Receive (Rx) windows to be closed.
+    FileTransfer_suspendAll_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN_ENTITY
+            - CANNOT_SET_MIB_VALUE
+            - OTHER_ERROR
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    fm:
+      file_transfer:
+        FileTransferWindow:
+          description: This enumeration represents the communication windows of a file transfer
+            entity. It should be noted that the reception/transmission is from the point of
+            view of the entity being addressed.
+          enum:
+          - TX_WINDOW
+          - RX_WINDOW
+          - BOTH_WINDOW
+          type: string
+  messages:
+    FileTransfer_suspendAll_submit:
+      description: FileTransfer suspendAll request submission
+      payload:
+        $ref: '#/components/schemas/FileTransfer_suspendAll_submit'
+    FileTransfer_suspendAll_error:
+      description: FileTransfer suspendAll error response
+      payload:
+        $ref: '#/components/schemas/FileTransfer_suspendAll_error'

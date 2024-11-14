@@ -1,0 +1,109 @@
+asyncapi: 3.0.0
+info:
+  title: FileSystem Service create API
+  version: 1.0.0
+  description: This API allows clients to interact with the create interaction of the FileSystem Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the FileSystem Service's create interaction.
+    variables:
+      port:
+        default: '8883'
+channels:
+  submit_FileSystem_create:
+    address: submit_FileSystem_create
+    messages:
+      FileSystem.create_submit.message:
+        $ref: '#/components/messages/FileSystem_create_submit'
+    description: >
+      Send a **FileSystem_create_submit** message in this channel to receive a
+      **FileSystem_create_None** message over the **None_FileSystem_create** channel.
+  error_FileSystem_create:
+    address: error_FileSystem_create
+    messages:
+      FileSystem.create_error.message:
+        $ref: '#/components/messages/FileSystem_create_error'
+    description: >
+      Use this channel to receive FileSystem create errors as **FileSystem_create_NoneErrors**
+      messages.
+operations:
+  FileSystem_create_submit:
+    action: send
+    channel:
+      $ref: '#/channels/submit_FileSystem_create'
+    messages:
+      - $ref: '#/channels/submit_FileSystem_create/messages/FileSystem.create_submit.message'
+  FileSystem_create_error:
+    action: receive
+    channel:
+      $ref: '#/channels/error_FileSystem_create'
+    messages:
+      - $ref: '#/channels/error_FileSystem_create/messages/FileSystem.create_error.message'
+components:
+  schemas:
+    FileSystem_create_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        type:
+          $ref: '#/components/schemas/fm/file_system/NodeType'
+          description: |
+            The type of node to create: File or Directory
+        path:
+          type: string
+          format: uri
+          description: |
+            The path field contains the logical path to where the file or directory is to be created.
+        overwrite:
+          type: boolean
+          description: |
+            Force overwrite if the file or directory already exists.
+    FileSystem_create_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+            - None
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - PERMISSION_DENIED
+            - INVALID_PATH
+            - NODE_EXISTS
+            - UNKNOWN_NODE_TYPE
+            - OTHER
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    fm:
+      file_system:
+        NodeType:
+          description: List of possible node types
+          enum:
+          - FILE
+          - DIRECTORY
+          type: string
+  messages:
+    FileSystem_create_submit:
+      description: FileSystem create request submission
+      payload:
+        $ref: '#/components/schemas/FileSystem_create_submit'
+    FileSystem_create_error:
+      description: FileSystem create error response
+      payload:
+        $ref: '#/components/schemas/FileSystem_create_error'

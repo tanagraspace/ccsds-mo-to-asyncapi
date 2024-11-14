@@ -1,0 +1,99 @@
+asyncapi: 3.0.0
+info:
+  title: FileTransfer Service cancel API
+  version: 1.0.0
+  description: This API allows clients to interact with the cancel interaction of the FileTransfer Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the FileTransfer Service's cancel interaction.
+    variables:
+      port:
+        default: '8883'
+channels:
+  submit_FileTransfer_cancel:
+    address: submit_FileTransfer_cancel
+    messages:
+      FileTransfer.cancel_submit.message:
+        $ref: '#/components/messages/FileTransfer_cancel_submit'
+    description: >
+      Send a **FileTransfer_cancel_submit** message in this channel to receive a
+      **FileTransfer_cancel_None** message over the **None_FileTransfer_cancel** channel.
+  error_FileTransfer_cancel:
+    address: error_FileTransfer_cancel
+    messages:
+      FileTransfer.cancel_error.message:
+        $ref: '#/components/messages/FileTransfer_cancel_error'
+    description: >
+      Use this channel to receive FileTransfer cancel errors as **FileTransfer_cancel_NoneErrors**
+      messages.
+operations:
+  FileTransfer_cancel_submit:
+    action: send
+    channel:
+      $ref: '#/channels/submit_FileTransfer_cancel'
+    messages:
+      - $ref: '#/channels/submit_FileTransfer_cancel/messages/FileTransfer.cancel_submit.message'
+  FileTransfer_cancel_error:
+    action: receive
+    channel:
+      $ref: '#/channels/error_FileTransfer_cancel'
+    messages:
+      - $ref: '#/channels/error_FileTransfer_cancel/messages/FileTransfer.cancel_error.message'
+components:
+  schemas:
+    FileTransfer_cancel_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        transactionId:
+          $ref: '#/components/schemas/fm/file_transfer/FileTransactionId'
+    FileTransfer_cancel_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN_TRANSACTION
+            - OTHER_ERROR
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    fm:
+      file_transfer:
+        FileTransactionId:
+          properties:
+            entity:
+              description: ''
+              format: binary
+              type: string
+            id:
+              description: The ID as a byte array
+              format: binary
+              type: string
+          type: object
+  messages:
+    FileTransfer_cancel_submit:
+      description: FileTransfer cancel request submission
+      payload:
+        $ref: '#/components/schemas/FileTransfer_cancel_submit'
+    FileTransfer_cancel_error:
+      description: FileTransfer cancel error response
+      payload:
+        $ref: '#/components/schemas/FileTransfer_cancel_error'

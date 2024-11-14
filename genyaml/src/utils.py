@@ -99,9 +99,9 @@ def load_class_and_invoke_to_yaml(mo_asyncapi_src_dir_path: str, area: str, serv
 
     module_path = None
     if service:
-      module_path = os.path.join(f"{mo_asyncapi_src_dir_path}/{area.lower()}/{service.lower()}" , module_filename)
+      module_path = os.path.join(f"{mo_asyncapi_src_dir_path}/{area}/{service}" , module_filename)
     else:
-      module_path = os.path.join(f"{mo_asyncapi_src_dir_path}/{area.lower()}" , module_filename)
+      module_path = os.path.join(f"{mo_asyncapi_src_dir_path}/{area}" , module_filename)
 
     # check if the file exists
     if not os.path.exists(module_path):

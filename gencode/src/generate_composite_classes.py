@@ -3,8 +3,9 @@ import re
 import os
 import sys
 
-from utils import get_namespaces, to_snake_case, to_camel_case, create_init_py, find_classes
-from xml_schema_processor import process_xml_content, write_generated_classes, correct_imports
+import utils
+import xml_schema_processor
+
 
 def print_help():
   print("""
@@ -28,20 +29,20 @@ def main(xml_file_path: str, target_src_code_directory: str):
     sys.exit(1)
 
   # fetch classes that have already been generated to represent composite types
-  defined_types = find_classes(target_src_code_directory)
+  defined_types = utils.find_classes(target_src_code_directory)
 
   print(f"\nGenerate code for {xml_file_path}...\n")
   with open(xml_file_path, 'r') as xml_content:
     try:
-      area_name = process_xml_content(xml_content, defined_types, target_src_code_directory)
+      area_name = xml_schema_processor.process_xml_content(xml_content, defined_types, target_src_code_directory)
 
       # handle global types and enums
       target_directory = os.path.join(target_src_code_directory, area_name)
       os.makedirs(target_directory, exist_ok=True)
-      create_init_py(target_directory)  # create __init__.py
+      utils.create_init_py(target_directory)  # create __init__.py
 
       # correct the imports after all files are written
-      correct_imports(target_src_code_directory)
+      xml_schema_processor.correct_imports(target_src_code_directory)
 
     except Exception as e:
       if 'target_directory' in locals():

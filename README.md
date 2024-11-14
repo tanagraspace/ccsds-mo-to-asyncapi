@@ -1,7 +1,7 @@
 # CCSDS MO XML to Async API YAML
 - Convert CCSDS MO XML specification files into AsyncAPI YAML document.
 - XML files are located in the [xml-ccsds-mo-prototypes](/xml-ccsds-mo-prototypes/) directory.
-- AsyncAPI docs are hosted [here](https://tanagraspace.github.io/ccsds-mo-to-asyncapi/).
+- Generated AsyncAPI docs are hosted [here](https://tanagraspace.github.io/ccsds-mo-to-asyncapi/).
 
 ## Generate Everything
 ```shell
@@ -29,11 +29,16 @@ Or do it all in one go:
   - MAL v003
   - COM v001
   - Mission and Control v002
+  - Software Management v001
+  - File Management v001
 - The MO MAL XML definitions that are processed to generate YAML AsyncAPI service definitions are listed in [this bash script](/02_generate_yaml.sh), they are:
   - Mission and Control v002
+  - Software Management v001
+  - File Management v001
 - The following MAL interaction types are supported: [PubSub](/genyaml/src/generators/yaml_generator_pubsub.py), [Request](/genyaml/src/generators/yaml_generator_request.py), [Submit](/genyaml/src/generators/yaml_generator_submit.py), and [Progress](/genyaml/src/generators/yaml_generator_progress.py)
 - The Invoke interaction types is **NOT** currently supported.
 
 ## Interaction Type YAML Generators
 - Each interaction type has its own AsyncAPY YAML generator implementation, [here](/genyaml/src/generators/).
-- The interaction type YAML generators to use are included in a list of generator instances in [this main function](/genyaml/src/generate_yaml.py).
+- The interaction type YAML generators to use are included in a list of generator instances in [this module's main function](/genyaml/src/generate_yaml.py).
+- An interaction can be skipped by populating an `ignores` dictionary hardcoded in [this module's main function](/genyaml/src/generate_yaml.py).

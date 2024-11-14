@@ -75,7 +75,7 @@ components:
     Check_getCurrentTransitionList_progress:
       type: object
       properties:
-        transactionId:
+        sequenceId:
           type: string
           description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
         filter:
@@ -101,7 +101,7 @@ components:
     Check_getCurrentTransitionList_update:
       type: object
       properties:
-        transactionId:
+        sequenceId:
           type: string
           description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
         updateSummaries:
@@ -111,7 +111,7 @@ components:
     Check_getCurrentTransitionList_response:
       type: object
       properties:
-        transactionId:
+        sequenceId:
           type: string
           description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
         responseSummaries:
@@ -122,7 +122,7 @@ components:
     Check_getCurrentTransitionList_error:
       type: object
       properties:
-        transactionId:
+        sequenceId:
           type: string
           description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
         area:

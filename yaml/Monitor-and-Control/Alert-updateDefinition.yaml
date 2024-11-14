@@ -61,7 +61,7 @@ components:
     Alert_updateDefinition_request:
       type: object
       properties:
-        transactionId:
+        sequenceId:
           type: string
           description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
         alertObjInstIds:
@@ -85,7 +85,7 @@ components:
     Alert_updateDefinition_response:
       type: object
       properties:
-        transactionId:
+        sequenceId:
           type: string
           description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
         newObjInstIds:
@@ -99,7 +99,7 @@ components:
     Alert_updateDefinition_error:
       type: object
       properties:
-        transactionId:
+        sequenceId:
           type: string
           description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
         area:

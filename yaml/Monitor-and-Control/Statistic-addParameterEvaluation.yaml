@@ -61,7 +61,7 @@ components:
     Statistic_addParameterEvaluation_request:
       type: object
       properties:
-        transactionId:
+        sequenceId:
           type: string
           description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
         newDetails:
@@ -81,7 +81,7 @@ components:
     Statistic_addParameterEvaluation_response:
       type: object
       properties:
-        transactionId:
+        sequenceId:
           type: string
           description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
         newObjInstIds:
@@ -93,7 +93,7 @@ components:
     Statistic_addParameterEvaluation_error:
       type: object
       properties:
-        transactionId:
+        sequenceId:
           type: string
           description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
         area:

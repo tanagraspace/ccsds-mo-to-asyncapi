@@ -5,6 +5,8 @@ set -e
 
 XML_FILE_PATHS=(
   "area004-v002-Monitor-and-Control.xml"
+  "area007-v001-Software-Management.xml"
+  "area020-v001-File-Management.xml"
 )
 
 SRC_DIR_PATH="mo-asyncapi/src"
