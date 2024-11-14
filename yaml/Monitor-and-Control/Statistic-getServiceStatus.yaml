@@ -26,14 +26,6 @@ servers:
           message: Guest gone offline.
           retain: false
 channels:
-  Send_Statistic_getServiceStatus:
-    address: Send_Statistic_getServiceStatus
-    messages:
-      Statistic.getServiceStatus_Send.message:
-        $ref: '#/components/messages/Statistic_getServiceStatus_Send'
-    description: >
-      Send a **Statistic_getServiceStatus_Send** message in this channel to receive a
-      **Statistic_getServiceStatus_Receive** message over the **Receive_Statistic_getServiceStatus** channel.
   Receive_Statistic_getServiceStatus:
     address: Receive_Statistic_getServiceStatus
     messages:
@@ -43,12 +35,6 @@ channels:
       Use this channel to receive Statistic getServiceStatus responses as **Statistic_getServiceStatus_Receive**
       messages.
 operations:
-  Statistic_getServiceStatus_Send:
-    action: send
-    channel:
-      $ref: '#/channels/Send_Statistic_getServiceStatus'
-    messages:
-      - $ref: '#/channels/Send_Statistic_getServiceStatus/messages/Statistic.getServiceStatus_Send.message'
   Statistic_getServiceStatus_Receive:
     action: receive
     channel:
@@ -57,27 +43,17 @@ operations:
       - $ref: '#/channels/Receive_Statistic_getServiceStatus/messages/Statistic.getServiceStatus_Receive.message'
 components:
   schemas:
-    Statistic_getServiceStatus_Send:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: A unique identifier to map the response to the request.
     Statistic_getServiceStatus_Receive:
       type: object
       properties:
         transactionId:
           type: string
-          description: A unique identifier to map the response to the request.
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
         serviceEnabled:
           type: boolean
           description: |
             The operation shall return TRUE if the service is currently enabled or FALSE if the service is currently disabled.
   messages:
-    Statistic_getServiceStatus_Send:
-      description: Statistic getServiceStatus request submission
-      payload:
-        $ref: '#/components/schemas/Statistic_getServiceStatus_Send'
     Statistic_getServiceStatus_Receive:
       description: Statistic getServiceStatus update response
       payload:

@@ -76,7 +76,7 @@ components:
       properties:
         transactionId:
           type: string
-          description: A unique identifier to map the response to the request.
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
         aggInstIds:
           type: array
           items:
@@ -94,7 +94,7 @@ components:
       properties:
         transactionId:
           type: string
-          description: A unique identifier to map the response to the request.
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
         aggValDetails:
           $ref: '#/components/schemas/mc/aggregation/AggregationValueDetails'
           description: |
@@ -105,7 +105,7 @@ components:
       properties:
         transactionId:
           type: string
-          description: A unique identifier to map the response to the request.
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
         area:
           type: string
           description: The area in which the error applies.

@@ -71,11 +71,14 @@ def list_services_with_capabilities_and_interactions_in_mc_xml(
 
             # the send and receive fields
             send_fields = interaction_type.findall(f".//mal:{yaml_gen.send_element}//mal:field", ns)
+            include_channel_send = True if len(send_fields) > 0 else False
+
             receive_fields = interaction_type.findall(f".//mal:{yaml_gen.receive_element}//mal:field", ns)
+            include_channel_receive = True if len(receive_fields) > 0 else False
 
             # the error fields
             err_fields = interaction_type.findall(f".//mal:errors//mal:errorRef", ns)
-            include_error_channel = True if len(err_fields) > 0 else False
+            include_channel_error = True if len(err_fields) > 0 else False
 
             yaml_service_schema = yaml_gen.generate_service_schema(
               service_name=service_name,
@@ -84,12 +87,16 @@ def list_services_with_capabilities_and_interactions_in_mc_xml(
             yaml_channels_schema = yaml_gen.generate_channels_schema(
               service_name=service_name,
               interaction_name=interaction_name,
-              include_error_channel=include_error_channel)
+              include_channel_send=include_channel_send,
+              include_channel_receive=include_channel_receive,
+              include_channel_error=include_channel_error)
 
             yaml_operations_schema = yaml_gen.generate_operations_schema(
               service_name=service_name,
               interaction_name=interaction_name,
-              include_error_channel=include_error_channel)
+              include_channel_send=include_channel_send,
+              include_channel_receive=include_channel_receive,
+              include_channel_error=include_channel_error)
 
             yaml_components_schema = yaml_gen.generate_components_schema(
               mo_asyncapi_src_dir_path=mo_asyncapi_src_dir_path,
@@ -103,7 +110,9 @@ def list_services_with_capabilities_and_interactions_in_mc_xml(
             yaml_components_messages = yaml_gen.generate_components_messages_schema(
               service_name=service_name,
               interaction_name=interaction_name,
-              include_error_channel=include_error_channel)
+              include_channel_send=include_channel_send,
+              include_channel_receive=include_channel_receive,
+              include_channel_error=include_channel_error)
 
             # path to the output file
             output_file = os.path.join(target_yaml_directory_path, f"{service_name}-{interaction_name}.yaml")

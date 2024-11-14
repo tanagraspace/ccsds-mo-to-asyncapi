@@ -26,14 +26,6 @@ servers:
           message: Guest gone offline.
           retain: false
 channels:
-  Send_Check_getServiceStatus:
-    address: Send_Check_getServiceStatus
-    messages:
-      Check.getServiceStatus_Send.message:
-        $ref: '#/components/messages/Check_getServiceStatus_Send'
-    description: >
-      Send a **Check_getServiceStatus_Send** message in this channel to receive a
-      **Check_getServiceStatus_Receive** message over the **Receive_Check_getServiceStatus** channel.
   Receive_Check_getServiceStatus:
     address: Receive_Check_getServiceStatus
     messages:
@@ -43,12 +35,6 @@ channels:
       Use this channel to receive Check getServiceStatus responses as **Check_getServiceStatus_Receive**
       messages.
 operations:
-  Check_getServiceStatus_Send:
-    action: send
-    channel:
-      $ref: '#/channels/Send_Check_getServiceStatus'
-    messages:
-      - $ref: '#/channels/Send_Check_getServiceStatus/messages/Check.getServiceStatus_Send.message'
   Check_getServiceStatus_Receive:
     action: receive
     channel:
@@ -57,27 +43,17 @@ operations:
       - $ref: '#/channels/Receive_Check_getServiceStatus/messages/Check.getServiceStatus_Receive.message'
 components:
   schemas:
-    Check_getServiceStatus_Send:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: A unique identifier to map the response to the request.
     Check_getServiceStatus_Receive:
       type: object
       properties:
         transactionId:
           type: string
-          description: A unique identifier to map the response to the request.
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
         serviceEnabled:
           type: boolean
           description: |
             The operation shall return TRUE if the service is currently enabled or FALSE if the service is currently disabled.
   messages:
-    Check_getServiceStatus_Send:
-      description: Check getServiceStatus request submission
-      payload:
-        $ref: '#/components/schemas/Check_getServiceStatus_Send'
     Check_getServiceStatus_Receive:
       description: Check getServiceStatus update response
       payload:
