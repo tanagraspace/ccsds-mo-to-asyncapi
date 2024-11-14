@@ -74,14 +74,14 @@ components:
           type: string
           description: The area in which the error applies.
           enum:
-            - MAL
             - MC
+            - MAL
         name:
           type: string
           description: A code representing the error.
           enum:
-            - UNKNOWN
             - REFERENCED
+            - UNKNOWN
         extraInformation:
           type: array
           items:
