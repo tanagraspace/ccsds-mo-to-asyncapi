@@ -26,14 +26,6 @@ servers:
           message: Guest gone offline.
           retain: false
 channels:
-  Send_Aggregation_monitorValue:
-    address: Send_Aggregation_monitorValue
-    messages:
-      Aggregation.monitorValue_Send.message:
-        $ref: '#/components/messages/Aggregation_monitorValue_Send'
-    description: >
-      Send a **Aggregation_monitorValue_Send** message in this channel to receive a
-      **Aggregation_monitorValue_Receive** message over the **Receive_Aggregation_monitorValue** channel.
   Receive_Aggregation_monitorValue:
     address: Receive_Aggregation_monitorValue
     messages:
@@ -43,12 +35,6 @@ channels:
       Use this channel to receive Aggregation monitorValue responses as **Aggregation_monitorValue_Receive**
       messages.
 operations:
-  Aggregation_monitorValue_Send:
-    action: send
-    channel:
-      $ref: '#/channels/Send_Aggregation_monitorValue'
-    messages:
-      - $ref: '#/channels/Send_Aggregation_monitorValue/messages/Aggregation.monitorValue_Send.message'
   Aggregation_monitorValue_Receive:
     action: receive
     channel:
@@ -57,18 +43,12 @@ operations:
       - $ref: '#/channels/Receive_Aggregation_monitorValue/messages/Aggregation.monitorValue_Receive.message'
 components:
   schemas:
-    Aggregation_monitorValue_Send:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: A unique identifier to map the response to the request.
     Aggregation_monitorValue_Receive:
       type: object
       properties:
         transactionId:
           type: string
-          description: A unique identifier to map the response to the request.
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
         objId:
           $ref: '#/components/schemas/com/ObjectId'
           description: |
@@ -208,10 +188,6 @@ components:
               type: integer
           type: object
   messages:
-    Aggregation_monitorValue_Send:
-      description: Aggregation monitorValue request submission
-      payload:
-        $ref: '#/components/schemas/Aggregation_monitorValue_Send'
     Aggregation_monitorValue_Receive:
       description: Aggregation monitorValue update response
       payload:

@@ -26,14 +26,6 @@ servers:
           message: Guest gone offline.
           retain: false
 channels:
-  Send_Statistic_monitorStatistics:
-    address: Send_Statistic_monitorStatistics
-    messages:
-      Statistic.monitorStatistics_Send.message:
-        $ref: '#/components/messages/Statistic_monitorStatistics_Send'
-    description: >
-      Send a **Statistic_monitorStatistics_Send** message in this channel to receive a
-      **Statistic_monitorStatistics_Receive** message over the **Receive_Statistic_monitorStatistics** channel.
   Receive_Statistic_monitorStatistics:
     address: Receive_Statistic_monitorStatistics
     messages:
@@ -43,12 +35,6 @@ channels:
       Use this channel to receive Statistic monitorStatistics responses as **Statistic_monitorStatistics_Receive**
       messages.
 operations:
-  Statistic_monitorStatistics_Send:
-    action: send
-    channel:
-      $ref: '#/channels/Send_Statistic_monitorStatistics'
-    messages:
-      - $ref: '#/channels/Send_Statistic_monitorStatistics/messages/Statistic.monitorStatistics_Send.message'
   Statistic_monitorStatistics_Receive:
     action: receive
     channel:
@@ -57,18 +43,12 @@ operations:
       - $ref: '#/channels/Receive_Statistic_monitorStatistics/messages/Statistic.monitorStatistics_Receive.message'
 components:
   schemas:
-    Statistic_monitorStatistics_Send:
-      type: object
-      properties:
-        transactionId:
-          type: string
-          description: A unique identifier to map the response to the request.
     Statistic_monitorStatistics_Receive:
       type: object
       properties:
         transactionId:
           type: string
-          description: A unique identifier to map the response to the request.
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
         relatedId:
           type: integer
           format: int64
@@ -173,10 +153,6 @@ components:
               type: number
           type: object
   messages:
-    Statistic_monitorStatistics_Send:
-      description: Statistic monitorStatistics request submission
-      payload:
-        $ref: '#/components/schemas/Statistic_monitorStatistics_Send'
     Statistic_monitorStatistics_Receive:
       description: Statistic monitorStatistics update response
       payload:

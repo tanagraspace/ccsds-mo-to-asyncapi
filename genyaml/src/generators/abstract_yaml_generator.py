@@ -1,5 +1,6 @@
 import os
 from abc import ABC, abstractmethod
+from xml.etree.ElementTree import Element
 
 from generators.common import InteractionType, InteractionPayloadElementPubSub, TransportType
 from constants import SCHEMA_NAMESPACE, TYPE_MAPPING
@@ -73,7 +74,8 @@ servers:
           retain: false\n"""
 
 
-  def generate_channels_schema(self, service_name: str, interaction_name: str, include_error_channel: bool = False) -> str:
+  def generate_channels_schema(self, service_name: str, interaction_name: str,
+    include_channel_send: bool, include_channel_receive: bool, include_channel_error: bool = False) -> str:
     """
     Generates the YAML string for a pubsubIP interaction.
     """
@@ -82,7 +84,7 @@ servers:
     channels_schema += "channels:\n"
 
     # send channel
-    if self.send_element:
+    if include_channel_send:
       channels_schema += f"  {TransportType.SEND.value}_{service_name}_{interaction_name}:\n"
       channels_schema += f"    address: {TransportType.SEND.value}_{service_name}_{interaction_name}\n"
       channels_schema += f"    messages:\n"
@@ -93,7 +95,7 @@ servers:
       channels_schema += f"      **{service_name}_{interaction_name}_{TransportType.RECEIVE.value}** message over the **{TransportType.RECEIVE.value}_{service_name}_{interaction_name}** channel.\n"
 
     # receive channel
-    if self.receive_element:
+    if include_channel_receive:
       channels_schema += f"  {TransportType.RECEIVE.value}_{service_name}_{interaction_name}:\n"
       channels_schema += f"    address: {TransportType.RECEIVE.value}_{service_name}_{interaction_name}\n"
       channels_schema += f"    messages:\n"
@@ -104,7 +106,7 @@ servers:
       channels_schema += f"      messages.\n"
 
     # error receive channel
-    if include_error_channel:
+    if include_channel_error:
       channels_schema += f"  {TransportType.ERROR.value}_{service_name}_{interaction_name}:\n"
       channels_schema += f"    address: {TransportType.ERROR.value}_{service_name}_{interaction_name}\n"
       channels_schema += f"    messages:\n"
@@ -117,7 +119,8 @@ servers:
     return channels_schema
 
 
-  def generate_operations_schema(self, service_name: str, interaction_name: str, include_error_channel: bool = False) -> str:
+  def generate_operations_schema(self, service_name: str, interaction_name: str,
+    include_channel_send: bool, include_channel_receive: bool, include_channel_error: bool = False) -> str:
     """
     Generates the YAML string for operations related to a pubsubIP interaction.
     """
@@ -126,7 +129,7 @@ servers:
     operations_schema += "operations:\n"
 
     # send operation
-    if self.send_element:
+    if include_channel_send:
       operations_schema += f"  {service_name}_{interaction_name}_{TransportType.SEND.value}:\n"
       operations_schema += f"    action: {TransportType.SEND.value.lower()}\n"
       operations_schema += f"    channel:\n"
@@ -135,7 +138,7 @@ servers:
       operations_schema += f"      - $ref: '#/channels/{TransportType.SEND.value}_{service_name}_{interaction_name}/messages/{service_name}.{interaction_name}_{TransportType.SEND.value}.message'\n"
 
     # receive operation
-    if self.receive_element:
+    if include_channel_receive:
       operations_schema += f"  {service_name}_{interaction_name}_{TransportType.RECEIVE.value}:\n"
       operations_schema += f"    action: {TransportType.RECEIVE.value.lower()}\n"
       operations_schema += f"    channel:\n"
@@ -144,7 +147,7 @@ servers:
       operations_schema += f"      - $ref: '#/channels/{TransportType.RECEIVE.value}_{service_name}_{interaction_name}/messages/{service_name}.{interaction_name}_{TransportType.RECEIVE.value}.message'\n"
 
     # error operation (optional)
-    if include_error_channel:
+    if include_channel_error:
       operations_schema += f"  {service_name}_{interaction_name}_{TransportType.ERROR.value}:\n"
       operations_schema += f"    action: {TransportType.RECEIVE.value.lower()}\n" # an error is a receive action
       operations_schema += f"    channel:\n"
@@ -155,7 +158,8 @@ servers:
     return operations_schema
 
 
-  def generate_components_messages_schema(self, service_name: str, interaction_name: str, include_error_channel: bool = False) -> str:
+  def generate_components_messages_schema(self, service_name: str, interaction_name: str,
+    include_channel_send: bool, include_channel_receive: bool, include_channel_error: bool = False) -> str:
     """
     Generates the YAML string for messages related to a pubsubIP interaction.
     """
@@ -164,21 +168,21 @@ servers:
     components_schema += "  messages:\n"
 
     # send message component
-    if self.send_element:
+    if include_channel_send:
       components_schema += f"    {service_name}_{interaction_name}_{TransportType.SEND.value}:\n"
       components_schema += f"      description: {service_name} {interaction_name} request submission\n"
       components_schema += f"      payload:\n"
       components_schema += f"        $ref: '#/components/schemas/{service_name}_{interaction_name}_{TransportType.SEND.value}'\n"
 
     # receive message component
-    if self.receive_element:
+    if include_channel_receive:
       components_schema += f"    {service_name}_{interaction_name}_{TransportType.RECEIVE.value}:\n"
       components_schema += f"      description: {service_name} {interaction_name} update response\n"
       components_schema += f"      payload:\n"
       components_schema += f"        $ref: '#/components/schemas/{service_name}_{interaction_name}_{TransportType.RECEIVE.value}'\n"
 
     # error message component (optional)
-    if include_error_channel:
+    if include_channel_error:
       components_schema += f"    {service_name}_{interaction_name}_{TransportType.ERROR.value}:\n"
       components_schema += f"      description: {service_name} {interaction_name} error response\n"
       components_schema += f"      payload:\n"
@@ -187,7 +191,8 @@ servers:
     return components_schema
 
 
-  def generate_components_schema(self, mo_asyncapi_src_dir_path: str, service_name: str, interaction_name: str, send_fields, receive_fields, err_fields, ns):
+  def generate_components_schema(self, mo_asyncapi_src_dir_path: str, service_name: str, interaction_name: str,
+    send_fields: list[Element], receive_fields: list[Element], err_fields: list[Element], ns: dict[str, str]):
     """
     Generates the YAML string for the components section based on the fields.
     """
@@ -199,7 +204,7 @@ servers:
     components_yaml = f"components:\n  schemas:\n"
 
     # build SEND components
-    if self.send_element:
+    if len(send_fields) > 0:
       components_yaml +=  f"    {service_name}_{interaction_name}_{TransportType.SEND.value}:\n"
       components_yaml += "      type: object\n      properties:\n"
       components_yaml += self._generate_components_schema_field_transaction_id()
@@ -213,7 +218,7 @@ servers:
           composite_type_list.append(composite_type)
 
     # build RECEIVE components
-    if self.receive_element:
+    if len(receive_fields) > 0:
       components_yaml +=  f"    {service_name}_{interaction_name}_{TransportType.RECEIVE.value}:\n"
       components_yaml += "      type: object\n      properties:\n"
       components_yaml += self._generate_components_schema_field_transaction_id()
@@ -298,11 +303,11 @@ servers:
     # a unique identifier to map the response to the request
     transaction_id_field = f"        transactionId:\n"
     transaction_id_field += f"          type: string\n"
-    transaction_id_field += f"          description: A unique identifier to map the response to the request.\n"
+    transaction_id_field += f"          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.\n"
     return transaction_id_field
 
 
-  def _generate_components_schema_fields(self, field, ns):
+  def _generate_components_schema_fields(self, field: Element, ns: dict[str, str]):
     components_schema_yaml = ""
     composite_type = None
 
@@ -350,7 +355,7 @@ servers:
     return components_schema_yaml, composite_type
 
 
-  def _generate_components_schema_error_fields(self, fields, ns) -> str:
+  def _generate_components_schema_error_fields(self, fields: list[Element], ns: dict[str, str]) -> str:
     """
     Generates the YAML string for an errorRef element from the provided XML element.
     """
