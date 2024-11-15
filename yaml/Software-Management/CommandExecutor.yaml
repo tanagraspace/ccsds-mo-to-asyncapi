@@ -1,0 +1,94 @@
+asyncapi: 3.0.0
+info:
+  title: CommandExecutor Service API
+  version: 1.0.0
+  description: This API allows clients to interact with the CommandExecutor Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the CommandExecutor Service.
+    variables:
+      port:
+        default: '8883'
+channels:
+  runCommand_request:
+    address: runCommand_request
+    messages:
+      runCommand_request.message:
+        $ref: '#/components/messages/runCommand_request'
+    description: >
+      Send a **runCommand_request** message in this channel to receive a
+      **runCommand_response** message over the **runCommand_response** channel.
+  runCommand_response:
+    address: runCommand_response
+    messages:
+      runCommand_response.message:
+        $ref: '#/components/messages/runCommand_response'
+    description: >
+      Use this channel to receive runCommand responses as **runCommand_response**
+      messages.
+operations:
+  runCommand_request:
+    action: send
+    channel:
+      $ref: '#/channels/runCommand_request'
+    messages:
+      - $ref: '#/channels/runCommand_request/messages/runCommand_request.message'
+  runCommand_response:
+    action: receive
+    channel:
+      $ref: '#/channels/runCommand_response'
+    messages:
+      - $ref: '#/channels/runCommand_response/messages/runCommand_response.message'
+components:
+  schemas:
+    runCommand_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        command:
+          $ref: '#/components/schemas/software_management/command_executor/CommandDetails'
+          description: |
+            Details of the command to be run.
+    runCommand_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        commandInstId:
+          type: integer
+          format: int64
+          description: |
+            Contains a corresponding COM object instance identifier created in the Archive.
+    software_management:
+      command_executor:
+        CommandDetails:
+          properties:
+            command:
+              description: The command line passed to the executing shell instance.
+              type: string
+            exitCode:
+              description: Exit code of the command. Shall be NULL if the execution has not
+                completed yet.
+              format: int32
+              type: integer
+            pid:
+              description: Assigned Process ID of the spawned shell instance. Shall be NULL
+                if the execution has not started yet.
+              format: uint32
+              type: integer
+          type: object
+  messages:
+    runCommand_request:
+      description: runCommand request
+      payload:
+        $ref: '#/components/schemas/runCommand_request'
+    runCommand_response:
+      description: runCommand response
+      payload:
+        $ref: '#/components/schemas/runCommand_response'

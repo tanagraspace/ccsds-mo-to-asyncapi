@@ -1,0 +1,1019 @@
+asyncapi: 3.0.0
+info:
+  title: Statistic Service API
+  version: 1.0.0
+  description: This API allows clients to interact with the Statistic Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the Statistic Service.
+    variables:
+      port:
+        default: '8883'
+channels:
+  getStatistics_request:
+    address: getStatistics_request
+    messages:
+      getStatistics_request.message:
+        $ref: '#/components/messages/getStatistics_request'
+    description: >
+      Send a **getStatistics_request** message in this channel to receive a
+      **getStatistics_response** message over the **getStatistics_response** channel.
+  getStatistics_response:
+    address: getStatistics_response
+    messages:
+      getStatistics_response.message:
+        $ref: '#/components/messages/getStatistics_response'
+    description: >
+      Use this channel to receive getStatistics responses as **getStatistics_response**
+      messages.
+  getStatistics_error:
+    address: getStatistics_error
+    messages:
+      getStatistics_error.message:
+        $ref: '#/components/messages/getStatistics_error'
+    description: >
+      Use this channel to receive getStatistics errors as **getStatistics_error**
+      messages.
+  resetEvaluation_request:
+    address: resetEvaluation_request
+    messages:
+      resetEvaluation_request.message:
+        $ref: '#/components/messages/resetEvaluation_request'
+    description: >
+      Send a **resetEvaluation_request** message in this channel to receive a
+      **resetEvaluation_response** message over the **resetEvaluation_response** channel.
+  resetEvaluation_response:
+    address: resetEvaluation_response
+    messages:
+      resetEvaluation_response.message:
+        $ref: '#/components/messages/resetEvaluation_response'
+    description: >
+      Use this channel to receive resetEvaluation responses as **resetEvaluation_response**
+      messages.
+  resetEvaluation_error:
+    address: resetEvaluation_error
+    messages:
+      resetEvaluation_error.message:
+        $ref: '#/components/messages/resetEvaluation_error'
+    description: >
+      Use this channel to receive resetEvaluation errors as **resetEvaluation_error**
+      messages.
+  monitorStatistics_publishNotify:
+    address: monitorStatistics_publishNotify
+    messages:
+      monitorStatistics_publishNotify.message:
+        $ref: '#/components/messages/monitorStatistics_publishNotify'
+    description: >
+      Use this channel to receive monitorStatistics responses as **monitorStatistics_publishNotify**
+      messages.
+  enableService_submit:
+    address: enableService_submit
+    messages:
+      enableService_submit.message:
+        $ref: '#/components/messages/enableService_submit'
+    description: >
+      Send a **enableService_submit** message in this channel.
+  getServiceStatus_response:
+    address: getServiceStatus_response
+    messages:
+      getServiceStatus_response.message:
+        $ref: '#/components/messages/getServiceStatus_response'
+    description: >
+      Use this channel to receive getServiceStatus responses as **getServiceStatus_response**
+      messages.
+  enableReporting_submit:
+    address: enableReporting_submit
+    messages:
+      enableReporting_submit.message:
+        $ref: '#/components/messages/enableReporting_submit'
+    description: >
+      Send a **enableReporting_submit** message in this channel.
+  enableReporting_error:
+    address: enableReporting_error
+    messages:
+      enableReporting_error.message:
+        $ref: '#/components/messages/enableReporting_error'
+    description: >
+      Use this channel to receive enableReporting errors as **enableReporting_error**
+      messages.
+  listParameterEvaluations_request:
+    address: listParameterEvaluations_request
+    messages:
+      listParameterEvaluations_request.message:
+        $ref: '#/components/messages/listParameterEvaluations_request'
+    description: >
+      Send a **listParameterEvaluations_request** message in this channel to receive a
+      **listParameterEvaluations_response** message over the **listParameterEvaluations_response** channel.
+  listParameterEvaluations_response:
+    address: listParameterEvaluations_response
+    messages:
+      listParameterEvaluations_response.message:
+        $ref: '#/components/messages/listParameterEvaluations_response'
+    description: >
+      Use this channel to receive listParameterEvaluations responses as **listParameterEvaluations_response**
+      messages.
+  listParameterEvaluations_error:
+    address: listParameterEvaluations_error
+    messages:
+      listParameterEvaluations_error.message:
+        $ref: '#/components/messages/listParameterEvaluations_error'
+    description: >
+      Use this channel to receive listParameterEvaluations errors as **listParameterEvaluations_error**
+      messages.
+  addParameterEvaluation_request:
+    address: addParameterEvaluation_request
+    messages:
+      addParameterEvaluation_request.message:
+        $ref: '#/components/messages/addParameterEvaluation_request'
+    description: >
+      Send a **addParameterEvaluation_request** message in this channel to receive a
+      **addParameterEvaluation_response** message over the **addParameterEvaluation_response** channel.
+  addParameterEvaluation_response:
+    address: addParameterEvaluation_response
+    messages:
+      addParameterEvaluation_response.message:
+        $ref: '#/components/messages/addParameterEvaluation_response'
+    description: >
+      Use this channel to receive addParameterEvaluation responses as **addParameterEvaluation_response**
+      messages.
+  addParameterEvaluation_error:
+    address: addParameterEvaluation_error
+    messages:
+      addParameterEvaluation_error.message:
+        $ref: '#/components/messages/addParameterEvaluation_error'
+    description: >
+      Use this channel to receive addParameterEvaluation errors as **addParameterEvaluation_error**
+      messages.
+  updateParameterEvaluation_request:
+    address: updateParameterEvaluation_request
+    messages:
+      updateParameterEvaluation_request.message:
+        $ref: '#/components/messages/updateParameterEvaluation_request'
+    description: >
+      Send a **updateParameterEvaluation_request** message in this channel to receive a
+      **updateParameterEvaluation_response** message over the **updateParameterEvaluation_response** channel.
+  updateParameterEvaluation_response:
+    address: updateParameterEvaluation_response
+    messages:
+      updateParameterEvaluation_response.message:
+        $ref: '#/components/messages/updateParameterEvaluation_response'
+    description: >
+      Use this channel to receive updateParameterEvaluation responses as **updateParameterEvaluation_response**
+      messages.
+  updateParameterEvaluation_error:
+    address: updateParameterEvaluation_error
+    messages:
+      updateParameterEvaluation_error.message:
+        $ref: '#/components/messages/updateParameterEvaluation_error'
+    description: >
+      Use this channel to receive updateParameterEvaluation errors as **updateParameterEvaluation_error**
+      messages.
+  removeParameterEvaluation_submit:
+    address: removeParameterEvaluation_submit
+    messages:
+      removeParameterEvaluation_submit.message:
+        $ref: '#/components/messages/removeParameterEvaluation_submit'
+    description: >
+      Send a **removeParameterEvaluation_submit** message in this channel.
+  removeParameterEvaluation_error:
+    address: removeParameterEvaluation_error
+    messages:
+      removeParameterEvaluation_error.message:
+        $ref: '#/components/messages/removeParameterEvaluation_error'
+    description: >
+      Use this channel to receive removeParameterEvaluation errors as **removeParameterEvaluation_error**
+      messages.
+operations:
+  getStatistics_request:
+    action: send
+    channel:
+      $ref: '#/channels/getStatistics_request'
+    messages:
+      - $ref: '#/channels/getStatistics_request/messages/getStatistics_request.message'
+  getStatistics_response:
+    action: receive
+    channel:
+      $ref: '#/channels/getStatistics_response'
+    messages:
+      - $ref: '#/channels/getStatistics_response/messages/getStatistics_response.message'
+  getStatistics_error:
+    action: receive
+    channel:
+      $ref: '#/channels/getStatistics_error'
+    messages:
+      - $ref: '#/channels/getStatistics_error/messages/getStatistics_error.message'
+  resetEvaluation_request:
+    action: send
+    channel:
+      $ref: '#/channels/resetEvaluation_request'
+    messages:
+      - $ref: '#/channels/resetEvaluation_request/messages/resetEvaluation_request.message'
+  resetEvaluation_response:
+    action: receive
+    channel:
+      $ref: '#/channels/resetEvaluation_response'
+    messages:
+      - $ref: '#/channels/resetEvaluation_response/messages/resetEvaluation_response.message'
+  resetEvaluation_error:
+    action: receive
+    channel:
+      $ref: '#/channels/resetEvaluation_error'
+    messages:
+      - $ref: '#/channels/resetEvaluation_error/messages/resetEvaluation_error.message'
+  monitorStatistics_publishNotify:
+    action: receive
+    channel:
+      $ref: '#/channels/monitorStatistics_publishNotify'
+    messages:
+      - $ref: '#/channels/monitorStatistics_publishNotify/messages/monitorStatistics_publishNotify.message'
+  enableService_submit:
+    action: send
+    channel:
+      $ref: '#/channels/enableService_submit'
+    messages:
+      - $ref: '#/channels/enableService_submit/messages/enableService_submit.message'
+  getServiceStatus_response:
+    action: receive
+    channel:
+      $ref: '#/channels/getServiceStatus_response'
+    messages:
+      - $ref: '#/channels/getServiceStatus_response/messages/getServiceStatus_response.message'
+  enableReporting_submit:
+    action: send
+    channel:
+      $ref: '#/channels/enableReporting_submit'
+    messages:
+      - $ref: '#/channels/enableReporting_submit/messages/enableReporting_submit.message'
+  enableReporting_error:
+    action: receive
+    channel:
+      $ref: '#/channels/enableReporting_error'
+    messages:
+      - $ref: '#/channels/enableReporting_error/messages/enableReporting_error.message'
+  listParameterEvaluations_request:
+    action: send
+    channel:
+      $ref: '#/channels/listParameterEvaluations_request'
+    messages:
+      - $ref: '#/channels/listParameterEvaluations_request/messages/listParameterEvaluations_request.message'
+  listParameterEvaluations_response:
+    action: receive
+    channel:
+      $ref: '#/channels/listParameterEvaluations_response'
+    messages:
+      - $ref: '#/channels/listParameterEvaluations_response/messages/listParameterEvaluations_response.message'
+  listParameterEvaluations_error:
+    action: receive
+    channel:
+      $ref: '#/channels/listParameterEvaluations_error'
+    messages:
+      - $ref: '#/channels/listParameterEvaluations_error/messages/listParameterEvaluations_error.message'
+  addParameterEvaluation_request:
+    action: send
+    channel:
+      $ref: '#/channels/addParameterEvaluation_request'
+    messages:
+      - $ref: '#/channels/addParameterEvaluation_request/messages/addParameterEvaluation_request.message'
+  addParameterEvaluation_response:
+    action: receive
+    channel:
+      $ref: '#/channels/addParameterEvaluation_response'
+    messages:
+      - $ref: '#/channels/addParameterEvaluation_response/messages/addParameterEvaluation_response.message'
+  addParameterEvaluation_error:
+    action: receive
+    channel:
+      $ref: '#/channels/addParameterEvaluation_error'
+    messages:
+      - $ref: '#/channels/addParameterEvaluation_error/messages/addParameterEvaluation_error.message'
+  updateParameterEvaluation_request:
+    action: send
+    channel:
+      $ref: '#/channels/updateParameterEvaluation_request'
+    messages:
+      - $ref: '#/channels/updateParameterEvaluation_request/messages/updateParameterEvaluation_request.message'
+  updateParameterEvaluation_response:
+    action: receive
+    channel:
+      $ref: '#/channels/updateParameterEvaluation_response'
+    messages:
+      - $ref: '#/channels/updateParameterEvaluation_response/messages/updateParameterEvaluation_response.message'
+  updateParameterEvaluation_error:
+    action: receive
+    channel:
+      $ref: '#/channels/updateParameterEvaluation_error'
+    messages:
+      - $ref: '#/channels/updateParameterEvaluation_error/messages/updateParameterEvaluation_error.message'
+  removeParameterEvaluation_submit:
+    action: send
+    channel:
+      $ref: '#/channels/removeParameterEvaluation_submit'
+    messages:
+      - $ref: '#/channels/removeParameterEvaluation_submit/messages/removeParameterEvaluation_submit.message'
+  removeParameterEvaluation_error:
+    action: receive
+    channel:
+      $ref: '#/channels/removeParameterEvaluation_error'
+    messages:
+      - $ref: '#/channels/removeParameterEvaluation_error/messages/removeParameterEvaluation_error.message'
+components:
+  schemas:
+    getStatistics_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        funcObjInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The funcObjInstIds field shall include a list of StatisticFunction object instance identifiers to match.
+            The funcObjInstIds field shall support the wildcard value of '0' and will match all functions of the provider.
+            The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
+        isGroup:
+          type: boolean
+        paramObjInstIds:
+          $ref: '#/components/schemas/com/ObjectKey'
+          description: |
+            If the isGroup field is TRUE then the paramObjInstIds field shall contain GroupIdentity object instance identifiers, otherwise the field shall contain ParameterIdentity object instance identifiers.
+            If the isGroup field is TRUE, the requested Group, or the Group objects referenced by that Group, must contain ParameterIdentity objects otherwise an INVALID error shall be returned.
+            The ParameterIdentity objects referenced, either directly or indirectly via groups, by the paramObjInstIds field shall be the parameters to match.
+            The paramObjInstIds field shall support the wildcard value of '0' and matches all parameters of the provider matched to the functions given in the funcObjInstIds field.
+            The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
+            If a requested function, group or parameters is unknown then an UNKNOWN error shall be returned.
+            The sets of matched StatisticFunction objects and ParameterIdentity objects shall be matched to the set of existing StatisticLink objects to determine which StatisticLink objects to report on.
+    getStatistics_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        evaluations:
+          $ref: '#/components/schemas/mc/statistic/StatisticEvaluationReport'
+          description: |
+            The response shall contain a list of matching statistics evaluation values.
+            The operation shall trigger an evaluation of the statistical functions matched and return the new evaluation values.
+            If it is not possible to return an evaluation value for a matched evaluation (for example not enough samples available) then no entry for that evaluation shall be included.
+            The evaluation shall not trigger a report via the monitorStatistics operation.
+            Requesting an evaluation shall ignore the samplingInterval, reportingInterval, and collectionInterval fields and requests an immediate evaluation of the statistic.
+            Requesting an evaluation during a periodic evaluation shall not influence the periodic evaluation (e.g. it does not reset the samplingInterval, reportingInterval, and collectionInterval timers or the current periodic collection value).
+    getStatistics_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+            - COM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+            - INVALID
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    resetEvaluation_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        isStatLinkGroup:
+          type: boolean
+          description: |
+            If the isStatLinkGroup field is TRUE then the objInstIds field shall contain GroupIdentity object instance identifiers, otherwise the field shall contain StatisticFunction object instance identifiers.
+            If the isStatLinkGroup field is TRUE, the requested Group, or the Group objects referenced by that Group, must contain StatisticLink objects otherwise an INVALID error shall be returned.
+            The StatisticLink objects referenced, either indirectly via statistic functions or indirectly via groups, by the objInstIds field shall be the StatisticLink objects to match.
+        objInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The objInstIds field shall support the wildcard value of '0' and matches all StatisticLink objects of the provider.
+            The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
+            If a requested function or group is unknown then an UNKNOWN error shall be returned.
+        returnLatestEval:
+          type: boolean
+          description: |
+            If the returnLatestEval Boolean field is TRUE then the latest evaluation result for each of the matched links shall be returned before resetting, otherwise a NULL is returned.
+            If an error is raised then no resetting of evaluations shall be made as a result of this operation call.
+    resetEvaluation_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        evaluations:
+          $ref: '#/components/schemas/mc/statistic/StatisticEvaluationReport'
+    resetEvaluation_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - COM
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - INVALID
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    monitorStatistics_publishNotify:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        relatedId:
+          type: integer
+          format: int64
+          description: |
+            The MAL EntityKey.firstSubKey shall contain the statistic function name.
+            The MAL EntityKey.secondSubKey shall contain the StatisticLink object instance identifier.
+            The MAL EntityKey.thirdSubKey shall contain the ParameterIdentity object instance identifier.
+            The MAL EntityKey.fourthSubKey shall contain the new StatisticValueInstance object instance identifier.
+            The timestamp of the StatisticValueInstance report shall be taken from the publish message.
+            The related link of the update shall be held in the relatedId field.
+        sourceId:
+          $ref: '#/components/schemas/com/ObjectId'
+          description: |
+            The source link of the StatisticValueInstance shall be held in the sourceId field.
+            If no source link is needed then the sourceId shall be set to NULL.
+        statisticValue:
+          $ref: '#/components/schemas/mc/statistic/StatisticValue'
+          description: |
+            The second part of the publish message shall be the StatisticValueInstance object value.
+    enableService_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        enableService:
+          type: boolean
+          description: |
+            If enableService is set to TRUE the service shall be enabled and evaluation and reporting of statistics will be reset and commence.
+            If enableService is set to FALSE then all evaluation of statistics shall be suspended and no statistics will be reported.
+            If the enableService value matches the current enabled state of the service then no change shall be made and no error reported. Enabling an already enabled service has no effect.
+    getServiceStatus_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        serviceEnabled:
+          type: boolean
+          description: |
+            The operation shall return TRUE if the service is currently enabled or FALSE if the service is currently disabled.
+    enableReporting_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        isGroupIds:
+          type: boolean
+          description: |
+            If the isGroupIds field is TRUE then the enableInstances field shall contain GroupIdentity object instance identifiers, otherwise the field contains StatisticFunction object instance identifiers.
+            If the isGroupIds field is TRUE, the requested Group, or the Group objects referenced by that Group, must contain StatisticLink objects otherwise an INVALID error shall be returned.
+            The StatisticLink objects referenced, either indirectly via StatisticFunction objects or indirectly via groups, by the enableInstances field shall be the StatisticLink objects to match.
+            The id of the enableInstances field shall support the wildcard value of '0' and matches all StatisticLink objects of the provider.
+            The service provider shall check for the wildcard value in the list of object instance identifiers in the enableInstances field first and if found no other checks of supplied object instance identifiers shall be made.
+            If the enableInstances field contains a value of TRUE then reports after the reporting and collection intervals for matching StatisticLink objects shall be generated, a value of FALSE requests that reports will not be generated.
+            No error shall be raised if the enableInstances Boolean value supplied is the same as the current reportingEnabled field for a StatisticLink object i.e. enabling an already enabled link will not result in an error.
+            If a requested StatisticFunction or GroupIdentity object is unknown then an UNKNOWN error shall be returned.
+            If an error is raised then no modifications shall be made as a result of this operation call.
+            The provider should create and store a new StatisticLinkDefinition object in the COM archive if the reportingEnabled field is changed.
+        enableInstances:
+          $ref: '#/components/schemas/com/InstanceBooleanPair'
+          description: |
+            If the generation of reports is being enabled, then the provider shall generate a report immediately and start the report interval from that report.
+    enableReporting_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+            - COM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+            - INVALID
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    listParameterEvaluations_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        statObjInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The statObjInstIds field shall hold a list of StatisticFunction object instance identifiers to retrieve the StatisticLink object instance identifiers for.
+            The request may contain the wildcard value of '0' to return all supported statistic links.
+            The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.
+            If a provided identifier does not include a wildcard and does not match an existing StatisticFunction object then this operation shall fail with an UNKNOWN error.
+    listParameterEvaluations_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        statLinkObjInstIds:
+          $ref: '#/components/schemas/mc/statistic/StatisticLinkSummary'
+          description: |
+            The response shall contain a list of StatisticLinkSummary that contain the object instance identifiers of the StatisticLink, StatisticFunction, and ParameterIdentity for the matched StatisticFunction objects.
+    listParameterEvaluations_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    addParameterEvaluation_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        newDetails:
+          $ref: '#/components/schemas/mc/statistic/StatisticCreationRequest'
+          description: |
+            The newDetails field shall hold a StatisticCreationRequest for each new parameter to be sampled.
+            The statFuncInstId field of the StatisticCreationRequest shall reference the object instance identifier of the StatisticFunction to be used.
+            If the statFuncInstId field does not match an existing StatisticFunction then an UNKNOWN error shall be raised.
+            The parameterId shall reference the ParameterIdentity that the function is being applied to.
+            If the parameterId field does not match an existing ParameterIdentity then an UNKNOWN error shall be raised.
+            If the type of the matched parameter is not supported by the matched statistical function, for example Mean average of a String parameter, then an INVALID error shall be returned.
+            The samplingInterval field shall contain the sampling duration interval for the parameter.
+            If the supplied samplingInterval is not supported for the requested parameter then an INVALID error shall be returned.
+            If an error is raised then no new StatisticLink object shall be created and stored as a result of this operation call.
+            If no error is to be raised then StatisticLink and StatisticLinkDefinition objects shall be created for each function/parameter link and stored in the COM archive.
+            The referenced parameter shall be sampled immediately and the sampling, reporting and collection intervals started.
+    addParameterEvaluation_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        newObjInstIds:
+          $ref: '#/components/schemas/mc/ObjectInstancePair'
+          description: |
+            The response shall contain the list of object instance identifiers for the new StatisticLink and StatisticLinkDefinition objects.
+            The object instance identifiers of the StatisticLink and StatisticLinkDefinition objects shall be held in the first and second fields of the ObjectInstancePair structure respectively.
+            The returned list shall maintain the same order as the submitted links.
+    addParameterEvaluation_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - COM
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - INVALID
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    updateParameterEvaluation_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        linkIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The linkIds field shall contain the object instance identifiers of the StatisticLink objects to be updated.
+            If the linkIds list contains either NULL or '0' an INVALID error shall be raised.
+            The supplied object instance identifiers shall match existing link objects, an UNKNOWN error shall be raised if this is not the case.
+            If the supplied samplingInterval is not supported for the requested parameter then an INVALID error shall be returned.
+        newDetails:
+          $ref: '#/components/schemas/mc/statistic/StatisticLinkDetails'
+          description: |
+            The newDetails field shall contain the replacement StatisticLinkDetails.
+            The two lists shall be ordered the same.
+            The number of entries in the two lists shall be the same size otherwise an INVALID error shall be returned.
+            If an error is raised then no links shall be updated as a result of this operation call.
+            The provider shall create a new StatisticLinkDefinition object and store it in the COM archive.
+            If any of the intervals are updated then the service shall reset the relevant timer and use the new intervals immediately.
+    updateParameterEvaluation_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        newLinkDefIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The response shall contain the list of object instance identifiers for the new StatisticLinkDefinition objects.
+            The returned list shall maintain the same order as the submitted links.
+    updateParameterEvaluation_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+            - COM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+            - INVALID
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    removeParameterEvaluation_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        objInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The objInstIds field holds the object instance identifiers of the StatisticLink objects to be removed from the provider.
+            The list may contain the wildcard value of '0'.
+            The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
+            If a provided StatisticLink object instance identifier does not include a wildcard and does not match an existing StatisticLink object then this operation shall fail with an UNKNOWN error.
+            Matched StatisticLink objects shall not be removed from the COM archive only the list of evaluated StatisticLink objects in the provider.
+            If an error is raised then no StatisticLink objects shall be removed as a result of this operation call.
+            If the operation succeeds then the provider shall not evaluate those parameter/function definition combinations for the deleted StatisticLink objects anymore.
+    removeParameterEvaluation_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    mc:
+      statistic:
+        StatisticCreationRequest:
+          properties:
+            linkDetails:
+              $ref: '#/components/schemas/mc/statistic/StatisticLinkDetails'
+              description: The collection, reporting, and sampling intervals.
+            parameterId:
+              $ref: '#/components/schemas/com/ObjectKey'
+              description: The object key of the ParameterIdentity object being referenced.
+            statFuncInstId:
+              description: The object instance identifier of the statistical function to be
+                used.
+              format: int64
+              type: integer
+          type: object
+        StatisticEvaluationReport:
+          properties:
+            linkId:
+              description: The statistic link object instance identifier.
+              format: int64
+              type: integer
+            value:
+              $ref: '#/components/schemas/mc/statistic/StatisticValue'
+              description: The statistical evaluation value.
+          type: object
+        StatisticLinkDetails:
+          properties:
+            collectionInterval:
+              description: The collection and reset interval of the statistical evaluation for
+                the linked parameter. If set to '0', then no periodic reset of the evaluation
+                shall be performed.
+              format: uint64
+              type: number
+            reportingEnabled:
+              description: TRUE if reporting of the evaluation instance is enabled.
+              type: boolean
+            reportingInterval:
+              description: The interval between periodic reports being generated. If set to
+                '0', then no periodic reports shall be sent.
+              format: uint64
+              type: number
+            resetEveryCollection:
+              description: If TRUE the evaluation will reset its value every collection interval.
+                If FALSE it will maintain a moving evaluation of the function for the collection
+                interval.
+              type: boolean
+            samplingInterval:
+              description: The interval between samples of the parameter.
+              format: uint64
+              type: number
+            useConverted:
+              description: If TRUE then use the converted value of the Parameter, else use the
+                raw value
+              type: boolean
+          type: object
+        StatisticLinkSummary:
+          properties:
+            funcId:
+              description: The object instance identifier of the StatisticFunction object.
+              format: int64
+              type: integer
+            linkDefId:
+              description: The object instance identifier of the StatisticLinkDefinition object.
+              format: int64
+              type: integer
+            linkId:
+              description: The object instance identifier of the StatisticLink object.
+              format: int64
+              type: integer
+            parameterId:
+              $ref: '#/components/schemas/com/ObjectKey'
+              description: The object instance identifier of the ParameterIdentity object for
+                the statistic link.
+            reportingEnabled:
+              description: TRUE if reporting of the evaluation instance is enabled.
+              type: boolean
+          type: object
+        StatisticValue:
+          properties:
+            endTime:
+              description: Time the statistic calculations ended. This value can be NULL if
+                the time can be derived by other means, e.g., other times in a set of StatisticValue
+                structures.
+              format: uint64
+              type: number
+            paramDefInstId:
+              description: The object instance identifier of the ParameterDefinition object
+                used for the parameter.
+              format: int64
+              type: integer
+            sampleCount:
+              description: Holds the number of samples that contributed to the statistic value.
+                For calculated values such as 'mean average' this holds the number of samples
+                that were used to calculate the value, for non-calculated values such as 'min'
+                then it is the number of samples that were in the set evaluated.
+              format: uint32
+              type: integer
+            startTime:
+              description: Time the statistic calculations started. This value can be NULL if
+                the start time can be derived by other means, e.g., other start times in a set
+                of StatisticValue structures.
+              format: uint64
+              type: number
+            value:
+              description: Value of the statistic.
+              type: string
+            valueTime:
+              description: Time the statistic value was reached. The time is only applicable
+                for particular statistic values such as min or max. Shall be NULL if not applicable
+                for cases such as 'mean average'.
+              format: uint64
+              type: number
+          type: object
+      ObjectInstancePair:
+        properties:
+          objDefInstanceId:
+            description: The object instance identifier of the Definition object.
+            format: int64
+            type: integer
+          objIdentityInstanceId:
+            description: The object instance identifier of the Identity object.
+            format: int64
+            type: integer
+        type: object
+    com:
+      InstanceBooleanPair:
+        properties:
+          id:
+            description: The object instance identifier.
+            format: int64
+            type: integer
+          value:
+            description: An associated Boolean value.
+            type: boolean
+        type: object
+      ObjectId:
+        properties:
+          key:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: The combination of the object domain and object instance identifier.
+          type_:
+            $ref: '#/components/schemas/com/ObjectType'
+            description: The fully qualified unique identifier of the type.
+        type: object
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
+      ObjectType:
+        properties:
+          area:
+            description: Area Number where the object type is defined. Must not be '0' for
+              values as this is the wildcard.
+            format: uint16
+            type: integer
+          number:
+            description: The service specific object number. Must not be '0' for values as
+              this is the wildcard.
+            format: uint16
+            type: integer
+          service:
+            description: Service Number of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint16
+            type: integer
+          version:
+            description: Area Version of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint8
+            type: integer
+        type: object
+  messages:
+    getStatistics_request:
+      description: getStatistics request
+      payload:
+        $ref: '#/components/schemas/getStatistics_request'
+    getStatistics_response:
+      description: getStatistics response
+      payload:
+        $ref: '#/components/schemas/getStatistics_response'
+    getStatistics_error:
+      description: getStatistics error response
+      payload:
+        $ref: '#/components/schemas/getStatistics_error'
+    resetEvaluation_request:
+      description: resetEvaluation request
+      payload:
+        $ref: '#/components/schemas/resetEvaluation_request'
+    resetEvaluation_response:
+      description: resetEvaluation response
+      payload:
+        $ref: '#/components/schemas/resetEvaluation_response'
+    resetEvaluation_error:
+      description: resetEvaluation error response
+      payload:
+        $ref: '#/components/schemas/resetEvaluation_error'
+    monitorStatistics_publishNotify:
+      description: monitorStatistics response
+      payload:
+        $ref: '#/components/schemas/monitorStatistics_publishNotify'
+    enableService_submit:
+      description: enableService request
+      payload:
+        $ref: '#/components/schemas/enableService_submit'
+    getServiceStatus_response:
+      description: getServiceStatus response
+      payload:
+        $ref: '#/components/schemas/getServiceStatus_response'
+    enableReporting_submit:
+      description: enableReporting request
+      payload:
+        $ref: '#/components/schemas/enableReporting_submit'
+    enableReporting_error:
+      description: enableReporting error response
+      payload:
+        $ref: '#/components/schemas/enableReporting_error'
+    listParameterEvaluations_request:
+      description: listParameterEvaluations request
+      payload:
+        $ref: '#/components/schemas/listParameterEvaluations_request'
+    listParameterEvaluations_response:
+      description: listParameterEvaluations response
+      payload:
+        $ref: '#/components/schemas/listParameterEvaluations_response'
+    listParameterEvaluations_error:
+      description: listParameterEvaluations error response
+      payload:
+        $ref: '#/components/schemas/listParameterEvaluations_error'
+    addParameterEvaluation_request:
+      description: addParameterEvaluation request
+      payload:
+        $ref: '#/components/schemas/addParameterEvaluation_request'
+    addParameterEvaluation_response:
+      description: addParameterEvaluation response
+      payload:
+        $ref: '#/components/schemas/addParameterEvaluation_response'
+    addParameterEvaluation_error:
+      description: addParameterEvaluation error response
+      payload:
+        $ref: '#/components/schemas/addParameterEvaluation_error'
+    updateParameterEvaluation_request:
+      description: updateParameterEvaluation request
+      payload:
+        $ref: '#/components/schemas/updateParameterEvaluation_request'
+    updateParameterEvaluation_response:
+      description: updateParameterEvaluation response
+      payload:
+        $ref: '#/components/schemas/updateParameterEvaluation_response'
+    updateParameterEvaluation_error:
+      description: updateParameterEvaluation error response
+      payload:
+        $ref: '#/components/schemas/updateParameterEvaluation_error'
+    removeParameterEvaluation_submit:
+      description: removeParameterEvaluation request
+      payload:
+        $ref: '#/components/schemas/removeParameterEvaluation_submit'
+    removeParameterEvaluation_error:
+      description: removeParameterEvaluation error response
+      payload:
+        $ref: '#/components/schemas/removeParameterEvaluation_error'

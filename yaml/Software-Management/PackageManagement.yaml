@@ -1,0 +1,227 @@
+asyncapi: 3.0.0
+info:
+  title: PackageManagement Service API
+  version: 1.0.0
+  description: This API allows clients to interact with the PackageManagement Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the PackageManagement Service.
+    variables:
+      port:
+        default: '8883'
+channels:
+  findPackage_request:
+    address: findPackage_request
+    messages:
+      findPackage_request.message:
+        $ref: '#/components/messages/findPackage_request'
+    description: >
+      Send a **findPackage_request** message in this channel to receive a
+      **findPackage_response** message over the **findPackage_response** channel.
+  findPackage_response:
+    address: findPackage_response
+    messages:
+      findPackage_response.message:
+        $ref: '#/components/messages/findPackage_response'
+    description: >
+      Use this channel to receive findPackage responses as **findPackage_response**
+      messages.
+  findPackage_error:
+    address: findPackage_error
+    messages:
+      findPackage_error.message:
+        $ref: '#/components/messages/findPackage_error'
+    description: >
+      Use this channel to receive findPackage errors as **findPackage_error**
+      messages.
+  checkPackageIntegrity_request:
+    address: checkPackageIntegrity_request
+    messages:
+      checkPackageIntegrity_request.message:
+        $ref: '#/components/messages/checkPackageIntegrity_request'
+    description: >
+      Send a **checkPackageIntegrity_request** message in this channel to receive a
+      **checkPackageIntegrity_response** message over the **checkPackageIntegrity_response** channel.
+  checkPackageIntegrity_response:
+    address: checkPackageIntegrity_response
+    messages:
+      checkPackageIntegrity_response.message:
+        $ref: '#/components/messages/checkPackageIntegrity_response'
+    description: >
+      Use this channel to receive checkPackageIntegrity responses as **checkPackageIntegrity_response**
+      messages.
+  checkPackageIntegrity_error:
+    address: checkPackageIntegrity_error
+    messages:
+      checkPackageIntegrity_error.message:
+        $ref: '#/components/messages/checkPackageIntegrity_error'
+    description: >
+      Use this channel to receive checkPackageIntegrity errors as **checkPackageIntegrity_error**
+      messages.
+operations:
+  findPackage_request:
+    action: send
+    channel:
+      $ref: '#/channels/findPackage_request'
+    messages:
+      - $ref: '#/channels/findPackage_request/messages/findPackage_request.message'
+  findPackage_response:
+    action: receive
+    channel:
+      $ref: '#/channels/findPackage_response'
+    messages:
+      - $ref: '#/channels/findPackage_response/messages/findPackage_response.message'
+  findPackage_error:
+    action: receive
+    channel:
+      $ref: '#/channels/findPackage_error'
+    messages:
+      - $ref: '#/channels/findPackage_error/messages/findPackage_error.message'
+  checkPackageIntegrity_request:
+    action: send
+    channel:
+      $ref: '#/channels/checkPackageIntegrity_request'
+    messages:
+      - $ref: '#/channels/checkPackageIntegrity_request/messages/checkPackageIntegrity_request.message'
+  checkPackageIntegrity_response:
+    action: receive
+    channel:
+      $ref: '#/channels/checkPackageIntegrity_response'
+    messages:
+      - $ref: '#/channels/checkPackageIntegrity_response/messages/checkPackageIntegrity_response.message'
+  checkPackageIntegrity_error:
+    action: receive
+    channel:
+      $ref: '#/channels/checkPackageIntegrity_error'
+    messages:
+      - $ref: '#/channels/checkPackageIntegrity_error/messages/checkPackageIntegrity_error.message'
+components:
+  schemas:
+    findPackage_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        names:
+          type: array
+          items:
+            type: string
+          description: |
+            The names field contains the names of the packages.
+    findPackage_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        names:
+          type: array
+          items:
+            type: string
+          description: |
+            The names field contains the names of the packages.
+        installed:
+          type: array
+          items:
+            type: boolean
+          description: |
+            The installed field shall hold the status of the package.
+    findPackage_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    checkPackageIntegrity_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        names:
+          type: array
+          items:
+            type: string
+          description: |
+            The names field contains the names of the packages.
+    checkPackageIntegrity_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        validCRCs:
+          type: array
+          items:
+            type: boolean
+        publicKeys:
+          type: array
+          items:
+            type: string
+    checkPackageIntegrity_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+  messages:
+    findPackage_request:
+      description: findPackage request
+      payload:
+        $ref: '#/components/schemas/findPackage_request'
+    findPackage_response:
+      description: findPackage response
+      payload:
+        $ref: '#/components/schemas/findPackage_response'
+    findPackage_error:
+      description: findPackage error response
+      payload:
+        $ref: '#/components/schemas/findPackage_error'
+    checkPackageIntegrity_request:
+      description: checkPackageIntegrity request
+      payload:
+        $ref: '#/components/schemas/checkPackageIntegrity_request'
+    checkPackageIntegrity_response:
+      description: checkPackageIntegrity response
+      payload:
+        $ref: '#/components/schemas/checkPackageIntegrity_response'
+    checkPackageIntegrity_error:
+      description: checkPackageIntegrity error response
+      payload:
+        $ref: '#/components/schemas/checkPackageIntegrity_error'

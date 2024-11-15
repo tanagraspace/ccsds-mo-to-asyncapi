@@ -1,0 +1,1017 @@
+asyncapi: 3.0.0
+info:
+  title: Aggregation Service API
+  version: 1.0.0
+  description: This API allows clients to interact with the Aggregation Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the Aggregation Service.
+    variables:
+      port:
+        default: '8883'
+channels:
+  monitorValue_publishNotify:
+    address: monitorValue_publishNotify
+    messages:
+      monitorValue_publishNotify.message:
+        $ref: '#/components/messages/monitorValue_publishNotify'
+    description: >
+      Use this channel to receive monitorValue responses as **monitorValue_publishNotify**
+      messages.
+  getValue_request:
+    address: getValue_request
+    messages:
+      getValue_request.message:
+        $ref: '#/components/messages/getValue_request'
+    description: >
+      Send a **getValue_request** message in this channel to receive a
+      **getValue_response** message over the **getValue_response** channel.
+  getValue_response:
+    address: getValue_response
+    messages:
+      getValue_response.message:
+        $ref: '#/components/messages/getValue_response'
+    description: >
+      Use this channel to receive getValue responses as **getValue_response**
+      messages.
+  getValue_error:
+    address: getValue_error
+    messages:
+      getValue_error.message:
+        $ref: '#/components/messages/getValue_error'
+    description: >
+      Use this channel to receive getValue errors as **getValue_error**
+      messages.
+  enableGeneration_request:
+    address: enableGeneration_request
+    messages:
+      enableGeneration_request.message:
+        $ref: '#/components/messages/enableGeneration_request'
+    description: >
+      Send a **enableGeneration_request** message in this channel to receive a
+      **enableGeneration_response** message over the **enableGeneration_response** channel.
+  enableGeneration_response:
+    address: enableGeneration_response
+    messages:
+      enableGeneration_response.message:
+        $ref: '#/components/messages/enableGeneration_response'
+    description: >
+      Use this channel to receive enableGeneration responses as **enableGeneration_response**
+      messages.
+  enableGeneration_error:
+    address: enableGeneration_error
+    messages:
+      enableGeneration_error.message:
+        $ref: '#/components/messages/enableGeneration_error'
+    description: >
+      Use this channel to receive enableGeneration errors as **enableGeneration_error**
+      messages.
+  enableFilter_submit:
+    address: enableFilter_submit
+    messages:
+      enableFilter_submit.message:
+        $ref: '#/components/messages/enableFilter_submit'
+    description: >
+      Send a **enableFilter_submit** message in this channel.
+  enableFilter_error:
+    address: enableFilter_error
+    messages:
+      enableFilter_error.message:
+        $ref: '#/components/messages/enableFilter_error'
+    description: >
+      Use this channel to receive enableFilter errors as **enableFilter_error**
+      messages.
+  listDefinition_request:
+    address: listDefinition_request
+    messages:
+      listDefinition_request.message:
+        $ref: '#/components/messages/listDefinition_request'
+    description: >
+      Send a **listDefinition_request** message in this channel to receive a
+      **listDefinition_response** message over the **listDefinition_response** channel.
+  listDefinition_response:
+    address: listDefinition_response
+    messages:
+      listDefinition_response.message:
+        $ref: '#/components/messages/listDefinition_response'
+    description: >
+      Use this channel to receive listDefinition responses as **listDefinition_response**
+      messages.
+  listDefinition_error:
+    address: listDefinition_error
+    messages:
+      listDefinition_error.message:
+        $ref: '#/components/messages/listDefinition_error'
+    description: >
+      Use this channel to receive listDefinition errors as **listDefinition_error**
+      messages.
+  addAggregation_request:
+    address: addAggregation_request
+    messages:
+      addAggregation_request.message:
+        $ref: '#/components/messages/addAggregation_request'
+    description: >
+      Send a **addAggregation_request** message in this channel to receive a
+      **addAggregation_response** message over the **addAggregation_response** channel.
+  addAggregation_response:
+    address: addAggregation_response
+    messages:
+      addAggregation_response.message:
+        $ref: '#/components/messages/addAggregation_response'
+    description: >
+      Use this channel to receive addAggregation responses as **addAggregation_response**
+      messages.
+  addAggregation_error:
+    address: addAggregation_error
+    messages:
+      addAggregation_error.message:
+        $ref: '#/components/messages/addAggregation_error'
+    description: >
+      Use this channel to receive addAggregation errors as **addAggregation_error**
+      messages.
+  updateDefinition_request:
+    address: updateDefinition_request
+    messages:
+      updateDefinition_request.message:
+        $ref: '#/components/messages/updateDefinition_request'
+    description: >
+      Send a **updateDefinition_request** message in this channel to receive a
+      **updateDefinition_response** message over the **updateDefinition_response** channel.
+  updateDefinition_response:
+    address: updateDefinition_response
+    messages:
+      updateDefinition_response.message:
+        $ref: '#/components/messages/updateDefinition_response'
+    description: >
+      Use this channel to receive updateDefinition responses as **updateDefinition_response**
+      messages.
+  updateDefinition_error:
+    address: updateDefinition_error
+    messages:
+      updateDefinition_error.message:
+        $ref: '#/components/messages/updateDefinition_error'
+    description: >
+      Use this channel to receive updateDefinition errors as **updateDefinition_error**
+      messages.
+  removeAggregation_submit:
+    address: removeAggregation_submit
+    messages:
+      removeAggregation_submit.message:
+        $ref: '#/components/messages/removeAggregation_submit'
+    description: >
+      Send a **removeAggregation_submit** message in this channel.
+  removeAggregation_error:
+    address: removeAggregation_error
+    messages:
+      removeAggregation_error.message:
+        $ref: '#/components/messages/removeAggregation_error'
+    description: >
+      Use this channel to receive removeAggregation errors as **removeAggregation_error**
+      messages.
+operations:
+  monitorValue_publishNotify:
+    action: receive
+    channel:
+      $ref: '#/channels/monitorValue_publishNotify'
+    messages:
+      - $ref: '#/channels/monitorValue_publishNotify/messages/monitorValue_publishNotify.message'
+  getValue_request:
+    action: send
+    channel:
+      $ref: '#/channels/getValue_request'
+    messages:
+      - $ref: '#/channels/getValue_request/messages/getValue_request.message'
+  getValue_response:
+    action: receive
+    channel:
+      $ref: '#/channels/getValue_response'
+    messages:
+      - $ref: '#/channels/getValue_response/messages/getValue_response.message'
+  getValue_error:
+    action: receive
+    channel:
+      $ref: '#/channels/getValue_error'
+    messages:
+      - $ref: '#/channels/getValue_error/messages/getValue_error.message'
+  enableGeneration_request:
+    action: send
+    channel:
+      $ref: '#/channels/enableGeneration_request'
+    messages:
+      - $ref: '#/channels/enableGeneration_request/messages/enableGeneration_request.message'
+  enableGeneration_response:
+    action: receive
+    channel:
+      $ref: '#/channels/enableGeneration_response'
+    messages:
+      - $ref: '#/channels/enableGeneration_response/messages/enableGeneration_response.message'
+  enableGeneration_error:
+    action: receive
+    channel:
+      $ref: '#/channels/enableGeneration_error'
+    messages:
+      - $ref: '#/channels/enableGeneration_error/messages/enableGeneration_error.message'
+  enableFilter_submit:
+    action: send
+    channel:
+      $ref: '#/channels/enableFilter_submit'
+    messages:
+      - $ref: '#/channels/enableFilter_submit/messages/enableFilter_submit.message'
+  enableFilter_error:
+    action: receive
+    channel:
+      $ref: '#/channels/enableFilter_error'
+    messages:
+      - $ref: '#/channels/enableFilter_error/messages/enableFilter_error.message'
+  listDefinition_request:
+    action: send
+    channel:
+      $ref: '#/channels/listDefinition_request'
+    messages:
+      - $ref: '#/channels/listDefinition_request/messages/listDefinition_request.message'
+  listDefinition_response:
+    action: receive
+    channel:
+      $ref: '#/channels/listDefinition_response'
+    messages:
+      - $ref: '#/channels/listDefinition_response/messages/listDefinition_response.message'
+  listDefinition_error:
+    action: receive
+    channel:
+      $ref: '#/channels/listDefinition_error'
+    messages:
+      - $ref: '#/channels/listDefinition_error/messages/listDefinition_error.message'
+  addAggregation_request:
+    action: send
+    channel:
+      $ref: '#/channels/addAggregation_request'
+    messages:
+      - $ref: '#/channels/addAggregation_request/messages/addAggregation_request.message'
+  addAggregation_response:
+    action: receive
+    channel:
+      $ref: '#/channels/addAggregation_response'
+    messages:
+      - $ref: '#/channels/addAggregation_response/messages/addAggregation_response.message'
+  addAggregation_error:
+    action: receive
+    channel:
+      $ref: '#/channels/addAggregation_error'
+    messages:
+      - $ref: '#/channels/addAggregation_error/messages/addAggregation_error.message'
+  updateDefinition_request:
+    action: send
+    channel:
+      $ref: '#/channels/updateDefinition_request'
+    messages:
+      - $ref: '#/channels/updateDefinition_request/messages/updateDefinition_request.message'
+  updateDefinition_response:
+    action: receive
+    channel:
+      $ref: '#/channels/updateDefinition_response'
+    messages:
+      - $ref: '#/channels/updateDefinition_response/messages/updateDefinition_response.message'
+  updateDefinition_error:
+    action: receive
+    channel:
+      $ref: '#/channels/updateDefinition_error'
+    messages:
+      - $ref: '#/channels/updateDefinition_error/messages/updateDefinition_error.message'
+  removeAggregation_submit:
+    action: send
+    channel:
+      $ref: '#/channels/removeAggregation_submit'
+    messages:
+      - $ref: '#/channels/removeAggregation_submit/messages/removeAggregation_submit.message'
+  removeAggregation_error:
+    action: receive
+    channel:
+      $ref: '#/channels/removeAggregation_error'
+    messages:
+      - $ref: '#/channels/removeAggregation_error/messages/removeAggregation_error.message'
+components:
+  schemas:
+    monitorValue_publishNotify:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        objId:
+          $ref: '#/components/schemas/com/ObjectId'
+          description: |
+            The MAL EntityKey.firstSubKey shall contain the aggregation name.
+            The MAL EntityKey.secondSubKey shall contain the AggregationIdentity object instance identifier.
+            The MAL EntityKey.thirdSubKey shall contain the AggregationDefinition object instance identifier.
+            The MAL EntityKey.fourthSubKey shall contain the new AggregationValueInstance object instance identifier.
+            The timestamp of the AggregationValueInstance report shall be taken from the publish message.
+            The publish message shall include the ObjectId of the source link of the report.
+            If no source link is needed then the ObjectId shall be replaced with a NULL.
+        newValue:
+          $ref: '#/components/schemas/mc/aggregation/AggregationValue'
+          description: |
+            The second part of the publish message shall be the AggregationValue.
+    getValue_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        aggInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The aggInstIds field shall provide the list of AggregationIdentity object instance identifiers.
+            The wildcard value of '0' shall be supported and matches all aggregations of the provider.
+            The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
+            If a requested aggregation is unknown then an UNKNOWN error shall be returned.
+            The filter shall not be applied for the getValue operation.
+            If an aggregation is being reported periodically, using the operation shall not reset the reportInterval or filteredTimeout timer.
+    getValue_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        aggValDetails:
+          $ref: '#/components/schemas/mc/aggregation/AggregationValueDetails'
+          description: |
+            The response shall contain a list of returned AggregationIdentity and AggregationDefinition object instance identifier pairs and a matching list of AggregationValues.
+            The new value shall not be published via the monitorValue operation.
+    getValue_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    enableGeneration_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        isGroupIds:
+          type: boolean
+          description: |
+            If the isGroupIds field is TRUE then the enableInstances field shall contain GroupIdentity object instance identifiers, otherwise the field contains AggregationIdentity object instance identifiers.
+            The AggregationIdentity objects referenced, either directly or indirectly via groups, by the enableInstances field shall be the AggregationIdentity objects to match.
+            The id of the enableInstances field shall support the wildcard value of '0' and matches all AggregationIdentity objects of the provider.
+            The service provider shall check for the wildcard value in the list of object instance identifiers in the enableInstances field first and if found no other checks of supplied object instance identifiers shall be made.
+            If the enableInstances field contains a value of TRUE then reports of matching AggregationIdentity objects shall be generated, a value of FALSE requests that reports will not be generated.
+            No error shall be raised if the enableInstances Boolean value supplied is the same as the current generationEnabled field of the definition for a matched AggregationIdentity object i.e. enabling an already enabled aggregation will not result in an error.
+            If a requested AggregationIdentity or GroupIdentity object is unknown then an UNKNOWN error shall be returned.
+            If a requested Group, or the Group objects referenced by that Group, does not contain AggregationIdentity objects then an INVALID error shall be returned.
+            If an error is raised then no modifications shall be made as a result of this operation call.
+            The provider shall create and store a new AggregationDefinition object in the COM archive if the generationEnabled field is changed.
+            If a new AggregationDefinition object is created then that new object shall be the current AggregationDefinition used for the specific AggregationIdentity.
+        enableInstances:
+          $ref: '#/components/schemas/com/InstanceBooleanPair'
+          description: |
+            If the generation of reports is being enabled, and the aggregation is defined as being periodic, then the provider shall generate a report immediately and start the report interval from that report.
+    enableGeneration_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        newObjInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The response shall contain the list of object instance identifiers for the new AggregationDefinition objects.
+    enableGeneration_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+            - COM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+            - INVALID
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    enableFilter_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        isGroupIds:
+          type: boolean
+          description: |
+            If the isGroupIds field is TRUE then the enableInstances field shall contain GroupIdentity object instance identifiers, otherwise the field contains AggregationIdentity object instance identifiers.
+            The AggregationIdentity objects referenced, either directly or indirectly via groups, by the enableInstances field shall be the AggregationIdentity objects to match.
+            The id of the enableInstances field shall support the wildcard value of '0' and matches all AggregationIdentity objects of the provider.
+            The service provider shall check for the wildcard value in the list of object instance identifiers in the enableInstances field first and if found no other checks of supplied object instance identifiers shall be made.
+            If the enableInstances field contains a value of TRUE then reports of matching AggregationIdentity objects shall be filtered, a value of FALSE requests that reports will not be filtered.
+            No error shall be raised if the enableInstances Boolean value supplied is the same as the current filterEnabled field of the definition for a matched AggregationIdentity object i.e. filtering an already filtered aggregation will not result in an error.
+            If a requested AggregationIdentity or GroupIdentity object is unknown then an UNKNOWN error shall be returned.
+            If a requested Group, or the Group objects referenced by that Group, does not contain AggregationIdentity objects then an INVALID error shall be returned.
+            If an error is raised then no modifications shall be made as a result of this operation call.
+            The provider shall create and store a new AggregationDefinition object in the COM archive if the filterEnabled field is changed.
+            If a new AggregationDefinition object is created then that new object shall be the current AggregationDefinition used for the specific AggregationIdentity.
+        enableInstances:
+          $ref: '#/components/schemas/com/InstanceBooleanPair'
+    enableFilter_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - COM
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - INVALID
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    listDefinition_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        aggNames:
+          type: array
+          items:
+            type: string
+          description: |
+            The aggNames field shall contain a list of aggregation names to retrieve the AggregationIdentity and AggregationDefinition object instance identifiers for.
+            The aggNames field may contain the wildcard value of '*' to return all supported AggregationIdentity and AggregationDefinition objects.
+            The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.
+            If a provided identifier does not include a wildcard and does not match an existing AggregationIdentity object then this operation shall fail with an UNKNOWN error.
+    listDefinition_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        objInstIds:
+          $ref: '#/components/schemas/mc/ObjectInstancePair'
+          description: |
+            The response shall contain a list of matching AggregationIdentity and AggregationDefinition object instance identifiers.
+            The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.
+    listDefinition_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    addAggregation_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        aggDefDetails:
+          $ref: '#/components/schemas/mc/aggregation/AggregationCreationRequest'
+          description: |
+            The aggDefDetails field shall hold the name and the AggregationDefinitionDetails to be added.
+            The name field must not be the wildcard '*', or empty (an INVALID error shall be returned in this case).
+            If the supplied reportInterval or sampleInterval values are not supported by the provider then an INVALID error shall be returned.
+            The supplied name must be unique among all AggregationIdentity objects for the domain of the provider otherwise a DUPLICATE error shall be raised.
+            If an error is raised then no new identities and definitions shall be added as a result of this operation call.
+            If the supplied name matches an existing, but removed, AggregationIdentity then that AggregationIdentity shall be reused otherwise a new AggregationIdentity shall be created.
+            The provider shall create a new AggregationDefinition object and store it, and any new AggregationIdentity objects, in the COM archive.
+    addAggregation_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        newObjInstIds:
+          $ref: '#/components/schemas/mc/ObjectInstancePair'
+          description: |
+            The response shall contain the list of object instance identifiers for the AggregationIdentity and new AggregationDefinition objects.
+            The returned list shall maintain the same order as the submitted definitions.
+    addAggregation_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - COM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - DUPLICATE
+            - INVALID
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    updateDefinition_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        aggInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The aggInstIds field shall contain the object instance identifiers of the AggregationIdentity objects to be updated.
+            The supplied object instance identifiers shall match existing identity objects, an UNKNOWN error shall be raised if this is not the case.
+            If the aggInstIds list contains either NULL or '0' an INVALID error shall be raised.
+        aggDefDetails:
+          $ref: '#/components/schemas/mc/aggregation/AggregationDefinitionDetails'
+          description: |
+            The aggDefDetails field shall contain the replacement AggregationDefinitionDetails.
+            The two lists shall be ordered the same.
+            The number of entries in the two lists shall be the same size otherwise an INVALID error shall be returned.
+            If the supplied reportInterval or sampleInterval values are not supported by the provider then an INVALID error shall be returned.
+            If an error is raised then no definitions shall be updated as a result of this operation call.
+            The provider shall create a new AggregationDefinition object and store it in the COM archive.
+            The new AggregationDefinition object shall be the current AggregationDefinition used for the specific AggregationIdentity.
+    updateDefinition_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        newObjInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The response shall contain the list of object instance identifiers for the new AggregationDefinition objects.
+            The returned list shall maintain the same order as the submitted definitions.
+    updateDefinition_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+            - COM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+            - INVALID
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    removeAggregation_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        aggInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The aggInstIds field shall hold the object instance identifiers of the AggregationIdentity objects to be removed from the provider.
+            The list may contain the wildcard value of '0'.
+            The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
+            If a provided AggregationIdentity object instance identifier does not include a wildcard and does not match an existing aggregation then this operation shall fail with an UNKNOWN error.
+            Matched AggregationIdentity and AggregationDefinition objects shall not be removed from the COM archive only the list of AggregationIdentity and AggregationDefinition objects in the provider.
+            If an error is raised then no aggregations shall be removed as a result of this operation call.
+            If the operation succeeds then the provider shall not publish aggregation values for the deleted AggregationIdentity objects anymore.
+    removeAggregation_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    mc:
+      parameter:
+        ParameterValue:
+          properties:
+            convertedValue:
+              description: The parameter converted value.
+              type: string
+            rawValue:
+              description: The parameter raw value. The value of NULL is a valid value and carries
+                no special significance in the parameter service.
+              type: string
+            validityState:
+              description: Holds the validity state for a parameter value. If the parameter
+                is valid then this should be set to '0'.
+              format: uint8
+              type: integer
+          type: object
+      aggregation:
+        AggregationCreationRequest:
+          properties:
+            aggDefDetails:
+              $ref: '#/components/schemas/mc/aggregation/AggregationDefinitionDetails'
+              description: The aggregation definition details.
+            name:
+              description: The name of the aggregation. Must not be empty or the wildcard value.
+              type: string
+          type: object
+        AggregationDefinitionDetails:
+          properties:
+            category:
+              description: Category of the aggregation. Value taken from AggregationCategory
+                enumeration, although the use of a UOctet allows deployment specific extension.
+                Extensions must use values greater than 127.
+              format: uint8
+              type: integer
+            description:
+              description: The description of the parameter. May be empty.
+              type: string
+            filterEnabled:
+              description: Controls whether reports for this aggregation are to be filtered.
+              type: boolean
+            filteredTimeout:
+              description: The maximum duration between filtered reports. If this value is exceeded,
+                then a report is sent regardless of filtered thresholds. Ignored if not filtered.
+              format: uint64
+              type: number
+            generationEnabled:
+              description: Controls whether reports for this aggregation are to be generated.
+              type: boolean
+            parameterSets:
+              description: List containing the parameter sets which define the aggregation.
+              items:
+                $ref: '#/components/schemas/mc/aggregation/AggregationParameterSet'
+              type: array
+            reportInterval:
+              description: The interval between periodic reports on this aggregation. If this
+                aggregation is not periodic, this field must be '0'.
+              format: uint64
+              type: number
+            sendDefinitions:
+              description: If TRUE reports will include the ParameterDefinition object instance
+                identifier in the AggregationParameterValue, if FALSE it will be set to NULL.
+              type: boolean
+            sendUnchanged:
+              description: If TRUE reports will include all values regardless of whether changed,
+                if FALSE values unchanged from previous report are replaced with a NULL.
+              type: boolean
+          type: object
+        AggregationParameterSet:
+          properties:
+            domain:
+              description: The domain of the parameters being referenced in this set of parameters,
+                NULL if the same domain as the aggregation.
+              items:
+                type: string
+              type: array
+            parameters:
+              description: The list of object instance identifiers of the ParameterIdentity
+                objects being included in the aggregation.
+              items:
+                type: integer
+              type: array
+            reportFilter:
+              $ref: '#/components/schemas/mc/aggregation/ThresholdFilter'
+              description: If the AggregationParameterSet contains a single parameter then this
+                field contains the filter to apply for filtered reports when filters are applied.
+                NULL if no filter required or this set contains more than one parameter.
+            sampleInterval:
+              description: The interval between samples of the parameters in the set. If '0'
+                then just a single sample of the parameters is required per aggregation report.
+              format: uint64
+              type: number
+          type: object
+        AggregationParameterValue:
+          properties:
+            paramDefInstId:
+              description: The object instance identifier of the ParameterDefinition. NULL if
+                sendDefinitions in the AggregationDefinitionDetails is FALSE.
+              format: int64
+              type: integer
+            value:
+              $ref: '#/components/schemas/mc/parameter/ParameterValue'
+              description: The parameter value.
+          type: object
+        AggregationSetValue:
+          properties:
+            deltaTime:
+              description: Optional delta time, from the timestamp of the aggregation for the
+                first parameter set of the aggregation or the last value of the previous parameter
+                set otherwise, for the first parameter sample of this set. If NULL, then the
+                first sample time is the same as the aggregation timestamp for the first parameter
+                set of the aggregation or the last value of the previous parameter set otherwise.
+              format: uint64
+              type: number
+            intervalTime:
+              description: Optional delta time between samples in this set. If NULL, then all
+                samples in this set are given the same time. This is usually driven by the sampleInterval
+                in the aggregation set definition.
+              format: uint64
+              type: number
+            values:
+              description: List containing values of the parameters which are part of the aggregation.
+                The ordering of the list entries shall match that of the definition of the aggregation.
+                If there are more values than contained in the definition then it is assumed
+                that the parameters cycle as a complete parameter set.
+              items:
+                $ref: '#/components/schemas/mc/aggregation/AggregationParameterValue'
+              type: array
+          type: object
+        AggregationValue:
+          properties:
+            filtered:
+              description: If a filter is enabled when the aggregation value is generated then
+                this value shall be set to TRUE, else FALSE.
+              type: boolean
+            generationMode:
+              $ref: '#/components/schemas/mc/aggregation/GenerationMode'
+              description: Reason for the aggregation being generated.
+            parameterSetValues:
+              description: The parameterSetValues list holds the sets of values of the aggregation.
+                The sets must be held in the same order as that defined in the aggregation definition.
+              items:
+                $ref: '#/components/schemas/mc/aggregation/AggregationSetValue'
+              type: array
+          type: object
+        AggregationValueDetails:
+          properties:
+            aggId:
+              description: The AggregationIdentity object instance identifier.
+              format: int64
+              type: integer
+            defId:
+              description: The AggregationDefinition object instance identifier.
+              format: int64
+              type: integer
+            timestamp:
+              description: The timestamp of the value. Use for the calculation of the individual
+                parameter value timestamps.
+              format: uint64
+              type: number
+            value:
+              $ref: '#/components/schemas/mc/aggregation/AggregationValue'
+              description: The aggregation value.
+          type: object
+        GenerationMode:
+          description: GenerationMode is an enumeration definition holding the reasons for the
+            aggregation to be generated.
+          enum:
+          - ADHOC
+          - PERIODIC
+          - FILTERED_TIMEOUT
+          type: string
+        ThresholdFilter:
+          properties:
+            thresholdType:
+              $ref: '#/components/schemas/mc/aggregation/ThresholdType'
+              description: The type of filter to apply for filtered periodic reports when filters
+                are applied.
+            thresholdValue:
+              description: Threshold value to apply.
+              type: string
+            useConverted:
+              description: If true, and the relevant Parameter has a conversion, then use the
+                converted value for the threshold comparison, otherwise use the raw value.
+              type: boolean
+          type: object
+        ThresholdType:
+          description: ThresholdType is an enumeration definition holding the types of filtering
+            thresholds.
+          enum:
+          - PERCENTAGE
+          - DELTA
+          type: string
+      ObjectInstancePair:
+        properties:
+          objDefInstanceId:
+            description: The object instance identifier of the Definition object.
+            format: int64
+            type: integer
+          objIdentityInstanceId:
+            description: The object instance identifier of the Identity object.
+            format: int64
+            type: integer
+        type: object
+    com:
+      InstanceBooleanPair:
+        properties:
+          id:
+            description: The object instance identifier.
+            format: int64
+            type: integer
+          value:
+            description: An associated Boolean value.
+            type: boolean
+        type: object
+      ObjectId:
+        properties:
+          key:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: The combination of the object domain and object instance identifier.
+          type_:
+            $ref: '#/components/schemas/com/ObjectType'
+            description: The fully qualified unique identifier of the type.
+        type: object
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
+      ObjectType:
+        properties:
+          area:
+            description: Area Number where the object type is defined. Must not be '0' for
+              values as this is the wildcard.
+            format: uint16
+            type: integer
+          number:
+            description: The service specific object number. Must not be '0' for values as
+              this is the wildcard.
+            format: uint16
+            type: integer
+          service:
+            description: Service Number of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint16
+            type: integer
+          version:
+            description: Area Version of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint8
+            type: integer
+        type: object
+  messages:
+    monitorValue_publishNotify:
+      description: monitorValue response
+      payload:
+        $ref: '#/components/schemas/monitorValue_publishNotify'
+    getValue_request:
+      description: getValue request
+      payload:
+        $ref: '#/components/schemas/getValue_request'
+    getValue_response:
+      description: getValue response
+      payload:
+        $ref: '#/components/schemas/getValue_response'
+    getValue_error:
+      description: getValue error response
+      payload:
+        $ref: '#/components/schemas/getValue_error'
+    enableGeneration_request:
+      description: enableGeneration request
+      payload:
+        $ref: '#/components/schemas/enableGeneration_request'
+    enableGeneration_response:
+      description: enableGeneration response
+      payload:
+        $ref: '#/components/schemas/enableGeneration_response'
+    enableGeneration_error:
+      description: enableGeneration error response
+      payload:
+        $ref: '#/components/schemas/enableGeneration_error'
+    enableFilter_submit:
+      description: enableFilter request
+      payload:
+        $ref: '#/components/schemas/enableFilter_submit'
+    enableFilter_error:
+      description: enableFilter error response
+      payload:
+        $ref: '#/components/schemas/enableFilter_error'
+    listDefinition_request:
+      description: listDefinition request
+      payload:
+        $ref: '#/components/schemas/listDefinition_request'
+    listDefinition_response:
+      description: listDefinition response
+      payload:
+        $ref: '#/components/schemas/listDefinition_response'
+    listDefinition_error:
+      description: listDefinition error response
+      payload:
+        $ref: '#/components/schemas/listDefinition_error'
+    addAggregation_request:
+      description: addAggregation request
+      payload:
+        $ref: '#/components/schemas/addAggregation_request'
+    addAggregation_response:
+      description: addAggregation response
+      payload:
+        $ref: '#/components/schemas/addAggregation_response'
+    addAggregation_error:
+      description: addAggregation error response
+      payload:
+        $ref: '#/components/schemas/addAggregation_error'
+    updateDefinition_request:
+      description: updateDefinition request
+      payload:
+        $ref: '#/components/schemas/updateDefinition_request'
+    updateDefinition_response:
+      description: updateDefinition response
+      payload:
+        $ref: '#/components/schemas/updateDefinition_response'
+    updateDefinition_error:
+      description: updateDefinition error response
+      payload:
+        $ref: '#/components/schemas/updateDefinition_error'
+    removeAggregation_submit:
+      description: removeAggregation request
+      payload:
+        $ref: '#/components/schemas/removeAggregation_submit'
+    removeAggregation_error:
+      description: removeAggregation error response
+      payload:
+        $ref: '#/components/schemas/removeAggregation_error'

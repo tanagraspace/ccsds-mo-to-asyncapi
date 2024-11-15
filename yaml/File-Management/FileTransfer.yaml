@@ -1,0 +1,747 @@
+asyncapi: 3.0.0
+info:
+  title: FileTransfer Service API
+  version: 1.0.0
+  description: This API allows clients to interact with the FileTransfer Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the FileTransfer Service.
+    variables:
+      port:
+        default: '8883'
+channels:
+  cancel_submit:
+    address: cancel_submit
+    messages:
+      cancel_submit.message:
+        $ref: '#/components/messages/cancel_submit'
+    description: >
+      Send a **cancel_submit** message in this channel.
+  cancel_error:
+    address: cancel_error
+    messages:
+      cancel_error.message:
+        $ref: '#/components/messages/cancel_error'
+    description: >
+      Use this channel to receive cancel errors as **cancel_error**
+      messages.
+  suspend_submit:
+    address: suspend_submit
+    messages:
+      suspend_submit.message:
+        $ref: '#/components/messages/suspend_submit'
+    description: >
+      Send a **suspend_submit** message in this channel.
+  suspend_error:
+    address: suspend_error
+    messages:
+      suspend_error.message:
+        $ref: '#/components/messages/suspend_error'
+    description: >
+      Use this channel to receive suspend errors as **suspend_error**
+      messages.
+  resume_submit:
+    address: resume_submit
+    messages:
+      resume_submit.message:
+        $ref: '#/components/messages/resume_submit'
+    description: >
+      Send a **resume_submit** message in this channel.
+  resume_error:
+    address: resume_error
+    messages:
+      resume_error.message:
+        $ref: '#/components/messages/resume_error'
+    description: >
+      Use this channel to receive resume errors as **resume_error**
+      messages.
+  cancelAll_error:
+    address: cancelAll_error
+    messages:
+      cancelAll_error.message:
+        $ref: '#/components/messages/cancelAll_error'
+    description: >
+      Use this channel to receive cancelAll errors as **cancelAll_error**
+      messages.
+  suspendAll_submit:
+    address: suspendAll_submit
+    messages:
+      suspendAll_submit.message:
+        $ref: '#/components/messages/suspendAll_submit'
+    description: >
+      Send a **suspendAll_submit** message in this channel.
+  suspendAll_error:
+    address: suspendAll_error
+    messages:
+      suspendAll_error.message:
+        $ref: '#/components/messages/suspendAll_error'
+    description: >
+      Use this channel to receive suspendAll errors as **suspendAll_error**
+      messages.
+  resumeAll_submit:
+    address: resumeAll_submit
+    messages:
+      resumeAll_submit.message:
+        $ref: '#/components/messages/resumeAll_submit'
+    description: >
+      Send a **resumeAll_submit** message in this channel.
+  resumeAll_error:
+    address: resumeAll_error
+    messages:
+      resumeAll_error.message:
+        $ref: '#/components/messages/resumeAll_error'
+    description: >
+      Use this channel to receive resumeAll errors as **resumeAll_error**
+      messages.
+  getTransactionReport_request:
+    address: getTransactionReport_request
+    messages:
+      getTransactionReport_request.message:
+        $ref: '#/components/messages/getTransactionReport_request'
+    description: >
+      Send a **getTransactionReport_request** message in this channel to receive a
+      **getTransactionReport_response** message over the **getTransactionReport_response** channel.
+  getTransactionReport_response:
+    address: getTransactionReport_response
+    messages:
+      getTransactionReport_response.message:
+        $ref: '#/components/messages/getTransactionReport_response'
+    description: >
+      Use this channel to receive getTransactionReport responses as **getTransactionReport_response**
+      messages.
+  getTransactionReport_error:
+    address: getTransactionReport_error
+    messages:
+      getTransactionReport_error.message:
+        $ref: '#/components/messages/getTransactionReport_error'
+    description: >
+      Use this channel to receive getTransactionReport errors as **getTransactionReport_error**
+      messages.
+  listTransactions_request:
+    address: listTransactions_request
+    messages:
+      listTransactions_request.message:
+        $ref: '#/components/messages/listTransactions_request'
+    description: >
+      Send a **listTransactions_request** message in this channel to receive a
+      **listTransactions_response** message over the **listTransactions_response** channel.
+  listTransactions_response:
+    address: listTransactions_response
+    messages:
+      listTransactions_response.message:
+        $ref: '#/components/messages/listTransactions_response'
+    description: >
+      Use this channel to receive listTransactions responses as **listTransactions_response**
+      messages.
+  listTransactions_error:
+    address: listTransactions_error
+    messages:
+      listTransactions_error.message:
+        $ref: '#/components/messages/listTransactions_error'
+    description: >
+      Use this channel to receive listTransactions errors as **listTransactions_error**
+      messages.
+  getWindowStatus_request:
+    address: getWindowStatus_request
+    messages:
+      getWindowStatus_request.message:
+        $ref: '#/components/messages/getWindowStatus_request'
+    description: >
+      Send a **getWindowStatus_request** message in this channel to receive a
+      **getWindowStatus_response** message over the **getWindowStatus_response** channel.
+  getWindowStatus_response:
+    address: getWindowStatus_response
+    messages:
+      getWindowStatus_response.message:
+        $ref: '#/components/messages/getWindowStatus_response'
+    description: >
+      Use this channel to receive getWindowStatus responses as **getWindowStatus_response**
+      messages.
+  getWindowStatus_error:
+    address: getWindowStatus_error
+    messages:
+      getWindowStatus_error.message:
+        $ref: '#/components/messages/getWindowStatus_error'
+    description: >
+      Use this channel to receive getWindowStatus errors as **getWindowStatus_error**
+      messages.
+operations:
+  cancel_submit:
+    action: send
+    channel:
+      $ref: '#/channels/cancel_submit'
+    messages:
+      - $ref: '#/channels/cancel_submit/messages/cancel_submit.message'
+  cancel_error:
+    action: receive
+    channel:
+      $ref: '#/channels/cancel_error'
+    messages:
+      - $ref: '#/channels/cancel_error/messages/cancel_error.message'
+  suspend_submit:
+    action: send
+    channel:
+      $ref: '#/channels/suspend_submit'
+    messages:
+      - $ref: '#/channels/suspend_submit/messages/suspend_submit.message'
+  suspend_error:
+    action: receive
+    channel:
+      $ref: '#/channels/suspend_error'
+    messages:
+      - $ref: '#/channels/suspend_error/messages/suspend_error.message'
+  resume_submit:
+    action: send
+    channel:
+      $ref: '#/channels/resume_submit'
+    messages:
+      - $ref: '#/channels/resume_submit/messages/resume_submit.message'
+  resume_error:
+    action: receive
+    channel:
+      $ref: '#/channels/resume_error'
+    messages:
+      - $ref: '#/channels/resume_error/messages/resume_error.message'
+  cancelAll_error:
+    action: receive
+    channel:
+      $ref: '#/channels/cancelAll_error'
+    messages:
+      - $ref: '#/channels/cancelAll_error/messages/cancelAll_error.message'
+  suspendAll_submit:
+    action: send
+    channel:
+      $ref: '#/channels/suspendAll_submit'
+    messages:
+      - $ref: '#/channels/suspendAll_submit/messages/suspendAll_submit.message'
+  suspendAll_error:
+    action: receive
+    channel:
+      $ref: '#/channels/suspendAll_error'
+    messages:
+      - $ref: '#/channels/suspendAll_error/messages/suspendAll_error.message'
+  resumeAll_submit:
+    action: send
+    channel:
+      $ref: '#/channels/resumeAll_submit'
+    messages:
+      - $ref: '#/channels/resumeAll_submit/messages/resumeAll_submit.message'
+  resumeAll_error:
+    action: receive
+    channel:
+      $ref: '#/channels/resumeAll_error'
+    messages:
+      - $ref: '#/channels/resumeAll_error/messages/resumeAll_error.message'
+  getTransactionReport_request:
+    action: send
+    channel:
+      $ref: '#/channels/getTransactionReport_request'
+    messages:
+      - $ref: '#/channels/getTransactionReport_request/messages/getTransactionReport_request.message'
+  getTransactionReport_response:
+    action: receive
+    channel:
+      $ref: '#/channels/getTransactionReport_response'
+    messages:
+      - $ref: '#/channels/getTransactionReport_response/messages/getTransactionReport_response.message'
+  getTransactionReport_error:
+    action: receive
+    channel:
+      $ref: '#/channels/getTransactionReport_error'
+    messages:
+      - $ref: '#/channels/getTransactionReport_error/messages/getTransactionReport_error.message'
+  listTransactions_request:
+    action: send
+    channel:
+      $ref: '#/channels/listTransactions_request'
+    messages:
+      - $ref: '#/channels/listTransactions_request/messages/listTransactions_request.message'
+  listTransactions_response:
+    action: receive
+    channel:
+      $ref: '#/channels/listTransactions_response'
+    messages:
+      - $ref: '#/channels/listTransactions_response/messages/listTransactions_response.message'
+  listTransactions_error:
+    action: receive
+    channel:
+      $ref: '#/channels/listTransactions_error'
+    messages:
+      - $ref: '#/channels/listTransactions_error/messages/listTransactions_error.message'
+  getWindowStatus_request:
+    action: send
+    channel:
+      $ref: '#/channels/getWindowStatus_request'
+    messages:
+      - $ref: '#/channels/getWindowStatus_request/messages/getWindowStatus_request.message'
+  getWindowStatus_response:
+    action: receive
+    channel:
+      $ref: '#/channels/getWindowStatus_response'
+    messages:
+      - $ref: '#/channels/getWindowStatus_response/messages/getWindowStatus_response.message'
+  getWindowStatus_error:
+    action: receive
+    channel:
+      $ref: '#/channels/getWindowStatus_error'
+    messages:
+      - $ref: '#/channels/getWindowStatus_error/messages/getWindowStatus_error.message'
+components:
+  schemas:
+    cancel_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        transactionId:
+          $ref: '#/components/schemas/fm/file_transfer/FileTransactionId'
+    cancel_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN_TRANSACTION
+            - OTHER_ERROR
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    suspend_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        transactionId:
+          $ref: '#/components/schemas/fm/file_transfer/FileTransactionId'
+    suspend_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN_TRANSACTION
+            - OTHER_ERROR
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    resume_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        transactionId:
+          $ref: '#/components/schemas/fm/file_transfer/FileTransactionId'
+    resume_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN_TRANSACTION
+            - OTHER_ERROR
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    cancelAll_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - OTHER_ERROR
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    suspendAll_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        entityId:
+          type: string
+        window:
+          $ref: '#/components/schemas/fm/file_transfer/FileTransferWindow'
+          description: |
+            The Transmit (Tx) and/or Receive (Rx) windows to be closed.
+    suspendAll_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN_ENTITY
+            - CANNOT_SET_MIB_VALUE
+            - OTHER_ERROR
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    resumeAll_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        entityId:
+          type: string
+        window:
+          $ref: '#/components/schemas/fm/file_transfer/FileTransferWindow'
+          description: |
+            The Transmit (Tx) and/or Receive (Rx) windows to be closed.
+    resumeAll_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN_ENTITY
+            - CANNOT_SET_MIB_VALUE
+            - OTHER_ERROR
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    getTransactionReport_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        transactionId:
+          $ref: '#/components/schemas/fm/file_transfer/FileTransactionId'
+    getTransactionReport_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        report:
+          $ref: '#/components/schemas/fm/file_transfer/FileTransactionReport'
+    getTransactionReport_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN_TRANSACTION
+            - OTHER_ERROR
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    listTransactions_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        entityId:
+          type: string
+    listTransactions_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        transactionList:
+          $ref: '#/components/schemas/fm/file_transfer/FileTransactionReport'
+    listTransactions_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN_ENTITY
+            - UNKNOWN_TRANSACTION
+            - OTHER_ERROR
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    getWindowStatus_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        entityId:
+          type: string
+    getWindowStatus_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        statusReporty:
+          $ref: '#/components/schemas/fm/file_transfer/WindowStatusReport'
+    getWindowStatus_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN_ENTITY
+            - CANNOT_GET_MIB_VALUE
+            - OTHER_ERROR
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    fm:
+      file_transfer:
+        FileTransactionId:
+          properties:
+            entity:
+              description: ''
+              format: binary
+              type: string
+            id:
+              description: The ID as a byte array
+              format: binary
+              type: string
+          type: object
+        FileTransactionReport:
+          properties:
+            sourcePath:
+              description: ''
+              format: uri
+              type: string
+            targetPath:
+              description: ''
+              format: uri
+              type: string
+            transactionId:
+              $ref: '#/components/schemas/fm/file_transfer/FileTransactionId'
+              description: The transaction ID of the file transfer initiated on the spacecraft.
+            transactionResponseCode:
+              $ref: '#/components/schemas/fm/file_transfer/FileTransactionResponseCode'
+              description: ''
+            transactionStatus:
+              $ref: '#/components/schemas/fm/file_transfer/FileTransactionStatus'
+              description: ''
+          type: object
+        FileTransactionResponseCode:
+          description: ''
+          enum:
+          - UNSUCCESSFUL
+          - SUCCESSFUL
+          - UNKNOWN
+          type: string
+        FileTransactionStatus:
+          description: ''
+          enum:
+          - UNDEFINED
+          - ACTIVE
+          - TERMINATED
+          - UNRECOGNISED
+          - UNKNOWN
+          type: string
+        FileTransferWindow:
+          description: This enumeration represents the communication windows of a file transfer
+            entity. It should be noted that the reception/transmission is from the point of
+            view of the entity being addressed.
+          enum:
+          - TX_WINDOW
+          - RX_WINDOW
+          - BOTH_WINDOW
+          type: string
+        WindowStatusReport:
+          properties:
+            rxWindowOpen:
+              description: Returns true if the receive window is open otherwise false.
+              type: boolean
+            txWindowOpen:
+              description: Returns true if the transmit window is open otherwise false.
+              type: boolean
+          type: object
+  messages:
+    cancel_submit:
+      description: cancel request
+      payload:
+        $ref: '#/components/schemas/cancel_submit'
+    cancel_error:
+      description: cancel error response
+      payload:
+        $ref: '#/components/schemas/cancel_error'
+    suspend_submit:
+      description: suspend request
+      payload:
+        $ref: '#/components/schemas/suspend_submit'
+    suspend_error:
+      description: suspend error response
+      payload:
+        $ref: '#/components/schemas/suspend_error'
+    resume_submit:
+      description: resume request
+      payload:
+        $ref: '#/components/schemas/resume_submit'
+    resume_error:
+      description: resume error response
+      payload:
+        $ref: '#/components/schemas/resume_error'
+    cancelAll_error:
+      description: cancelAll error response
+      payload:
+        $ref: '#/components/schemas/cancelAll_error'
+    suspendAll_submit:
+      description: suspendAll request
+      payload:
+        $ref: '#/components/schemas/suspendAll_submit'
+    suspendAll_error:
+      description: suspendAll error response
+      payload:
+        $ref: '#/components/schemas/suspendAll_error'
+    resumeAll_submit:
+      description: resumeAll request
+      payload:
+        $ref: '#/components/schemas/resumeAll_submit'
+    resumeAll_error:
+      description: resumeAll error response
+      payload:
+        $ref: '#/components/schemas/resumeAll_error'
+    getTransactionReport_request:
+      description: getTransactionReport request
+      payload:
+        $ref: '#/components/schemas/getTransactionReport_request'
+    getTransactionReport_response:
+      description: getTransactionReport response
+      payload:
+        $ref: '#/components/schemas/getTransactionReport_response'
+    getTransactionReport_error:
+      description: getTransactionReport error response
+      payload:
+        $ref: '#/components/schemas/getTransactionReport_error'
+    listTransactions_request:
+      description: listTransactions request
+      payload:
+        $ref: '#/components/schemas/listTransactions_request'
+    listTransactions_response:
+      description: listTransactions response
+      payload:
+        $ref: '#/components/schemas/listTransactions_response'
+    listTransactions_error:
+      description: listTransactions error response
+      payload:
+        $ref: '#/components/schemas/listTransactions_error'
+    getWindowStatus_request:
+      description: getWindowStatus request
+      payload:
+        $ref: '#/components/schemas/getWindowStatus_request'
+    getWindowStatus_response:
+      description: getWindowStatus response
+      payload:
+        $ref: '#/components/schemas/getWindowStatus_response'
+    getWindowStatus_error:
+      description: getWindowStatus error response
+      payload:
+        $ref: '#/components/schemas/getWindowStatus_error'

@@ -1,0 +1,679 @@
+asyncapi: 3.0.0
+info:
+  title: Alert Service API
+  version: 1.0.0
+  description: This API allows clients to interact with the Alert Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the Alert Service.
+    variables:
+      port:
+        default: '8883'
+channels:
+  enableGeneration_request:
+    address: enableGeneration_request
+    messages:
+      enableGeneration_request.message:
+        $ref: '#/components/messages/enableGeneration_request'
+    description: >
+      Send a **enableGeneration_request** message in this channel to receive a
+      **enableGeneration_response** message over the **enableGeneration_response** channel.
+  enableGeneration_response:
+    address: enableGeneration_response
+    messages:
+      enableGeneration_response.message:
+        $ref: '#/components/messages/enableGeneration_response'
+    description: >
+      Use this channel to receive enableGeneration responses as **enableGeneration_response**
+      messages.
+  enableGeneration_error:
+    address: enableGeneration_error
+    messages:
+      enableGeneration_error.message:
+        $ref: '#/components/messages/enableGeneration_error'
+    description: >
+      Use this channel to receive enableGeneration errors as **enableGeneration_error**
+      messages.
+  listDefinition_request:
+    address: listDefinition_request
+    messages:
+      listDefinition_request.message:
+        $ref: '#/components/messages/listDefinition_request'
+    description: >
+      Send a **listDefinition_request** message in this channel to receive a
+      **listDefinition_response** message over the **listDefinition_response** channel.
+  listDefinition_response:
+    address: listDefinition_response
+    messages:
+      listDefinition_response.message:
+        $ref: '#/components/messages/listDefinition_response'
+    description: >
+      Use this channel to receive listDefinition responses as **listDefinition_response**
+      messages.
+  listDefinition_error:
+    address: listDefinition_error
+    messages:
+      listDefinition_error.message:
+        $ref: '#/components/messages/listDefinition_error'
+    description: >
+      Use this channel to receive listDefinition errors as **listDefinition_error**
+      messages.
+  addAlert_request:
+    address: addAlert_request
+    messages:
+      addAlert_request.message:
+        $ref: '#/components/messages/addAlert_request'
+    description: >
+      Send a **addAlert_request** message in this channel to receive a
+      **addAlert_response** message over the **addAlert_response** channel.
+  addAlert_response:
+    address: addAlert_response
+    messages:
+      addAlert_response.message:
+        $ref: '#/components/messages/addAlert_response'
+    description: >
+      Use this channel to receive addAlert responses as **addAlert_response**
+      messages.
+  addAlert_error:
+    address: addAlert_error
+    messages:
+      addAlert_error.message:
+        $ref: '#/components/messages/addAlert_error'
+    description: >
+      Use this channel to receive addAlert errors as **addAlert_error**
+      messages.
+  updateDefinition_request:
+    address: updateDefinition_request
+    messages:
+      updateDefinition_request.message:
+        $ref: '#/components/messages/updateDefinition_request'
+    description: >
+      Send a **updateDefinition_request** message in this channel to receive a
+      **updateDefinition_response** message over the **updateDefinition_response** channel.
+  updateDefinition_response:
+    address: updateDefinition_response
+    messages:
+      updateDefinition_response.message:
+        $ref: '#/components/messages/updateDefinition_response'
+    description: >
+      Use this channel to receive updateDefinition responses as **updateDefinition_response**
+      messages.
+  updateDefinition_error:
+    address: updateDefinition_error
+    messages:
+      updateDefinition_error.message:
+        $ref: '#/components/messages/updateDefinition_error'
+    description: >
+      Use this channel to receive updateDefinition errors as **updateDefinition_error**
+      messages.
+  removeAlert_submit:
+    address: removeAlert_submit
+    messages:
+      removeAlert_submit.message:
+        $ref: '#/components/messages/removeAlert_submit'
+    description: >
+      Send a **removeAlert_submit** message in this channel.
+  removeAlert_error:
+    address: removeAlert_error
+    messages:
+      removeAlert_error.message:
+        $ref: '#/components/messages/removeAlert_error'
+    description: >
+      Use this channel to receive removeAlert errors as **removeAlert_error**
+      messages.
+operations:
+  enableGeneration_request:
+    action: send
+    channel:
+      $ref: '#/channels/enableGeneration_request'
+    messages:
+      - $ref: '#/channels/enableGeneration_request/messages/enableGeneration_request.message'
+  enableGeneration_response:
+    action: receive
+    channel:
+      $ref: '#/channels/enableGeneration_response'
+    messages:
+      - $ref: '#/channels/enableGeneration_response/messages/enableGeneration_response.message'
+  enableGeneration_error:
+    action: receive
+    channel:
+      $ref: '#/channels/enableGeneration_error'
+    messages:
+      - $ref: '#/channels/enableGeneration_error/messages/enableGeneration_error.message'
+  listDefinition_request:
+    action: send
+    channel:
+      $ref: '#/channels/listDefinition_request'
+    messages:
+      - $ref: '#/channels/listDefinition_request/messages/listDefinition_request.message'
+  listDefinition_response:
+    action: receive
+    channel:
+      $ref: '#/channels/listDefinition_response'
+    messages:
+      - $ref: '#/channels/listDefinition_response/messages/listDefinition_response.message'
+  listDefinition_error:
+    action: receive
+    channel:
+      $ref: '#/channels/listDefinition_error'
+    messages:
+      - $ref: '#/channels/listDefinition_error/messages/listDefinition_error.message'
+  addAlert_request:
+    action: send
+    channel:
+      $ref: '#/channels/addAlert_request'
+    messages:
+      - $ref: '#/channels/addAlert_request/messages/addAlert_request.message'
+  addAlert_response:
+    action: receive
+    channel:
+      $ref: '#/channels/addAlert_response'
+    messages:
+      - $ref: '#/channels/addAlert_response/messages/addAlert_response.message'
+  addAlert_error:
+    action: receive
+    channel:
+      $ref: '#/channels/addAlert_error'
+    messages:
+      - $ref: '#/channels/addAlert_error/messages/addAlert_error.message'
+  updateDefinition_request:
+    action: send
+    channel:
+      $ref: '#/channels/updateDefinition_request'
+    messages:
+      - $ref: '#/channels/updateDefinition_request/messages/updateDefinition_request.message'
+  updateDefinition_response:
+    action: receive
+    channel:
+      $ref: '#/channels/updateDefinition_response'
+    messages:
+      - $ref: '#/channels/updateDefinition_response/messages/updateDefinition_response.message'
+  updateDefinition_error:
+    action: receive
+    channel:
+      $ref: '#/channels/updateDefinition_error'
+    messages:
+      - $ref: '#/channels/updateDefinition_error/messages/updateDefinition_error.message'
+  removeAlert_submit:
+    action: send
+    channel:
+      $ref: '#/channels/removeAlert_submit'
+    messages:
+      - $ref: '#/channels/removeAlert_submit/messages/removeAlert_submit.message'
+  removeAlert_error:
+    action: receive
+    channel:
+      $ref: '#/channels/removeAlert_error'
+    messages:
+      - $ref: '#/channels/removeAlert_error/messages/removeAlert_error.message'
+components:
+  schemas:
+    enableGeneration_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        isGroupIds:
+          type: boolean
+          description: |
+            If the isGroupIds field is TRUE then the enableInstances field shall contain GroupIdentity object instance identifiers, otherwise the field contains AlertIdentity object instance identifiers.
+            The AlertIdentity objects referenced, either directly or indirectly via groups, by the enableInstances field shall be the AlertIdentity objects to match.
+            The id of the enableInstances field shall support the wildcard value of '0' and matches all AlertIdentity objects of the provider.
+            The service provider shall check for the wildcard value in the list of object instance identifiers in the enableInstances field first and if found no other checks of supplied object instance identifiers shall be made.
+            If the enableInstances field contains a value of TRUE then instances of matching AlertIdentity objects shall be generated, a value of FALSE requests that instances will not be generated.
+            No error shall be raised if the enableInstances Boolean value supplied is the same as the current generationEnabled field for an alert object i.e. enabling an already enabled alert will not result in an error.
+            If a requested AlertIdentity or GroupIdentity object is unknown then an UNKNOWN error shall be returned.
+            If a requested Group, or the Group objects referenced by that Group, does not contain AlertIdentity objects then an INVALID error shall be returned.
+            If an error is raised then no modifications shall be made as a result of this operation call.
+            The provider shall create and store a new AlertDefinition object in the COM archive if the generationEnabled field is changed.
+            If a new AlertDefinition object is created then that new object shall be the current AlertDefinition used for the specific AlertIdentity.
+        enableInstances:
+          $ref: '#/components/schemas/com/InstanceBooleanPair'
+    enableGeneration_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        newObjInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The response shall contain the list of object instance identifiers for the new AlertDefinition objects.
+    enableGeneration_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - COM
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - INVALID
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    listDefinition_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        alertNames:
+          type: array
+          items:
+            type: string
+          description: |
+            The alertNames field shall contain a list of alert names to retrieve the AlertIdentity and AlertDefinition object instance identifiers for.
+            The alertNames field may contain the wildcard value of '*' to return all supported AlertIdentity and AlertDefinition objects.
+            The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.
+            If a provided identifier does not include a wildcard and does not match an existing AlertIdentity object then this operation shall fail with an UNKNOWN error.
+    listDefinition_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        alertObjInstIds:
+          $ref: '#/components/schemas/mc/ObjectInstancePair'
+          description: |
+            The response shall contain a list of matching AlertIdentity and AlertDefinition object instance identifiers.
+            The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.
+    listDefinition_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    addAlert_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        alertDefDetails:
+          $ref: '#/components/schemas/mc/alert/AlertCreationRequest'
+          description: |
+            The alertDefDetails field shall hold the name and the AlertDefinitionDetails to be added.
+            The name field must not be the wildcard '*', or empty (an INVALID error shall be returned in this case).
+            The supplied name must be unique among all AlertIdentity objects for the domain of the provider otherwise a DUPLICATE error shall be raised.
+            If an error is raised then no new identities and definitions shall be added as a result of this operation call.
+            If the supplied name matches an existing, but removed, AlertIdentity then that AlertIdentity shall be reused otherwise a new AlertIdentity shall be created.
+            The provider shall create a new AlertDefinition object and store it, and any new AlertIdentity objects, in the COM archive.
+    addAlert_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        newObjInstIds:
+          $ref: '#/components/schemas/mc/ObjectInstancePair'
+          description: |
+            The response shall contain the list of object instance identifiers for the AlertIdentity and new AlertDefinition objects.
+            The returned list shall maintain the same order as the submitted definitions.
+    addAlert_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - COM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - DUPLICATE
+            - INVALID
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    updateDefinition_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        alertObjInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The alertObjInstIds field shall contain the object instance identifiers of the AlertIdentity objects to be updated.
+            The supplied object instance identifiers shall match existing identity objects, an UNKNOWN error shall be raised if this is not the case.
+            If the alertObjInstIds list contains either NULL or '0' an INVALID error shall be raised.
+        alertDefDetails:
+          $ref: '#/components/schemas/mc/alert/AlertDefinitionDetails'
+          description: |
+            The alertDefDetails field shall contain the replacement AlertDefinitionDetails.
+            The two lists shall be ordered the same.
+            The number of entries in the two lists shall be the same size otherwise an INVALID error shall be returned.
+            If an error is raised then no definitions shall be updated as a result of this operation call.
+            The provider shall create a new AlertDefinition object and store it in the COM archive.
+            The new AlertDefinition object shall be the current AlertDefinition used for the specific AlertIdentity.
+    updateDefinition_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        newObjInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The response shall contain the list of object instance identifiers for the new AlertDefinition objects.
+            The returned list shall maintain the same order as the submitted definitions.
+    updateDefinition_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - COM
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - INVALID
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    removeAlert_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        alertInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The alertInstIds field shall hold the object instance identifiers of the AlertIdentity objects to be removed from the provider.
+            The list may contain the wildcard value of '0'.
+            The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
+            If a provided AlertIdentity object instance identifier does not include a wildcard and does not match an existing AlertIdentity object then this operation shall fail with an UNKNOWN error.
+            Matched AlertIdentity objects shall not be removed from the COM archive only the list of AlertIdentity objects in the provider.
+            If an error is raised then no alerts shall be removed as a result of this operation call.
+            If the operation succeeds then the provider shall not publish AlertEvent events for the deleted AlertIdentity objects anymore.
+    removeAlert_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    mc:
+      ArgumentDefinitionDetails:
+        properties:
+          argId:
+            description: Holds the argument definition identifier.
+            type: string
+          conditionalConversions:
+            description: The conditional conversions to apply to the argument. Only the first
+              TRUE conversion should be applied.
+            items:
+              $ref: '#/components/schemas/mc/ConditionalConversion'
+            type: array
+          convertedType:
+            description: Holds the attribute short form part of the converted type of the
+              argument, e.g., for a MAL::String argument it shall hold 15. Must not be NULL
+              if a conversion condition is supplied.
+            format: int8
+            type: integer
+          convertedUnit:
+            description: The converted argument units.
+            type: string
+          description:
+            description: Optional argument description.
+            type: string
+          rawType:
+            description: Holds the attribute short form part of the raw type of the argument,
+              e.g., for a MAL::String argument it shall hold 15.
+            format: int8
+            type: integer
+          rawUnit:
+            description: The unit for the raw value.
+            type: string
+        type: object
+      ConditionalConversion:
+        properties:
+          condition:
+            $ref: '#/components/schemas/mc/ParameterExpression'
+            description: The expression indicates which entities are applicable for this check.
+              If NULL, then the condition shall evaluate to TRUE.
+          conversionId:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: The object instance identifier of the ConversionIdentity object to
+              be used if the condition evaluates to TRUE or is NULL.
+        type: object
+      ObjectInstancePair:
+        properties:
+          objDefInstanceId:
+            description: The object instance identifier of the Definition object.
+            format: int64
+            type: integer
+          objIdentityInstanceId:
+            description: The object instance identifier of the Identity object.
+            format: int64
+            type: integer
+        type: object
+      ParameterExpression:
+        properties:
+          operator:
+            $ref: '#/components/schemas/com/archive/ExpressionOperator'
+            description: The expression operator.
+          parameterId:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: Holds the object instance identifier of the ParameterIdentity object
+              to be used in the expression.
+          useConverted:
+            description: If set to TRUE the converted value field of the parameter value should
+              be used, otherwise the raw value field should be used.
+            type: boolean
+          value:
+            description: The value to be used in the expression.
+            type: string
+        type: object
+      Severity:
+        description: 'The severity enumeration holds the possible values for a severity. The
+          numerical value represents the increasing severity, therefore CRITICAL is more severe
+          than ALARM. Normally, for checks, only the Warning and Critical ranges are used:
+          the colour yellow is associated with Warning, and the colour red is associated with
+          Critical.'
+        enum:
+        - INFORMATIONAL
+        - WARNING
+        - ALARM
+        - SEVERE
+        - CRITICAL
+        type: string
+      alert:
+        AlertCreationRequest:
+          properties:
+            alertDefDetails:
+              $ref: '#/components/schemas/mc/alert/AlertDefinitionDetails'
+              description: The alert definition details.
+            name:
+              description: Alert name. Must not be empty or wildcard value.
+              type: string
+          type: object
+        AlertDefinitionDetails:
+          properties:
+            arguments:
+              description: The list of argument definitions.
+              items:
+                $ref: '#/components/schemas/mc/ArgumentDefinitionDetails'
+              type: array
+            description:
+              description: The description of the alert.
+              type: string
+            generationEnabled:
+              description: Controls whether instances of this alert are to be generated.
+              type: boolean
+            severity:
+              $ref: '#/components/schemas/mc/Severity'
+              description: Severity of the alert.
+          type: object
+    com:
+      archive:
+        ExpressionOperator:
+          description: The ExpressionOperator enumeration holds a set of possible expression
+            operators.
+          enum:
+          - EQUAL
+          - DIFFER
+          - GREATER
+          - GREATER_OR_EQUAL
+          - LESS
+          - LESS_OR_EQUAL
+          - CONTAINS
+          - ICONTAINS
+          type: string
+      InstanceBooleanPair:
+        properties:
+          id:
+            description: The object instance identifier.
+            format: int64
+            type: integer
+          value:
+            description: An associated Boolean value.
+            type: boolean
+        type: object
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
+  messages:
+    enableGeneration_request:
+      description: enableGeneration request
+      payload:
+        $ref: '#/components/schemas/enableGeneration_request'
+    enableGeneration_response:
+      description: enableGeneration response
+      payload:
+        $ref: '#/components/schemas/enableGeneration_response'
+    enableGeneration_error:
+      description: enableGeneration error response
+      payload:
+        $ref: '#/components/schemas/enableGeneration_error'
+    listDefinition_request:
+      description: listDefinition request
+      payload:
+        $ref: '#/components/schemas/listDefinition_request'
+    listDefinition_response:
+      description: listDefinition response
+      payload:
+        $ref: '#/components/schemas/listDefinition_response'
+    listDefinition_error:
+      description: listDefinition error response
+      payload:
+        $ref: '#/components/schemas/listDefinition_error'
+    addAlert_request:
+      description: addAlert request
+      payload:
+        $ref: '#/components/schemas/addAlert_request'
+    addAlert_response:
+      description: addAlert response
+      payload:
+        $ref: '#/components/schemas/addAlert_response'
+    addAlert_error:
+      description: addAlert error response
+      payload:
+        $ref: '#/components/schemas/addAlert_error'
+    updateDefinition_request:
+      description: updateDefinition request
+      payload:
+        $ref: '#/components/schemas/updateDefinition_request'
+    updateDefinition_response:
+      description: updateDefinition response
+      payload:
+        $ref: '#/components/schemas/updateDefinition_response'
+    updateDefinition_error:
+      description: updateDefinition error response
+      payload:
+        $ref: '#/components/schemas/updateDefinition_error'
+    removeAlert_submit:
+      description: removeAlert request
+      payload:
+        $ref: '#/components/schemas/removeAlert_submit'
+    removeAlert_error:
+      description: removeAlert error response
+      payload:
+        $ref: '#/components/schemas/removeAlert_error'

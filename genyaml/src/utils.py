@@ -125,3 +125,21 @@ def load_class_and_invoke_to_yaml(mo_asyncapi_src_dir_path: str, area: str, serv
       # instantiate the class and call the `to_yaml` method
       instance = klass()
       return instance.to_yaml()
+
+def merge_dictionaries(dict1, dict2):
+  merged_dict = {}
+  for key in dict1.keys() | dict2.keys():
+    if key in dict1 and key in dict2:
+      if isinstance(dict1[key], dict) and isinstance(dict2[key], dict):
+        # recursively merge if both values are dictionaries
+        merged_dict[key] = merge_dictionaries(dict1[key], dict2[key])
+      elif isinstance(dict1[key], set) and isinstance(dict2[key], set):
+        # union the sets if both values are sets
+        merged_dict[key] = dict1[key] | dict2[key]
+      else:
+        # raise an error if types are incompatible
+        raise TypeError(f"Incompatible types for key '{key}': {type(dict1[key])} vs {type(dict2[key])}")
+    else:
+      # if the key only exists in one of the dictionaries
+      merged_dict[key] = dict1.get(key, dict2.get(key))
+  return merged_dict
