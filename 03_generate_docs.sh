@@ -5,7 +5,7 @@ set -e
 
 # the --retain flag preserves existing documentation in the docs directory
 # it skips regenerating docs for YAML files that already have corresponding AsyncAPI index.html files
-# use this flag to avoid overwriting current docs and generate output only for new or  missing files
+# use this flag to avoid overwriting current docs and generate output only for new or missing files
 RETAIN_EXISTING=false
 
 # parse arguments for --retain flag
@@ -18,10 +18,9 @@ done
 # container version for the AsyncAPI Generator
 ASYNCAPI_CONTAINER_TAG="2.5.0"
 
-# input and ouput folders
+# input and output folders
 INPUT_DIR="yaml"
 OUTPUT_DIR="docs"
-
 
 # function to clear the target directory if --retain flag is not set
 clear_target_docs_dir() {
@@ -50,16 +49,11 @@ clear_target_docs_dir
 # iterate over each YAML file in the input directory and subdirectories
 for yaml_file in $(find "$INPUT_DIR" -type f -name "*.yaml"); do
   filename=$(basename "$yaml_file")
-
   # get the relative path from INPUT_DIR to the YAML file directory
   relative_dir=$(dirname "${yaml_file#$INPUT_DIR/}")
 
-  # convert the base filename to a subdirectory structure (e.g., Aggregation-monitorValue -> Aggregation/monitorValue)
-  base_filename="${filename%.*}"
-  formatted_output_dir=$(echo "$base_filename" | sed -E 's/-/\//')
-
-  # combine OUTPUT_DIR, relative path, and formatted_output_dir for the final output path
-  target_output_dir="$OUTPUT_DIR/$relative_dir/$formatted_output_dir"
+  # set the target output directory to match the input directory structure
+  target_output_dir="$OUTPUT_DIR/$relative_dir/${filename%.yaml}"
 
   # skip processing if the target directory exists and contains an index.html file
   if [[ "$RETAIN_EXISTING" == true && -f "$target_output_dir/index.html" ]]; then
@@ -67,11 +61,13 @@ for yaml_file in $(find "$INPUT_DIR" -type f -name "*.yaml"); do
     continue
   fi
 
-  # create target output directory
+  # create the target output directory
   mkdir -p "$target_output_dir"
 
   echo "Generating docs for $filename in $relative_dir using asyncapi/generator:$ASYNCAPI_CONTAINER_TAG..."
-  docker run --rm -v "$(pwd)/$INPUT_DIR:/app/yaml" -v "$(pwd)/$OUTPUT_DIR:/app/docs" asyncapi/generator:$ASYNCAPI_CONTAINER_TAG /app/yaml/$relative_dir/$filename -o /app/docs/$relative_dir/$formatted_output_dir @asyncapi/html-template --force-write
+  docker run --rm -v "$(pwd)/$INPUT_DIR:/app/yaml" -v "$(pwd)/$OUTPUT_DIR:/app/docs" \
+    asyncapi/generator:$ASYNCAPI_CONTAINER_TAG /app/yaml/$relative_dir/$filename \
+    -o /app/docs/$relative_dir/${filename%.yaml} @asyncapi/html-template --force-write
 done
 
 # change ownership of the generated docs

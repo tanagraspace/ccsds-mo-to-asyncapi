@@ -48,7 +48,7 @@ class AbstractYamlGenerator(ABC):
     return None
 
 
-  def generate_service_schema(self, service_name: str, interaction_name: str) -> str:
+  def generate_service_schema(self, service_name: str) -> str:
     """
     Generates the YAML string for the base AsyncAPI service schema.
     """
@@ -56,15 +56,15 @@ class AbstractYamlGenerator(ABC):
     schema = ""
     schema += "asyncapi: 3.0.0\n"
     schema += "info:\n"
-    schema += f"  title: {service_name} Service {interaction_name} API\n"
+    schema += f"  title: {service_name} Service API\n"
     schema += "  version: 1.0.0\n"
-    schema += f"  description: This API allows clients to interact with the {interaction_name} interaction of the {service_name} Service.\n"
+    schema += f"  description: This API allows clients to interact with the {service_name} Service.\n"
     schema += "defaultContentType: application/json\n"
     schema += "servers:\n"
     schema += "  production:\n"
     schema += f"    host: 'localhost:{{port}}'\n"
     schema += "    protocol: mqtt\n"
-    schema += f"    description: MQTT server for the {service_name} Service's {interaction_name} interaction.\n"
+    schema += f"    description: MQTT server for the {service_name} Service.\n"
     schema += "    variables:\n"
     schema += "      port:\n"
     schema += "        default: '8883'\n"
@@ -72,152 +72,154 @@ class AbstractYamlGenerator(ABC):
     return schema
 
 
-  def generate_channels_schema(self, service_name: str, interaction_name: str,
+  def generate_channels_schema(self, interaction_name: str,
     include_channel_send: bool, include_channel_receive: bool, include_channel_receive_additional : bool = False, include_channel_error: bool = False) -> str:
     """
     Generates the YAML string for a pubsubIP interaction.
     """
 
     channels_schema = ""
-    channels_schema += "channels:\n"
 
     # send channel
     if include_channel_send:
-      channels_schema += f"  {self.send_element}_{service_name}_{interaction_name}:\n"
-      channels_schema += f"    address: {self.send_element}_{service_name}_{interaction_name}\n"
+      channels_schema += f"  {interaction_name}_{self.send_element}:\n"
+      channels_schema += f"    address: {interaction_name}_{self.send_element}\n"
       channels_schema += f"    messages:\n"
-      channels_schema += f"      {service_name}.{interaction_name}_{self.send_element}.message:\n"
-      channels_schema += f"        $ref: '#/components/messages/{service_name}_{interaction_name}_{self.send_element}'\n"
+      channels_schema += f"      {interaction_name}_{self.send_element}.message:\n"
+      channels_schema += f"        $ref: '#/components/messages/{interaction_name}_{self.send_element}'\n"
       channels_schema += "    description: >\n"
-      channels_schema += f"      Send a **{service_name}_{interaction_name}_{self.send_element}** message in this channel to receive a\n"
-      channels_schema += f"      **{service_name}_{interaction_name}_{self.receive_element}** message over the **{self.receive_element}_{service_name}_{interaction_name}** channel.\n"
+
+      # sometimes there is no receive channel (e.g. for the SUBMIT interaction type)
+      if include_channel_receive:
+        channels_schema += f"      Send a **{interaction_name}_{self.send_element}** message in this channel to receive a\n"
+        channels_schema += f"      **{interaction_name}_{self.receive_element}** message over the **{interaction_name}_{self.receive_element}** channel.\n"
+      else:
+        channels_schema += f"      Send a **{interaction_name}_{self.send_element}** message in this channel.\n"
 
     # receive channel
     if include_channel_receive:
-      channels_schema += f"  {self.receive_element}_{service_name}_{interaction_name}:\n"
-      channels_schema += f"    address: {self.receive_element}_{service_name}_{interaction_name}\n"
+      channels_schema += f"  {interaction_name}_{self.receive_element}:\n"
+      channels_schema += f"    address: {interaction_name}_{self.receive_element}\n"
       channels_schema += f"    messages:\n"
-      channels_schema += f"      {service_name}.{interaction_name}_{self.receive_element}.message:\n"
-      channels_schema += f"        $ref: '#/components/messages/{service_name}_{interaction_name}_{self.receive_element}'\n"
+      channels_schema += f"      {interaction_name}_{self.receive_element}.message:\n"
+      channels_schema += f"        $ref: '#/components/messages/{interaction_name}_{self.receive_element}'\n"
       channels_schema += "    description: >\n"
-      channels_schema += f"      Use this channel to receive {service_name} {interaction_name} responses as **{service_name}_{interaction_name}_{self.receive_element}**\n"
+      channels_schema += f"      Use this channel to receive {interaction_name} responses as **{interaction_name}_{self.receive_element}**\n"
       channels_schema += f"      messages.\n"
 
     # receive channel (additional)
     if include_channel_receive_additional:
-      channels_schema += f"  {self.receive_element_additional}_{service_name}_{interaction_name}:\n"
-      channels_schema += f"    address: {self.receive_element_additional}_{service_name}_{interaction_name}\n"
+      channels_schema += f"  {interaction_name}_{self.receive_element_additional}:\n"
+      channels_schema += f"    address: {interaction_name}_{self.receive_element_additional}\n"
       channels_schema += f"    messages:\n"
-      channels_schema += f"      {service_name}.{interaction_name}_{self.receive_element_additional}.message:\n"
-      channels_schema += f"        $ref: '#/components/messages/{service_name}_{interaction_name}_{self.receive_element_additional}'\n"
+      channels_schema += f"      {interaction_name}_{self.receive_element_additional}.message:\n"
+      channels_schema += f"        $ref: '#/components/messages/{interaction_name}_{self.receive_element_additional}'\n"
       channels_schema += "    description: >\n"
-      channels_schema += f"      Use this channel to receive additional {service_name} {interaction_name} responses as **{service_name}_{interaction_name}_{self.receive_element_additional}**\n"
+      channels_schema += f"      Use this channel to receive additional {interaction_name} responses as **{interaction_name}_{self.receive_element_additional}**\n"
       channels_schema += f"      messages.\n"
 
     # error receive channel
     if include_channel_error:
-      channels_schema += f"  {TransportType.ERROR.value.lower()}_{service_name}_{interaction_name}:\n"
-      channels_schema += f"    address: {TransportType.ERROR.value.lower()}_{service_name}_{interaction_name}\n"
+      channels_schema += f"  {interaction_name}_{TransportType.ERROR.value.lower()}:\n"
+      channels_schema += f"    address: {interaction_name}_{TransportType.ERROR.value.lower()}\n"
       channels_schema += f"    messages:\n"
-      channels_schema += f"      {service_name}.{interaction_name}_{TransportType.ERROR.value.lower()}.message:\n"
-      channels_schema += f"        $ref: '#/components/messages/{service_name}_{interaction_name}_{TransportType.ERROR.value.lower()}'\n"
+      channels_schema += f"      {interaction_name}_{TransportType.ERROR.value.lower()}.message:\n"
+      channels_schema += f"        $ref: '#/components/messages/{interaction_name}_{TransportType.ERROR.value.lower()}'\n"
       channels_schema += "    description: >\n"
-      channels_schema += f"      Use this channel to receive {service_name} {interaction_name} errors as **{service_name}_{interaction_name}_{self.receive_element}Errors**\n"
+      channels_schema += f"      Use this channel to receive {interaction_name} errors as **{interaction_name}_{TransportType.ERROR.value.lower()}**\n"
       channels_schema += f"      messages.\n"
 
     return channels_schema
 
 
-  def generate_operations_schema(self, service_name: str, interaction_name: str,
+  def generate_operations_schema(self, interaction_name: str,
     include_channel_send: bool, include_channel_receive: bool, include_channel_receive_additional : bool = False, include_channel_error: bool = False) -> str:
     """
     Generates the YAML string for operations related to a pubsubIP interaction.
     """
 
     operations_schema = ""
-    operations_schema += "operations:\n"
 
     # send operation
     if include_channel_send:
-      operations_schema += f"  {service_name}_{interaction_name}_{self.send_element}:\n"
+      operations_schema += f"  {interaction_name}_{self.send_element}:\n"
       operations_schema += f"    action: {AsyncApiActionType.SEND.value}\n"
       operations_schema += f"    channel:\n"
-      operations_schema += f"      $ref: '#/channels/{self.send_element}_{service_name}_{interaction_name}'\n"
+      operations_schema += f"      $ref: '#/channels/{interaction_name}_{self.send_element}'\n"
       operations_schema += f"    messages:\n"
-      operations_schema += f"      - $ref: '#/channels/{self.send_element}_{service_name}_{interaction_name}/messages/{service_name}.{interaction_name}_{self.send_element}.message'\n"
+      operations_schema += f"      - $ref: '#/channels/{interaction_name}_{self.send_element}/messages/{interaction_name}_{self.send_element}.message'\n"
 
     # receive operation
     if include_channel_receive:
-      operations_schema += f"  {service_name}_{interaction_name}_{self.receive_element}:\n"
+      operations_schema += f"  {interaction_name}_{self.receive_element}:\n"
       operations_schema += f"    action: {AsyncApiActionType.RECEIVE.value}\n"
       operations_schema += f"    channel:\n"
-      operations_schema += f"      $ref: '#/channels/{self.receive_element}_{service_name}_{interaction_name}'\n"
+      operations_schema += f"      $ref: '#/channels/{interaction_name}_{self.receive_element}'\n"
       operations_schema += f"    messages:\n"
-      operations_schema += f"      - $ref: '#/channels/{self.receive_element}_{service_name}_{interaction_name}/messages/{service_name}.{interaction_name}_{self.receive_element}.message'\n"
+      operations_schema += f"      - $ref: '#/channels/{interaction_name}_{self.receive_element}/messages/{interaction_name}_{self.receive_element}.message'\n"
 
     # receive operation
     if include_channel_receive_additional:
-      operations_schema += f"  {service_name}_{interaction_name}_{self.receive_element_additional}:\n"
+      operations_schema += f"  {interaction_name}_{self.receive_element_additional}:\n"
       operations_schema += f"    action: {AsyncApiActionType.RECEIVE.value}\n"
       operations_schema += f"    channel:\n"
-      operations_schema += f"      $ref: '#/channels/{self.receive_element_additional}_{service_name}_{interaction_name}'\n"
+      operations_schema += f"      $ref: '#/channels/{interaction_name}_{self.receive_element_additional}'\n"
       operations_schema += f"    messages:\n"
-      operations_schema += f"      - $ref: '#/channels/{self.receive_element_additional}_{service_name}_{interaction_name}/messages/{service_name}.{interaction_name}_{self.receive_element_additional}.message'\n"
+      operations_schema += f"      - $ref: '#/channels/{interaction_name}_{self.receive_element_additional}/messages/{interaction_name}_{self.receive_element_additional}.message'\n"
 
 
     # error operation (optional)
     if include_channel_error:
-      operations_schema += f"  {service_name}_{interaction_name}_{TransportType.ERROR.value.lower()}:\n"
+      operations_schema += f"  {interaction_name}_{TransportType.ERROR.value.lower()}:\n"
       operations_schema += f"    action: {AsyncApiActionType.RECEIVE.value}\n" # an error is a receive action
       operations_schema += f"    channel:\n"
-      operations_schema += f"      $ref: '#/channels/{TransportType.ERROR.value.lower()}_{service_name}_{interaction_name}'\n"
+      operations_schema += f"      $ref: '#/channels/{interaction_name}_{TransportType.ERROR.value.lower()}'\n"
       operations_schema += f"    messages:\n"
-      operations_schema += f"      - $ref: '#/channels/{TransportType.ERROR.value.lower()}_{service_name}_{interaction_name}/messages/{service_name}.{interaction_name}_{TransportType.ERROR.value.lower()}.message'\n"
+      operations_schema += f"      - $ref: '#/channels/{interaction_name}_{TransportType.ERROR.value.lower()}/messages/{interaction_name}_{TransportType.ERROR.value.lower()}.message'\n"
 
     return operations_schema
 
 
-  def generate_components_messages_schema(self, service_name: str, interaction_name: str,
+  def generate_components_messages_schema(self, interaction_name: str,
     include_channel_send: bool, include_channel_receive: bool, include_channel_receive_additional : bool = False, include_channel_error: bool = False) -> str:
     """
     Generates the YAML string for messages related to a pubsubIP interaction.
     """
 
     components_schema = ""
-    components_schema += "  messages:\n"
 
     # send message component
     if include_channel_send:
-      components_schema += f"    {service_name}_{interaction_name}_{self.send_element}:\n"
-      components_schema += f"      description: {service_name} {interaction_name} request submission\n"
+      components_schema += f"    {interaction_name}_{self.send_element}:\n"
+      components_schema += f"      description: {interaction_name} request\n"
       components_schema += f"      payload:\n"
-      components_schema += f"        $ref: '#/components/schemas/{service_name}_{interaction_name}_{self.send_element}'\n"
+      components_schema += f"        $ref: '#/components/schemas/{interaction_name}_{self.send_element}'\n"
 
     # receive message component
     if include_channel_receive:
-      components_schema += f"    {service_name}_{interaction_name}_{self.receive_element}:\n"
-      components_schema += f"      description: {service_name} {interaction_name} update response\n"
+      components_schema += f"    {interaction_name}_{self.receive_element}:\n"
+      components_schema += f"      description: {interaction_name} response\n"
       components_schema += f"      payload:\n"
-      components_schema += f"        $ref: '#/components/schemas/{service_name}_{interaction_name}_{self.receive_element}'\n"
+      components_schema += f"        $ref: '#/components/schemas/{interaction_name}_{self.receive_element}'\n"
 
     # receive (additional) message component
     if include_channel_receive_additional:
-      components_schema += f"    {service_name}_{interaction_name}_{self.receive_element_additional}:\n"
-      components_schema += f"      description: {service_name} {interaction_name} update response\n"
+      components_schema += f"    {interaction_name}_{self.receive_element_additional}:\n"
+      components_schema += f"      description: {interaction_name} update response\n"
       components_schema += f"      payload:\n"
-      components_schema += f"        $ref: '#/components/schemas/{service_name}_{interaction_name}_{self.receive_element_additional}'\n"
+      components_schema += f"        $ref: '#/components/schemas/{interaction_name}_{self.receive_element_additional}'\n"
 
     # error message component (optional)
     if include_channel_error:
-      components_schema += f"    {service_name}_{interaction_name}_{TransportType.ERROR.value.lower()}:\n"
-      components_schema += f"      description: {service_name} {interaction_name} error response\n"
+      components_schema += f"    {interaction_name}_{TransportType.ERROR.value.lower()}:\n"
+      components_schema += f"      description: {interaction_name} error response\n"
       components_schema += f"      payload:\n"
-      components_schema += f"        $ref: '#/components/schemas/{service_name}_{interaction_name}_{TransportType.ERROR.value.lower()}'\n"
+      components_schema += f"        $ref: '#/components/schemas/{interaction_name}_{TransportType.ERROR.value.lower()}'\n"
 
     return components_schema
 
 
-  def generate_components_schema(self, mo_asyncapi_src_dir_path: str, service_name: str, interaction_name: str,
+  def generate_components_schema(self, mo_asyncapi_src_dir_path: str, interaction_name: str,
     send_fields: list[Element], receive_fields: list[Element], receive_fields_additional: list[Element], err_fields: list[Element], ns: dict[str, str]):
     """
     Generates the YAML string for the components section based on the fields.
@@ -227,11 +229,11 @@ class AbstractYamlGenerator(ABC):
     # we will have to generate their schema definition later
     composite_type_list = []
 
-    components_yaml = f"components:\n  schemas:\n"
+    components_yaml = ""
 
     # build SEND components
     if len(send_fields) > 0:
-      components_yaml +=  f"    {service_name}_{interaction_name}_{self.send_element}:\n"
+      components_yaml +=  f"    {interaction_name}_{self.send_element}:\n"
       components_yaml += "      type: object\n      properties:\n"
       components_yaml += self._generate_components_schema_field_sequence_id()
 
@@ -245,7 +247,7 @@ class AbstractYamlGenerator(ABC):
 
     # build RECEIVE components
     if len(receive_fields) > 0:
-      components_yaml +=  f"    {service_name}_{interaction_name}_{self.receive_element}:\n"
+      components_yaml +=  f"    {interaction_name}_{self.receive_element}:\n"
       components_yaml += "      type: object\n      properties:\n"
       components_yaml += self._generate_components_schema_field_sequence_id()
 
@@ -259,7 +261,7 @@ class AbstractYamlGenerator(ABC):
 
     # build RECEIVE ADDITIONAL components
     if len(receive_fields_additional) > 0:
-      components_yaml +=  f"    {service_name}_{interaction_name}_{self.receive_element_additional}:\n"
+      components_yaml +=  f"    {interaction_name}_{self.receive_element_additional}:\n"
       components_yaml += "      type: object\n      properties:\n"
       components_yaml += self._generate_components_schema_field_sequence_id()
 
@@ -273,7 +275,7 @@ class AbstractYamlGenerator(ABC):
 
     # build ERROR components
     if len(err_fields) > 0:
-      components_yaml +=  f"    {service_name}_{interaction_name}_{TransportType.ERROR.value.lower()}:\n"
+      components_yaml +=  f"    {interaction_name}_{TransportType.ERROR.value.lower()}:\n"
       components_yaml += "      type: object\n      properties:\n"
       components_yaml += self._generate_components_schema_field_sequence_id()
 
@@ -299,7 +301,11 @@ class AbstractYamlGenerator(ABC):
       # count how many composites we ended up with
       composite_count_after = utils.count_composites(composite_type_dict)
 
-    # build the composite type's namespace and properties
+    return components_yaml, composite_type_dict
+
+
+  def generate_components_composites(self, mo_asyncapi_src_dir_path: str, composite_type_dict: dict):
+        # build the composite type's namespace and properties
     composite_type_namespace_yaml = ""
     prefix_whitespace_base = "    "  # start with 4 space character prefix
 
@@ -336,7 +342,7 @@ class AbstractYamlGenerator(ABC):
 
             composite_type_namespace_yaml += utils.prefix_lines(composite_type_properties_yaml, prefix_whitespace_base + '      ') + '\n'
 
-    return components_yaml + composite_type_namespace_yaml
+    return composite_type_namespace_yaml
 
 
   def _generate_components_schema_field_sequence_id(self):

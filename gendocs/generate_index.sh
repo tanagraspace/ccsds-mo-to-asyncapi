@@ -49,9 +49,8 @@ for index_file in $(find "$OUTPUT_DIR" -type f -name "index.html" ! -path "$OUTP
   relative_path="${index_file#$OUTPUT_DIR/}"
   area=$(echo "$relative_path" | cut -d'/' -f1)
   service_name=$(echo "$relative_path" | cut -d'/' -f2)
-  interaction_name=$(echo "$relative_path" | cut -d'/' -f3)
   display_area=$(echo "$area" | sed 's/-/ /g')
-  area_services["$display_area"]+="$service_name:$interaction_name "
+  area_services["$display_area"]+="$service_name "
 done
 
 # Create pill buttons for each Area
@@ -71,7 +70,7 @@ echo "      </div>" >> $INDEX_FILE
 # Main Content Area
 echo "      <div class=\"tab-content main-content\" id=\"v-pills-tabContent\">" >> $INDEX_FILE
 
-# Create content sections for each Area with Services and Interactions
+# Create content sections for each Area with Services
 first_area=true
 for area in "${!area_services[@]}"; do
   area_id=$(echo "$area" | sed 's/ /-/g')
@@ -81,30 +80,22 @@ for area in "${!area_services[@]}"; do
     first_area=false
   fi
   echo "        <div class=\"tab-pane fade $active_class\" id=\"v-pills-$area_id\" role=\"tabpanel\" aria-labelledby=\"v-pills-$area_id-tab\">" >> $INDEX_FILE
-  echo "          <h1>$area</h1>" >> $INDEX_FILE
 
-  services_interactions=(${area_services["$area"]})
-  current_service=""
-  for entry in "${services_interactions[@]}"; do
-    service="${entry%%:*}"
-    interaction="${entry##*:}"
-    if [ "$service" != "$current_service" ]; then
-      if [ -n "$current_service" ]; then
-        echo "            </div>" >> $INDEX_FILE
-        echo "          </div>" >> $INDEX_FILE
-      fi
-      echo "          <div class=\"card mb-4\">" >> $INDEX_FILE
-      echo "            <div class=\"card-header\">$service Service</div>" >> $INDEX_FILE
-      echo "            <div class=\"card-body\">" >> $INDEX_FILE
-      current_service="$service"
-    fi
-    echo "              <p class=\"card-text\"><a href=\"${area// /-}/$service/$interaction/index.html\">$interaction</a></p>" >> $INDEX_FILE
+  # Card for each area
+  echo "          <div class=\"card mb-4\">" >> $INDEX_FILE
+  echo "            <div class=\"card-header\">$area</div>" >> $INDEX_FILE
+  echo "            <div class=\"card-body\">" >> $INDEX_FILE
+  echo "              <ul class=\"list-group list-group-flush\">" >> $INDEX_FILE
+
+  # List services within the area
+  services=(${area_services["$area"]})
+  for service in "${services[@]}"; do
+    echo "                <li class=\"list-group-item\"><a href=\"$area_id/$service/index.html\">$service Service</a></li>" >> $INDEX_FILE
   done
 
-  if [ -n "$current_service" ]; then
-    echo "            </div>" >> $INDEX_FILE
-    echo "          </div>" >> $INDEX_FILE
-  fi
+  echo "              </ul>" >> $INDEX_FILE
+  echo "            </div>" >> $INDEX_FILE
+  echo "          </div>" >> $INDEX_FILE
 
   echo "        </div>" >> $INDEX_FILE
 done

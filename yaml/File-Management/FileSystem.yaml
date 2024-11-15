@@ -1,0 +1,1125 @@
+asyncapi: 3.0.0
+info:
+  title: FileSystem Service API
+  version: 1.0.0
+  description: This API allows clients to interact with the FileSystem Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the FileSystem Service.
+    variables:
+      port:
+        default: '8883'
+channels:
+  create_submit:
+    address: create_submit
+    messages:
+      create_submit.message:
+        $ref: '#/components/messages/create_submit'
+    description: >
+      Send a **create_submit** message in this channel.
+  create_error:
+    address: create_error
+    messages:
+      create_error.message:
+        $ref: '#/components/messages/create_error'
+    description: >
+      Use this channel to receive create errors as **create_error**
+      messages.
+  move_submit:
+    address: move_submit
+    messages:
+      move_submit.message:
+        $ref: '#/components/messages/move_submit'
+    description: >
+      Send a **move_submit** message in this channel.
+  move_error:
+    address: move_error
+    messages:
+      move_error.message:
+        $ref: '#/components/messages/move_error'
+    description: >
+      Use this channel to receive move errors as **move_error**
+      messages.
+  delete_submit:
+    address: delete_submit
+    messages:
+      delete_submit.message:
+        $ref: '#/components/messages/delete_submit'
+    description: >
+      Send a **delete_submit** message in this channel.
+  delete_error:
+    address: delete_error
+    messages:
+      delete_error.message:
+        $ref: '#/components/messages/delete_error'
+    description: >
+      Use this channel to receive delete errors as **delete_error**
+      messages.
+  copy_submit:
+    address: copy_submit
+    messages:
+      copy_submit.message:
+        $ref: '#/components/messages/copy_submit'
+    description: >
+      Send a **copy_submit** message in this channel.
+  copy_error:
+    address: copy_error
+    messages:
+      copy_error.message:
+        $ref: '#/components/messages/copy_error'
+    description: >
+      Use this channel to receive copy errors as **copy_error**
+      messages.
+  getAttributes_request:
+    address: getAttributes_request
+    messages:
+      getAttributes_request.message:
+        $ref: '#/components/messages/getAttributes_request'
+    description: >
+      Send a **getAttributes_request** message in this channel to receive a
+      **getAttributes_response** message over the **getAttributes_response** channel.
+  getAttributes_response:
+    address: getAttributes_response
+    messages:
+      getAttributes_response.message:
+        $ref: '#/components/messages/getAttributes_response'
+    description: >
+      Use this channel to receive getAttributes responses as **getAttributes_response**
+      messages.
+  getAttributes_error:
+    address: getAttributes_error
+    messages:
+      getAttributes_error.message:
+        $ref: '#/components/messages/getAttributes_error'
+    description: >
+      Use this channel to receive getAttributes errors as **getAttributes_error**
+      messages.
+  setAttributes_submit:
+    address: setAttributes_submit
+    messages:
+      setAttributes_submit.message:
+        $ref: '#/components/messages/setAttributes_submit'
+    description: >
+      Send a **setAttributes_submit** message in this channel.
+  setAttributes_error:
+    address: setAttributes_error
+    messages:
+      setAttributes_error.message:
+        $ref: '#/components/messages/setAttributes_error'
+    description: >
+      Use this channel to receive setAttributes errors as **setAttributes_error**
+      messages.
+  list_request:
+    address: list_request
+    messages:
+      list_request.message:
+        $ref: '#/components/messages/list_request'
+    description: >
+      Send a **list_request** message in this channel to receive a
+      **list_response** message over the **list_response** channel.
+  list_response:
+    address: list_response
+    messages:
+      list_response.message:
+        $ref: '#/components/messages/list_response'
+    description: >
+      Use this channel to receive list responses as **list_response**
+      messages.
+  list_error:
+    address: list_error
+    messages:
+      list_error.message:
+        $ref: '#/components/messages/list_error'
+    description: >
+      Use this channel to receive list errors as **list_error**
+      messages.
+  find_progress:
+    address: find_progress
+    messages:
+      find_progress.message:
+        $ref: '#/components/messages/find_progress'
+    description: >
+      Send a **find_progress** message in this channel to receive a
+      **find_update** message over the **find_update** channel.
+  find_update:
+    address: find_update
+    messages:
+      find_update.message:
+        $ref: '#/components/messages/find_update'
+    description: >
+      Use this channel to receive find responses as **find_update**
+      messages.
+  find_response:
+    address: find_response
+    messages:
+      find_response.message:
+        $ref: '#/components/messages/find_response'
+    description: >
+      Use this channel to receive additional find responses as **find_response**
+      messages.
+  find_error:
+    address: find_error
+    messages:
+      find_error.message:
+        $ref: '#/components/messages/find_error'
+    description: >
+      Use this channel to receive find errors as **find_error**
+      messages.
+  append_request:
+    address: append_request
+    messages:
+      append_request.message:
+        $ref: '#/components/messages/append_request'
+    description: >
+      Send a **append_request** message in this channel to receive a
+      **append_response** message over the **append_response** channel.
+  append_response:
+    address: append_response
+    messages:
+      append_response.message:
+        $ref: '#/components/messages/append_response'
+    description: >
+      Use this channel to receive append responses as **append_response**
+      messages.
+  append_error:
+    address: append_error
+    messages:
+      append_error.message:
+        $ref: '#/components/messages/append_error'
+    description: >
+      Use this channel to receive append errors as **append_error**
+      messages.
+  truncate_submit:
+    address: truncate_submit
+    messages:
+      truncate_submit.message:
+        $ref: '#/components/messages/truncate_submit'
+    description: >
+      Send a **truncate_submit** message in this channel.
+  truncate_error:
+    address: truncate_error
+    messages:
+      truncate_error.message:
+        $ref: '#/components/messages/truncate_error'
+    description: >
+      Use this channel to receive truncate errors as **truncate_error**
+      messages.
+  read_request:
+    address: read_request
+    messages:
+      read_request.message:
+        $ref: '#/components/messages/read_request'
+    description: >
+      Send a **read_request** message in this channel to receive a
+      **read_response** message over the **read_response** channel.
+  read_response:
+    address: read_response
+    messages:
+      read_response.message:
+        $ref: '#/components/messages/read_response'
+    description: >
+      Use this channel to receive read responses as **read_response**
+      messages.
+  read_error:
+    address: read_error
+    messages:
+      read_error.message:
+        $ref: '#/components/messages/read_error'
+    description: >
+      Use this channel to receive read errors as **read_error**
+      messages.
+operations:
+  create_submit:
+    action: send
+    channel:
+      $ref: '#/channels/create_submit'
+    messages:
+      - $ref: '#/channels/create_submit/messages/create_submit.message'
+  create_error:
+    action: receive
+    channel:
+      $ref: '#/channels/create_error'
+    messages:
+      - $ref: '#/channels/create_error/messages/create_error.message'
+  move_submit:
+    action: send
+    channel:
+      $ref: '#/channels/move_submit'
+    messages:
+      - $ref: '#/channels/move_submit/messages/move_submit.message'
+  move_error:
+    action: receive
+    channel:
+      $ref: '#/channels/move_error'
+    messages:
+      - $ref: '#/channels/move_error/messages/move_error.message'
+  delete_submit:
+    action: send
+    channel:
+      $ref: '#/channels/delete_submit'
+    messages:
+      - $ref: '#/channels/delete_submit/messages/delete_submit.message'
+  delete_error:
+    action: receive
+    channel:
+      $ref: '#/channels/delete_error'
+    messages:
+      - $ref: '#/channels/delete_error/messages/delete_error.message'
+  copy_submit:
+    action: send
+    channel:
+      $ref: '#/channels/copy_submit'
+    messages:
+      - $ref: '#/channels/copy_submit/messages/copy_submit.message'
+  copy_error:
+    action: receive
+    channel:
+      $ref: '#/channels/copy_error'
+    messages:
+      - $ref: '#/channels/copy_error/messages/copy_error.message'
+  getAttributes_request:
+    action: send
+    channel:
+      $ref: '#/channels/getAttributes_request'
+    messages:
+      - $ref: '#/channels/getAttributes_request/messages/getAttributes_request.message'
+  getAttributes_response:
+    action: receive
+    channel:
+      $ref: '#/channels/getAttributes_response'
+    messages:
+      - $ref: '#/channels/getAttributes_response/messages/getAttributes_response.message'
+  getAttributes_error:
+    action: receive
+    channel:
+      $ref: '#/channels/getAttributes_error'
+    messages:
+      - $ref: '#/channels/getAttributes_error/messages/getAttributes_error.message'
+  setAttributes_submit:
+    action: send
+    channel:
+      $ref: '#/channels/setAttributes_submit'
+    messages:
+      - $ref: '#/channels/setAttributes_submit/messages/setAttributes_submit.message'
+  setAttributes_error:
+    action: receive
+    channel:
+      $ref: '#/channels/setAttributes_error'
+    messages:
+      - $ref: '#/channels/setAttributes_error/messages/setAttributes_error.message'
+  list_request:
+    action: send
+    channel:
+      $ref: '#/channels/list_request'
+    messages:
+      - $ref: '#/channels/list_request/messages/list_request.message'
+  list_response:
+    action: receive
+    channel:
+      $ref: '#/channels/list_response'
+    messages:
+      - $ref: '#/channels/list_response/messages/list_response.message'
+  list_error:
+    action: receive
+    channel:
+      $ref: '#/channels/list_error'
+    messages:
+      - $ref: '#/channels/list_error/messages/list_error.message'
+  find_progress:
+    action: send
+    channel:
+      $ref: '#/channels/find_progress'
+    messages:
+      - $ref: '#/channels/find_progress/messages/find_progress.message'
+  find_update:
+    action: receive
+    channel:
+      $ref: '#/channels/find_update'
+    messages:
+      - $ref: '#/channels/find_update/messages/find_update.message'
+  find_response:
+    action: receive
+    channel:
+      $ref: '#/channels/find_response'
+    messages:
+      - $ref: '#/channels/find_response/messages/find_response.message'
+  find_error:
+    action: receive
+    channel:
+      $ref: '#/channels/find_error'
+    messages:
+      - $ref: '#/channels/find_error/messages/find_error.message'
+  append_request:
+    action: send
+    channel:
+      $ref: '#/channels/append_request'
+    messages:
+      - $ref: '#/channels/append_request/messages/append_request.message'
+  append_response:
+    action: receive
+    channel:
+      $ref: '#/channels/append_response'
+    messages:
+      - $ref: '#/channels/append_response/messages/append_response.message'
+  append_error:
+    action: receive
+    channel:
+      $ref: '#/channels/append_error'
+    messages:
+      - $ref: '#/channels/append_error/messages/append_error.message'
+  truncate_submit:
+    action: send
+    channel:
+      $ref: '#/channels/truncate_submit'
+    messages:
+      - $ref: '#/channels/truncate_submit/messages/truncate_submit.message'
+  truncate_error:
+    action: receive
+    channel:
+      $ref: '#/channels/truncate_error'
+    messages:
+      - $ref: '#/channels/truncate_error/messages/truncate_error.message'
+  read_request:
+    action: send
+    channel:
+      $ref: '#/channels/read_request'
+    messages:
+      - $ref: '#/channels/read_request/messages/read_request.message'
+  read_response:
+    action: receive
+    channel:
+      $ref: '#/channels/read_response'
+    messages:
+      - $ref: '#/channels/read_response/messages/read_response.message'
+  read_error:
+    action: receive
+    channel:
+      $ref: '#/channels/read_error'
+    messages:
+      - $ref: '#/channels/read_error/messages/read_error.message'
+components:
+  schemas:
+    create_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        type:
+          $ref: '#/components/schemas/fm/file_system/NodeType'
+          description: |
+            The type of node to create: File or Directory
+        path:
+          type: string
+          format: uri
+          description: |
+            The path field contains the logical path to where the file or directory is to be created.
+        overwrite:
+          type: boolean
+          description: |
+            Force overwrite if the file or directory already exists.
+    create_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+            - None
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - PERMISSION_DENIED
+            - INVALID_PATH
+            - NODE_EXISTS
+            - UNKNOWN_NODE_TYPE
+            - OTHER
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    move_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        source:
+          type: string
+          format: uri
+          description: |
+            Path to the node being moved.
+        target:
+          type: string
+          format: uri
+          description: |
+            Target name
+        overwrite:
+          type: boolean
+          description: |
+            Force overwrite if the file or folder already exist.
+    move_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+            - None
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - PERMISSION_DENIED
+            - INVALID_PATH
+            - NODE_EXISTS
+            - NODE_NOT_FOUND
+            - FILESYSTEM_FULL
+            - OTHER
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    delete_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        path:
+          type: string
+          format: uri
+          description: |
+            The path field contains the path to the node to be deleted
+        force:
+          type: boolean
+          description: |
+            Force delete: true/false
+    delete_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+            - None
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - PERMISSION_DENIED
+            - INVALID_PATH
+            - NODE_NOT_FOUND
+            - UNKNOWN_NODE_TYPE
+            - OTHER
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    copy_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        source:
+          type: string
+          format: uri
+          description: |
+            Path to the node being copied.
+        target:
+          type: string
+          format: uri
+          description: |
+            Target path of the copied node.
+        overwrite:
+          type: boolean
+          description: |
+            Force overwrite if the file or folder already exist.
+    copy_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+            - None
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - PERMISSION_DENIED
+            - INVALID_PATH
+            - NODE_EXISTS
+            - NODE_NOT_FOUND
+            - FILESYSTEM_FULL
+            - OTHER
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    getAttributes_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        path:
+          type: string
+          format: uri
+          description: |
+            The path of the node to be queried
+    getAttributes_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        attributes:
+          $ref: '#/components/schemas/fm/file_system/NodeAttributes'
+          description: |
+            List of node attributes
+    getAttributes_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - PERMISSION_DENIED
+            - INVALID_PATH
+            - NODE_NOT_FOUND
+            - OTHER
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    setAttributes_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        path:
+          type: string
+          format: uri
+          description: |
+            Path to the node whose attributes will be set.
+        attributes:
+          $ref: '#/components/schemas/fm/file_system/NodeAttributes'
+    setAttributes_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - PERMISSION_DENIED
+            - INVALID_PATH
+            - NODE_NOT_FOUND
+            - INVALID_ATTRIBUTE
+            - OTHER
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    list_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        path:
+          type: string
+        toFile:
+          type: boolean
+          description: |
+            Set to true if the list should be written to a file. If toFile is true then the Response contails the path to the file with the list.
+        nameRegexFilter:
+          type: string
+          description: |
+            Name filter to be applied. All files and folders that pass the filter will be added to the list.
+        lastModifiedTimeFilter:
+          type: number
+          format: uint64
+          description: |
+            Time filters to be applied. All files and folders with last modified time larger than or equal to the filter will be added to the list.
+        recursive:
+          type: boolean
+          description: |
+            Set to true to do a recursive list
+    list_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        nodes:
+          $ref: '#/components/schemas/fm/file_system/Node'
+    list_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - PERMISSION_DENIED
+            - INVALID_PATH
+            - NODE_NOT_FOUND
+            - NOT_A_DIRECTORY
+            - IO_ERROR
+            - OTHER
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    find_progress:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        path:
+          type: string
+          format: uri
+          description: |
+            The location from where the search will be done.
+        toFile:
+          type: boolean
+          description: |
+            Set to true if the list should be written to a file. If toFile is true then the Update contails the path to the file with the list.
+        searchPattern:
+          type: string
+          description: |
+            Regular expression to be matched against files in the Directory. Only files that match will be returned. If null all files nodes will match.
+    find_update:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        nodes:
+          $ref: '#/components/schemas/fm/file_system/Node'
+    find_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        count:
+          type: integer
+          format: uint32
+          description: |
+            Number of matches
+    find_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - PERMISSION_DENIED
+            - INVALID_PATH
+            - NODE_NOT_FOUND
+            - NOT_A_DIRECTORY
+            - IO_ERROR
+            - OTHER
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    append_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        path:
+          type: string
+          format: uri
+          description: |
+            File to which the data shall be appended to
+        data:
+          type: string
+          format: binary
+          description: |
+            Data to be appended to file
+    append_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        size:
+          type: integer
+          format: uint32
+          description: |
+            New total file size
+    append_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - PERMISSION_DENIED
+            - INVALID_PATH
+            - NODE_NOT_FOUND
+            - NOT_A_FILE
+            - IO_ERROR
+            - OTHER
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    truncate_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        path:
+          type: string
+    truncate_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - PERMISSION_DENIED
+            - INVALID_PATH
+            - NODE_NOT_FOUND
+            - NOT_A_FILE
+            - IO_ERROR
+            - OTHER
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    read_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        path:
+          type: string
+        offset:
+          type: integer
+          format: uint32
+          description: |
+            Offset from the start of the file in byte. If Null then zero is assumed
+        size:
+          type: integer
+          format: uint32
+          description: |
+            Number of byte to read. If Null then read the whole file
+    read_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        data:
+          type: string
+    read_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - FM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - PERMISSION_DENIED
+            - INVALID_PATH
+            - NODE_NOT_FOUND
+            - NOT_A_FILE
+            - IO_ERROR
+            - OTHER
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    fm:
+      file_system:
+        Node:
+          properties:
+            lmTime:
+              description: 'Last modified time in seconds. Settable: no'
+              format: int64
+              type: integer
+            owner:
+              description: The owner of the file
+              type: string
+            path:
+              description: ''
+              format: uri
+              type: string
+            permissions:
+              description: 'The node permissions. Settable: no'
+              type: string
+            size:
+              description: 'Size of the node in byte. Settable: no'
+              format: uint32
+              type: integer
+            type_:
+              $ref: '#/components/schemas/fm/file_system/NodeType'
+              description: ''
+          type: object
+        NodeAttributes:
+          properties:
+            accessPermissions:
+              description: 'Settable: yes'
+              items:
+                type: string
+              type: array
+            creationTime:
+              description: 'Settable: no'
+              items:
+                type: string
+              type: array
+            lastAccessTime:
+              description: 'Settable: no'
+              items:
+                type: string
+              type: array
+            lastChangeTime:
+              description: 'Settable: no'
+              items:
+                type: string
+              type: array
+            lastModificationTime:
+              description: 'Settable: no'
+              items:
+                type: string
+              type: array
+            owner:
+              description: 'Settable: yes'
+              items:
+                type: string
+              type: array
+            size:
+              description: 'Size of the node in Kibibyte (1024 byte). Settable: no'
+              format: uint32
+              type: integer
+            type_:
+              $ref: '#/components/schemas/fm/file_system/NodeType'
+              description: 'Returns the type of this node: File or Directory. Settable: no'
+          type: object
+        NodeType:
+          description: List of possible node types
+          enum:
+          - FILE
+          - DIRECTORY
+          type: string
+  messages:
+    create_submit:
+      description: create request
+      payload:
+        $ref: '#/components/schemas/create_submit'
+    create_error:
+      description: create error response
+      payload:
+        $ref: '#/components/schemas/create_error'
+    move_submit:
+      description: move request
+      payload:
+        $ref: '#/components/schemas/move_submit'
+    move_error:
+      description: move error response
+      payload:
+        $ref: '#/components/schemas/move_error'
+    delete_submit:
+      description: delete request
+      payload:
+        $ref: '#/components/schemas/delete_submit'
+    delete_error:
+      description: delete error response
+      payload:
+        $ref: '#/components/schemas/delete_error'
+    copy_submit:
+      description: copy request
+      payload:
+        $ref: '#/components/schemas/copy_submit'
+    copy_error:
+      description: copy error response
+      payload:
+        $ref: '#/components/schemas/copy_error'
+    getAttributes_request:
+      description: getAttributes request
+      payload:
+        $ref: '#/components/schemas/getAttributes_request'
+    getAttributes_response:
+      description: getAttributes response
+      payload:
+        $ref: '#/components/schemas/getAttributes_response'
+    getAttributes_error:
+      description: getAttributes error response
+      payload:
+        $ref: '#/components/schemas/getAttributes_error'
+    setAttributes_submit:
+      description: setAttributes request
+      payload:
+        $ref: '#/components/schemas/setAttributes_submit'
+    setAttributes_error:
+      description: setAttributes error response
+      payload:
+        $ref: '#/components/schemas/setAttributes_error'
+    list_request:
+      description: list request
+      payload:
+        $ref: '#/components/schemas/list_request'
+    list_response:
+      description: list response
+      payload:
+        $ref: '#/components/schemas/list_response'
+    list_error:
+      description: list error response
+      payload:
+        $ref: '#/components/schemas/list_error'
+    find_progress:
+      description: find request
+      payload:
+        $ref: '#/components/schemas/find_progress'
+    find_update:
+      description: find response
+      payload:
+        $ref: '#/components/schemas/find_update'
+    find_response:
+      description: find update response
+      payload:
+        $ref: '#/components/schemas/find_response'
+    find_error:
+      description: find error response
+      payload:
+        $ref: '#/components/schemas/find_error'
+    append_request:
+      description: append request
+      payload:
+        $ref: '#/components/schemas/append_request'
+    append_response:
+      description: append response
+      payload:
+        $ref: '#/components/schemas/append_response'
+    append_error:
+      description: append error response
+      payload:
+        $ref: '#/components/schemas/append_error'
+    truncate_submit:
+      description: truncate request
+      payload:
+        $ref: '#/components/schemas/truncate_submit'
+    truncate_error:
+      description: truncate error response
+      payload:
+        $ref: '#/components/schemas/truncate_error'
+    read_request:
+      description: read request
+      payload:
+        $ref: '#/components/schemas/read_request'
+    read_response:
+      description: read response
+      payload:
+        $ref: '#/components/schemas/read_response'
+    read_error:
+      description: read error response
+      payload:
+        $ref: '#/components/schemas/read_error'

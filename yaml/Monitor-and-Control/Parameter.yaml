@@ -1,0 +1,1004 @@
+asyncapi: 3.0.0
+info:
+  title: Parameter Service API
+  version: 1.0.0
+  description: This API allows clients to interact with the Parameter Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the Parameter Service.
+    variables:
+      port:
+        default: '8883'
+channels:
+  monitorValue_subscriptionKeys:
+    address: monitorValue_subscriptionKeys
+    messages:
+      monitorValue_subscriptionKeys.message:
+        $ref: '#/components/messages/monitorValue_subscriptionKeys'
+    description: >
+      Send a **monitorValue_subscriptionKeys** message in this channel to receive a
+      **monitorValue_publishNotify** message over the **monitorValue_publishNotify** channel.
+  monitorValue_publishNotify:
+    address: monitorValue_publishNotify
+    messages:
+      monitorValue_publishNotify.message:
+        $ref: '#/components/messages/monitorValue_publishNotify'
+    description: >
+      Use this channel to receive monitorValue responses as **monitorValue_publishNotify**
+      messages.
+  getValue_request:
+    address: getValue_request
+    messages:
+      getValue_request.message:
+        $ref: '#/components/messages/getValue_request'
+    description: >
+      Send a **getValue_request** message in this channel to receive a
+      **getValue_response** message over the **getValue_response** channel.
+  getValue_response:
+    address: getValue_response
+    messages:
+      getValue_response.message:
+        $ref: '#/components/messages/getValue_response'
+    description: >
+      Use this channel to receive getValue responses as **getValue_response**
+      messages.
+  getValue_error:
+    address: getValue_error
+    messages:
+      getValue_error.message:
+        $ref: '#/components/messages/getValue_error'
+    description: >
+      Use this channel to receive getValue errors as **getValue_error**
+      messages.
+  setValue_submit:
+    address: setValue_submit
+    messages:
+      setValue_submit.message:
+        $ref: '#/components/messages/setValue_submit'
+    description: >
+      Send a **setValue_submit** message in this channel.
+  setValue_error:
+    address: setValue_error
+    messages:
+      setValue_error.message:
+        $ref: '#/components/messages/setValue_error'
+    description: >
+      Use this channel to receive setValue errors as **setValue_error**
+      messages.
+  enableGeneration_request:
+    address: enableGeneration_request
+    messages:
+      enableGeneration_request.message:
+        $ref: '#/components/messages/enableGeneration_request'
+    description: >
+      Send a **enableGeneration_request** message in this channel to receive a
+      **enableGeneration_response** message over the **enableGeneration_response** channel.
+  enableGeneration_response:
+    address: enableGeneration_response
+    messages:
+      enableGeneration_response.message:
+        $ref: '#/components/messages/enableGeneration_response'
+    description: >
+      Use this channel to receive enableGeneration responses as **enableGeneration_response**
+      messages.
+  enableGeneration_error:
+    address: enableGeneration_error
+    messages:
+      enableGeneration_error.message:
+        $ref: '#/components/messages/enableGeneration_error'
+    description: >
+      Use this channel to receive enableGeneration errors as **enableGeneration_error**
+      messages.
+  listDefinition_request:
+    address: listDefinition_request
+    messages:
+      listDefinition_request.message:
+        $ref: '#/components/messages/listDefinition_request'
+    description: >
+      Send a **listDefinition_request** message in this channel to receive a
+      **listDefinition_response** message over the **listDefinition_response** channel.
+  listDefinition_response:
+    address: listDefinition_response
+    messages:
+      listDefinition_response.message:
+        $ref: '#/components/messages/listDefinition_response'
+    description: >
+      Use this channel to receive listDefinition responses as **listDefinition_response**
+      messages.
+  listDefinition_error:
+    address: listDefinition_error
+    messages:
+      listDefinition_error.message:
+        $ref: '#/components/messages/listDefinition_error'
+    description: >
+      Use this channel to receive listDefinition errors as **listDefinition_error**
+      messages.
+  addParameter_request:
+    address: addParameter_request
+    messages:
+      addParameter_request.message:
+        $ref: '#/components/messages/addParameter_request'
+    description: >
+      Send a **addParameter_request** message in this channel to receive a
+      **addParameter_response** message over the **addParameter_response** channel.
+  addParameter_response:
+    address: addParameter_response
+    messages:
+      addParameter_response.message:
+        $ref: '#/components/messages/addParameter_response'
+    description: >
+      Use this channel to receive addParameter responses as **addParameter_response**
+      messages.
+  addParameter_error:
+    address: addParameter_error
+    messages:
+      addParameter_error.message:
+        $ref: '#/components/messages/addParameter_error'
+    description: >
+      Use this channel to receive addParameter errors as **addParameter_error**
+      messages.
+  updateDefinition_request:
+    address: updateDefinition_request
+    messages:
+      updateDefinition_request.message:
+        $ref: '#/components/messages/updateDefinition_request'
+    description: >
+      Send a **updateDefinition_request** message in this channel to receive a
+      **updateDefinition_response** message over the **updateDefinition_response** channel.
+  updateDefinition_response:
+    address: updateDefinition_response
+    messages:
+      updateDefinition_response.message:
+        $ref: '#/components/messages/updateDefinition_response'
+    description: >
+      Use this channel to receive updateDefinition responses as **updateDefinition_response**
+      messages.
+  updateDefinition_error:
+    address: updateDefinition_error
+    messages:
+      updateDefinition_error.message:
+        $ref: '#/components/messages/updateDefinition_error'
+    description: >
+      Use this channel to receive updateDefinition errors as **updateDefinition_error**
+      messages.
+  removeParameter_submit:
+    address: removeParameter_submit
+    messages:
+      removeParameter_submit.message:
+        $ref: '#/components/messages/removeParameter_submit'
+    description: >
+      Send a **removeParameter_submit** message in this channel.
+  removeParameter_error:
+    address: removeParameter_error
+    messages:
+      removeParameter_error.message:
+        $ref: '#/components/messages/removeParameter_error'
+    description: >
+      Use this channel to receive removeParameter errors as **removeParameter_error**
+      messages.
+operations:
+  monitorValue_subscriptionKeys:
+    action: send
+    channel:
+      $ref: '#/channels/monitorValue_subscriptionKeys'
+    messages:
+      - $ref: '#/channels/monitorValue_subscriptionKeys/messages/monitorValue_subscriptionKeys.message'
+  monitorValue_publishNotify:
+    action: receive
+    channel:
+      $ref: '#/channels/monitorValue_publishNotify'
+    messages:
+      - $ref: '#/channels/monitorValue_publishNotify/messages/monitorValue_publishNotify.message'
+  getValue_request:
+    action: send
+    channel:
+      $ref: '#/channels/getValue_request'
+    messages:
+      - $ref: '#/channels/getValue_request/messages/getValue_request.message'
+  getValue_response:
+    action: receive
+    channel:
+      $ref: '#/channels/getValue_response'
+    messages:
+      - $ref: '#/channels/getValue_response/messages/getValue_response.message'
+  getValue_error:
+    action: receive
+    channel:
+      $ref: '#/channels/getValue_error'
+    messages:
+      - $ref: '#/channels/getValue_error/messages/getValue_error.message'
+  setValue_submit:
+    action: send
+    channel:
+      $ref: '#/channels/setValue_submit'
+    messages:
+      - $ref: '#/channels/setValue_submit/messages/setValue_submit.message'
+  setValue_error:
+    action: receive
+    channel:
+      $ref: '#/channels/setValue_error'
+    messages:
+      - $ref: '#/channels/setValue_error/messages/setValue_error.message'
+  enableGeneration_request:
+    action: send
+    channel:
+      $ref: '#/channels/enableGeneration_request'
+    messages:
+      - $ref: '#/channels/enableGeneration_request/messages/enableGeneration_request.message'
+  enableGeneration_response:
+    action: receive
+    channel:
+      $ref: '#/channels/enableGeneration_response'
+    messages:
+      - $ref: '#/channels/enableGeneration_response/messages/enableGeneration_response.message'
+  enableGeneration_error:
+    action: receive
+    channel:
+      $ref: '#/channels/enableGeneration_error'
+    messages:
+      - $ref: '#/channels/enableGeneration_error/messages/enableGeneration_error.message'
+  listDefinition_request:
+    action: send
+    channel:
+      $ref: '#/channels/listDefinition_request'
+    messages:
+      - $ref: '#/channels/listDefinition_request/messages/listDefinition_request.message'
+  listDefinition_response:
+    action: receive
+    channel:
+      $ref: '#/channels/listDefinition_response'
+    messages:
+      - $ref: '#/channels/listDefinition_response/messages/listDefinition_response.message'
+  listDefinition_error:
+    action: receive
+    channel:
+      $ref: '#/channels/listDefinition_error'
+    messages:
+      - $ref: '#/channels/listDefinition_error/messages/listDefinition_error.message'
+  addParameter_request:
+    action: send
+    channel:
+      $ref: '#/channels/addParameter_request'
+    messages:
+      - $ref: '#/channels/addParameter_request/messages/addParameter_request.message'
+  addParameter_response:
+    action: receive
+    channel:
+      $ref: '#/channels/addParameter_response'
+    messages:
+      - $ref: '#/channels/addParameter_response/messages/addParameter_response.message'
+  addParameter_error:
+    action: receive
+    channel:
+      $ref: '#/channels/addParameter_error'
+    messages:
+      - $ref: '#/channels/addParameter_error/messages/addParameter_error.message'
+  updateDefinition_request:
+    action: send
+    channel:
+      $ref: '#/channels/updateDefinition_request'
+    messages:
+      - $ref: '#/channels/updateDefinition_request/messages/updateDefinition_request.message'
+  updateDefinition_response:
+    action: receive
+    channel:
+      $ref: '#/channels/updateDefinition_response'
+    messages:
+      - $ref: '#/channels/updateDefinition_response/messages/updateDefinition_response.message'
+  updateDefinition_error:
+    action: receive
+    channel:
+      $ref: '#/channels/updateDefinition_error'
+    messages:
+      - $ref: '#/channels/updateDefinition_error/messages/updateDefinition_error.message'
+  removeParameter_submit:
+    action: send
+    channel:
+      $ref: '#/channels/removeParameter_submit'
+    messages:
+      - $ref: '#/channels/removeParameter_submit/messages/removeParameter_submit.message'
+  removeParameter_error:
+    action: receive
+    channel:
+      $ref: '#/channels/removeParameter_error'
+    messages:
+      - $ref: '#/channels/removeParameter_error/messages/removeParameter_error.message'
+components:
+  schemas:
+    monitorValue_subscriptionKeys:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        name:
+          type: string
+          description: |
+            The parameter name.
+        parameterDefinitionId:
+          type: integer
+          format: int64
+          description: |
+            The parameter identity.
+        parameterValueInstance:
+          type: integer
+          format: int64
+          description: |
+            The parameter value instance.
+    monitorValue_publishNotify:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        objId:
+          $ref: '#/components/schemas/com/ObjectId'
+          description: |
+            The MAL EntityKey.firstSubKey shall contain the parameter name.
+            The MAL EntityKey.secondSubKey shall contain the ParameterIdentity object instance identifier.
+            The MAL EntityKey.thirdSubKey shall contain the ParameterDefinition object instance identifier.
+            The MAL EntityKey.fourthSubKey shall contain the new ParameterValueInstance object instance identifier.
+            The timestamp of the ParameterValueInstance report shall be taken from the publish message and shall be the time of the parameter value update.
+            The publish message shall include the ObjectId of the source link of the report.
+            If no source link is needed then the ObjectId shall be replaced with a NULL.
+        newValue:
+          $ref: '#/components/schemas/mc/parameter/ParameterValue'
+          description: |
+            The second part of the publish message shall be the ParameterValueInstance object value.
+    getValue_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        paramInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The paramInstIds field shall provide the list of ParameterIdentity object instance identifiers.
+            The wildcard value of '0' shall be supported and matches all parameters of the provider.
+            The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
+            If a requested parameter is unknown then an UNKNOWN error shall be returned.
+            If a parameter is being reported periodically, using the operation shall not reset the reportInterval timer.
+    getValue_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        paramValDetails:
+          $ref: '#/components/schemas/mc/parameter/ParameterValueDetails'
+          description: |
+            The response shall contain a list of returned ParameterIdentity and ParameterDefinition object instance identifier pairs and a matching list of parameter values.
+            The new value shall not be published via the monitorValue operation.
+    getValue_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    setValue_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        newRawValues:
+          $ref: '#/components/schemas/mc/parameter/ParameterRawValue'
+          description: |
+            The submitted newRawValues shall hold a list of ParameterRawValues that contain the ParameterIdentity object instance identifier and the respective raw value to be set.
+            If the paramInstId field contains the wildcard value of '0' then an INVALID error shall be returned.
+            If a requested ParameterIdentity is unknown then an UNKNOWN error shall be returned.
+            If a request ParameterIdentity is not settable due to it being read only then a READONLY error shall be returned.
+            The rawValue shall contain the new parameter raw value to be set.
+            If the supplied new parameter raw value does not match the defined type for the ParameterIdentity then an INVALID error shall be returned.
+            If an error is raised then no modifications shall be made as a result of this operation call.
+            The parameter values shall be set concurrently, by this it is meant that all values are set at the same time without interleaving of other values being (ATOMIC behaviour). How this is implemented is an implementation detail.
+            The service provider shall create new ParameterValueInstance objects for the updated parameter values, store these in the COM Archive, and publish these new values.
+    setValue_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+            - MC
+            - COM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+            - READONLY
+            - INVALID
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    enableGeneration_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        isGroupIds:
+          type: boolean
+          description: |
+            If the isGroupIds field is TRUE then the enableInstances field shall contain GroupIdentity object instance identifiers, otherwise the field contains ParameterIdentity object instance identifiers.
+            The ParameterIdentity objects referenced, either directly or indirectly via groups, by the enableInstances field shall be the ParameterIdentity objects to match.
+            The id of the enableInstances field shall support the wildcard value of '0' and matches all ParameterIdentity objects of the provider.
+            The service provider shall check for the wildcard value in the list of object instance identifiers in the enableInstances field first and if found no other checks of supplied object instance identifiers shall be made.
+            If the enableInstances field contains a value of TRUE then reports for matching ParameterIdentity objects shall be generated, a value of FALSE requests that reports will not be generated.
+            No error shall be raised if the enableInstances Boolean value supplied is the same as the current generationEnabled field of the definition for a matched ParameterIdentity object i.e. enabling an already enabled parameter will not result in an error.
+            If a requested ParameterIdentity or GroupIdentity object is unknown then an UNKNOWN error shall be returned.
+            If a requested Group, or the Group objects referenced by that Group, does not contain ParameterIdentity objects then an INVALID error shall be returned.
+            If an error is raised then no modifications shall be made as a result of this operation call.
+            The provider shall create and store a new ParameterDefinition object in the COM archive if the generationEnabled field is changed.
+            If a new ParameterDefinition object is created then that new object shall be the current ParameterDefinition used for the specific ParameterIdentity.
+        enableInstances:
+          $ref: '#/components/schemas/com/InstanceBooleanPair'
+          description: |
+            If the generation of reports is being enabled, and the parameter is defined as being periodic, then the provider shall generate a report immediately and start the report interval from that report.
+    enableGeneration_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        newObjInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The response shall contain the list of object instance identifiers for the new ParameterDefinition objects.
+    enableGeneration_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+            - COM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+            - INVALID
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    listDefinition_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        paramNames:
+          type: array
+          items:
+            type: string
+          description: |
+            The paramNames field shall contain a list of parameter names to retrieve the ParameterIdentity and ParameterDefinition object instance identifiers for.
+            The paramNames field may contain the wildcard value of '*' to return all supported ParameterIdentity and ParameterDefinition objects.
+            The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.
+            If a provided identifier does not include a wildcard and does not match an existing ParameterIdentity object then this operation shall fail with an UNKNOWN error.
+    listDefinition_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        objInstIds:
+          $ref: '#/components/schemas/mc/ObjectInstancePair'
+          description: |
+            The response shall contain a list of matching ParameterIdentity and ParameterDefinition object instance identifier pairs.
+            The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.
+    listDefinition_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    addParameter_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        paramDefDetails:
+          $ref: '#/components/schemas/mc/parameter/ParameterCreationRequest'
+          description: |
+            The paramDefDetails field shall hold the name and the ParameterDefinitionDetails to be added.
+            The name field must not be the wildcard '*', or empty (an INVALID error shall be returned in this case).
+            If the supplied reportInterval value is not supported by the provider then an INVALID error shall be returned.
+            The supplied name must be unique among all ParameterIdentity objects for the domain of the provider otherwise a DUPLICATE error shall be raised.
+            If an error is raised then no new identities and definitions shall be added as a result of this operation call.
+            If the supplied name matches an existing, but removed, ParameterIdentity then that ParameterIdentity shall be reused otherwise a new ParameterIdentity shall be created.
+            The provider shall create a new ParameterDefinition object and store it, and any new ParameterIdentity objects, in the COM archive.
+    addParameter_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        newObjInstIds:
+          $ref: '#/components/schemas/mc/ObjectInstancePair'
+          description: |
+            The response shall contain the list of object instance identifiers for the ParameterIdentity and new ParameterDefinition objects.
+            The returned list shall maintain the same order as the submitted definitions.
+    addParameter_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - COM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - INVALID
+            - DUPLICATE
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    updateDefinition_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        paramInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The paramInstIds field shall contain the object instance identifiers of the ParameterIdentity objects to be updated.
+            The supplied object instance identifiers shall match existing identity objects, an UNKNOWN error shall be raised if this is not the case.
+            If the paramInstIds list contains either NULL or '0' an INVALID error shall be raised.
+        paramDefDetails:
+          $ref: '#/components/schemas/mc/parameter/ParameterDefinitionDetails'
+          description: |
+            The paramDefDetails field shall contain the replacement ParameterDefinitionDetails.
+            The two lists shall be ordered the same.
+            The number of entries in the two lists shall be the same size otherwise an INVALID error shall be returned.
+            If the supplied reportInterval value is not supported by the provider then an INVALID error shall be returned.
+            If an error is raised then no definitions shall be updated as a result of this operation call.
+            The provider shall create a new ParameterDefinition object and store it in the COM archive.
+            The new ParameterDefinition object shall be the current ParameterDefinition used for the specific ParameterIdentity.
+    updateDefinition_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        newObjInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The response shall contain the list of object instance identifiers for the new ParameterDefinition objects.
+            The returned list shall maintain the same order as the submitted definitions.
+    updateDefinition_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - COM
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - INVALID
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    removeParameter_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        paramInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The paramInstIds field shall hold the object instance identifiers of the ParameterIdentity objects to be removed from the provider.
+            The list may contain the wildcard value of '0'.
+            The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
+            If a provided ParameterIdentity object instance identifier does not include a wildcard and does not match an existing parameter identity object then this operation shall fail with an UNKNOWN error.
+            Matched ParameterIdentity and ParameterDefinition objects shall not be removed from the COM archive only the list of ParameterIdentity and ParameterDefinition objects from the provider.
+            If an error is raised then no parameters shall be removed as a result of this operation call.
+            If the operation succeeds then the provider shall not publish parameter values for the deleted ParameterIdentity objects anymore.
+    removeParameter_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    mc:
+      parameter:
+        ParameterConversion:
+          properties:
+            conditionalConversions:
+              description: The conversions to be applied. Only the first TRUE conversion should
+                be applied.
+              items:
+                $ref: '#/components/schemas/mc/ConditionalConversion'
+              type: array
+            convertedType:
+              description: Holds the attribute short form part of the converted type of the
+                parameter, e.g., for a MAL::String parameter it shall hold 15.
+              format: int8
+              type: integer
+            convertedUnit:
+              description: The converted parameter unit. If NULL then converted type has no
+                unit.
+              type: string
+          type: object
+        ParameterCreationRequest:
+          properties:
+            name:
+              description: The name of the parameter. Must not be empty or the wildcard value.
+              type: string
+            paramDefDetails:
+              $ref: '#/components/schemas/mc/parameter/ParameterDefinitionDetails'
+              description: The parameter definition details.
+          type: object
+        ParameterDefinitionDetails:
+          properties:
+            conversion:
+              $ref: '#/components/schemas/mc/parameter/ParameterConversion'
+              description: If present then parameter has a converted type.
+            description:
+              description: The description of the parameter. May be empty.
+              type: string
+            generationEnabled:
+              description: Controls whether reports for this parameter are to be generated.
+              type: boolean
+            rawType:
+              description: Holds the attribute short form part of the raw type of the parameter,
+                e.g., for a MAL::String parameter it shall hold 15.
+              format: int8
+              type: integer
+            rawUnit:
+              description: The unit for the raw value. If NULL then raw type has no unit.
+              type: string
+            reportInterval:
+              description: Periodic report interval. No periodic reports to be generated if
+                this is set to '0'.
+              format: uint64
+              type: number
+            validityExpression:
+              $ref: '#/components/schemas/mc/ParameterExpression'
+              description: Expression that determines this parameter's validity state. Can be
+                NULL if no validity check is required or validity is calculated by implementation-specific
+                mechanisms.
+          type: object
+        ParameterRawValue:
+          properties:
+            paramInstId:
+              description: The object instance identifier of the parameter identity.
+              format: int64
+              type: integer
+            rawValue:
+              description: The parameter raw value. The value of NULL is a valid value and carries
+                no special significance in the parameter service.
+              type: string
+          type: object
+        ParameterValue:
+          properties:
+            convertedValue:
+              description: The parameter converted value.
+              type: string
+            rawValue:
+              description: The parameter raw value. The value of NULL is a valid value and carries
+                no special significance in the parameter service.
+              type: string
+            validityState:
+              description: Holds the validity state for a parameter value. If the parameter
+                is valid then this should be set to '0'.
+              format: uint8
+              type: integer
+          type: object
+        ParameterValueDetails:
+          properties:
+            defId:
+              description: The ParameterDefinition object instance identifier.
+              format: int64
+              type: integer
+            paramId:
+              description: The ParameterIdentity object instance identifier.
+              format: int64
+              type: integer
+            timestamp:
+              description: The timestamp of the value.
+              format: uint64
+              type: number
+            value:
+              $ref: '#/components/schemas/mc/parameter/ParameterValue'
+              description: The parameter value.
+          type: object
+      ConditionalConversion:
+        properties:
+          condition:
+            $ref: '#/components/schemas/mc/ParameterExpression'
+            description: The expression indicates which entities are applicable for this check.
+              If NULL, then the condition shall evaluate to TRUE.
+          conversionId:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: The object instance identifier of the ConversionIdentity object to
+              be used if the condition evaluates to TRUE or is NULL.
+        type: object
+      ObjectInstancePair:
+        properties:
+          objDefInstanceId:
+            description: The object instance identifier of the Definition object.
+            format: int64
+            type: integer
+          objIdentityInstanceId:
+            description: The object instance identifier of the Identity object.
+            format: int64
+            type: integer
+        type: object
+      ParameterExpression:
+        properties:
+          operator:
+            $ref: '#/components/schemas/com/archive/ExpressionOperator'
+            description: The expression operator.
+          parameterId:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: Holds the object instance identifier of the ParameterIdentity object
+              to be used in the expression.
+          useConverted:
+            description: If set to TRUE the converted value field of the parameter value should
+              be used, otherwise the raw value field should be used.
+            type: boolean
+          value:
+            description: The value to be used in the expression.
+            type: string
+        type: object
+    com:
+      archive:
+        ExpressionOperator:
+          description: The ExpressionOperator enumeration holds a set of possible expression
+            operators.
+          enum:
+          - EQUAL
+          - DIFFER
+          - GREATER
+          - GREATER_OR_EQUAL
+          - LESS
+          - LESS_OR_EQUAL
+          - CONTAINS
+          - ICONTAINS
+          type: string
+      InstanceBooleanPair:
+        properties:
+          id:
+            description: The object instance identifier.
+            format: int64
+            type: integer
+          value:
+            description: An associated Boolean value.
+            type: boolean
+        type: object
+      ObjectId:
+        properties:
+          key:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: The combination of the object domain and object instance identifier.
+          type_:
+            $ref: '#/components/schemas/com/ObjectType'
+            description: The fully qualified unique identifier of the type.
+        type: object
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
+      ObjectType:
+        properties:
+          area:
+            description: Area Number where the object type is defined. Must not be '0' for
+              values as this is the wildcard.
+            format: uint16
+            type: integer
+          number:
+            description: The service specific object number. Must not be '0' for values as
+              this is the wildcard.
+            format: uint16
+            type: integer
+          service:
+            description: Service Number of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint16
+            type: integer
+          version:
+            description: Area Version of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint8
+            type: integer
+        type: object
+  messages:
+    monitorValue_subscriptionKeys:
+      description: monitorValue request
+      payload:
+        $ref: '#/components/schemas/monitorValue_subscriptionKeys'
+    monitorValue_publishNotify:
+      description: monitorValue response
+      payload:
+        $ref: '#/components/schemas/monitorValue_publishNotify'
+    getValue_request:
+      description: getValue request
+      payload:
+        $ref: '#/components/schemas/getValue_request'
+    getValue_response:
+      description: getValue response
+      payload:
+        $ref: '#/components/schemas/getValue_response'
+    getValue_error:
+      description: getValue error response
+      payload:
+        $ref: '#/components/schemas/getValue_error'
+    setValue_submit:
+      description: setValue request
+      payload:
+        $ref: '#/components/schemas/setValue_submit'
+    setValue_error:
+      description: setValue error response
+      payload:
+        $ref: '#/components/schemas/setValue_error'
+    enableGeneration_request:
+      description: enableGeneration request
+      payload:
+        $ref: '#/components/schemas/enableGeneration_request'
+    enableGeneration_response:
+      description: enableGeneration response
+      payload:
+        $ref: '#/components/schemas/enableGeneration_response'
+    enableGeneration_error:
+      description: enableGeneration error response
+      payload:
+        $ref: '#/components/schemas/enableGeneration_error'
+    listDefinition_request:
+      description: listDefinition request
+      payload:
+        $ref: '#/components/schemas/listDefinition_request'
+    listDefinition_response:
+      description: listDefinition response
+      payload:
+        $ref: '#/components/schemas/listDefinition_response'
+    listDefinition_error:
+      description: listDefinition error response
+      payload:
+        $ref: '#/components/schemas/listDefinition_error'
+    addParameter_request:
+      description: addParameter request
+      payload:
+        $ref: '#/components/schemas/addParameter_request'
+    addParameter_response:
+      description: addParameter response
+      payload:
+        $ref: '#/components/schemas/addParameter_response'
+    addParameter_error:
+      description: addParameter error response
+      payload:
+        $ref: '#/components/schemas/addParameter_error'
+    updateDefinition_request:
+      description: updateDefinition request
+      payload:
+        $ref: '#/components/schemas/updateDefinition_request'
+    updateDefinition_response:
+      description: updateDefinition response
+      payload:
+        $ref: '#/components/schemas/updateDefinition_response'
+    updateDefinition_error:
+      description: updateDefinition error response
+      payload:
+        $ref: '#/components/schemas/updateDefinition_error'
+    removeParameter_submit:
+      description: removeParameter request
+      payload:
+        $ref: '#/components/schemas/removeParameter_submit'
+    removeParameter_error:
+      description: removeParameter error response
+      payload:
+        $ref: '#/components/schemas/removeParameter_error'

@@ -1,0 +1,783 @@
+asyncapi: 3.0.0
+info:
+  title: Action Service API
+  version: 1.0.0
+  description: This API allows clients to interact with the Action Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'localhost:{port}'
+    protocol: mqtt
+    description: MQTT server for the Action Service.
+    variables:
+      port:
+        default: '8883'
+channels:
+  submitAction_submit:
+    address: submitAction_submit
+    messages:
+      submitAction_submit.message:
+        $ref: '#/components/messages/submitAction_submit'
+    description: >
+      Send a **submitAction_submit** message in this channel.
+  submitAction_error:
+    address: submitAction_error
+    messages:
+      submitAction_error.message:
+        $ref: '#/components/messages/submitAction_error'
+    description: >
+      Use this channel to receive submitAction errors as **submitAction_error**
+      messages.
+  preCheckAction_request:
+    address: preCheckAction_request
+    messages:
+      preCheckAction_request.message:
+        $ref: '#/components/messages/preCheckAction_request'
+    description: >
+      Send a **preCheckAction_request** message in this channel to receive a
+      **preCheckAction_response** message over the **preCheckAction_response** channel.
+  preCheckAction_response:
+    address: preCheckAction_response
+    messages:
+      preCheckAction_response.message:
+        $ref: '#/components/messages/preCheckAction_response'
+    description: >
+      Use this channel to receive preCheckAction responses as **preCheckAction_response**
+      messages.
+  preCheckAction_error:
+    address: preCheckAction_error
+    messages:
+      preCheckAction_error.message:
+        $ref: '#/components/messages/preCheckAction_error'
+    description: >
+      Use this channel to receive preCheckAction errors as **preCheckAction_error**
+      messages.
+  listDefinition_request:
+    address: listDefinition_request
+    messages:
+      listDefinition_request.message:
+        $ref: '#/components/messages/listDefinition_request'
+    description: >
+      Send a **listDefinition_request** message in this channel to receive a
+      **listDefinition_response** message over the **listDefinition_response** channel.
+  listDefinition_response:
+    address: listDefinition_response
+    messages:
+      listDefinition_response.message:
+        $ref: '#/components/messages/listDefinition_response'
+    description: >
+      Use this channel to receive listDefinition responses as **listDefinition_response**
+      messages.
+  listDefinition_error:
+    address: listDefinition_error
+    messages:
+      listDefinition_error.message:
+        $ref: '#/components/messages/listDefinition_error'
+    description: >
+      Use this channel to receive listDefinition errors as **listDefinition_error**
+      messages.
+  addAction_request:
+    address: addAction_request
+    messages:
+      addAction_request.message:
+        $ref: '#/components/messages/addAction_request'
+    description: >
+      Send a **addAction_request** message in this channel to receive a
+      **addAction_response** message over the **addAction_response** channel.
+  addAction_response:
+    address: addAction_response
+    messages:
+      addAction_response.message:
+        $ref: '#/components/messages/addAction_response'
+    description: >
+      Use this channel to receive addAction responses as **addAction_response**
+      messages.
+  addAction_error:
+    address: addAction_error
+    messages:
+      addAction_error.message:
+        $ref: '#/components/messages/addAction_error'
+    description: >
+      Use this channel to receive addAction errors as **addAction_error**
+      messages.
+  updateDefinition_request:
+    address: updateDefinition_request
+    messages:
+      updateDefinition_request.message:
+        $ref: '#/components/messages/updateDefinition_request'
+    description: >
+      Send a **updateDefinition_request** message in this channel to receive a
+      **updateDefinition_response** message over the **updateDefinition_response** channel.
+  updateDefinition_response:
+    address: updateDefinition_response
+    messages:
+      updateDefinition_response.message:
+        $ref: '#/components/messages/updateDefinition_response'
+    description: >
+      Use this channel to receive updateDefinition responses as **updateDefinition_response**
+      messages.
+  updateDefinition_error:
+    address: updateDefinition_error
+    messages:
+      updateDefinition_error.message:
+        $ref: '#/components/messages/updateDefinition_error'
+    description: >
+      Use this channel to receive updateDefinition errors as **updateDefinition_error**
+      messages.
+  removeAction_submit:
+    address: removeAction_submit
+    messages:
+      removeAction_submit.message:
+        $ref: '#/components/messages/removeAction_submit'
+    description: >
+      Send a **removeAction_submit** message in this channel.
+  removeAction_error:
+    address: removeAction_error
+    messages:
+      removeAction_error.message:
+        $ref: '#/components/messages/removeAction_error'
+    description: >
+      Use this channel to receive removeAction errors as **removeAction_error**
+      messages.
+operations:
+  submitAction_submit:
+    action: send
+    channel:
+      $ref: '#/channels/submitAction_submit'
+    messages:
+      - $ref: '#/channels/submitAction_submit/messages/submitAction_submit.message'
+  submitAction_error:
+    action: receive
+    channel:
+      $ref: '#/channels/submitAction_error'
+    messages:
+      - $ref: '#/channels/submitAction_error/messages/submitAction_error.message'
+  preCheckAction_request:
+    action: send
+    channel:
+      $ref: '#/channels/preCheckAction_request'
+    messages:
+      - $ref: '#/channels/preCheckAction_request/messages/preCheckAction_request.message'
+  preCheckAction_response:
+    action: receive
+    channel:
+      $ref: '#/channels/preCheckAction_response'
+    messages:
+      - $ref: '#/channels/preCheckAction_response/messages/preCheckAction_response.message'
+  preCheckAction_error:
+    action: receive
+    channel:
+      $ref: '#/channels/preCheckAction_error'
+    messages:
+      - $ref: '#/channels/preCheckAction_error/messages/preCheckAction_error.message'
+  listDefinition_request:
+    action: send
+    channel:
+      $ref: '#/channels/listDefinition_request'
+    messages:
+      - $ref: '#/channels/listDefinition_request/messages/listDefinition_request.message'
+  listDefinition_response:
+    action: receive
+    channel:
+      $ref: '#/channels/listDefinition_response'
+    messages:
+      - $ref: '#/channels/listDefinition_response/messages/listDefinition_response.message'
+  listDefinition_error:
+    action: receive
+    channel:
+      $ref: '#/channels/listDefinition_error'
+    messages:
+      - $ref: '#/channels/listDefinition_error/messages/listDefinition_error.message'
+  addAction_request:
+    action: send
+    channel:
+      $ref: '#/channels/addAction_request'
+    messages:
+      - $ref: '#/channels/addAction_request/messages/addAction_request.message'
+  addAction_response:
+    action: receive
+    channel:
+      $ref: '#/channels/addAction_response'
+    messages:
+      - $ref: '#/channels/addAction_response/messages/addAction_response.message'
+  addAction_error:
+    action: receive
+    channel:
+      $ref: '#/channels/addAction_error'
+    messages:
+      - $ref: '#/channels/addAction_error/messages/addAction_error.message'
+  updateDefinition_request:
+    action: send
+    channel:
+      $ref: '#/channels/updateDefinition_request'
+    messages:
+      - $ref: '#/channels/updateDefinition_request/messages/updateDefinition_request.message'
+  updateDefinition_response:
+    action: receive
+    channel:
+      $ref: '#/channels/updateDefinition_response'
+    messages:
+      - $ref: '#/channels/updateDefinition_response/messages/updateDefinition_response.message'
+  updateDefinition_error:
+    action: receive
+    channel:
+      $ref: '#/channels/updateDefinition_error'
+    messages:
+      - $ref: '#/channels/updateDefinition_error/messages/updateDefinition_error.message'
+  removeAction_submit:
+    action: send
+    channel:
+      $ref: '#/channels/removeAction_submit'
+    messages:
+      - $ref: '#/channels/removeAction_submit/messages/removeAction_submit.message'
+  removeAction_error:
+    action: receive
+    channel:
+      $ref: '#/channels/removeAction_error'
+    messages:
+      - $ref: '#/channels/removeAction_error/messages/removeAction_error.message'
+components:
+  schemas:
+    submitAction_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        actionInstId:
+          type: integer
+          format: int64
+          description: |
+            The actionInstId field of the submission shall contain the object instance identifier of the ActionInstance to be used for activity tracking events.
+        actionDetails:
+          $ref: '#/components/schemas/mc/action/ActionInstanceDetails'
+          description: |
+            The actionDetails part of the submission shall contain the argument values and related information of the action instance to be executed.
+            If the defInstId of the supplied actionDetails field does not match a known ActionDefinition object then an UNKNOWN error shall be returned.
+            The size of the argumentValues list of the ActionInstanceDetails structure shall be compared to the size of the argument list in the matched ActionDefinition object and an INVALID error shall be returned if they are not the same.
+            If the ActionInstanceDetails structure contains an argumentIds field value then this shall be compared to the same field in the matched ActionDefinition object and must be the same size and contain the same values, an INVALID error shall be returned if this is not the case.
+            If the ActionInstanceDetails structure contains an isRawValue field value then the size of this list shall be compared to the size of the argument list in the matched ActionDefinition object and an INVALID error shall be returned if they are not the same.
+            If the supplied argument values do not match the attribute type specified in the action definition then an INVALID error shall be returned.
+            A service provider may apply some deployment specific checks to the action instance and can return an INVALID error if they fail.
+            If an error is raised then no action shall be executed.
+            The SUBMIT acknowledgement shall be returned once the action has been accepted for execution but before execution starts.
+    submitAction_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - COM
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - INVALID
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    preCheckAction_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        actionDetails:
+          $ref: '#/components/schemas/mc/action/ActionInstanceDetails'
+          description: |
+            The actionDetails part of the submission shall contain the argument values and related information of the action instance to be executed.
+            If the ActionInstanceDetails structure contains an argumentIds field value then this shall be compared to the same field in the matched ActionDefinition object and must be the same size and contain the same values, an INVALID error shall be returned if this is not the case.
+            If the supplied argument values do not match the attribute type specified in the action definition then an INVALID error shall be returned.
+            A service provider may apply some deployment specific checks to the action instance and can return an INVALID error if they fail.
+    preCheckAction_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        accepted:
+          type: boolean
+          description: |
+            The returned Boolean shall be set to TRUE if the action would be accepted successfully; otherwise the operation shall return FALSE.
+    preCheckAction_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - COM
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - INVALID
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    listDefinition_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        actionNames:
+          type: array
+          items:
+            type: string
+          description: |
+            The actionNames field shall contain a list of action names to retrieve the ActionIdentity and ActionDefinition object instance identifiers for.
+            The request may contain the wildcard value of '*' to return all supported ActionIdentity and ActionDefinition objects.
+            The wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.
+            If a provided identifier does not include a wildcard and does not match an existing ActionIdentity object then this operation shall fail with an UNKNOWN error.
+    listDefinition_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        actionInstIds:
+          $ref: '#/components/schemas/mc/ObjectInstancePair'
+          description: |
+            The response shall contain a list of matching ActionIdentity and ActionDefinition object instance identifiers.
+            The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.
+    listDefinition_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    addAction_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        actionDefDetails:
+          $ref: '#/components/schemas/mc/action/ActionCreationRequest'
+          description: |
+            The actionDefDetails field shall hold the name and definitions to be added.
+            The name field must not be the wildcard '*', or empty (an INVALID error shall be returned in this case).
+            The supplied name must be unique among all ActionIdentity objects for the domain of the provider otherwise a DUPLICATE error shall be raised.
+            If an error is raised then no new identities and definitions shall be added as a result of this operation call.
+            If the supplied name matches an existing, but removed, ActionIdentity then that ActionIdentity shall be reused otherwise a new ActionIdentity shall be created.
+            The provider shall create a new ActionDefinition object and store it, and any new ActionIdentity objects, in the COM archive.
+    addAction_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        newObjInstIds:
+          $ref: '#/components/schemas/mc/ObjectInstancePair'
+          description: |
+            The response shall contain the list of object instance identifiers for the ActionIdentity and new ActionDefinition objects.
+            The returned list shall maintain the same order as the submitted definitions.
+    addAction_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - COM
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - INVALID
+            - DUPLICATE
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    updateDefinition_request:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        actionObjInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The actionObjInstIds field shall contain the list of object instance identifiers of the ActionIdentity objects to be updated.
+            The supplied object instance identifiers shall match existing identity objects, an UNKNOWN error shall be raised if this is not the case.
+            If the actionObjInstIds list contains either NULL or '0' an INVALID error shall be raised.
+        actionDefDetails:
+          $ref: '#/components/schemas/mc/action/ActionDefinitionDetails'
+          description: |
+            The actionDefDetails field shall contain the replacement ActionDefinitionDetails.
+            The two lists shall be ordered the same.
+            The number of entries in the two lists shall be the same size otherwise an INVALID error shall be returned.
+            If an error is raised then no definitions shall be modified as a result of this operation call.
+            The provider shall create a new ActionDefinition object and store it in the COM archive.
+            The new ActionDefinition object shall be the current ActionDefinition used for the specific ActionIdentity.
+    updateDefinition_response:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        newDefInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The response shall contain the list of object instance identifiers for the new ActionDefinition objects.
+            The returned list shall maintain the same order as the submitted definitions.
+    updateDefinition_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - COM
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - INVALID
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    removeAction_submit:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        actionInstIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+          description: |
+            The actionInstIds field shall hold the object instance identifiers of the ActionIdentity objects to be removed from the provider.
+            The wildcard value of '0' in the list of object instance identifiers shall be supported and matches all actions of the provider.
+            The wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.
+            If a provided ActionIdentity object instance identifier does not include a wildcard and does not match an existing ActionIdentity object then this operation shall fail with an UNKNOWN error.
+            If a matched definition is still being used by an executing action instance then this operation shall not fail because of this reason.
+            Matched ActionIdentity objects shall not be removed from the COM archive only the list of ActionIdentity objects in the provider.
+            Removed ActionIdentity object shall not be allowed to be referenced by new action instances.
+            If an error is raised then no actions shall be removed as a result of this operation call.
+    removeAction_error:
+      type: object
+      properties:
+        sequenceId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+        area:
+          type: string
+          description: The area in which the error applies.
+          enum:
+            - MAL
+        name:
+          type: string
+          description: A code representing the error.
+          enum:
+            - UNKNOWN
+        extraInformation:
+          type: array
+          items:
+            type: integer
+            format: uint32
+            description: A list of the indexes of the error values shall be contained in the extra information field.
+    mc:
+      action:
+        ActionCreationRequest:
+          properties:
+            actionDefDetails:
+              $ref: '#/components/schemas/mc/action/ActionDefinitionDetails'
+              description: The action definition details.
+            name:
+              description: The name of the action. Must not be empty or the wildcard value.
+              type: string
+          type: object
+        ActionDefinitionDetails:
+          properties:
+            arguments:
+              description: The list of argument definitions. If no arguments are defined, then
+                the complete list is replaced with a NULL.
+              items:
+                $ref: '#/components/schemas/mc/ArgumentDefinitionDetails'
+              type: array
+            category:
+              description: Category of the action. Value taken from ActionCategory enumeration,
+                although the use of a UOctet allows deployment specific extension. Extensions
+                must use values greater than 127.
+              format: uint8
+              type: integer
+            description:
+              description: The description of the action.
+              type: string
+            progressStepCount:
+              description: Total number of steps that will be reported if PROGRESS reporting
+                is selected in the sent Action. 0 if PROGRESS reporting is not used.
+              format: uint16
+              type: integer
+          type: object
+        ActionInstanceDetails:
+          properties:
+            argumentIds:
+              description: Optional list of argument definition identifiers. Allows the provider
+                to verify that the correct arguments are being supplied. The ordering of the
+                list matches that of the argument list of the action definition.
+              items:
+                type: string
+              type: array
+            argumentValues:
+              description: List containing the values of the arguments. The ordering of the
+                list matches that of the definition. If a value for a particular entry is not
+                being supplied, then its position is filled with a NULL value. If no arguments
+                are defined, then the complete list is replaced with a NULL.
+              items:
+                $ref: '#/components/schemas/mc/AttributeValue'
+              type: array
+            defInstId:
+              description: The object instance identifier of the ActionDefinition to be used.
+              format: int64
+              type: integer
+            isRawValue:
+              description: Optional list of Booleans that determine whether the supplied argument
+                values are raw or converted. If the Boolean for a particular value is TRUE or
+                NULL then that value is assumed to be raw. If the complete isRawValue list is
+                NULL then all arguments are assumed to be raw values. The ordering of the list
+                matches that of the argument list of the action definition.
+              items:
+                type: boolean
+              type: array
+            stageCompletedRequired:
+              description: If TRUE, then an activity event of type Execution is required for
+                the COMPLETION stage.
+              type: boolean
+            stageProgressRequired:
+              description: If TRUE, then activity events of type Execution are required for
+                the PROGRESS stages.
+              type: boolean
+            stageStartedRequired:
+              description: If TRUE, then an activity event of type Execution is required for
+                the STARTED stage.
+              type: boolean
+          type: object
+      ArgumentDefinitionDetails:
+        properties:
+          argId:
+            description: Holds the argument definition identifier.
+            type: string
+          conditionalConversions:
+            description: The conditional conversions to apply to the argument. Only the first
+              TRUE conversion should be applied.
+            items:
+              $ref: '#/components/schemas/mc/ConditionalConversion'
+            type: array
+          convertedType:
+            description: Holds the attribute short form part of the converted type of the
+              argument, e.g., for a MAL::String argument it shall hold 15. Must not be NULL
+              if a conversion condition is supplied.
+            format: int8
+            type: integer
+          convertedUnit:
+            description: The converted argument units.
+            type: string
+          description:
+            description: Optional argument description.
+            type: string
+          rawType:
+            description: Holds the attribute short form part of the raw type of the argument,
+              e.g., for a MAL::String argument it shall hold 15.
+            format: int8
+            type: integer
+          rawUnit:
+            description: The unit for the raw value.
+            type: string
+        type: object
+      AttributeValue:
+        properties:
+          value:
+            description: The argument value. Must not be NULL. NULL may be represented by
+              having a NULL in place of the complete AttributeValue composite.
+            type: string
+        type: object
+      ConditionalConversion:
+        properties:
+          condition:
+            $ref: '#/components/schemas/mc/ParameterExpression'
+            description: The expression indicates which entities are applicable for this check.
+              If NULL, then the condition shall evaluate to TRUE.
+          conversionId:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: The object instance identifier of the ConversionIdentity object to
+              be used if the condition evaluates to TRUE or is NULL.
+        type: object
+      ObjectInstancePair:
+        properties:
+          objDefInstanceId:
+            description: The object instance identifier of the Definition object.
+            format: int64
+            type: integer
+          objIdentityInstanceId:
+            description: The object instance identifier of the Identity object.
+            format: int64
+            type: integer
+        type: object
+      ParameterExpression:
+        properties:
+          operator:
+            $ref: '#/components/schemas/com/archive/ExpressionOperator'
+            description: The expression operator.
+          parameterId:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: Holds the object instance identifier of the ParameterIdentity object
+              to be used in the expression.
+          useConverted:
+            description: If set to TRUE the converted value field of the parameter value should
+              be used, otherwise the raw value field should be used.
+            type: boolean
+          value:
+            description: The value to be used in the expression.
+            type: string
+        type: object
+    com:
+      archive:
+        ExpressionOperator:
+          description: The ExpressionOperator enumeration holds a set of possible expression
+            operators.
+          enum:
+          - EQUAL
+          - DIFFER
+          - GREATER
+          - GREATER_OR_EQUAL
+          - LESS
+          - LESS_OR_EQUAL
+          - CONTAINS
+          - ICONTAINS
+          type: string
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
+  messages:
+    submitAction_submit:
+      description: submitAction request
+      payload:
+        $ref: '#/components/schemas/submitAction_submit'
+    submitAction_error:
+      description: submitAction error response
+      payload:
+        $ref: '#/components/schemas/submitAction_error'
+    preCheckAction_request:
+      description: preCheckAction request
+      payload:
+        $ref: '#/components/schemas/preCheckAction_request'
+    preCheckAction_response:
+      description: preCheckAction response
+      payload:
+        $ref: '#/components/schemas/preCheckAction_response'
+    preCheckAction_error:
+      description: preCheckAction error response
+      payload:
+        $ref: '#/components/schemas/preCheckAction_error'
+    listDefinition_request:
+      description: listDefinition request
+      payload:
+        $ref: '#/components/schemas/listDefinition_request'
+    listDefinition_response:
+      description: listDefinition response
+      payload:
+        $ref: '#/components/schemas/listDefinition_response'
+    listDefinition_error:
+      description: listDefinition error response
+      payload:
+        $ref: '#/components/schemas/listDefinition_error'
+    addAction_request:
+      description: addAction request
+      payload:
+        $ref: '#/components/schemas/addAction_request'
+    addAction_response:
+      description: addAction response
+      payload:
+        $ref: '#/components/schemas/addAction_response'
+    addAction_error:
+      description: addAction error response
+      payload:
+        $ref: '#/components/schemas/addAction_error'
+    updateDefinition_request:
+      description: updateDefinition request
+      payload:
+        $ref: '#/components/schemas/updateDefinition_request'
+    updateDefinition_response:
+      description: updateDefinition response
+      payload:
+        $ref: '#/components/schemas/updateDefinition_response'
+    updateDefinition_error:
+      description: updateDefinition error response
+      payload:
+        $ref: '#/components/schemas/updateDefinition_error'
+    removeAction_submit:
+      description: removeAction request
+      payload:
+        $ref: '#/components/schemas/removeAction_submit'
+    removeAction_error:
+      description: removeAction error response
+      payload:
+        $ref: '#/components/schemas/removeAction_error'

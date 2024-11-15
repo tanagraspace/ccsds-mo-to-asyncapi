@@ -10,6 +10,7 @@ from generators.yaml_generator_submit import YamlGeneratorSubmit
 from generators.yaml_generator_progress import YamlGeneratorSubmitProgress
 
 from generators.common import InteractionType
+import utils
 
 def print_help():
   print("""
@@ -24,7 +25,7 @@ def print_help():
     """)
 
 
-def list_services_with_capabilities_and_interactions(
+def generate_yaml_components(
   xml_file_path: str,
   mo_asyncapi_src_dir_path: str,
   target_yaml_directory_path: str,
@@ -41,10 +42,28 @@ def list_services_with_capabilities_and_interactions(
   services = root.findall(".//mal:service", ns)
   service_details = []
 
+  # store all generated yaml in this dictionary
+  # the keys are the names of the service
+  service_yaml_dict = {}
+
   # iterate through each service
   for service in services:
     service_name = service.attrib.get('name')
     service_number = service.attrib.get('number')
+
+    # initialize the dictionary that will store generate yaml for this service
+    service_yaml_dict[service_name] = {
+      "service": None,
+      "channels": [],
+      "operations": [],
+      "components": [],
+      "composites": None,
+      "messages": [],
+    }
+
+    # when processing components we will extract composite type definitions
+    # we want to progressibely merge these so that we don't end up with duplicate
+    merged_composite_dict = {}
 
     # TODO: convert to logger debug
     #print(f"Service #{service_number}: {service_name} Service")
@@ -97,12 +116,7 @@ def list_services_with_capabilities_and_interactions(
             err_fields = interaction_type.findall(f".//mal:errors//mal:errorRef", ns)
             include_channel_error = True if len(err_fields) > 0 else False
 
-            yaml_service_schema = yaml_gen.generate_service_schema(
-              service_name=service_name,
-              interaction_name=interaction_name)
-
             yaml_channels_schema = yaml_gen.generate_channels_schema(
-              service_name=service_name,
               interaction_name=interaction_name,
               include_channel_send=include_channel_send,
               include_channel_receive=include_channel_receive,
@@ -110,16 +124,14 @@ def list_services_with_capabilities_and_interactions(
               include_channel_error=include_channel_error)
 
             yaml_operations_schema = yaml_gen.generate_operations_schema(
-              service_name=service_name,
               interaction_name=interaction_name,
               include_channel_send=include_channel_send,
               include_channel_receive=include_channel_receive,
               include_channel_receive_additional=include_channel_receive_additional,
               include_channel_error=include_channel_error)
 
-            yaml_components_schema = yaml_gen.generate_components_schema(
+            yaml_components_schema, composite_dict = yaml_gen.generate_components_schema(
               mo_asyncapi_src_dir_path=mo_asyncapi_src_dir_path,
-              service_name=service_name,
               interaction_name=interaction_name,
               send_fields=send_fields,
               receive_fields=receive_fields,
@@ -127,45 +139,46 @@ def list_services_with_capabilities_and_interactions(
               err_fields=err_fields,
               ns=ns)
 
+            # merge composite dictionaries
+            merged_composite_dict = utils.merge_dictionaries(merged_composite_dict, composite_dict)
+
             yaml_components_messages = yaml_gen.generate_components_messages_schema(
-              service_name=service_name,
               interaction_name=interaction_name,
               include_channel_send=include_channel_send,
               include_channel_receive=include_channel_receive,
               include_channel_receive_additional=include_channel_receive_additional,
               include_channel_error=include_channel_error)
 
-            # path to the output file
-            output_file = os.path.join(target_yaml_directory_path, f"{service_name}-{interaction_name}.yaml")
+            service_yaml_dict[service_name]["channels"].append(yaml_channels_schema)
+            service_yaml_dict[service_name]["operations"].append(yaml_operations_schema)
+            service_yaml_dict[service_name]["components"].append(yaml_components_schema)
+            service_yaml_dict[service_name]["messages"].append(yaml_components_messages)
 
-            # concatenate all the YAML strings and write them into a single file
-            with open(output_file, 'w') as file:
-              file.write(yaml_service_schema)
-              file.write(yaml_channels_schema)
-              file.write(yaml_operations_schema)
-              file.write(yaml_components_schema)
-              file.write(yaml_components_messages)
-
-              print(f"Generated YAML for the {service_name} Service's {interaction_name} interaction.")
+            print(f"Generated YAML for the {service_name} Service's {interaction_name} interaction.")
 
             # once matched, break out of the loop to avoid processing the same interaction with multiple generators
             break
 
-        interactions.append((interaction_name, interaction_type_name))
+    # finished processing a service
 
-      capability_sets.append({
-        'capability_set_number': cs.attrib.get('number'),
-        'interactions': interactions
-      })
+    # check if the processed service actually has interaction types defined
+    # skip it if it doesn't
+    # TODO: understand what this use case is about and fix accordingly, if needed
+    if len(service_yaml_dict[service_name]["channels"]) == 0:
+      print(f"Skipping the {service_name} Service: No send and/or receive interactions defined.")
+      service_yaml_dict[service_name] = None
+    else:
+      # collect all composites for this service
+      components_composites_yaml = yaml_gen.generate_components_composites(
+        mo_asyncapi_src_dir_path=mo_asyncapi_src_dir_path,
+        composite_type_dict=merged_composite_dict)
+      service_yaml_dict[service_name]["composites"] = components_composites_yaml
 
-    # append service name, number, and capability sets with interactions
-    service_details.append({
-      'service_name': service_name,
-      'service_number': service_number,
-      'capability_sets': capability_sets
-    })
+      # last but not least, include the service definition
+      service_yaml_dict[service_name]["service"] = yaml_gen.generate_service_schema(service_name)
 
-  return service_details
+  # retunr the dictionary of generated yaml
+  return service_yaml_dict
 
 
 def main(xml_file_path: str, mo_asyncapi_src_dir_path: str, target_yaml_directory_path: str):
@@ -179,13 +192,46 @@ def main(xml_file_path: str, mo_asyncapi_src_dir_path: str, target_yaml_director
   # ignore Hearbeat/beat because it is poorly defined
   ignores = {'Heartbeat': ['beat']}
 
-  # get the list of services with capability sets, interaction names, and types
-  services_with_capabilities_and_interactions = list_services_with_capabilities_and_interactions(
+  # generate yaml definitions for each service
+  service_yaml_dict = generate_yaml_components(
     xml_file_path=xml_file_path, 
     mo_asyncapi_src_dir_path=mo_asyncapi_src_dir_path,
     target_yaml_directory_path=target_yaml_directory_path,
     yaml_generators=yaml_generators,
     ignores=ignores)
+
+  # write the service yaml definitions into files
+  for service_name, service_yaml_definition_dict in service_yaml_dict.items():
+    if service_yaml_definition_dict:
+      output_file = os.path.join(target_yaml_directory_path, f"{service_name}.yaml")
+
+      with open(output_file, 'w') as file:
+        # service
+        file.write(service_yaml_definition_dict["service"])
+
+        # channels
+        file.write("channels:\n")
+        for channels in service_yaml_definition_dict["channels"]:
+          file.write(channels)
+
+        # operations
+        file.write("operations:\n")
+        for operations in service_yaml_definition_dict["operations"]:
+          file.write(operations)
+
+        # components
+        file.write("components:\n")
+        file.write("  schemas:\n")
+        for components in service_yaml_definition_dict["components"]:
+          file.write(components)
+
+        # components - composites
+        file.write(service_yaml_definition_dict["composites"])
+
+        # components - messages
+        file.write("  messages:\n")
+        for messages in service_yaml_definition_dict["messages"]:
+          file.write(messages)
 
 
 if __name__ == "__main__":
