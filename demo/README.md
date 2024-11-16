@@ -153,7 +153,7 @@ if __name__ == "__main__":
 ## 2. Dynamic Response Channel
 
 This approach ensures isolation and flexibility for each client:
-- Each client specifies a unique `responseChannel/{clientId}` in the request headers.
+- Each client specifies a unique `pong/{clientId}` in the request headers.
 - The server reads this header and sends the response to the specified channel.
 
 ### 2.1. Sample YAML
@@ -209,7 +209,7 @@ def client_send_ping():
 
         message = {
             "headers": {
-                "responseChannel": pong_channel,
+                "pongChannel": pong_channel,
                 "requestId": request_id
             },
             "payload": {
@@ -233,7 +233,7 @@ def client_send_ping():
 def server_handle_ping(client, userdata, msg):
     try:
         message = json.loads(msg.payload.decode())
-        pong_channel = message["headers"]["responseChannel"]
+        pong_channel = message["headers"]["pongChannel"]
         request_id = message["headers"]["requestId"]
 
         response = {
@@ -283,5 +283,4 @@ if __name__ == "__main__":
         server_start()
     else:
         print("Invalid mode. Use 'client' or 'server'.")
-
 ```
