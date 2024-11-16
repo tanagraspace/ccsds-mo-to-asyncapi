@@ -2,7 +2,7 @@
 
 Dynamic replies are essential for flexible and scalable communication in asynchronous messaging systems. AsyncAPI allows two patterns to enable dynamic responses:
 
-| Pattern                     | **Dynamic Reply Address**                         | **Dynamic Response Channel**                              |
+|                             | **Dynamic Reply Address**                         | **Dynamic Response Channel**                              |
 |-----------------------------|---------------------------------------------------|-----------------------------------------------------------|
 | **Flexibility**             | Client specifies `replyTo` in headers             | Client specifies `pong/{clientId}` in headers             |
 | **Server Behavior**         | Reads `replyTo` from request headers              | Reads `pong/{clientId}` from request headers              |
@@ -45,61 +45,108 @@ operations:
 ### 1.2. Sample Code
 
 ```python
+import sys
 import paho.mqtt.client as mqtt
 import uuid
+import json
 
 BROKER = "localhost"
 
+# --------------------------------
+# CLIENT LOGIC
+# --------------------------------
 def client_send_ping():
-    client = mqtt.Client()
-    client.connect(BROKER)
-    
-    reply_to = f"client/{uuid.uuid4()}/reply"
-    request_id = str(uuid.uuid4())
+    try:
+        client = mqtt.Client()
+        client.connect(BROKER)
+        
+        reply_to = f"client/{uuid.uuid4()}/reply"
+        request_id = str(uuid.uuid4())
 
-    def on_message(client, userdata, msg):
-        print(f"Received response: {msg.payload.decode()}")
-        client.disconnect()
+        def on_message(client, userdata, msg):
+            try:
+                print(f"Received response: {msg.payload.decode()}")
+            except Exception as e:
+                print(f"Error processing response: {e}")
+            finally:
+                client.disconnect()
 
-    client.subscribe(reply_to)
-    client.on_message = on_message
+        client.subscribe(reply_to)
+        client.on_message = on_message
 
-    message = {
-        "headers": {
-            "replyTo": reply_to,
-            "requestId": request_id
-        },
-        "payload": {
-            "event": "ping"
+        message = {
+            "headers": {
+                "replyTo": reply_to,
+                "requestId": request_id
+            },
+            "payload": {
+                "event": "ping"
+            }
         }
-    }
-    client.publish("ping", str(message))
-    print(f"Sent ping with requestId {request_id}, waiting for response on {reply_to}")
-    client.loop_forever()
+        client.publish("ping", json.dumps(message))
+        print(f"Sent ping with requestId {request_id}, waiting for response on {reply_to}")
+        client.loop_forever()
 
+    except Exception as e:
+        print(f"Client error: {e}")
+    finally:
+        if client.is_connected():
+            client.disconnect()
+
+# --------------------------------
+# SERVER LOGIC
+# --------------------------------
 def server_handle_ping(client, userdata, msg):
-    message = eval(msg.payload.decode())
-    reply_to = message["headers"]["replyTo"]
-    request_id = message["headers"]["requestId"]
+    try:
+        message = json.loads(msg.payload.decode())
+        reply_to = message["headers"]["replyTo"]
+        request_id = message["headers"]["requestId"]
 
-    response = {
-        "headers": {
-            "requestId": request_id
-        },
-        "payload": {
-            "event": "pong"
+        response = {
+            "headers": {
+                "requestId": request_id
+            },
+            "payload": {
+                "event": "pong"
+            }
         }
-    }
-    client.publish(reply_to, str(response))
-    print(f"Sent response to {reply_to}")
+        client.publish(reply_to, json.dumps(response))
+        print(f"Sent response to {reply_to}")
+    except (KeyError, json.JSONDecodeError) as e:
+        print(f"Error handling ping: {e}")
+    except Exception as e:
+        print(f"Unexpected error: {e}")
 
 def server_start():
-    client = mqtt.Client()
-    client.connect(BROKER)
-    client.subscribe("ping")
-    client.on_message = server_handle_ping
-    print("Server listening on 'ping'")
-    client.loop_forever()
+    try:
+        client = mqtt.Client()
+        client.connect(BROKER)
+        client.subscribe("ping")
+        client.on_message = server_handle_ping
+        print("Server listening on 'ping'")
+        client.loop_forever()
+    except Exception as e:
+        print(f"Server error: {e}")
+    finally:
+        if client.is_connected():
+            client.disconnect()
+
+# --------------------------------
+# MAIN ENTRY POINT
+# --------------------------------
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Usage: python script.py [client|server]")
+        sys.exit(1)
+
+    mode = sys.argv[1].lower()
+
+    if mode == "client":
+        client_send_ping()
+    elif mode == "server":
+        server_start()
+    else:
+        print("Invalid mode. Use 'client' or 'server'.")
 ```
 
 
@@ -130,60 +177,111 @@ channels:
 
 ### 2.2. Sample Code
 ```python
+import sys
 import paho.mqtt.client as mqtt
 import uuid
+import json
 
 BROKER = "localhost"
 
+# --------------------------------
+# CLIENT LOGIC
+# --------------------------------
 def client_send_ping():
-    client = mqtt.Client()
-    client.connect(BROKER)
-    
-    client_id = str(uuid.uuid4())
-    pong_channel = f"pong/{client_id}"
-    request_id = str(uuid.uuid4())
+    try:
+        client = mqtt.Client()
+        client.connect(BROKER)
+        
+        client_id = str(uuid.uuid4())
+        pong_channel = f"pong/{client_id}"
+        request_id = str(uuid.uuid4())
 
-    def on_message(client, userdata, msg):
-        print(f"Received response: {msg.payload.decode()}")
-        client.disconnect()
+        def on_message(client, userdata, msg):
+            try:
+                print(f"Received response: {msg.payload.decode()}")
+            except Exception as e:
+                print(f"Error processing response: {e}")
+            finally:
+                client.disconnect()
 
-    client.subscribe(pong_channel)
-    client.on_message = on_message
+        client.subscribe(pong_channel)
+        client.on_message = on_message
 
-    message = {
-        "headers": {
-            "responseChannel": pong_channel,
-            "requestId": request_id
-        },
-        "payload": {
-            "event": "ping"
+        message = {
+            "headers": {
+                "responseChannel": pong_channel,
+                "requestId": request_id
+            },
+            "payload": {
+                "event": "ping"
+            }
         }
-    }
-    client.publish("ping", str(message))
-    print(f"Sent ping with requestId {request_id}, waiting for response on {pong_channel}")
-    client.loop_forever()
+        client.publish("ping", json.dumps(message))
+        print(f"Sent ping with requestId {request_id}, waiting for response on {pong_channel}")
+        client.loop_forever()
 
+    except Exception as e:
+        print(f"Client error: {e}")
+    finally:
+        if client.is_connected():
+            client.disconnect()
+
+
+# --------------------------------
+# SERVER LOGIC
+# --------------------------------
 def server_handle_ping(client, userdata, msg):
-    message = eval(msg.payload.decode())
-    pong_channel = message["headers"]["responseChannel"]
-    request_id = message["headers"]["requestId"]
+    try:
+        message = json.loads(msg.payload.decode())
+        pong_channel = message["headers"]["responseChannel"]
+        request_id = message["headers"]["requestId"]
 
-    response = {
-        "headers": {
-            "requestId": request_id
-        },
-        "payload": {
-            "event": "pong"
+        response = {
+            "headers": {
+                "requestId": request_id
+            },
+            "payload": {
+                "event": "pong"
+            }
         }
-    }
-    client.publish(pong_channel, str(response))
-    print(f"Sent response to {pong_channel}")
+        client.publish(pong_channel, json.dumps(response))
+        print(f"Sent response to {pong_channel}")
+    except (KeyError, json.JSONDecodeError) as e:
+        print(f"Error handling ping: {e}")
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+
 
 def server_start():
-    client = mqtt.Client()
-    client.connect(BROKER)
-    client.subscribe("ping")
-    client.on_message = server_handle_ping
-    print("Server listening on 'ping'")
-    client.loop_forever()
+    try:
+        client = mqtt.Client()
+        client.connect(BROKER)
+        client.subscribe("ping")
+        client.on_message = server_handle_ping
+        print("Server listening on 'ping'")
+        client.loop_forever()
+    except Exception as e:
+        print(f"Server error: {e}")
+    finally:
+        if client.is_connected():
+            client.disconnect()
+
+
+# --------------------------------
+# MAIN ENTRY POINT
+# --------------------------------
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Usage: python script.py [client|server]")
+        sys.exit(1)
+
+    mode = sys.argv[1].lower()
+
+    if mode == "client":
+        client_send_ping()
+    elif mode == "server":
+        server_start()
+    else:
+        print("Invalid mode. Use 'client' or 'server'.")
+
 ```
