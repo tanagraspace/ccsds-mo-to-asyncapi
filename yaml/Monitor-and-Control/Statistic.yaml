@@ -22,7 +22,7 @@ channels:
       Send a **getStatistics_request** message in this channel to receive a
       **getStatistics_response** message over the **getStatistics_response** channel.
   getStatistics_response:
-    address: getStatistics_response
+    address: null
     messages:
       getStatistics_response.message:
         $ref: '#/components/messages/getStatistics_response'
@@ -46,7 +46,7 @@ channels:
       Send a **resetEvaluation_request** message in this channel to receive a
       **resetEvaluation_response** message over the **resetEvaluation_response** channel.
   resetEvaluation_response:
-    address: resetEvaluation_response
+    address: null
     messages:
       resetEvaluation_response.message:
         $ref: '#/components/messages/resetEvaluation_response'
@@ -62,7 +62,7 @@ channels:
       Use this channel to receive resetEvaluation errors as **resetEvaluation_error**
       messages.
   monitorStatistics_publishNotify:
-    address: monitorStatistics_publishNotify
+    address: null
     messages:
       monitorStatistics_publishNotify.message:
         $ref: '#/components/messages/monitorStatistics_publishNotify'
@@ -77,7 +77,7 @@ channels:
     description: >
       Send a **enableService_submit** message in this channel.
   getServiceStatus_response:
-    address: getServiceStatus_response
+    address: null
     messages:
       getServiceStatus_response.message:
         $ref: '#/components/messages/getServiceStatus_response'
@@ -108,7 +108,7 @@ channels:
       Send a **listParameterEvaluations_request** message in this channel to receive a
       **listParameterEvaluations_response** message over the **listParameterEvaluations_response** channel.
   listParameterEvaluations_response:
-    address: listParameterEvaluations_response
+    address: null
     messages:
       listParameterEvaluations_response.message:
         $ref: '#/components/messages/listParameterEvaluations_response'
@@ -132,7 +132,7 @@ channels:
       Send a **addParameterEvaluation_request** message in this channel to receive a
       **addParameterEvaluation_response** message over the **addParameterEvaluation_response** channel.
   addParameterEvaluation_response:
-    address: addParameterEvaluation_response
+    address: null
     messages:
       addParameterEvaluation_response.message:
         $ref: '#/components/messages/addParameterEvaluation_response'
@@ -156,7 +156,7 @@ channels:
       Send a **updateParameterEvaluation_request** message in this channel to receive a
       **updateParameterEvaluation_response** message over the **updateParameterEvaluation_response** channel.
   updateParameterEvaluation_response:
-    address: updateParameterEvaluation_response
+    address: null
     messages:
       updateParameterEvaluation_response.message:
         $ref: '#/components/messages/updateParameterEvaluation_response'
@@ -193,6 +193,12 @@ operations:
       $ref: '#/channels/getStatistics_request'
     messages:
       - $ref: '#/channels/getStatistics_request/messages/getStatistics_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/getStatistics_response'
   getStatistics_response:
     action: receive
     channel:
@@ -211,6 +217,12 @@ operations:
       $ref: '#/channels/resetEvaluation_request'
     messages:
       - $ref: '#/channels/resetEvaluation_request/messages/resetEvaluation_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/resetEvaluation_response'
   resetEvaluation_response:
     action: receive
     channel:
@@ -259,6 +271,12 @@ operations:
       $ref: '#/channels/listParameterEvaluations_request'
     messages:
       - $ref: '#/channels/listParameterEvaluations_request/messages/listParameterEvaluations_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/listParameterEvaluations_response'
   listParameterEvaluations_response:
     action: receive
     channel:
@@ -277,6 +295,12 @@ operations:
       $ref: '#/channels/addParameterEvaluation_request'
     messages:
       - $ref: '#/channels/addParameterEvaluation_request/messages/addParameterEvaluation_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/addParameterEvaluation_response'
   addParameterEvaluation_response:
     action: receive
     channel:
@@ -295,6 +319,12 @@ operations:
       $ref: '#/channels/updateParameterEvaluation_request'
     messages:
       - $ref: '#/channels/updateParameterEvaluation_request/messages/updateParameterEvaluation_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/updateParameterEvaluation_response'
   updateParameterEvaluation_response:
     action: receive
     channel:

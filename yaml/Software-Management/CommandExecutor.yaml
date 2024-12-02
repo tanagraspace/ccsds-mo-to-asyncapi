@@ -22,7 +22,7 @@ channels:
       Send a **runCommand_request** message in this channel to receive a
       **runCommand_response** message over the **runCommand_response** channel.
   runCommand_response:
-    address: runCommand_response
+    address: null
     messages:
       runCommand_response.message:
         $ref: '#/components/messages/runCommand_response'
@@ -36,6 +36,12 @@ operations:
       $ref: '#/channels/runCommand_request'
     messages:
       - $ref: '#/channels/runCommand_request/messages/runCommand_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/runCommand_response'
   runCommand_response:
     action: receive
     channel:

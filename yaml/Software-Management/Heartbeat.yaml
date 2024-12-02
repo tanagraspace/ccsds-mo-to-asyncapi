@@ -14,7 +14,7 @@ servers:
         default: '8883'
 channels:
   getPeriod_response:
-    address: getPeriod_response
+    address: null
     messages:
       getPeriod_response.message:
         $ref: '#/components/messages/getPeriod_response'

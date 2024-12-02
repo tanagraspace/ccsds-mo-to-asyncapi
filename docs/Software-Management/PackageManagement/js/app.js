@@ -53,7 +53,7 @@
       "x-parser-unique-object-id": "findPackage_request"
     },
     "findPackage_response": {
-      "address": "findPackage_response",
+      "address": null,
       "messages": {
         "findPackage_response.message": {
           "description": "findPackage response",
@@ -175,7 +175,7 @@
       "x-parser-unique-object-id": "checkPackageIntegrity_request"
     },
     "checkPackageIntegrity_response": {
-      "address": "checkPackageIntegrity_response",
+      "address": null,
       "messages": {
         "checkPackageIntegrity_response.message": {
           "description": "checkPackageIntegrity response",
@@ -270,6 +270,13 @@
       "messages": [
         "$ref:$.channels.findPackage_request.messages.findPackage_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.findPackage_response"
+      },
       "x-parser-unique-object-id": "findPackage_request"
     },
     "findPackage_response": {
@@ -294,6 +301,13 @@
       "messages": [
         "$ref:$.channels.checkPackageIntegrity_request.messages.checkPackageIntegrity_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.checkPackageIntegrity_response"
+      },
       "x-parser-unique-object-id": "checkPackageIntegrity_request"
     },
     "checkPackageIntegrity_response": {

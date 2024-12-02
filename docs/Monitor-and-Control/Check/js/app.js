@@ -95,7 +95,7 @@
       "x-parser-unique-object-id": "getCurrentTransitionList_progress"
     },
     "getCurrentTransitionList_update": {
-      "address": "getCurrentTransitionList_update",
+      "address": null,
       "messages": {
         "getCurrentTransitionList_update.message": {
           "description": "getCurrentTransitionList response",
@@ -289,7 +289,7 @@
       "x-parser-unique-object-id": "getSummaryReport_progress"
     },
     "getSummaryReport_update": {
-      "address": "getSummaryReport_update",
+      "address": null,
       "messages": {
         "getSummaryReport_update.message": {
           "description": "getSummaryReport response",
@@ -424,7 +424,7 @@
       "x-parser-unique-object-id": "enableService_submit"
     },
     "getServiceStatus_response": {
-      "address": "getServiceStatus_response",
+      "address": null,
       "messages": {
         "getServiceStatus_response.message": {
           "description": "getServiceStatus response",
@@ -672,7 +672,7 @@
       "x-parser-unique-object-id": "listDefinition_request"
     },
     "listDefinition_response": {
-      "address": "listDefinition_response",
+      "address": null,
       "messages": {
         "listDefinition_response.message": {
           "description": "listDefinition response",
@@ -831,7 +831,7 @@
       "x-parser-unique-object-id": "listCheckLinks_request"
     },
     "listCheckLinks_response": {
-      "address": "listCheckLinks_response",
+      "address": null,
       "messages": {
         "listCheckLinks_response.message": {
           "description": "listCheckLinks response",
@@ -1018,7 +1018,7 @@
       "x-parser-unique-object-id": "addCheck_request"
     },
     "addCheck_response": {
-      "address": "addCheck_response",
+      "address": null,
       "messages": {
         "addCheck_response.message": {
           "description": "addCheck response",
@@ -1126,7 +1126,7 @@
       "x-parser-unique-object-id": "updateDefinition_request"
     },
     "updateDefinition_response": {
-      "address": "updateDefinition_response",
+      "address": null,
       "messages": {
         "updateDefinition_response.message": {
           "description": "updateDefinition response",
@@ -1398,7 +1398,7 @@
       "x-parser-unique-object-id": "addParameterCheck_request"
     },
     "addParameterCheck_response": {
-      "address": "addParameterCheck_response",
+      "address": null,
       "messages": {
         "addParameterCheck_response.message": {
           "description": "addParameterCheck response",
@@ -1562,6 +1562,13 @@
       "messages": [
         "$ref:$.channels.getCurrentTransitionList_progress.messages.getCurrentTransitionList_progress.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.getCurrentTransitionList_update"
+      },
       "x-parser-unique-object-id": "getCurrentTransitionList_progress"
     },
     "getCurrentTransitionList_update": {
@@ -1594,6 +1601,13 @@
       "messages": [
         "$ref:$.channels.getSummaryReport_progress.messages.getSummaryReport_progress.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.getSummaryReport_update"
+      },
       "x-parser-unique-object-id": "getSummaryReport_progress"
     },
     "getSummaryReport_update": {
@@ -1674,6 +1688,13 @@
       "messages": [
         "$ref:$.channels.listDefinition_request.messages.listDefinition_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.listDefinition_response"
+      },
       "x-parser-unique-object-id": "listDefinition_request"
     },
     "listDefinition_response": {
@@ -1698,6 +1719,13 @@
       "messages": [
         "$ref:$.channels.listCheckLinks_request.messages.listCheckLinks_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.listCheckLinks_response"
+      },
       "x-parser-unique-object-id": "listCheckLinks_request"
     },
     "listCheckLinks_response": {
@@ -1722,6 +1750,13 @@
       "messages": [
         "$ref:$.channels.addCheck_request.messages.addCheck_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.addCheck_response"
+      },
       "x-parser-unique-object-id": "addCheck_request"
     },
     "addCheck_response": {
@@ -1746,6 +1781,13 @@
       "messages": [
         "$ref:$.channels.updateDefinition_request.messages.updateDefinition_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.updateDefinition_response"
+      },
       "x-parser-unique-object-id": "updateDefinition_request"
     },
     "updateDefinition_response": {
@@ -1786,6 +1828,13 @@
       "messages": [
         "$ref:$.channels.addParameterCheck_request.messages.addParameterCheck_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.addParameterCheck_response"
+      },
       "x-parser-unique-object-id": "addParameterCheck_request"
     },
     "addParameterCheck_response": {

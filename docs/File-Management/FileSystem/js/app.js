@@ -425,7 +425,7 @@
       "x-parser-unique-object-id": "getAttributes_request"
     },
     "getAttributes_response": {
-      "address": "getAttributes_response",
+      "address": null,
       "messages": {
         "getAttributes_response.message": {
           "description": "getAttributes response",
@@ -698,7 +698,7 @@
       "x-parser-unique-object-id": "list_request"
     },
     "list_response": {
-      "address": "list_response",
+      "address": null,
       "messages": {
         "list_response.message": {
           "description": "list response",
@@ -849,7 +849,7 @@
       "x-parser-unique-object-id": "find_progress"
     },
     "find_update": {
-      "address": "find_update",
+      "address": null,
       "messages": {
         "find_update.message": {
           "description": "find response",
@@ -991,7 +991,7 @@
       "x-parser-unique-object-id": "append_request"
     },
     "append_response": {
-      "address": "append_response",
+      "address": null,
       "messages": {
         "append_response.message": {
           "description": "append response",
@@ -1194,7 +1194,7 @@
       "x-parser-unique-object-id": "read_request"
     },
     "read_response": {
-      "address": "read_response",
+      "address": null,
       "messages": {
         "read_response.message": {
           "description": "read response",
@@ -1346,6 +1346,13 @@
       "messages": [
         "$ref:$.channels.getAttributes_request.messages.getAttributes_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.getAttributes_response"
+      },
       "x-parser-unique-object-id": "getAttributes_request"
     },
     "getAttributes_response": {
@@ -1386,6 +1393,13 @@
       "messages": [
         "$ref:$.channels.list_request.messages.list_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.list_response"
+      },
       "x-parser-unique-object-id": "list_request"
     },
     "list_response": {
@@ -1410,6 +1424,13 @@
       "messages": [
         "$ref:$.channels.find_progress.messages.find_progress.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.find_update"
+      },
       "x-parser-unique-object-id": "find_progress"
     },
     "find_update": {
@@ -1442,6 +1463,13 @@
       "messages": [
         "$ref:$.channels.append_request.messages.append_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.append_response"
+      },
       "x-parser-unique-object-id": "append_request"
     },
     "append_response": {
@@ -1482,6 +1510,13 @@
       "messages": [
         "$ref:$.channels.read_request.messages.read_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.read_response"
+      },
       "x-parser-unique-object-id": "read_request"
     },
     "read_response": {

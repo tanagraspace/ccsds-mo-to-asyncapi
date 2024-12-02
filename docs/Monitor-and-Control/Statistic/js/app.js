@@ -79,7 +79,7 @@
       "x-parser-unique-object-id": "getStatistics_request"
     },
     "getStatistics_response": {
-      "address": "getStatistics_response",
+      "address": null,
       "messages": {
         "getStatistics_response.message": {
           "description": "getStatistics response",
@@ -249,7 +249,7 @@
       "x-parser-unique-object-id": "resetEvaluation_request"
     },
     "resetEvaluation_response": {
-      "address": "resetEvaluation_response",
+      "address": null,
       "messages": {
         "resetEvaluation_response.message": {
           "description": "resetEvaluation response",
@@ -324,7 +324,7 @@
       "x-parser-unique-object-id": "resetEvaluation_error"
     },
     "monitorStatistics_publishNotify": {
-      "address": "monitorStatistics_publishNotify",
+      "address": null,
       "messages": {
         "monitorStatistics_publishNotify.message": {
           "description": "monitorStatistics response",
@@ -419,7 +419,7 @@
       "x-parser-unique-object-id": "enableService_submit"
     },
     "getServiceStatus_response": {
-      "address": "getServiceStatus_response",
+      "address": null,
       "messages": {
         "getServiceStatus_response.message": {
           "description": "getServiceStatus response",
@@ -576,7 +576,7 @@
       "x-parser-unique-object-id": "listParameterEvaluations_request"
     },
     "listParameterEvaluations_response": {
-      "address": "listParameterEvaluations_response",
+      "address": null,
       "messages": {
         "listParameterEvaluations_response.message": {
           "description": "listParameterEvaluations response",
@@ -753,7 +753,7 @@
       "x-parser-unique-object-id": "addParameterEvaluation_request"
     },
     "addParameterEvaluation_response": {
-      "address": "addParameterEvaluation_response",
+      "address": null,
       "messages": {
         "addParameterEvaluation_response.message": {
           "description": "addParameterEvaluation response",
@@ -879,7 +879,7 @@
       "x-parser-unique-object-id": "updateParameterEvaluation_request"
     },
     "updateParameterEvaluation_response": {
-      "address": "updateParameterEvaluation_response",
+      "address": null,
       "messages": {
         "updateParameterEvaluation_response.message": {
           "description": "updateParameterEvaluation response",
@@ -1052,6 +1052,13 @@
       "messages": [
         "$ref:$.channels.getStatistics_request.messages.getStatistics_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.getStatistics_response"
+      },
       "x-parser-unique-object-id": "getStatistics_request"
     },
     "getStatistics_response": {
@@ -1076,6 +1083,13 @@
       "messages": [
         "$ref:$.channels.resetEvaluation_request.messages.resetEvaluation_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.resetEvaluation_response"
+      },
       "x-parser-unique-object-id": "resetEvaluation_request"
     },
     "resetEvaluation_response": {
@@ -1140,6 +1154,13 @@
       "messages": [
         "$ref:$.channels.listParameterEvaluations_request.messages.listParameterEvaluations_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.listParameterEvaluations_response"
+      },
       "x-parser-unique-object-id": "listParameterEvaluations_request"
     },
     "listParameterEvaluations_response": {
@@ -1164,6 +1185,13 @@
       "messages": [
         "$ref:$.channels.addParameterEvaluation_request.messages.addParameterEvaluation_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.addParameterEvaluation_response"
+      },
       "x-parser-unique-object-id": "addParameterEvaluation_request"
     },
     "addParameterEvaluation_response": {
@@ -1188,6 +1216,13 @@
       "messages": [
         "$ref:$.channels.updateParameterEvaluation_request.messages.updateParameterEvaluation_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.updateParameterEvaluation_response"
+      },
       "x-parser-unique-object-id": "updateParameterEvaluation_request"
     },
     "updateParameterEvaluation_response": {

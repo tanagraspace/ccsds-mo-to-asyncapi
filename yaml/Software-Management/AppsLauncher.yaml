@@ -14,7 +14,7 @@ servers:
         default: '8883'
 channels:
   monitorExecution_publishNotify:
-    address: monitorExecution_publishNotify
+    address: null
     messages:
       monitorExecution_publishNotify.message:
         $ref: '#/components/messages/monitorExecution_publishNotify'
@@ -60,7 +60,7 @@ channels:
       Send a **stopApp_progress** message in this channel to receive a
       **stopApp_update** message over the **stopApp_update** channel.
   stopApp_update:
-    address: stopApp_update
+    address: null
     messages:
       stopApp_update.message:
         $ref: '#/components/messages/stopApp_update'
@@ -76,7 +76,7 @@ channels:
       Send a **listApp_request** message in this channel to receive a
       **listApp_response** message over the **listApp_response** channel.
   listApp_response:
-    address: listApp_response
+    address: null
     messages:
       listApp_response.message:
         $ref: '#/components/messages/listApp_response'
@@ -128,6 +128,12 @@ operations:
       $ref: '#/channels/stopApp_progress'
     messages:
       - $ref: '#/channels/stopApp_progress/messages/stopApp_progress.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/stopApp_update'
   stopApp_update:
     action: receive
     channel:
@@ -140,6 +146,12 @@ operations:
       $ref: '#/channels/listApp_request'
     messages:
       - $ref: '#/channels/listApp_request/messages/listApp_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/listApp_response'
   listApp_response:
     action: receive
     channel:

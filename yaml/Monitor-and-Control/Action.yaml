@@ -37,7 +37,7 @@ channels:
       Send a **preCheckAction_request** message in this channel to receive a
       **preCheckAction_response** message over the **preCheckAction_response** channel.
   preCheckAction_response:
-    address: preCheckAction_response
+    address: null
     messages:
       preCheckAction_response.message:
         $ref: '#/components/messages/preCheckAction_response'
@@ -61,7 +61,7 @@ channels:
       Send a **listDefinition_request** message in this channel to receive a
       **listDefinition_response** message over the **listDefinition_response** channel.
   listDefinition_response:
-    address: listDefinition_response
+    address: null
     messages:
       listDefinition_response.message:
         $ref: '#/components/messages/listDefinition_response'
@@ -85,7 +85,7 @@ channels:
       Send a **addAction_request** message in this channel to receive a
       **addAction_response** message over the **addAction_response** channel.
   addAction_response:
-    address: addAction_response
+    address: null
     messages:
       addAction_response.message:
         $ref: '#/components/messages/addAction_response'
@@ -109,7 +109,7 @@ channels:
       Send a **updateDefinition_request** message in this channel to receive a
       **updateDefinition_response** message over the **updateDefinition_response** channel.
   updateDefinition_response:
-    address: updateDefinition_response
+    address: null
     messages:
       updateDefinition_response.message:
         $ref: '#/components/messages/updateDefinition_response'
@@ -158,6 +158,12 @@ operations:
       $ref: '#/channels/preCheckAction_request'
     messages:
       - $ref: '#/channels/preCheckAction_request/messages/preCheckAction_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/preCheckAction_response'
   preCheckAction_response:
     action: receive
     channel:
@@ -176,6 +182,12 @@ operations:
       $ref: '#/channels/listDefinition_request'
     messages:
       - $ref: '#/channels/listDefinition_request/messages/listDefinition_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/listDefinition_response'
   listDefinition_response:
     action: receive
     channel:
@@ -194,6 +206,12 @@ operations:
       $ref: '#/channels/addAction_request'
     messages:
       - $ref: '#/channels/addAction_request/messages/addAction_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/addAction_response'
   addAction_response:
     action: receive
     channel:
@@ -212,6 +230,12 @@ operations:
       $ref: '#/channels/updateDefinition_request'
     messages:
       - $ref: '#/channels/updateDefinition_request/messages/updateDefinition_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/updateDefinition_response'
   updateDefinition_response:
     action: receive
     channel:

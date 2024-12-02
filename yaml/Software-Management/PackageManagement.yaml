@@ -22,7 +22,7 @@ channels:
       Send a **findPackage_request** message in this channel to receive a
       **findPackage_response** message over the **findPackage_response** channel.
   findPackage_response:
-    address: findPackage_response
+    address: null
     messages:
       findPackage_response.message:
         $ref: '#/components/messages/findPackage_response'
@@ -46,7 +46,7 @@ channels:
       Send a **checkPackageIntegrity_request** message in this channel to receive a
       **checkPackageIntegrity_response** message over the **checkPackageIntegrity_response** channel.
   checkPackageIntegrity_response:
-    address: checkPackageIntegrity_response
+    address: null
     messages:
       checkPackageIntegrity_response.message:
         $ref: '#/components/messages/checkPackageIntegrity_response'
@@ -68,6 +68,12 @@ operations:
       $ref: '#/channels/findPackage_request'
     messages:
       - $ref: '#/channels/findPackage_request/messages/findPackage_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/findPackage_response'
   findPackage_response:
     action: receive
     channel:
@@ -86,6 +92,12 @@ operations:
       $ref: '#/channels/checkPackageIntegrity_request'
     messages:
       - $ref: '#/channels/checkPackageIntegrity_request/messages/checkPackageIntegrity_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/checkPackageIntegrity_response'
   checkPackageIntegrity_response:
     action: receive
     channel:

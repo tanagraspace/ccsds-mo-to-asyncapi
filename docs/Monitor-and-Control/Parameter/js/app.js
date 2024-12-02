@@ -61,7 +61,7 @@
       "x-parser-unique-object-id": "monitorValue_subscriptionKeys"
     },
     "monitorValue_publishNotify": {
-      "address": "monitorValue_publishNotify",
+      "address": null,
       "messages": {
         "monitorValue_publishNotify.message": {
           "description": "monitorValue response",
@@ -196,7 +196,7 @@
       "x-parser-unique-object-id": "getValue_request"
     },
     "getValue_response": {
-      "address": "getValue_response",
+      "address": null,
       "messages": {
         "getValue_response.message": {
           "description": "getValue response",
@@ -431,7 +431,7 @@
       "x-parser-unique-object-id": "enableGeneration_request"
     },
     "enableGeneration_response": {
-      "address": "enableGeneration_response",
+      "address": null,
       "messages": {
         "enableGeneration_response.message": {
           "description": "enableGeneration response",
@@ -547,7 +547,7 @@
       "x-parser-unique-object-id": "listDefinition_request"
     },
     "listDefinition_response": {
-      "address": "listDefinition_response",
+      "address": null,
       "messages": {
         "listDefinition_response.message": {
           "description": "listDefinition response",
@@ -766,7 +766,7 @@
       "x-parser-unique-object-id": "addParameter_request"
     },
     "addParameter_response": {
-      "address": "addParameter_response",
+      "address": null,
       "messages": {
         "addParameter_response.message": {
           "description": "addParameter response",
@@ -874,7 +874,7 @@
       "x-parser-unique-object-id": "updateDefinition_request"
     },
     "updateDefinition_response": {
-      "address": "updateDefinition_response",
+      "address": null,
       "messages": {
         "updateDefinition_response.message": {
           "description": "updateDefinition response",
@@ -1047,6 +1047,13 @@
       "messages": [
         "$ref:$.channels.monitorValue_subscriptionKeys.messages.monitorValue_subscriptionKeys.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.monitorValue_publishNotify"
+      },
       "x-parser-unique-object-id": "monitorValue_subscriptionKeys"
     },
     "monitorValue_publishNotify": {
@@ -1063,6 +1070,13 @@
       "messages": [
         "$ref:$.channels.getValue_request.messages.getValue_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.getValue_response"
+      },
       "x-parser-unique-object-id": "getValue_request"
     },
     "getValue_response": {
@@ -1103,6 +1117,13 @@
       "messages": [
         "$ref:$.channels.enableGeneration_request.messages.enableGeneration_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.enableGeneration_response"
+      },
       "x-parser-unique-object-id": "enableGeneration_request"
     },
     "enableGeneration_response": {
@@ -1127,6 +1148,13 @@
       "messages": [
         "$ref:$.channels.listDefinition_request.messages.listDefinition_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.listDefinition_response"
+      },
       "x-parser-unique-object-id": "listDefinition_request"
     },
     "listDefinition_response": {
@@ -1151,6 +1179,13 @@
       "messages": [
         "$ref:$.channels.addParameter_request.messages.addParameter_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.addParameter_response"
+      },
       "x-parser-unique-object-id": "addParameter_request"
     },
     "addParameter_response": {
@@ -1175,6 +1210,13 @@
       "messages": [
         "$ref:$.channels.updateDefinition_request.messages.updateDefinition_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.updateDefinition_response"
+      },
       "x-parser-unique-object-id": "updateDefinition_request"
     },
     "updateDefinition_response": {
@@ -1234,6 +1276,9 @@
       "removeParameter_submit": "$ref:$.channels.removeParameter_submit.messages.removeParameter_submit.message.payload",
       "removeParameter_error": "$ref:$.channels.removeParameter_error.messages.removeParameter_error.message.payload",
       "mc": {
+        "ConditionalConversion": "$ref:$.channels.addParameter_request.messages.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items",
+        "ObjectInstancePair": "$ref:$.channels.listDefinition_response.messages.listDefinition_response.message.payload.properties.objInstIds",
+        "ParameterExpression": "$ref:$.channels.addParameter_request.messages.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items.properties.condition",
         "parameter": {
           "ParameterConversion": "$ref:$.channels.addParameter_request.messages.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion",
           "ParameterCreationRequest": "$ref:$.channels.addParameter_request.messages.addParameter_request.message.payload.properties.paramDefDetails",
@@ -1242,9 +1287,6 @@
           "ParameterValue": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.newValue",
           "ParameterValueDetails": "$ref:$.channels.getValue_response.messages.getValue_response.message.payload.properties.paramValDetails"
         },
-        "ConditionalConversion": "$ref:$.channels.addParameter_request.messages.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items",
-        "ObjectInstancePair": "$ref:$.channels.listDefinition_response.messages.listDefinition_response.message.payload.properties.objInstIds",
-        "ParameterExpression": "$ref:$.channels.addParameter_request.messages.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items.properties.condition",
         "x-parser-schema-id": "mc"
       },
       "com": {

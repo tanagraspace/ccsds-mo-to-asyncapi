@@ -21,7 +21,7 @@
   },
   "channels": {
     "getPeriod_response": {
-      "address": "getPeriod_response",
+      "address": null,
       "messages": {
         "getPeriod_response.message": {
           "description": "getPeriod response",
