@@ -66,7 +66,7 @@
       "x-parser-unique-object-id": "enableGeneration_request"
     },
     "enableGeneration_response": {
-      "address": "enableGeneration_response",
+      "address": null,
       "messages": {
         "enableGeneration_response.message": {
           "description": "enableGeneration response",
@@ -182,7 +182,7 @@
       "x-parser-unique-object-id": "listDefinition_request"
     },
     "listDefinition_response": {
-      "address": "listDefinition_response",
+      "address": null,
       "messages": {
         "listDefinition_response.message": {
           "description": "listDefinition response",
@@ -441,7 +441,7 @@
       "x-parser-unique-object-id": "addAlert_request"
     },
     "addAlert_response": {
-      "address": "addAlert_response",
+      "address": null,
       "messages": {
         "addAlert_response.message": {
           "description": "addAlert response",
@@ -549,7 +549,7 @@
       "x-parser-unique-object-id": "updateDefinition_request"
     },
     "updateDefinition_response": {
-      "address": "updateDefinition_response",
+      "address": null,
       "messages": {
         "updateDefinition_response.message": {
           "description": "updateDefinition response",
@@ -722,6 +722,13 @@
       "messages": [
         "$ref:$.channels.enableGeneration_request.messages.enableGeneration_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.enableGeneration_response"
+      },
       "x-parser-unique-object-id": "enableGeneration_request"
     },
     "enableGeneration_response": {
@@ -746,6 +753,13 @@
       "messages": [
         "$ref:$.channels.listDefinition_request.messages.listDefinition_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.listDefinition_response"
+      },
       "x-parser-unique-object-id": "listDefinition_request"
     },
     "listDefinition_response": {
@@ -770,6 +784,13 @@
       "messages": [
         "$ref:$.channels.addAlert_request.messages.addAlert_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.addAlert_response"
+      },
       "x-parser-unique-object-id": "addAlert_request"
     },
     "addAlert_response": {
@@ -794,6 +815,13 @@
       "messages": [
         "$ref:$.channels.updateDefinition_request.messages.updateDefinition_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.updateDefinition_response"
+      },
       "x-parser-unique-object-id": "updateDefinition_request"
     },
     "updateDefinition_response": {
@@ -846,15 +874,15 @@
       "removeAlert_submit": "$ref:$.channels.removeAlert_submit.messages.removeAlert_submit.message.payload",
       "removeAlert_error": "$ref:$.channels.removeAlert_error.messages.removeAlert_error.message.payload",
       "mc": {
+        "alert": {
+          "AlertCreationRequest": "$ref:$.channels.addAlert_request.messages.addAlert_request.message.payload.properties.alertDefDetails",
+          "AlertDefinitionDetails": "$ref:$.channels.addAlert_request.messages.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails"
+        },
         "ArgumentDefinitionDetails": "$ref:$.channels.addAlert_request.messages.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items",
         "ConditionalConversion": "$ref:$.channels.addAlert_request.messages.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items.properties.conditionalConversions.items",
         "ObjectInstancePair": "$ref:$.channels.listDefinition_response.messages.listDefinition_response.message.payload.properties.alertObjInstIds",
         "ParameterExpression": "$ref:$.channels.addAlert_request.messages.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition",
         "Severity": "$ref:$.channels.addAlert_request.messages.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.severity",
-        "alert": {
-          "AlertCreationRequest": "$ref:$.channels.addAlert_request.messages.addAlert_request.message.payload.properties.alertDefDetails",
-          "AlertDefinitionDetails": "$ref:$.channels.addAlert_request.messages.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails"
-        },
         "x-parser-schema-id": "mc"
       },
       "com": {

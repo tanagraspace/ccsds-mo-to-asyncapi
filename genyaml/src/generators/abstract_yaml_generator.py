@@ -47,6 +47,14 @@ class AbstractYamlGenerator(ABC):
     """
     return None
 
+  @property
+  def is_dynamic_reply_address(self) -> bool:
+    """
+    Set this flag to toggle between generating YAML that implements Static Reply Address (False) and Dynamic Reply Address (True).
+    More details here: https://www.asyncapi.com/docs/tutorials/getting-started/request-reply
+    """
+    return True
+
 
   def generate_service_schema(self, service_name: str) -> str:
     """
@@ -99,7 +107,7 @@ class AbstractYamlGenerator(ABC):
     # receive channel
     if include_channel_receive:
       channels_schema += f"  {interaction_name}_{self.receive_element}:\n"
-      channels_schema += f"    address: {interaction_name}_{self.receive_element}\n"
+      channels_schema += f"    address: {'null' if self.is_dynamic_reply_address else f'{interaction_name}_{self.receive_element}'}\n"
       channels_schema += f"    messages:\n"
       channels_schema += f"      {interaction_name}_{self.receive_element}.message:\n"
       channels_schema += f"        $ref: '#/components/messages/{interaction_name}_{self.receive_element}'\n"
@@ -148,6 +156,14 @@ class AbstractYamlGenerator(ABC):
       operations_schema += f"      $ref: '#/channels/{interaction_name}_{self.send_element}'\n"
       operations_schema += f"    messages:\n"
       operations_schema += f"      - $ref: '#/channels/{interaction_name}_{self.send_element}/messages/{interaction_name}_{self.send_element}.message'\n"
+
+      if self.is_dynamic_reply_address and include_channel_receive:
+        operations_schema += f"    reply:\n"
+        operations_schema += f"      address:\n"
+        operations_schema += f"        description: Reply is sent to topic specified in 'replyTo' property in the message header\n"
+        operations_schema += f"        location: $message.header#/replyTo\n"
+        operations_schema += f"      channel:\n"
+        operations_schema += f"        $ref: '#/channels/{interaction_name}_{self.receive_element}'\n"
 
     # receive operation
     if include_channel_receive:

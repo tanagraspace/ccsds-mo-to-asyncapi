@@ -14,7 +14,7 @@ servers:
         default: '8883'
 channels:
   monitorValue_publishNotify:
-    address: monitorValue_publishNotify
+    address: null
     messages:
       monitorValue_publishNotify.message:
         $ref: '#/components/messages/monitorValue_publishNotify'
@@ -30,7 +30,7 @@ channels:
       Send a **getValue_request** message in this channel to receive a
       **getValue_response** message over the **getValue_response** channel.
   getValue_response:
-    address: getValue_response
+    address: null
     messages:
       getValue_response.message:
         $ref: '#/components/messages/getValue_response'
@@ -54,7 +54,7 @@ channels:
       Send a **enableGeneration_request** message in this channel to receive a
       **enableGeneration_response** message over the **enableGeneration_response** channel.
   enableGeneration_response:
-    address: enableGeneration_response
+    address: null
     messages:
       enableGeneration_response.message:
         $ref: '#/components/messages/enableGeneration_response'
@@ -93,7 +93,7 @@ channels:
       Send a **listDefinition_request** message in this channel to receive a
       **listDefinition_response** message over the **listDefinition_response** channel.
   listDefinition_response:
-    address: listDefinition_response
+    address: null
     messages:
       listDefinition_response.message:
         $ref: '#/components/messages/listDefinition_response'
@@ -117,7 +117,7 @@ channels:
       Send a **addAggregation_request** message in this channel to receive a
       **addAggregation_response** message over the **addAggregation_response** channel.
   addAggregation_response:
-    address: addAggregation_response
+    address: null
     messages:
       addAggregation_response.message:
         $ref: '#/components/messages/addAggregation_response'
@@ -141,7 +141,7 @@ channels:
       Send a **updateDefinition_request** message in this channel to receive a
       **updateDefinition_response** message over the **updateDefinition_response** channel.
   updateDefinition_response:
-    address: updateDefinition_response
+    address: null
     messages:
       updateDefinition_response.message:
         $ref: '#/components/messages/updateDefinition_response'
@@ -184,6 +184,12 @@ operations:
       $ref: '#/channels/getValue_request'
     messages:
       - $ref: '#/channels/getValue_request/messages/getValue_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/getValue_response'
   getValue_response:
     action: receive
     channel:
@@ -202,6 +208,12 @@ operations:
       $ref: '#/channels/enableGeneration_request'
     messages:
       - $ref: '#/channels/enableGeneration_request/messages/enableGeneration_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/enableGeneration_response'
   enableGeneration_response:
     action: receive
     channel:
@@ -232,6 +244,12 @@ operations:
       $ref: '#/channels/listDefinition_request'
     messages:
       - $ref: '#/channels/listDefinition_request/messages/listDefinition_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/listDefinition_response'
   listDefinition_response:
     action: receive
     channel:
@@ -250,6 +268,12 @@ operations:
       $ref: '#/channels/addAggregation_request'
     messages:
       - $ref: '#/channels/addAggregation_request/messages/addAggregation_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/addAggregation_response'
   addAggregation_response:
     action: receive
     channel:
@@ -268,6 +292,12 @@ operations:
       $ref: '#/channels/updateDefinition_request'
     messages:
       - $ref: '#/channels/updateDefinition_request/messages/updateDefinition_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/updateDefinition_response'
   updateDefinition_response:
     action: receive
     channel:
@@ -675,22 +705,17 @@ components:
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
     mc:
-      parameter:
-        ParameterValue:
-          properties:
-            convertedValue:
-              description: The parameter converted value.
-              type: string
-            rawValue:
-              description: The parameter raw value. The value of NULL is a valid value and carries
-                no special significance in the parameter service.
-              type: string
-            validityState:
-              description: Holds the validity state for a parameter value. If the parameter
-                is valid then this should be set to '0'.
-              format: uint8
-              type: integer
-          type: object
+      ObjectInstancePair:
+        properties:
+          objDefInstanceId:
+            description: The object instance identifier of the Definition object.
+            format: int64
+            type: integer
+          objIdentityInstanceId:
+            description: The object instance identifier of the Identity object.
+            format: int64
+            type: integer
+        type: object
       aggregation:
         AggregationCreationRequest:
           properties:
@@ -867,17 +892,22 @@ components:
           - PERCENTAGE
           - DELTA
           type: string
-      ObjectInstancePair:
-        properties:
-          objDefInstanceId:
-            description: The object instance identifier of the Definition object.
-            format: int64
-            type: integer
-          objIdentityInstanceId:
-            description: The object instance identifier of the Identity object.
-            format: int64
-            type: integer
-        type: object
+      parameter:
+        ParameterValue:
+          properties:
+            convertedValue:
+              description: The parameter converted value.
+              type: string
+            rawValue:
+              description: The parameter raw value. The value of NULL is a valid value and carries
+                no special significance in the parameter service.
+              type: string
+            validityState:
+              description: Holds the validity state for a parameter value. If the parameter
+                is valid then this should be set to '0'.
+              format: uint8
+              type: integer
+          type: object
     com:
       InstanceBooleanPair:
         properties:

@@ -21,7 +21,7 @@
   },
   "channels": {
     "monitorExecution_publishNotify": {
-      "address": "monitorExecution_publishNotify",
+      "address": null,
       "messages": {
         "monitorExecution_publishNotify.message": {
           "description": "monitorExecution response",
@@ -251,7 +251,7 @@
       "x-parser-unique-object-id": "stopApp_progress"
     },
     "stopApp_update": {
-      "address": "stopApp_update",
+      "address": null,
       "messages": {
         "stopApp_update.message": {
           "description": "stopApp response",
@@ -317,7 +317,7 @@
       "x-parser-unique-object-id": "listApp_request"
     },
     "listApp_response": {
-      "address": "listApp_response",
+      "address": null,
       "messages": {
         "listApp_response.message": {
           "description": "listApp response",
@@ -455,6 +455,13 @@
       "messages": [
         "$ref:$.channels.stopApp_progress.messages.stopApp_progress.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.stopApp_update"
+      },
       "x-parser-unique-object-id": "stopApp_progress"
     },
     "stopApp_update": {
@@ -471,6 +478,13 @@
       "messages": [
         "$ref:$.channels.listApp_request.messages.listApp_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.listApp_response"
+      },
       "x-parser-unique-object-id": "listApp_request"
     },
     "listApp_response": {

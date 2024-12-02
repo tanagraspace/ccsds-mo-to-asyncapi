@@ -500,7 +500,7 @@
       "x-parser-unique-object-id": "getTransactionReport_request"
     },
     "getTransactionReport_response": {
-      "address": "getTransactionReport_response",
+      "address": null,
       "messages": {
         "getTransactionReport_response.message": {
           "description": "getTransactionReport response",
@@ -641,7 +641,7 @@
       "x-parser-unique-object-id": "listTransactions_request"
     },
     "listTransactions_response": {
-      "address": "listTransactions_response",
+      "address": null,
       "messages": {
         "listTransactions_response.message": {
           "description": "listTransactions response",
@@ -743,7 +743,7 @@
       "x-parser-unique-object-id": "getWindowStatus_request"
     },
     "getWindowStatus_response": {
-      "address": "getWindowStatus_response",
+      "address": null,
       "messages": {
         "getWindowStatus_response.message": {
           "description": "getWindowStatus response",
@@ -928,6 +928,13 @@
       "messages": [
         "$ref:$.channels.getTransactionReport_request.messages.getTransactionReport_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.getTransactionReport_response"
+      },
       "x-parser-unique-object-id": "getTransactionReport_request"
     },
     "getTransactionReport_response": {
@@ -952,6 +959,13 @@
       "messages": [
         "$ref:$.channels.listTransactions_request.messages.listTransactions_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.listTransactions_response"
+      },
       "x-parser-unique-object-id": "listTransactions_request"
     },
     "listTransactions_response": {
@@ -976,6 +990,13 @@
       "messages": [
         "$ref:$.channels.getWindowStatus_request.messages.getWindowStatus_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.getWindowStatus_response"
+      },
       "x-parser-unique-object-id": "getWindowStatus_request"
     },
     "getWindowStatus_response": {

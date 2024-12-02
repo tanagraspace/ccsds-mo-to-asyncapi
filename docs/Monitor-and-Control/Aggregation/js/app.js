@@ -21,7 +21,7 @@
   },
   "channels": {
     "monitorValue_publishNotify": {
-      "address": "monitorValue_publishNotify",
+      "address": null,
       "messages": {
         "monitorValue_publishNotify.message": {
           "description": "monitorValue response",
@@ -217,7 +217,7 @@
       "x-parser-unique-object-id": "getValue_request"
     },
     "getValue_response": {
-      "address": "getValue_response",
+      "address": null,
       "messages": {
         "getValue_response.message": {
           "description": "getValue response",
@@ -359,7 +359,7 @@
       "x-parser-unique-object-id": "enableGeneration_request"
     },
     "enableGeneration_response": {
-      "address": "enableGeneration_response",
+      "address": null,
       "messages": {
         "enableGeneration_response.message": {
           "description": "enableGeneration response",
@@ -555,7 +555,7 @@
       "x-parser-unique-object-id": "listDefinition_request"
     },
     "listDefinition_response": {
-      "address": "listDefinition_response",
+      "address": null,
       "messages": {
         "listDefinition_response.message": {
           "description": "listDefinition response",
@@ -788,7 +788,7 @@
       "x-parser-unique-object-id": "addAggregation_request"
     },
     "addAggregation_response": {
-      "address": "addAggregation_response",
+      "address": null,
       "messages": {
         "addAggregation_response.message": {
           "description": "addAggregation response",
@@ -896,7 +896,7 @@
       "x-parser-unique-object-id": "updateDefinition_request"
     },
     "updateDefinition_response": {
-      "address": "updateDefinition_response",
+      "address": null,
       "messages": {
         "updateDefinition_response.message": {
           "description": "updateDefinition response",
@@ -1077,6 +1077,13 @@
       "messages": [
         "$ref:$.channels.getValue_request.messages.getValue_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.getValue_response"
+      },
       "x-parser-unique-object-id": "getValue_request"
     },
     "getValue_response": {
@@ -1101,6 +1108,13 @@
       "messages": [
         "$ref:$.channels.enableGeneration_request.messages.enableGeneration_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.enableGeneration_response"
+      },
       "x-parser-unique-object-id": "enableGeneration_request"
     },
     "enableGeneration_response": {
@@ -1141,6 +1155,13 @@
       "messages": [
         "$ref:$.channels.listDefinition_request.messages.listDefinition_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.listDefinition_response"
+      },
       "x-parser-unique-object-id": "listDefinition_request"
     },
     "listDefinition_response": {
@@ -1165,6 +1186,13 @@
       "messages": [
         "$ref:$.channels.addAggregation_request.messages.addAggregation_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.addAggregation_response"
+      },
       "x-parser-unique-object-id": "addAggregation_request"
     },
     "addAggregation_response": {
@@ -1189,6 +1217,13 @@
       "messages": [
         "$ref:$.channels.updateDefinition_request.messages.updateDefinition_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.updateDefinition_response"
+      },
       "x-parser-unique-object-id": "updateDefinition_request"
     },
     "updateDefinition_response": {
@@ -1247,9 +1282,7 @@
       "removeAggregation_submit": "$ref:$.channels.removeAggregation_submit.messages.removeAggregation_submit.message.payload",
       "removeAggregation_error": "$ref:$.channels.removeAggregation_error.messages.removeAggregation_error.message.payload",
       "mc": {
-        "parameter": {
-          "ParameterValue": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.newValue.properties.parameterSetValues.items.properties.values.items.properties.value"
-        },
+        "ObjectInstancePair": "$ref:$.channels.listDefinition_response.messages.listDefinition_response.message.payload.properties.objInstIds",
         "aggregation": {
           "AggregationCreationRequest": "$ref:$.channels.addAggregation_request.messages.addAggregation_request.message.payload.properties.aggDefDetails",
           "AggregationDefinitionDetails": "$ref:$.channels.addAggregation_request.messages.addAggregation_request.message.payload.properties.aggDefDetails.properties.aggDefDetails",
@@ -1262,7 +1295,9 @@
           "ThresholdFilter": "$ref:$.channels.addAggregation_request.messages.addAggregation_request.message.payload.properties.aggDefDetails.properties.aggDefDetails.properties.parameterSets.items.properties.reportFilter",
           "ThresholdType": "$ref:$.channels.addAggregation_request.messages.addAggregation_request.message.payload.properties.aggDefDetails.properties.aggDefDetails.properties.parameterSets.items.properties.reportFilter.properties.thresholdType"
         },
-        "ObjectInstancePair": "$ref:$.channels.listDefinition_response.messages.listDefinition_response.message.payload.properties.objInstIds",
+        "parameter": {
+          "ParameterValue": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.newValue.properties.parameterSetValues.items.properties.values.items.properties.value"
+        },
         "x-parser-schema-id": "mc"
       },
       "com": {

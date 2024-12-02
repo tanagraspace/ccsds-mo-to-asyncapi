@@ -105,7 +105,7 @@ channels:
       Send a **getTransactionReport_request** message in this channel to receive a
       **getTransactionReport_response** message over the **getTransactionReport_response** channel.
   getTransactionReport_response:
-    address: getTransactionReport_response
+    address: null
     messages:
       getTransactionReport_response.message:
         $ref: '#/components/messages/getTransactionReport_response'
@@ -129,7 +129,7 @@ channels:
       Send a **listTransactions_request** message in this channel to receive a
       **listTransactions_response** message over the **listTransactions_response** channel.
   listTransactions_response:
-    address: listTransactions_response
+    address: null
     messages:
       listTransactions_response.message:
         $ref: '#/components/messages/listTransactions_response'
@@ -153,7 +153,7 @@ channels:
       Send a **getWindowStatus_request** message in this channel to receive a
       **getWindowStatus_response** message over the **getWindowStatus_response** channel.
   getWindowStatus_response:
-    address: getWindowStatus_response
+    address: null
     messages:
       getWindowStatus_response.message:
         $ref: '#/components/messages/getWindowStatus_response'
@@ -241,6 +241,12 @@ operations:
       $ref: '#/channels/getTransactionReport_request'
     messages:
       - $ref: '#/channels/getTransactionReport_request/messages/getTransactionReport_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/getTransactionReport_response'
   getTransactionReport_response:
     action: receive
     channel:
@@ -259,6 +265,12 @@ operations:
       $ref: '#/channels/listTransactions_request'
     messages:
       - $ref: '#/channels/listTransactions_request/messages/listTransactions_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/listTransactions_response'
   listTransactions_response:
     action: receive
     channel:
@@ -277,6 +289,12 @@ operations:
       $ref: '#/channels/getWindowStatus_request'
     messages:
       - $ref: '#/channels/getWindowStatus_request/messages/getWindowStatus_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/getWindowStatus_response'
   getWindowStatus_response:
     action: receive
     channel:

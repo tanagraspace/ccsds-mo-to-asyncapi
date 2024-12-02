@@ -67,7 +67,7 @@
       "x-parser-unique-object-id": "runCommand_request"
     },
     "runCommand_response": {
-      "address": "runCommand_response",
+      "address": null,
       "messages": {
         "runCommand_response.message": {
           "description": "runCommand response",
@@ -103,6 +103,13 @@
       "messages": [
         "$ref:$.channels.runCommand_request.messages.runCommand_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.runCommand_response"
+      },
       "x-parser-unique-object-id": "runCommand_request"
     },
     "runCommand_response": {

@@ -82,7 +82,7 @@ channels:
       Send a **getAttributes_request** message in this channel to receive a
       **getAttributes_response** message over the **getAttributes_response** channel.
   getAttributes_response:
-    address: getAttributes_response
+    address: null
     messages:
       getAttributes_response.message:
         $ref: '#/components/messages/getAttributes_response'
@@ -121,7 +121,7 @@ channels:
       Send a **list_request** message in this channel to receive a
       **list_response** message over the **list_response** channel.
   list_response:
-    address: list_response
+    address: null
     messages:
       list_response.message:
         $ref: '#/components/messages/list_response'
@@ -145,7 +145,7 @@ channels:
       Send a **find_progress** message in this channel to receive a
       **find_update** message over the **find_update** channel.
   find_update:
-    address: find_update
+    address: null
     messages:
       find_update.message:
         $ref: '#/components/messages/find_update'
@@ -177,7 +177,7 @@ channels:
       Send a **append_request** message in this channel to receive a
       **append_response** message over the **append_response** channel.
   append_response:
-    address: append_response
+    address: null
     messages:
       append_response.message:
         $ref: '#/components/messages/append_response'
@@ -216,7 +216,7 @@ channels:
       Send a **read_request** message in this channel to receive a
       **read_response** message over the **read_response** channel.
   read_response:
-    address: read_response
+    address: null
     messages:
       read_response.message:
         $ref: '#/components/messages/read_response'
@@ -286,6 +286,12 @@ operations:
       $ref: '#/channels/getAttributes_request'
     messages:
       - $ref: '#/channels/getAttributes_request/messages/getAttributes_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/getAttributes_response'
   getAttributes_response:
     action: receive
     channel:
@@ -316,6 +322,12 @@ operations:
       $ref: '#/channels/list_request'
     messages:
       - $ref: '#/channels/list_request/messages/list_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/list_response'
   list_response:
     action: receive
     channel:
@@ -334,6 +346,12 @@ operations:
       $ref: '#/channels/find_progress'
     messages:
       - $ref: '#/channels/find_progress/messages/find_progress.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/find_update'
   find_update:
     action: receive
     channel:
@@ -358,6 +376,12 @@ operations:
       $ref: '#/channels/append_request'
     messages:
       - $ref: '#/channels/append_request/messages/append_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/append_response'
   append_response:
     action: receive
     channel:
@@ -388,6 +412,12 @@ operations:
       $ref: '#/channels/read_request'
     messages:
       - $ref: '#/channels/read_request/messages/read_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/read_response'
   read_response:
     action: receive
     channel:

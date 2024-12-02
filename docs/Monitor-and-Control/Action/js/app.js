@@ -186,7 +186,7 @@
       "x-parser-unique-object-id": "preCheckAction_request"
     },
     "preCheckAction_response": {
-      "address": "preCheckAction_response",
+      "address": null,
       "messages": {
         "preCheckAction_response.message": {
           "description": "preCheckAction response",
@@ -297,7 +297,7 @@
       "x-parser-unique-object-id": "listDefinition_request"
     },
     "listDefinition_response": {
-      "address": "listDefinition_response",
+      "address": null,
       "messages": {
         "listDefinition_response.message": {
           "description": "listDefinition response",
@@ -551,7 +551,7 @@
       "x-parser-unique-object-id": "addAction_request"
     },
     "addAction_response": {
-      "address": "addAction_response",
+      "address": null,
       "messages": {
         "addAction_response.message": {
           "description": "addAction response",
@@ -659,7 +659,7 @@
       "x-parser-unique-object-id": "updateDefinition_request"
     },
     "updateDefinition_response": {
-      "address": "updateDefinition_response",
+      "address": null,
       "messages": {
         "updateDefinition_response.message": {
           "description": "updateDefinition response",
@@ -848,6 +848,13 @@
       "messages": [
         "$ref:$.channels.preCheckAction_request.messages.preCheckAction_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.preCheckAction_response"
+      },
       "x-parser-unique-object-id": "preCheckAction_request"
     },
     "preCheckAction_response": {
@@ -872,6 +879,13 @@
       "messages": [
         "$ref:$.channels.listDefinition_request.messages.listDefinition_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.listDefinition_response"
+      },
       "x-parser-unique-object-id": "listDefinition_request"
     },
     "listDefinition_response": {
@@ -896,6 +910,13 @@
       "messages": [
         "$ref:$.channels.addAction_request.messages.addAction_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.addAction_response"
+      },
       "x-parser-unique-object-id": "addAction_request"
     },
     "addAction_response": {
@@ -920,6 +941,13 @@
       "messages": [
         "$ref:$.channels.updateDefinition_request.messages.updateDefinition_request.message"
       ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.updateDefinition_response"
+      },
       "x-parser-unique-object-id": "updateDefinition_request"
     },
     "updateDefinition_response": {
