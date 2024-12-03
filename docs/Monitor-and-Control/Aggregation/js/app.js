@@ -20,10 +20,10 @@
     }
   },
   "channels": {
-    "monitorValue_publishNotify": {
+    "monitorValue_pub": {
       "address": null,
       "messages": {
-        "monitorValue_publishNotify.message": {
+        "monitorValue_pub.message": {
           "description": "monitorValue response",
           "payload": {
             "type": "object",
@@ -175,14 +175,14 @@
                 "x-parser-schema-id": "<anonymous-schema-12>"
               }
             },
-            "x-parser-schema-id": "monitorValue_publishNotify"
+            "x-parser-schema-id": "monitorValue_pub"
           },
-          "x-parser-unique-object-id": "monitorValue_publishNotify.message",
-          "x-parser-message-name": "monitorValue_publishNotify"
+          "x-parser-unique-object-id": "monitorValue_pub.message",
+          "x-parser-message-name": "monitorValue_pub"
         }
       },
-      "description": "Use this channel to receive monitorValue responses as **monitorValue_publishNotify** messages.\n",
-      "x-parser-unique-object-id": "monitorValue_publishNotify"
+      "description": "Use this channel to receive monitorValue responses as **monitorValue_pub** messages.\n",
+      "x-parser-unique-object-id": "monitorValue_pub"
     },
     "getValue_request": {
       "address": "getValue_request",
@@ -252,7 +252,7 @@
                     "type": "number",
                     "x-parser-schema-id": "<anonymous-schema-33>"
                   },
-                  "value": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.newValue"
+                  "value": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.newValue"
                 },
                 "type": "object",
                 "x-parser-schema-id": "<anonymous-schema-30>"
@@ -1083,13 +1083,13 @@
     }
   },
   "operations": {
-    "monitorValue_publishNotify": {
+    "monitorValue_pub": {
       "action": "receive",
-      "channel": "$ref:$.channels.monitorValue_publishNotify",
+      "channel": "$ref:$.channels.monitorValue_pub",
       "messages": [
-        "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message"
+        "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message"
       ],
-      "x-parser-unique-object-id": "monitorValue_publishNotify"
+      "x-parser-unique-object-id": "monitorValue_pub"
     },
     "getValue_request": {
       "action": "send",
@@ -1281,13 +1281,13 @@
   },
   "components": {
     "schemas": {
-      "monitorValue_subscriptionKeys": {
+      "monitorValue_sub": {
         "description": "A request message with no payload.",
         "type": "object",
         "additionalProperties": false,
-        "x-parser-schema-id": "monitorValue_subscriptionKeys"
+        "x-parser-schema-id": "monitorValue_sub"
       },
-      "monitorValue_publishNotify": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload",
+      "monitorValue_pub": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload",
       "getValue_request": "$ref:$.channels.getValue_request.messages.getValue_request.message.payload",
       "getValue_response": "$ref:$.channels.getValue_response.messages.getValue_response.message.payload",
       "getValue_error": "$ref:$.channels.getValue_error.messages.getValue_error.message.payload",
@@ -1309,33 +1309,33 @@
       "removeAggregation_error": "$ref:$.channels.removeAggregation_error.messages.removeAggregation_error.message.payload",
       "com": {
         "InstanceBooleanPair": "$ref:$.channels.enableGeneration_request.messages.enableGeneration_request.message.payload.properties.enableInstances",
-        "ObjectId": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.objId",
-        "ObjectKey": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.objId.properties.key",
-        "ObjectType": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.objId.properties.type_",
+        "ObjectId": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.objId",
+        "ObjectKey": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.objId.properties.key",
+        "ObjectType": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.objId.properties.type_",
         "x-parser-schema-id": "com"
       },
       "mc": {
-        "parameter": {
-          "ParameterValue": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.newValue.properties.parameterSetValues.items.properties.values.items.properties.value"
-        },
         "aggregation": {
           "AggregationCreationRequest": "$ref:$.channels.addAggregation_request.messages.addAggregation_request.message.payload.properties.aggDefDetails",
           "AggregationDefinitionDetails": "$ref:$.channels.addAggregation_request.messages.addAggregation_request.message.payload.properties.aggDefDetails.properties.aggDefDetails",
           "AggregationParameterSet": "$ref:$.channels.addAggregation_request.messages.addAggregation_request.message.payload.properties.aggDefDetails.properties.aggDefDetails.properties.parameterSets.items",
-          "AggregationParameterValue": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.newValue.properties.parameterSetValues.items.properties.values.items",
-          "AggregationSetValue": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.newValue.properties.parameterSetValues.items",
-          "AggregationValue": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.newValue",
+          "AggregationParameterValue": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.newValue.properties.parameterSetValues.items.properties.values.items",
+          "AggregationSetValue": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.newValue.properties.parameterSetValues.items",
+          "AggregationValue": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.newValue",
           "AggregationValueDetails": "$ref:$.channels.getValue_response.messages.getValue_response.message.payload.properties.aggValDetails",
-          "GenerationMode": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.newValue.properties.generationMode",
+          "GenerationMode": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.newValue.properties.generationMode",
           "ThresholdFilter": "$ref:$.channels.addAggregation_request.messages.addAggregation_request.message.payload.properties.aggDefDetails.properties.aggDefDetails.properties.parameterSets.items.properties.reportFilter",
           "ThresholdType": "$ref:$.channels.addAggregation_request.messages.addAggregation_request.message.payload.properties.aggDefDetails.properties.aggDefDetails.properties.parameterSets.items.properties.reportFilter.properties.thresholdType"
+        },
+        "parameter": {
+          "ParameterValue": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.newValue.properties.parameterSetValues.items.properties.values.items.properties.value"
         },
         "ObjectInstancePair": "$ref:$.channels.listDefinition_response.messages.listDefinition_response.message.payload.properties.objInstIds",
         "x-parser-schema-id": "mc"
       }
     },
     "messages": {
-      "monitorValue_publishNotify": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message",
+      "monitorValue_pub": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message",
       "getValue_request": "$ref:$.channels.getValue_request.messages.getValue_request.message",
       "getValue_response": "$ref:$.channels.getValue_response.messages.getValue_response.message",
       "getValue_error": "$ref:$.channels.getValue_error.messages.getValue_error.message",

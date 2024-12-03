@@ -13,13 +13,13 @@ servers:
       port:
         default: '8883'
 channels:
-  monitorValue_publishNotify:
+  monitorValue_pub:
     address: null
     messages:
-      monitorValue_publishNotify.message:
-        $ref: '#/components/messages/monitorValue_publishNotify'
+      monitorValue_pub.message:
+        $ref: '#/components/messages/monitorValue_pub'
     description: >
-      Use this channel to receive monitorValue responses as **monitorValue_publishNotify**
+      Use this channel to receive monitorValue responses as **monitorValue_pub**
       messages.
   getValue_request:
     address: getValue_request
@@ -172,12 +172,12 @@ channels:
       Use this channel to receive removeAggregation errors as **removeAggregation_error**
       messages.
 operations:
-  monitorValue_publishNotify:
+  monitorValue_pub:
     action: receive
     channel:
-      $ref: '#/channels/monitorValue_publishNotify'
+      $ref: '#/channels/monitorValue_pub'
     messages:
-      - $ref: '#/channels/monitorValue_publishNotify/messages/monitorValue_publishNotify.message'
+      - $ref: '#/channels/monitorValue_pub/messages/monitorValue_pub.message'
   getValue_request:
     action: send
     channel:
@@ -324,11 +324,11 @@ operations:
       - $ref: '#/channels/removeAggregation_error/messages/removeAggregation_error.message'
 components:
   schemas:
-    monitorValue_subscriptionKeys:
+    monitorValue_sub:
       description: A request message with no payload.
       type: object
       additionalProperties: false
-    monitorValue_publishNotify:
+    monitorValue_pub:
       type: object
       additionalProperties: false
       properties:
@@ -785,22 +785,6 @@ components:
             type: integer
         type: object
     mc:
-      parameter:
-        ParameterValue:
-          properties:
-            convertedValue:
-              description: The parameter converted value.
-              type: string
-            rawValue:
-              description: The parameter raw value. The value of NULL is a valid value and carries
-                no special significance in the parameter service.
-              type: string
-            validityState:
-              description: Holds the validity state for a parameter value. If the parameter
-                is valid then this should be set to '0'.
-              format: uint8
-              type: integer
-          type: object
       aggregation:
         AggregationCreationRequest:
           properties:
@@ -977,6 +961,22 @@ components:
           - PERCENTAGE
           - DELTA
           type: string
+      parameter:
+        ParameterValue:
+          properties:
+            convertedValue:
+              description: The parameter converted value.
+              type: string
+            rawValue:
+              description: The parameter raw value. The value of NULL is a valid value and carries
+                no special significance in the parameter service.
+              type: string
+            validityState:
+              description: Holds the validity state for a parameter value. If the parameter
+                is valid then this should be set to '0'.
+              format: uint8
+              type: integer
+          type: object
       ObjectInstancePair:
         properties:
           objDefInstanceId:
@@ -989,10 +989,10 @@ components:
             type: integer
         type: object
   messages:
-    monitorValue_publishNotify:
+    monitorValue_pub:
       description: monitorValue response
       payload:
-        $ref: '#/components/schemas/monitorValue_publishNotify'
+        $ref: '#/components/schemas/monitorValue_pub'
     getValue_request:
       description: getValue request
       payload:

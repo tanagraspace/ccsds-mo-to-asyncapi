@@ -509,6 +509,20 @@ components:
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
     com:
+      archive:
+        ExpressionOperator:
+          description: The ExpressionOperator enumeration holds a set of possible expression
+            operators.
+          enum:
+          - EQUAL
+          - DIFFER
+          - GREATER
+          - GREATER_OR_EQUAL
+          - LESS
+          - LESS_OR_EQUAL
+          - CONTAINS
+          - ICONTAINS
+          type: string
       InstanceBooleanPair:
         properties:
           id:
@@ -532,20 +546,6 @@ components:
             format: int64
             type: integer
         type: object
-      archive:
-        ExpressionOperator:
-          description: The ExpressionOperator enumeration holds a set of possible expression
-            operators.
-          enum:
-          - EQUAL
-          - DIFFER
-          - GREATER
-          - GREATER_OR_EQUAL
-          - LESS
-          - LESS_OR_EQUAL
-          - CONTAINS
-          - ICONTAINS
-          type: string
     mc:
       alert:
         AlertCreationRequest:
