@@ -20,15 +20,69 @@
     }
   },
   "channels": {
+    "beat_sub": {
+      "address": "beat_sub",
+      "messages": {
+        "beat_sub.message": {
+          "description": "beat request",
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "subscriptionId": {
+                "type": "string",
+                "description": "The identifier of this subscription.",
+                "x-parser-schema-id": "<anonymous-schema-1>"
+              }
+            },
+            "x-parser-schema-id": "beat_sub"
+          },
+          "x-parser-unique-object-id": "beat_sub.message",
+          "x-parser-message-name": "beat_sub"
+        }
+      },
+      "description": "Send a **beat_sub** message in this channel to receive a **beat_pub** message over the **beat_pub** channel.\n",
+      "x-parser-unique-object-id": "beat_sub"
+    },
+    "beat_pub": {
+      "address": null,
+      "messages": {
+        "beat_pub.message": {
+          "description": "beat response",
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "subscriptionId": {
+                "type": "string",
+                "description": "The identifier of this subscription.",
+                "x-parser-schema-id": "<anonymous-schema-2>"
+              }
+            },
+            "x-parser-schema-id": "beat_pub"
+          },
+          "x-parser-unique-object-id": "beat_pub.message",
+          "x-parser-message-name": "beat_pub"
+        }
+      },
+      "description": "Use this channel to receive beat responses as **beat_pub** messages.\n",
+      "x-parser-unique-object-id": "beat_pub"
+    },
     "getPeriod_request": {
       "address": "getPeriod_request",
       "messages": {
         "getPeriod_request.message": {
           "description": "getPeriod request",
           "payload": {
-            "description": "A request message with no payload.",
             "type": "object",
             "additionalProperties": false,
+            "properties": {
+              "interactionId": {
+                "type": "string",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-3>"
+              }
+            },
             "x-parser-schema-id": "getPeriod_request"
           },
           "x-parser-unique-object-id": "getPeriod_request.message",
@@ -47,16 +101,16 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-1>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-4>"
               },
               "period": {
                 "type": "number",
                 "format": "uint64",
                 "description": "The period field shall hold period of the heartbeat message.\n",
-                "x-parser-schema-id": "<anonymous-schema-2>"
+                "x-parser-schema-id": "<anonymous-schema-5>"
               }
             },
             "x-parser-schema-id": "getPeriod_response"
@@ -70,6 +124,29 @@
     }
   },
   "operations": {
+    "beat_sub": {
+      "action": "send",
+      "channel": "$ref:$.channels.beat_sub",
+      "messages": [
+        "$ref:$.channels.beat_sub.messages.beat_sub.message"
+      ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.beat_pub"
+      },
+      "x-parser-unique-object-id": "beat_sub"
+    },
+    "beat_pub": {
+      "action": "receive",
+      "channel": "$ref:$.channels.beat_pub",
+      "messages": [
+        "$ref:$.channels.beat_pub.messages.beat_pub.message"
+      ],
+      "x-parser-unique-object-id": "beat_pub"
+    },
     "getPeriod_request": {
       "action": "send",
       "channel": "$ref:$.channels.getPeriod_request",
@@ -96,10 +173,14 @@
   },
   "components": {
     "schemas": {
+      "beat_sub": "$ref:$.channels.beat_sub.messages.beat_sub.message.payload",
+      "beat_pub": "$ref:$.channels.beat_pub.messages.beat_pub.message.payload",
       "getPeriod_request": "$ref:$.channels.getPeriod_request.messages.getPeriod_request.message.payload",
       "getPeriod_response": "$ref:$.channels.getPeriod_response.messages.getPeriod_response.message.payload"
     },
     "messages": {
+      "beat_sub": "$ref:$.channels.beat_sub.messages.beat_sub.message",
+      "beat_pub": "$ref:$.channels.beat_pub.messages.beat_pub.message",
       "getPeriod_request": "$ref:$.channels.getPeriod_request.messages.getPeriod_request.message",
       "getPeriod_response": "$ref:$.channels.getPeriod_response.messages.getPeriod_response.message"
     }

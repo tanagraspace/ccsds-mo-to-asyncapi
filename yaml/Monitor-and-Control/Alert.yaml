@@ -239,9 +239,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         isGroupIds:
           type: boolean
           description: |
@@ -262,9 +262,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         newObjInstIds:
           type: array
           items:
@@ -276,9 +276,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -301,9 +301,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         alertNames:
           type: array
           items:
@@ -317,9 +317,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         alertObjInstIds:
           $ref: '#/components/schemas/mc/ObjectInstancePair'
           description: |
@@ -329,9 +329,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -352,9 +352,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         alertDefDetails:
           $ref: '#/components/schemas/mc/alert/AlertCreationRequest'
           description: |
@@ -368,9 +368,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         newObjInstIds:
           $ref: '#/components/schemas/mc/ObjectInstancePair'
           description: |
@@ -380,9 +380,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -404,9 +404,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         alertObjInstIds:
           type: array
           items:
@@ -429,9 +429,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         newObjInstIds:
           type: array
           items:
@@ -444,9 +444,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -469,9 +469,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         alertInstIds:
           type: array
           items:
@@ -485,13 +485,20 @@ components:
             Matched AlertIdentity objects shall not be removed from the COM archive only the list of AlertIdentity objects in the provider.
             If an error is raised then no alerts shall be removed as a result of this operation call.
             If the operation succeeds then the provider shall not publish AlertEvent events for the deleted AlertIdentity objects anymore.
+    removeAlert_None:
+      type: object
+      additionalProperties: false
+      properties:
+        interactionId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message).
     removeAlert_error:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -509,20 +516,6 @@ components:
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
     com:
-      archive:
-        ExpressionOperator:
-          description: The ExpressionOperator enumeration holds a set of possible expression
-            operators.
-          enum:
-          - EQUAL
-          - DIFFER
-          - GREATER
-          - GREATER_OR_EQUAL
-          - LESS
-          - LESS_OR_EQUAL
-          - CONTAINS
-          - ICONTAINS
-          type: string
       InstanceBooleanPair:
         properties:
           id:
@@ -546,34 +539,21 @@ components:
             format: int64
             type: integer
         type: object
+      archive:
+        ExpressionOperator:
+          description: The ExpressionOperator enumeration holds a set of possible expression
+            operators.
+          enum:
+          - EQUAL
+          - DIFFER
+          - GREATER
+          - GREATER_OR_EQUAL
+          - LESS
+          - LESS_OR_EQUAL
+          - CONTAINS
+          - ICONTAINS
+          type: string
     mc:
-      alert:
-        AlertCreationRequest:
-          properties:
-            alertDefDetails:
-              $ref: '#/components/schemas/mc/alert/AlertDefinitionDetails'
-              description: The alert definition details.
-            name:
-              description: Alert name. Must not be empty or wildcard value.
-              type: string
-          type: object
-        AlertDefinitionDetails:
-          properties:
-            arguments:
-              description: The list of argument definitions.
-              items:
-                $ref: '#/components/schemas/mc/ArgumentDefinitionDetails'
-              type: array
-            description:
-              description: The description of the alert.
-              type: string
-            generationEnabled:
-              description: Controls whether instances of this alert are to be generated.
-              type: boolean
-            severity:
-              $ref: '#/components/schemas/mc/Severity'
-              description: Severity of the alert.
-          type: object
       ArgumentDefinitionDetails:
         properties:
           argId:
@@ -658,6 +638,33 @@ components:
         - SEVERE
         - CRITICAL
         type: string
+      alert:
+        AlertCreationRequest:
+          properties:
+            alertDefDetails:
+              $ref: '#/components/schemas/mc/alert/AlertDefinitionDetails'
+              description: The alert definition details.
+            name:
+              description: Alert name. Must not be empty or wildcard value.
+              type: string
+          type: object
+        AlertDefinitionDetails:
+          properties:
+            arguments:
+              description: The list of argument definitions.
+              items:
+                $ref: '#/components/schemas/mc/ArgumentDefinitionDetails'
+              type: array
+            description:
+              description: The description of the alert.
+              type: string
+            generationEnabled:
+              description: Controls whether instances of this alert are to be generated.
+              type: boolean
+            severity:
+              $ref: '#/components/schemas/mc/Severity'
+              description: Severity of the alert.
+          type: object
   messages:
     enableGeneration_request:
       description: enableGeneration request

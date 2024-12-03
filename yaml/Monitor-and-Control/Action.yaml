@@ -266,9 +266,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         actionInstId:
           type: integer
           format: int64
@@ -286,13 +286,20 @@ components:
             A service provider may apply some deployment specific checks to the action instance and can return an INVALID error if they fail.
             If an error is raised then no action shall be executed.
             The SUBMIT acknowledgement shall be returned once the action has been accepted for execution but before execution starts.
+    submitAction_None:
+      type: object
+      additionalProperties: false
+      properties:
+        interactionId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message).
     submitAction_error:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -315,9 +322,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         actionDetails:
           $ref: '#/components/schemas/mc/action/ActionInstanceDetails'
           description: |
@@ -329,9 +336,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         accepted:
           type: boolean
           description: |
@@ -340,9 +347,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -365,9 +372,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         actionNames:
           type: array
           items:
@@ -381,9 +388,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         actionInstIds:
           $ref: '#/components/schemas/mc/ObjectInstancePair'
           description: |
@@ -393,9 +400,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -416,9 +423,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         actionDefDetails:
           $ref: '#/components/schemas/mc/action/ActionCreationRequest'
           description: |
@@ -432,9 +439,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         newObjInstIds:
           $ref: '#/components/schemas/mc/ObjectInstancePair'
           description: |
@@ -444,9 +451,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -468,9 +475,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         actionObjInstIds:
           type: array
           items:
@@ -493,9 +500,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         newDefInstIds:
           type: array
           items:
@@ -508,9 +515,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -533,9 +540,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         actionInstIds:
           type: array
           items:
@@ -550,13 +557,20 @@ components:
             Matched ActionIdentity objects shall not be removed from the COM archive only the list of ActionIdentity objects in the provider.
             Removed ActionIdentity object shall not be allowed to be referenced by new action instances.
             If an error is raised then no actions shall be removed as a result of this operation call.
+    removeAction_None:
+      type: object
+      additionalProperties: false
+      properties:
+        interactionId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message).
     removeAction_error:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -574,6 +588,19 @@ components:
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
     com:
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
       archive:
         ExpressionOperator:
           description: The ExpressionOperator enumeration holds a set of possible expression
@@ -588,19 +615,6 @@ components:
           - CONTAINS
           - ICONTAINS
           type: string
-      ObjectKey:
-        properties:
-          domain:
-            description: The domain of the object instance.
-            items:
-              type: string
-            type: array
-          instId:
-            description: The unique identifier of the object instance. Must not be '0' for
-              values as this is the wildcard.
-            format: int64
-            type: integer
-        type: object
     mc:
       action:
         ActionCreationRequest:

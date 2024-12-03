@@ -278,18 +278,13 @@ class AbstractYamlGenerator(ABC):
     components_yaml = ""
 
     # build SEND components
-    if len(send_fields) == 0: # with no fields
-      components_yaml +=  f"    {self.get_send_operation_name(interaction_name)}:\n"
-      components_yaml +=   "      description: A request message with no payload.\n"
-      components_yaml +=   "      type: object\n"
-      components_yaml +=   "      additionalProperties: false\n"
-    elif len(send_fields) > 0: # with fields
-      components_yaml += f"    {self.get_send_operation_name(interaction_name)}:\n"
-      components_yaml +=  "      type: object\n"
-      components_yaml +=  "      additionalProperties: false\n"
-      components_yaml +=  "      properties:\n"
-      components_yaml += self._generate_components_schema_field_sequence_id()
+    components_yaml += f"    {self.get_send_operation_name(interaction_name)}:\n"
+    components_yaml +=  "      type: object\n"
+    components_yaml +=  "      additionalProperties: false\n"
+    components_yaml +=  "      properties:\n"
+    components_yaml += self._generate_components_schema_field_interaction_id()
 
+    if len(send_fields) > 0:
       for field in send_fields:
         yaml_str, composite_type = self._generate_components_schema_fields(field, ns)
         components_yaml += yaml_str
@@ -299,13 +294,13 @@ class AbstractYamlGenerator(ABC):
           composite_type_list.append(composite_type)
 
     # build RECEIVE components
-    if len(receive_fields) > 0:
-      components_yaml += f"    {self.get_receive_operation_name(interaction_name)}:\n"
-      components_yaml +=  "      type: object\n"
-      components_yaml +=  "      additionalProperties: false\n"
-      components_yaml +=  "      properties:\n"
-      components_yaml += self._generate_components_schema_field_sequence_id()
+    components_yaml += f"    {self.get_receive_operation_name(interaction_name)}:\n"
+    components_yaml +=  "      type: object\n"
+    components_yaml +=  "      additionalProperties: false\n"
+    components_yaml +=  "      properties:\n"
+    components_yaml += self._generate_components_schema_field_interaction_id()
 
+    if len(receive_fields) > 0:
       for field in receive_fields:
         yaml_str, composite_type = self._generate_components_schema_fields(field, ns)
         components_yaml += yaml_str
@@ -320,7 +315,7 @@ class AbstractYamlGenerator(ABC):
       components_yaml +=  "      type: object\n"
       components_yaml +=  "      additionalProperties: false\n"
       components_yaml +=  "      properties:\n"
-      components_yaml += self._generate_components_schema_field_sequence_id()
+      components_yaml += self._generate_components_schema_field_interaction_id()
 
       for field in receive_fields_additional:
         yaml_str, composite_type = self._generate_components_schema_fields(field, ns)
@@ -336,7 +331,7 @@ class AbstractYamlGenerator(ABC):
       components_yaml +=   "      type: object\n"
       components_yaml +=   "      additionalProperties: false\n"
       components_yaml +=   "      properties:\n"
-      components_yaml += self._generate_components_schema_field_sequence_id()
+      components_yaml += self._generate_components_schema_field_interaction_id()
 
 
       yaml_str = self._generate_components_schema_error_fields(err_fields, ns)
@@ -404,12 +399,18 @@ class AbstractYamlGenerator(ABC):
     return composite_type_namespace_yaml
 
 
-  def _generate_components_schema_field_sequence_id(self):
-    # a unique identifier to map the response to the request
-    sequence_id_field = f"        sequenceId:\n"
-    sequence_id_field += f"          type: string\n"
-    sequence_id_field += f"          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.\n"
-    return sequence_id_field
+  def _generate_components_schema_field_interaction_id(self):
+    # if it's a pubsub interaction then we use subscription id
+    if self.interaction_type == InteractionType.PUBSUB.value:
+      interaction_id_field =  f"        subscriptionId:\n"
+      interaction_id_field += f"          type: string\n"
+      interaction_id_field += f"          description: The identifier of this subscription.\n"
+    else:
+      # a unique identifier to map the response to the request
+      interaction_id_field =  f"        interactionId:\n"
+      interaction_id_field += f"          type: string\n"
+      interaction_id_field += f"          description: A unique identifier to map the response (receive message) to the request (send message).\n"
+    return interaction_id_field
 
 
   def _generate_components_schema_fields(self, field: Element, ns: dict[str, str]):

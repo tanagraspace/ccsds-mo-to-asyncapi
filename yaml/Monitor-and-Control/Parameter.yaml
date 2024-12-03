@@ -348,9 +348,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        subscriptionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: The identifier of this subscription.
         name:
           type: string
           description: |
@@ -369,9 +369,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        subscriptionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: The identifier of this subscription.
         objId:
           $ref: '#/components/schemas/com/ObjectId'
           description: |
@@ -390,9 +390,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         paramInstIds:
           type: array
           items:
@@ -408,9 +408,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         paramValDetails:
           $ref: '#/components/schemas/mc/parameter/ParameterValueDetails'
           description: |
@@ -420,9 +420,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -443,9 +443,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         newRawValues:
           $ref: '#/components/schemas/mc/parameter/ParameterRawValue'
           description: |
@@ -458,13 +458,20 @@ components:
             If an error is raised then no modifications shall be made as a result of this operation call.
             The parameter values shall be set concurrently, by this it is meant that all values are set at the same time without interleaving of other values being (ATOMIC behaviour). How this is implemented is an implementation detail.
             The service provider shall create new ParameterValueInstance objects for the updated parameter values, store these in the COM Archive, and publish these new values.
+    setValue_None:
+      type: object
+      additionalProperties: false
+      properties:
+        interactionId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message).
     setValue_error:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -489,9 +496,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         isGroupIds:
           type: boolean
           description: |
@@ -514,9 +521,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         newObjInstIds:
           type: array
           items:
@@ -528,9 +535,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -553,9 +560,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         paramNames:
           type: array
           items:
@@ -569,9 +576,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         objInstIds:
           $ref: '#/components/schemas/mc/ObjectInstancePair'
           description: |
@@ -581,9 +588,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -604,9 +611,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         paramDefDetails:
           $ref: '#/components/schemas/mc/parameter/ParameterCreationRequest'
           description: |
@@ -621,9 +628,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         newObjInstIds:
           $ref: '#/components/schemas/mc/ObjectInstancePair'
           description: |
@@ -633,9 +640,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -657,9 +664,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         paramInstIds:
           type: array
           items:
@@ -683,9 +690,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         newObjInstIds:
           type: array
           items:
@@ -698,9 +705,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -723,9 +730,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         paramInstIds:
           type: array
           items:
@@ -739,13 +746,20 @@ components:
             Matched ParameterIdentity and ParameterDefinition objects shall not be removed from the COM archive only the list of ParameterIdentity and ParameterDefinition objects from the provider.
             If an error is raised then no parameters shall be removed as a result of this operation call.
             If the operation succeeds then the provider shall not publish parameter values for the deleted ParameterIdentity objects anymore.
+    removeParameter_None:
+      type: object
+      additionalProperties: false
+      properties:
+        interactionId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message).
     removeParameter_error:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -763,20 +777,6 @@ components:
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
     com:
-      archive:
-        ExpressionOperator:
-          description: The ExpressionOperator enumeration holds a set of possible expression
-            operators.
-          enum:
-          - EQUAL
-          - DIFFER
-          - GREATER
-          - GREATER_OR_EQUAL
-          - LESS
-          - LESS_OR_EQUAL
-          - CONTAINS
-          - ICONTAINS
-          type: string
       InstanceBooleanPair:
         properties:
           id:
@@ -832,7 +832,60 @@ components:
             format: uint8
             type: integer
         type: object
+      archive:
+        ExpressionOperator:
+          description: The ExpressionOperator enumeration holds a set of possible expression
+            operators.
+          enum:
+          - EQUAL
+          - DIFFER
+          - GREATER
+          - GREATER_OR_EQUAL
+          - LESS
+          - LESS_OR_EQUAL
+          - CONTAINS
+          - ICONTAINS
+          type: string
     mc:
+      ConditionalConversion:
+        properties:
+          condition:
+            $ref: '#/components/schemas/mc/ParameterExpression'
+            description: The expression indicates which entities are applicable for this check.
+              If NULL, then the condition shall evaluate to TRUE.
+          conversionId:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: The object instance identifier of the ConversionIdentity object to
+              be used if the condition evaluates to TRUE or is NULL.
+        type: object
+      ObjectInstancePair:
+        properties:
+          objDefInstanceId:
+            description: The object instance identifier of the Definition object.
+            format: int64
+            type: integer
+          objIdentityInstanceId:
+            description: The object instance identifier of the Identity object.
+            format: int64
+            type: integer
+        type: object
+      ParameterExpression:
+        properties:
+          operator:
+            $ref: '#/components/schemas/com/archive/ExpressionOperator'
+            description: The expression operator.
+          parameterId:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: Holds the object instance identifier of the ParameterIdentity object
+              to be used in the expression.
+          useConverted:
+            description: If set to TRUE the converted value field of the parameter value should
+              be used, otherwise the raw value field should be used.
+            type: boolean
+          value:
+            description: The value to be used in the expression.
+            type: string
+        type: object
       parameter:
         ParameterConversion:
           properties:
@@ -935,45 +988,6 @@ components:
               $ref: '#/components/schemas/mc/parameter/ParameterValue'
               description: The parameter value.
           type: object
-      ConditionalConversion:
-        properties:
-          condition:
-            $ref: '#/components/schemas/mc/ParameterExpression'
-            description: The expression indicates which entities are applicable for this check.
-              If NULL, then the condition shall evaluate to TRUE.
-          conversionId:
-            $ref: '#/components/schemas/com/ObjectKey'
-            description: The object instance identifier of the ConversionIdentity object to
-              be used if the condition evaluates to TRUE or is NULL.
-        type: object
-      ObjectInstancePair:
-        properties:
-          objDefInstanceId:
-            description: The object instance identifier of the Definition object.
-            format: int64
-            type: integer
-          objIdentityInstanceId:
-            description: The object instance identifier of the Identity object.
-            format: int64
-            type: integer
-        type: object
-      ParameterExpression:
-        properties:
-          operator:
-            $ref: '#/components/schemas/com/archive/ExpressionOperator'
-            description: The expression operator.
-          parameterId:
-            $ref: '#/components/schemas/com/ObjectKey'
-            description: Holds the object instance identifier of the ParameterIdentity object
-              to be used in the expression.
-          useConverted:
-            description: If set to TRUE the converted value field of the parameter value should
-              be used, otherwise the raw value field should be used.
-            type: boolean
-          value:
-            description: The value to be used in the expression.
-            type: string
-        type: object
   messages:
     monitorValue_sub:
       description: monitorValue request

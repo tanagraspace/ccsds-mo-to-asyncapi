@@ -61,6 +61,14 @@ channels:
     description: >
       Use this channel to receive resetEvaluation errors as **resetEvaluation_error**
       messages.
+  monitorStatistics_sub:
+    address: monitorStatistics_sub
+    messages:
+      monitorStatistics_sub.message:
+        $ref: '#/components/messages/monitorStatistics_sub'
+    description: >
+      Send a **monitorStatistics_sub** message in this channel to receive a
+      **monitorStatistics_pub** message over the **monitorStatistics_pub** channel.
   monitorStatistics_pub:
     address: null
     messages:
@@ -243,6 +251,18 @@ operations:
       $ref: '#/channels/resetEvaluation_error'
     messages:
       - $ref: '#/channels/resetEvaluation_error/messages/resetEvaluation_error.message'
+  monitorStatistics_sub:
+    action: send
+    channel:
+      $ref: '#/channels/monitorStatistics_sub'
+    messages:
+      - $ref: '#/channels/monitorStatistics_sub/messages/monitorStatistics_sub.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/monitorStatistics_pub'
   monitorStatistics_pub:
     action: receive
     channel:
@@ -375,9 +395,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         funcObjInstIds:
           type: array
           items:
@@ -403,9 +423,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         evaluations:
           $ref: '#/components/schemas/mc/statistic/StatisticEvaluationReport'
           description: |
@@ -419,9 +439,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -444,9 +464,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         isStatLinkGroup:
           type: boolean
           description: |
@@ -471,18 +491,18 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         evaluations:
           $ref: '#/components/schemas/mc/statistic/StatisticEvaluationReport'
     resetEvaluation_error:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -502,16 +522,19 @@ components:
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
     monitorStatistics_sub:
-      description: A request message with no payload.
       type: object
       additionalProperties: false
+      properties:
+        subscriptionId:
+          type: string
+          description: The identifier of this subscription.
     monitorStatistics_pub:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        subscriptionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: The identifier of this subscription.
         relatedId:
           type: integer
           format: int64
@@ -535,26 +558,36 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         enableService:
           type: boolean
           description: |
             If enableService is set to TRUE the service shall be enabled and evaluation and reporting of statistics will be reset and commence.
             If enableService is set to FALSE then all evaluation of statistics shall be suspended and no statistics will be reported.
             If the enableService value matches the current enabled state of the service then no change shall be made and no error reported. Enabling an already enabled service has no effect.
-    getServiceStatus_request:
-      description: A request message with no payload.
+    enableService_None:
       type: object
       additionalProperties: false
+      properties:
+        interactionId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message).
+    getServiceStatus_request:
+      type: object
+      additionalProperties: false
+      properties:
+        interactionId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message).
     getServiceStatus_response:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         serviceEnabled:
           type: boolean
           description: |
@@ -563,9 +596,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         isGroupIds:
           type: boolean
           description: |
@@ -583,13 +616,20 @@ components:
           $ref: '#/components/schemas/com/InstanceBooleanPair'
           description: |
             If the generation of reports is being enabled, then the provider shall generate a report immediately and start the report interval from that report.
+    enableReporting_None:
+      type: object
+      additionalProperties: false
+      properties:
+        interactionId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message).
     enableReporting_error:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -612,9 +652,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         statObjInstIds:
           type: array
           items:
@@ -629,9 +669,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         statLinkObjInstIds:
           $ref: '#/components/schemas/mc/statistic/StatisticLinkSummary'
           description: |
@@ -640,9 +680,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -663,9 +703,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         newDetails:
           $ref: '#/components/schemas/mc/statistic/StatisticCreationRequest'
           description: |
@@ -684,9 +724,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         newObjInstIds:
           $ref: '#/components/schemas/mc/ObjectInstancePair'
           description: |
@@ -697,9 +737,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -722,9 +762,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         linkIds:
           type: array
           items:
@@ -748,9 +788,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         newLinkDefIds:
           type: array
           items:
@@ -763,9 +803,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -788,9 +828,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         objInstIds:
           type: array
           items:
@@ -804,13 +844,20 @@ components:
             Matched StatisticLink objects shall not be removed from the COM archive only the list of evaluated StatisticLink objects in the provider.
             If an error is raised then no StatisticLink objects shall be removed as a result of this operation call.
             If the operation succeeds then the provider shall not evaluate those parameter/function definition combinations for the deleted StatisticLink objects anymore.
+    removeParameterEvaluation_None:
+      type: object
+      additionalProperties: false
+      properties:
+        interactionId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message).
     removeParameterEvaluation_error:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -1033,6 +1080,10 @@ components:
       description: resetEvaluation error response
       payload:
         $ref: '#/components/schemas/resetEvaluation_error'
+    monitorStatistics_sub:
+      description: monitorStatistics request
+      payload:
+        $ref: '#/components/schemas/monitorStatistics_sub'
     monitorStatistics_pub:
       description: monitorStatistics response
       payload:

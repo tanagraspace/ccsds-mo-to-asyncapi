@@ -29,9 +29,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-1>"
               },
               "actionInstId": {
@@ -120,9 +120,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-15>"
               },
               "area": {
@@ -172,9 +172,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-20>"
               },
               "actionDetails": "$ref:$.channels.submitAction_submit.messages.submitAction_submit.message.payload.properties.actionDetails"
@@ -197,9 +197,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-21>"
               },
               "accepted": {
@@ -226,9 +226,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-23>"
               },
               "area": {
@@ -278,9 +278,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-28>"
               },
               "actionNames": {
@@ -311,9 +311,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-31>"
               },
               "actionInstIds": {
@@ -353,9 +353,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-35>"
               },
               "area": {
@@ -403,9 +403,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-40>"
               },
               "actionDefDetails": {
@@ -568,9 +568,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-65>"
               },
               "newObjInstIds": "$ref:$.channels.listDefinition_response.messages.listDefinition_response.message.payload.properties.actionInstIds"
@@ -593,9 +593,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-66>"
               },
               "area": {
@@ -644,9 +644,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-71>"
               },
               "actionObjInstIds": {
@@ -679,9 +679,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-74>"
               },
               "newDefInstIds": {
@@ -713,9 +713,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-77>"
               },
               "area": {
@@ -765,9 +765,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-82>"
               },
               "actionInstIds": {
@@ -799,9 +799,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-85>"
               },
               "area": {
@@ -1002,6 +1002,18 @@
   "components": {
     "schemas": {
       "submitAction_submit": "$ref:$.channels.submitAction_submit.messages.submitAction_submit.message.payload",
+      "submitAction_None": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "interactionId": {
+            "type": "string",
+            "description": "A unique identifier to map the response (receive message) to the request (send message).",
+            "x-parser-schema-id": "<anonymous-schema-90>"
+          }
+        },
+        "x-parser-schema-id": "submitAction_None"
+      },
       "submitAction_error": "$ref:$.channels.submitAction_error.messages.submitAction_error.message.payload",
       "preCheckAction_request": "$ref:$.channels.preCheckAction_request.messages.preCheckAction_request.message.payload",
       "preCheckAction_response": "$ref:$.channels.preCheckAction_response.messages.preCheckAction_response.message.payload",
@@ -1016,12 +1028,24 @@
       "updateDefinition_response": "$ref:$.channels.updateDefinition_response.messages.updateDefinition_response.message.payload",
       "updateDefinition_error": "$ref:$.channels.updateDefinition_error.messages.updateDefinition_error.message.payload",
       "removeAction_submit": "$ref:$.channels.removeAction_submit.messages.removeAction_submit.message.payload",
+      "removeAction_None": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "interactionId": {
+            "type": "string",
+            "description": "A unique identifier to map the response (receive message) to the request (send message).",
+            "x-parser-schema-id": "<anonymous-schema-91>"
+          }
+        },
+        "x-parser-schema-id": "removeAction_None"
+      },
       "removeAction_error": "$ref:$.channels.removeAction_error.messages.removeAction_error.message.payload",
       "com": {
+        "ObjectKey": "$ref:$.channels.addAction_request.messages.addAction_request.message.payload.properties.actionDefDetails.properties.actionDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.parameterId",
         "archive": {
           "ExpressionOperator": "$ref:$.channels.addAction_request.messages.addAction_request.message.payload.properties.actionDefDetails.properties.actionDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.operator"
         },
-        "ObjectKey": "$ref:$.channels.addAction_request.messages.addAction_request.message.payload.properties.actionDefDetails.properties.actionDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.parameterId",
         "x-parser-schema-id": "com"
       },
       "mc": {
