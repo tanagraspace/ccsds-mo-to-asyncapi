@@ -13,6 +13,22 @@ servers:
       port:
         default: '8883'
 channels:
+  beat_sub:
+    address: beat_sub
+    messages:
+      beat_sub.message:
+        $ref: '#/components/messages/beat_sub'
+    description: >
+      Send a **beat_sub** message in this channel to receive a
+      **beat_pub** message over the **beat_pub** channel.
+  beat_pub:
+    address: null
+    messages:
+      beat_pub.message:
+        $ref: '#/components/messages/beat_pub'
+    description: >
+      Use this channel to receive beat responses as **beat_pub**
+      messages.
   getPeriod_request:
     address: getPeriod_request
     messages:
@@ -30,6 +46,24 @@ channels:
       Use this channel to receive getPeriod responses as **getPeriod_response**
       messages.
 operations:
+  beat_sub:
+    action: send
+    channel:
+      $ref: '#/channels/beat_sub'
+    messages:
+      - $ref: '#/channels/beat_sub/messages/beat_sub.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/beat_pub'
+  beat_pub:
+    action: receive
+    channel:
+      $ref: '#/channels/beat_pub'
+    messages:
+      - $ref: '#/channels/beat_pub/messages/beat_pub.message'
   getPeriod_request:
     action: send
     channel:
@@ -50,23 +84,48 @@ operations:
       - $ref: '#/channels/getPeriod_response/messages/getPeriod_response.message'
 components:
   schemas:
-    getPeriod_request:
-      description: A request message with no payload.
+    beat_sub:
       type: object
       additionalProperties: false
+      properties:
+        subscriptionId:
+          type: string
+          description: The identifier of this subscription.
+    beat_pub:
+      type: object
+      additionalProperties: false
+      properties:
+        subscriptionId:
+          type: string
+          description: The identifier of this subscription.
+    getPeriod_request:
+      type: object
+      additionalProperties: false
+      properties:
+        interactionId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message).
     getPeriod_response:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         period:
           type: number
           format: uint64
           description: |
             The period field shall hold period of the heartbeat message.
   messages:
+    beat_sub:
+      description: beat request
+      payload:
+        $ref: '#/components/schemas/beat_sub'
+    beat_pub:
+      description: beat response
+      payload:
+        $ref: '#/components/schemas/beat_pub'
     getPeriod_request:
       description: getPeriod request
       payload:

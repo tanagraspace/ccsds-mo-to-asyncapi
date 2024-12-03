@@ -54,9 +54,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         command:
           $ref: '#/components/schemas/software_management/command_executor/CommandDetails'
           description: |
@@ -65,9 +65,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         commandInstId:
           type: integer
           format: int64

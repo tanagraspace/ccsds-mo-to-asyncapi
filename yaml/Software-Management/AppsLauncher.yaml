@@ -13,6 +13,14 @@ servers:
       port:
         default: '8883'
 channels:
+  monitorExecution_sub:
+    address: monitorExecution_sub
+    messages:
+      monitorExecution_sub.message:
+        $ref: '#/components/messages/monitorExecution_sub'
+    description: >
+      Send a **monitorExecution_sub** message in this channel to receive a
+      **monitorExecution_pub** message over the **monitorExecution_pub** channel.
   monitorExecution_pub:
     address: null
     messages:
@@ -92,6 +100,18 @@ channels:
       Use this channel to receive listApp errors as **listApp_error**
       messages.
 operations:
+  monitorExecution_sub:
+    action: send
+    channel:
+      $ref: '#/channels/monitorExecution_sub'
+    messages:
+      - $ref: '#/channels/monitorExecution_sub/messages/monitorExecution_sub.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/monitorExecution_pub'
   monitorExecution_pub:
     action: receive
     channel:
@@ -167,16 +187,19 @@ operations:
 components:
   schemas:
     monitorExecution_sub:
-      description: A request message with no payload.
       type: object
       additionalProperties: false
+      properties:
+        subscriptionId:
+          type: string
+          description: The identifier of this subscription.
     monitorExecution_pub:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        subscriptionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: The identifier of this subscription.
         outputStream:
           type: string
           description: |
@@ -192,9 +215,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         appInstIds:
           type: array
           items:
@@ -202,13 +225,20 @@ components:
             format: int64
           description: |
             The appInstIds field contains the list of apps to run.
+    runApp_None:
+      type: object
+      additionalProperties: false
+      properties:
+        interactionId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message).
     runApp_error:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -232,9 +262,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         appInstIds:
           type: array
           items:
@@ -242,13 +272,20 @@ components:
             format: int64
           description: |
             The appInstIds field contains the list of apps to be killed.
+    killApp_None:
+      type: object
+      additionalProperties: false
+      properties:
+        interactionId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message).
     killApp_error:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -271,9 +308,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         appInstIds:
           type: array
           items:
@@ -285,9 +322,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         appClosing:
           type: integer
           format: int64
@@ -297,9 +334,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         appNames:
           type: array
           items:
@@ -314,9 +351,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         appInstIds:
           type: array
           items:
@@ -335,9 +372,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -355,6 +392,10 @@ components:
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
   messages:
+    monitorExecution_sub:
+      description: monitorExecution request
+      payload:
+        $ref: '#/components/schemas/monitorExecution_sub'
     monitorExecution_pub:
       description: monitorExecution response
       payload:

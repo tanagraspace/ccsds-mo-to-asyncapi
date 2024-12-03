@@ -13,6 +13,14 @@ servers:
       port:
         default: '8883'
 channels:
+  monitorValue_sub:
+    address: monitorValue_sub
+    messages:
+      monitorValue_sub.message:
+        $ref: '#/components/messages/monitorValue_sub'
+    description: >
+      Send a **monitorValue_sub** message in this channel to receive a
+      **monitorValue_pub** message over the **monitorValue_pub** channel.
   monitorValue_pub:
     address: null
     messages:
@@ -172,6 +180,18 @@ channels:
       Use this channel to receive removeAggregation errors as **removeAggregation_error**
       messages.
 operations:
+  monitorValue_sub:
+    action: send
+    channel:
+      $ref: '#/channels/monitorValue_sub'
+    messages:
+      - $ref: '#/channels/monitorValue_sub/messages/monitorValue_sub.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/monitorValue_pub'
   monitorValue_pub:
     action: receive
     channel:
@@ -325,16 +345,19 @@ operations:
 components:
   schemas:
     monitorValue_sub:
-      description: A request message with no payload.
       type: object
       additionalProperties: false
+      properties:
+        subscriptionId:
+          type: string
+          description: The identifier of this subscription.
     monitorValue_pub:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        subscriptionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: The identifier of this subscription.
         objId:
           $ref: '#/components/schemas/com/ObjectId'
           description: |
@@ -353,9 +376,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         aggInstIds:
           type: array
           items:
@@ -372,9 +395,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         aggValDetails:
           $ref: '#/components/schemas/mc/aggregation/AggregationValueDetails'
           description: |
@@ -384,9 +407,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -407,9 +430,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         isGroupIds:
           type: boolean
           description: |
@@ -432,9 +455,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         newObjInstIds:
           type: array
           items:
@@ -446,9 +469,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -471,9 +494,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         isGroupIds:
           type: boolean
           description: |
@@ -490,13 +513,20 @@ components:
             If a new AggregationDefinition object is created then that new object shall be the current AggregationDefinition used for the specific AggregationIdentity.
         enableInstances:
           $ref: '#/components/schemas/com/InstanceBooleanPair'
+    enableFilter_None:
+      type: object
+      additionalProperties: false
+      properties:
+        interactionId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message).
     enableFilter_error:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -519,9 +549,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         aggNames:
           type: array
           items:
@@ -535,9 +565,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         objInstIds:
           $ref: '#/components/schemas/mc/ObjectInstancePair'
           description: |
@@ -547,9 +577,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -570,9 +600,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         aggDefDetails:
           $ref: '#/components/schemas/mc/aggregation/AggregationCreationRequest'
           description: |
@@ -587,9 +617,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         newObjInstIds:
           $ref: '#/components/schemas/mc/ObjectInstancePair'
           description: |
@@ -599,9 +629,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -623,9 +653,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         aggInstIds:
           type: array
           items:
@@ -649,9 +679,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         newObjInstIds:
           type: array
           items:
@@ -664,9 +694,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -689,9 +719,9 @@ components:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         aggInstIds:
           type: array
           items:
@@ -705,13 +735,20 @@ components:
             Matched AggregationIdentity and AggregationDefinition objects shall not be removed from the COM archive only the list of AggregationIdentity and AggregationDefinition objects in the provider.
             If an error is raised then no aggregations shall be removed as a result of this operation call.
             If the operation succeeds then the provider shall not publish aggregation values for the deleted AggregationIdentity objects anymore.
+    removeAggregation_None:
+      type: object
+      additionalProperties: false
+      properties:
+        interactionId:
+          type: string
+          description: A unique identifier to map the response (receive message) to the request (send message).
     removeAggregation_error:
       type: object
       additionalProperties: false
       properties:
-        sequenceId:
+        interactionId:
           type: string
-          description: A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.
+          description: A unique identifier to map the response (receive message) to the request (send message).
         area:
           type: string
           description: The area in which the error applies.
@@ -785,6 +822,17 @@ components:
             type: integer
         type: object
     mc:
+      ObjectInstancePair:
+        properties:
+          objDefInstanceId:
+            description: The object instance identifier of the Definition object.
+            format: int64
+            type: integer
+          objIdentityInstanceId:
+            description: The object instance identifier of the Identity object.
+            format: int64
+            type: integer
+        type: object
       aggregation:
         AggregationCreationRequest:
           properties:
@@ -977,18 +1025,11 @@ components:
               format: uint8
               type: integer
           type: object
-      ObjectInstancePair:
-        properties:
-          objDefInstanceId:
-            description: The object instance identifier of the Definition object.
-            format: int64
-            type: integer
-          objIdentityInstanceId:
-            description: The object instance identifier of the Identity object.
-            format: int64
-            type: integer
-        type: object
   messages:
+    monitorValue_sub:
+      description: monitorValue request
+      payload:
+        $ref: '#/components/schemas/monitorValue_sub'
     monitorValue_pub:
       description: monitorValue response
       payload:

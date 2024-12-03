@@ -29,9 +29,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-1>"
               },
               "transactionId": {
@@ -71,9 +71,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-5>"
               },
               "area": {
@@ -122,9 +122,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-10>"
               },
               "transactionId": "$ref:$.channels.cancel_submit.messages.cancel_submit.message.payload.properties.transactionId"
@@ -147,9 +147,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-11>"
               },
               "area": {
@@ -198,9 +198,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-16>"
               },
               "transactionId": "$ref:$.channels.cancel_submit.messages.cancel_submit.message.payload.properties.transactionId"
@@ -223,9 +223,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-17>"
               },
               "area": {
@@ -271,9 +271,15 @@
         "cancelAll_submit.message": {
           "description": "cancelAll request",
           "payload": {
-            "description": "A request message with no payload.",
             "type": "object",
             "additionalProperties": false,
+            "properties": {
+              "interactionId": {
+                "type": "string",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-22>"
+              }
+            },
             "x-parser-schema-id": "cancelAll_submit"
           },
           "x-parser-unique-object-id": "cancelAll_submit.message",
@@ -292,10 +298,10 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-22>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-23>"
               },
               "area": {
                 "type": "string",
@@ -303,7 +309,7 @@
                 "enum": [
                   "FM"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-23>"
+                "x-parser-schema-id": "<anonymous-schema-24>"
               },
               "name": {
                 "type": "string",
@@ -311,7 +317,7 @@
                 "enum": [
                   "OTHER_ERROR"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-24>"
+                "x-parser-schema-id": "<anonymous-schema-25>"
               },
               "extraInformation": {
                 "type": "array",
@@ -319,9 +325,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-26>"
+                  "x-parser-schema-id": "<anonymous-schema-27>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-25>"
+                "x-parser-schema-id": "<anonymous-schema-26>"
               }
             },
             "x-parser-schema-id": "cancelAll_error"
@@ -342,14 +348,14 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-27>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-28>"
               },
               "entityId": {
                 "type": "string",
-                "x-parser-schema-id": "<anonymous-schema-28>"
+                "x-parser-schema-id": "<anonymous-schema-29>"
               },
               "window": {
                 "description": "This enumeration represents the communication windows of a file transfer entity. It should be noted that the reception/transmission is from the point of view of the entity being addressed.",
@@ -359,7 +365,7 @@
                   "BOTH_WINDOW"
                 ],
                 "type": "string",
-                "x-parser-schema-id": "<anonymous-schema-29>"
+                "x-parser-schema-id": "<anonymous-schema-30>"
               }
             },
             "x-parser-schema-id": "suspendAll_submit"
@@ -380,10 +386,10 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-30>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-31>"
               },
               "area": {
                 "type": "string",
@@ -391,7 +397,7 @@
                 "enum": [
                   "FM"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-31>"
+                "x-parser-schema-id": "<anonymous-schema-32>"
               },
               "name": {
                 "type": "string",
@@ -401,7 +407,7 @@
                   "CANNOT_SET_MIB_VALUE",
                   "OTHER_ERROR"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-32>"
+                "x-parser-schema-id": "<anonymous-schema-33>"
               },
               "extraInformation": {
                 "type": "array",
@@ -409,9 +415,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-34>"
+                  "x-parser-schema-id": "<anonymous-schema-35>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-33>"
+                "x-parser-schema-id": "<anonymous-schema-34>"
               }
             },
             "x-parser-schema-id": "suspendAll_error"
@@ -432,14 +438,14 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-35>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-36>"
               },
               "entityId": {
                 "type": "string",
-                "x-parser-schema-id": "<anonymous-schema-36>"
+                "x-parser-schema-id": "<anonymous-schema-37>"
               },
               "window": "$ref:$.channels.suspendAll_submit.messages.suspendAll_submit.message.payload.properties.window"
             },
@@ -461,10 +467,10 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-37>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-38>"
               },
               "area": {
                 "type": "string",
@@ -472,7 +478,7 @@
                 "enum": [
                   "FM"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-38>"
+                "x-parser-schema-id": "<anonymous-schema-39>"
               },
               "name": {
                 "type": "string",
@@ -482,7 +488,7 @@
                   "CANNOT_SET_MIB_VALUE",
                   "OTHER_ERROR"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-39>"
+                "x-parser-schema-id": "<anonymous-schema-40>"
               },
               "extraInformation": {
                 "type": "array",
@@ -490,9 +496,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-41>"
+                  "x-parser-schema-id": "<anonymous-schema-42>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-40>"
+                "x-parser-schema-id": "<anonymous-schema-41>"
               }
             },
             "x-parser-schema-id": "resumeAll_error"
@@ -513,10 +519,10 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-42>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-43>"
               },
               "transactionId": "$ref:$.channels.cancel_submit.messages.cancel_submit.message.payload.properties.transactionId"
             },
@@ -538,10 +544,10 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-43>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-44>"
               },
               "report": {
                 "properties": {
@@ -549,13 +555,13 @@
                     "description": "",
                     "format": "uri",
                     "type": "string",
-                    "x-parser-schema-id": "<anonymous-schema-45>"
+                    "x-parser-schema-id": "<anonymous-schema-46>"
                   },
                   "targetPath": {
                     "description": "",
                     "format": "uri",
                     "type": "string",
-                    "x-parser-schema-id": "<anonymous-schema-46>"
+                    "x-parser-schema-id": "<anonymous-schema-47>"
                   },
                   "transactionId": "$ref:$.channels.cancel_submit.messages.cancel_submit.message.payload.properties.transactionId",
                   "transactionResponseCode": {
@@ -566,7 +572,7 @@
                       "UNKNOWN"
                     ],
                     "type": "string",
-                    "x-parser-schema-id": "<anonymous-schema-47>"
+                    "x-parser-schema-id": "<anonymous-schema-48>"
                   },
                   "transactionStatus": {
                     "description": "",
@@ -578,11 +584,11 @@
                       "UNKNOWN"
                     ],
                     "type": "string",
-                    "x-parser-schema-id": "<anonymous-schema-48>"
+                    "x-parser-schema-id": "<anonymous-schema-49>"
                   }
                 },
                 "type": "object",
-                "x-parser-schema-id": "<anonymous-schema-44>"
+                "x-parser-schema-id": "<anonymous-schema-45>"
               }
             },
             "x-parser-schema-id": "getTransactionReport_response"
@@ -603,10 +609,10 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-49>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-50>"
               },
               "area": {
                 "type": "string",
@@ -614,7 +620,7 @@
                 "enum": [
                   "FM"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-50>"
+                "x-parser-schema-id": "<anonymous-schema-51>"
               },
               "name": {
                 "type": "string",
@@ -623,7 +629,7 @@
                   "UNKNOWN_TRANSACTION",
                   "OTHER_ERROR"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-51>"
+                "x-parser-schema-id": "<anonymous-schema-52>"
               },
               "extraInformation": {
                 "type": "array",
@@ -631,9 +637,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-53>"
+                  "x-parser-schema-id": "<anonymous-schema-54>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-52>"
+                "x-parser-schema-id": "<anonymous-schema-53>"
               }
             },
             "x-parser-schema-id": "getTransactionReport_error"
@@ -654,14 +660,14 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-54>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-55>"
               },
               "entityId": {
                 "type": "string",
-                "x-parser-schema-id": "<anonymous-schema-55>"
+                "x-parser-schema-id": "<anonymous-schema-56>"
               }
             },
             "x-parser-schema-id": "listTransactions_request"
@@ -682,10 +688,10 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-56>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-57>"
               },
               "transactionList": "$ref:$.channels.getTransactionReport_response.messages.getTransactionReport_response.message.payload.properties.report"
             },
@@ -707,10 +713,10 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-57>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-58>"
               },
               "area": {
                 "type": "string",
@@ -718,7 +724,7 @@
                 "enum": [
                   "FM"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-58>"
+                "x-parser-schema-id": "<anonymous-schema-59>"
               },
               "name": {
                 "type": "string",
@@ -728,7 +734,7 @@
                   "UNKNOWN_TRANSACTION",
                   "OTHER_ERROR"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-59>"
+                "x-parser-schema-id": "<anonymous-schema-60>"
               },
               "extraInformation": {
                 "type": "array",
@@ -736,9 +742,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-61>"
+                  "x-parser-schema-id": "<anonymous-schema-62>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-60>"
+                "x-parser-schema-id": "<anonymous-schema-61>"
               }
             },
             "x-parser-schema-id": "listTransactions_error"
@@ -759,14 +765,14 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-62>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-63>"
               },
               "entityId": {
                 "type": "string",
-                "x-parser-schema-id": "<anonymous-schema-63>"
+                "x-parser-schema-id": "<anonymous-schema-64>"
               }
             },
             "x-parser-schema-id": "getWindowStatus_request"
@@ -787,26 +793,26 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-64>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-65>"
               },
               "statusReporty": {
                 "properties": {
                   "rxWindowOpen": {
                     "description": "Returns true if the receive window is open otherwise false.",
                     "type": "boolean",
-                    "x-parser-schema-id": "<anonymous-schema-66>"
+                    "x-parser-schema-id": "<anonymous-schema-67>"
                   },
                   "txWindowOpen": {
                     "description": "Returns true if the transmit window is open otherwise false.",
                     "type": "boolean",
-                    "x-parser-schema-id": "<anonymous-schema-67>"
+                    "x-parser-schema-id": "<anonymous-schema-68>"
                   }
                 },
                 "type": "object",
-                "x-parser-schema-id": "<anonymous-schema-65>"
+                "x-parser-schema-id": "<anonymous-schema-66>"
               }
             },
             "x-parser-schema-id": "getWindowStatus_response"
@@ -827,10 +833,10 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-68>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-69>"
               },
               "area": {
                 "type": "string",
@@ -838,7 +844,7 @@
                 "enum": [
                   "FM"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-69>"
+                "x-parser-schema-id": "<anonymous-schema-70>"
               },
               "name": {
                 "type": "string",
@@ -848,7 +854,7 @@
                   "CANNOT_GET_MIB_VALUE",
                   "OTHER_ERROR"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-70>"
+                "x-parser-schema-id": "<anonymous-schema-71>"
               },
               "extraInformation": {
                 "type": "array",
@@ -856,9 +862,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-72>"
+                  "x-parser-schema-id": "<anonymous-schema-73>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-71>"
+                "x-parser-schema-id": "<anonymous-schema-72>"
               }
             },
             "x-parser-schema-id": "getWindowStatus_error"
@@ -1065,16 +1071,88 @@
   "components": {
     "schemas": {
       "cancel_submit": "$ref:$.channels.cancel_submit.messages.cancel_submit.message.payload",
+      "cancel_None": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "interactionId": {
+            "type": "string",
+            "description": "A unique identifier to map the response (receive message) to the request (send message).",
+            "x-parser-schema-id": "<anonymous-schema-74>"
+          }
+        },
+        "x-parser-schema-id": "cancel_None"
+      },
       "cancel_error": "$ref:$.channels.cancel_error.messages.cancel_error.message.payload",
       "suspend_submit": "$ref:$.channels.suspend_submit.messages.suspend_submit.message.payload",
+      "suspend_None": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "interactionId": {
+            "type": "string",
+            "description": "A unique identifier to map the response (receive message) to the request (send message).",
+            "x-parser-schema-id": "<anonymous-schema-75>"
+          }
+        },
+        "x-parser-schema-id": "suspend_None"
+      },
       "suspend_error": "$ref:$.channels.suspend_error.messages.suspend_error.message.payload",
       "resume_submit": "$ref:$.channels.resume_submit.messages.resume_submit.message.payload",
+      "resume_None": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "interactionId": {
+            "type": "string",
+            "description": "A unique identifier to map the response (receive message) to the request (send message).",
+            "x-parser-schema-id": "<anonymous-schema-76>"
+          }
+        },
+        "x-parser-schema-id": "resume_None"
+      },
       "resume_error": "$ref:$.channels.resume_error.messages.resume_error.message.payload",
       "cancelAll_submit": "$ref:$.channels.cancelAll_submit.messages.cancelAll_submit.message.payload",
+      "cancelAll_None": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "interactionId": {
+            "type": "string",
+            "description": "A unique identifier to map the response (receive message) to the request (send message).",
+            "x-parser-schema-id": "<anonymous-schema-77>"
+          }
+        },
+        "x-parser-schema-id": "cancelAll_None"
+      },
       "cancelAll_error": "$ref:$.channels.cancelAll_error.messages.cancelAll_error.message.payload",
       "suspendAll_submit": "$ref:$.channels.suspendAll_submit.messages.suspendAll_submit.message.payload",
+      "suspendAll_None": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "interactionId": {
+            "type": "string",
+            "description": "A unique identifier to map the response (receive message) to the request (send message).",
+            "x-parser-schema-id": "<anonymous-schema-78>"
+          }
+        },
+        "x-parser-schema-id": "suspendAll_None"
+      },
       "suspendAll_error": "$ref:$.channels.suspendAll_error.messages.suspendAll_error.message.payload",
       "resumeAll_submit": "$ref:$.channels.resumeAll_submit.messages.resumeAll_submit.message.payload",
+      "resumeAll_None": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "interactionId": {
+            "type": "string",
+            "description": "A unique identifier to map the response (receive message) to the request (send message).",
+            "x-parser-schema-id": "<anonymous-schema-79>"
+          }
+        },
+        "x-parser-schema-id": "resumeAll_None"
+      },
       "resumeAll_error": "$ref:$.channels.resumeAll_error.messages.resumeAll_error.message.payload",
       "getTransactionReport_request": "$ref:$.channels.getTransactionReport_request.messages.getTransactionReport_request.message.payload",
       "getTransactionReport_response": "$ref:$.channels.getTransactionReport_response.messages.getTransactionReport_response.message.payload",

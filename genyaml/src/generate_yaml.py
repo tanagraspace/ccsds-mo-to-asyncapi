@@ -99,7 +99,7 @@ def generate_yaml_components(
             # it's possible to have a send element without any fields
             # this just means that the request payload is empty, i.e. {}
             # so we must seperately check if the send element and the field child elements exist
-            include_channel_send = False
+            include_channel_send = True # always include a send channel
             send_fields = []
 
             # the send element
@@ -107,11 +107,18 @@ def generate_yaml_components(
             if send_element is not None:
               # find all the field elements within the send element
               send_fields = send_element.findall(".//mal:field", ns)
-              include_channel_send = True
+
+            # it's possible to have a receive element without any fields
+            # this just means that the receive payload is empty, e.g. for a heartbeat response
+            # so we must seperately check if the receive element and the field child elements exist
+            include_channel_receive = False
+            receive_fields = []
 
             # the receive fields
-            receive_fields = interaction_type.findall(f".//mal:{yaml_gen.receive_element}//mal:field", ns)
-            include_channel_receive = True if len(receive_fields) > 0 else False
+            receive_element = interaction_type.find(f".//mal:{yaml_gen.receive_element}", ns)
+            if receive_element is not None:
+              include_channel_receive = True
+              receive_fields = receive_element.findall(".//mal:field", ns)
 
             # this only applies to PROGRESS interaction type, which has the updates receive channel but also an additiaonl RECEIVE channel for RESPONSE
             # TODO: what about mal:acknowledgement?
@@ -203,8 +210,9 @@ def main(xml_file_path: str, mo_asyncapi_src_dir_path: str, target_yaml_director
 
   # interaction types to ignore
   # the key is the service name and the value is the list of interactions to ignore for that service
-  ignores = {'Heartbeat': ['beat']}
-  #ignores = None
+  # the following commented out line of code just serves as an example where we ignore the beat interaction from the Hearbeat service
+  #ignores = {'Heartbeat': ['beat']}
+  ignores = None
 
   # generate yaml definitions for each service
   service_yaml_dict = generate_yaml_components(

@@ -29,9 +29,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-1>"
               },
               "funcObjInstIds": {
@@ -88,9 +88,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-9>"
               },
               "evaluations": {
@@ -165,9 +165,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-19>"
               },
               "area": {
@@ -217,9 +217,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-24>"
               },
               "isStatLinkGroup": {
@@ -261,9 +261,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-29>"
               },
               "evaluations": "$ref:$.channels.getStatistics_response.messages.getStatistics_response.message.payload.properties.evaluations"
@@ -286,9 +286,9 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
                 "x-parser-schema-id": "<anonymous-schema-30>"
               },
               "area": {
@@ -329,6 +329,30 @@
       "description": "Use this channel to receive resetEvaluation errors as **resetEvaluation_error** messages.\n",
       "x-parser-unique-object-id": "resetEvaluation_error"
     },
+    "monitorStatistics_sub": {
+      "address": "monitorStatistics_sub",
+      "messages": {
+        "monitorStatistics_sub.message": {
+          "description": "monitorStatistics request",
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "subscriptionId": {
+                "type": "string",
+                "description": "The identifier of this subscription.",
+                "x-parser-schema-id": "<anonymous-schema-35>"
+              }
+            },
+            "x-parser-schema-id": "monitorStatistics_sub"
+          },
+          "x-parser-unique-object-id": "monitorStatistics_sub.message",
+          "x-parser-message-name": "monitorStatistics_sub"
+        }
+      },
+      "description": "Send a **monitorStatistics_sub** message in this channel to receive a **monitorStatistics_pub** message over the **monitorStatistics_pub** channel.\n",
+      "x-parser-unique-object-id": "monitorStatistics_sub"
+    },
     "monitorStatistics_pub": {
       "address": null,
       "messages": {
@@ -338,16 +362,16 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "subscriptionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-35>"
+                "description": "The identifier of this subscription.",
+                "x-parser-schema-id": "<anonymous-schema-36>"
               },
               "relatedId": {
                 "type": "integer",
                 "format": "int64",
                 "description": "The MAL EntityKey.firstSubKey shall contain the statistic function name.\nThe MAL EntityKey.secondSubKey shall contain the StatisticLink object instance identifier.\nThe MAL EntityKey.thirdSubKey shall contain the ParameterIdentity object instance identifier.\nThe MAL EntityKey.fourthSubKey shall contain the new StatisticValueInstance object instance identifier.\nThe timestamp of the StatisticValueInstance report shall be taken from the publish message.\nThe related link of the update shall be held in the relatedId field.\n",
-                "x-parser-schema-id": "<anonymous-schema-36>"
+                "x-parser-schema-id": "<anonymous-schema-37>"
               },
               "sourceId": {
                 "properties": {
@@ -358,33 +382,33 @@
                         "description": "Area Number where the object type is defined. Must not be '0' for values as this is the wildcard.",
                         "format": "uint16",
                         "type": "integer",
-                        "x-parser-schema-id": "<anonymous-schema-39>"
+                        "x-parser-schema-id": "<anonymous-schema-40>"
                       },
                       "number": {
                         "description": "The service specific object number. Must not be '0' for values as this is the wildcard.",
                         "format": "uint16",
                         "type": "integer",
-                        "x-parser-schema-id": "<anonymous-schema-40>"
+                        "x-parser-schema-id": "<anonymous-schema-41>"
                       },
                       "service": {
                         "description": "Service Number of the service where the object type is defined. Must not be '0' for values as this is the wildcard.",
                         "format": "uint16",
                         "type": "integer",
-                        "x-parser-schema-id": "<anonymous-schema-41>"
+                        "x-parser-schema-id": "<anonymous-schema-42>"
                       },
                       "version": {
                         "description": "Area Version of the service where the object type is defined. Must not be '0' for values as this is the wildcard.",
                         "format": "uint8",
                         "type": "integer",
-                        "x-parser-schema-id": "<anonymous-schema-42>"
+                        "x-parser-schema-id": "<anonymous-schema-43>"
                       }
                     },
                     "type": "object",
-                    "x-parser-schema-id": "<anonymous-schema-38>"
+                    "x-parser-schema-id": "<anonymous-schema-39>"
                   }
                 },
                 "type": "object",
-                "x-parser-schema-id": "<anonymous-schema-37>"
+                "x-parser-schema-id": "<anonymous-schema-38>"
               },
               "statisticValue": "$ref:$.channels.getStatistics_response.messages.getStatistics_response.message.payload.properties.evaluations.properties.value"
             },
@@ -406,15 +430,15 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-43>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-44>"
               },
               "enableService": {
                 "type": "boolean",
                 "description": "If enableService is set to TRUE the service shall be enabled and evaluation and reporting of statistics will be reset and commence.\nIf enableService is set to FALSE then all evaluation of statistics shall be suspended and no statistics will be reported.\nIf the enableService value matches the current enabled state of the service then no change shall be made and no error reported. Enabling an already enabled service has no effect.\n",
-                "x-parser-schema-id": "<anonymous-schema-44>"
+                "x-parser-schema-id": "<anonymous-schema-45>"
               }
             },
             "x-parser-schema-id": "enableService_submit"
@@ -432,9 +456,15 @@
         "getServiceStatus_request.message": {
           "description": "getServiceStatus request",
           "payload": {
-            "description": "A request message with no payload.",
             "type": "object",
             "additionalProperties": false,
+            "properties": {
+              "interactionId": {
+                "type": "string",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-46>"
+              }
+            },
             "x-parser-schema-id": "getServiceStatus_request"
           },
           "x-parser-unique-object-id": "getServiceStatus_request.message",
@@ -453,15 +483,15 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-45>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-47>"
               },
               "serviceEnabled": {
                 "type": "boolean",
                 "description": "The operation shall return TRUE if the service is currently enabled or FALSE if the service is currently disabled.\n",
-                "x-parser-schema-id": "<anonymous-schema-46>"
+                "x-parser-schema-id": "<anonymous-schema-48>"
               }
             },
             "x-parser-schema-id": "getServiceStatus_response"
@@ -482,15 +512,15 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-47>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-49>"
               },
               "isGroupIds": {
                 "type": "boolean",
                 "description": "If the isGroupIds field is TRUE then the enableInstances field shall contain GroupIdentity object instance identifiers, otherwise the field contains StatisticFunction object instance identifiers.\nIf the isGroupIds field is TRUE, the requested Group, or the Group objects referenced by that Group, must contain StatisticLink objects otherwise an INVALID error shall be returned.\nThe StatisticLink objects referenced, either indirectly via StatisticFunction objects or indirectly via groups, by the enableInstances field shall be the StatisticLink objects to match.\nThe id of the enableInstances field shall support the wildcard value of '0' and matches all StatisticLink objects of the provider.\nThe service provider shall check for the wildcard value in the list of object instance identifiers in the enableInstances field first and if found no other checks of supplied object instance identifiers shall be made.\nIf the enableInstances field contains a value of TRUE then reports after the reporting and collection intervals for matching StatisticLink objects shall be generated, a value of FALSE requests that reports will not be generated.\nNo error shall be raised if the enableInstances Boolean value supplied is the same as the current reportingEnabled field for a StatisticLink object i.e. enabling an already enabled link will not result in an error.\nIf a requested StatisticFunction or GroupIdentity object is unknown then an UNKNOWN error shall be returned.\nIf an error is raised then no modifications shall be made as a result of this operation call.\nThe provider should create and store a new StatisticLinkDefinition object in the COM archive if the reportingEnabled field is changed.\n",
-                "x-parser-schema-id": "<anonymous-schema-48>"
+                "x-parser-schema-id": "<anonymous-schema-50>"
               },
               "enableInstances": {
                 "properties": {
@@ -498,16 +528,16 @@
                     "description": "The object instance identifier.",
                     "format": "int64",
                     "type": "integer",
-                    "x-parser-schema-id": "<anonymous-schema-50>"
+                    "x-parser-schema-id": "<anonymous-schema-52>"
                   },
                   "value": {
                     "description": "An associated Boolean value.",
                     "type": "boolean",
-                    "x-parser-schema-id": "<anonymous-schema-51>"
+                    "x-parser-schema-id": "<anonymous-schema-53>"
                   }
                 },
                 "type": "object",
-                "x-parser-schema-id": "<anonymous-schema-49>"
+                "x-parser-schema-id": "<anonymous-schema-51>"
               }
             },
             "x-parser-schema-id": "enableReporting_submit"
@@ -528,10 +558,10 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-52>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-54>"
               },
               "area": {
                 "type": "string",
@@ -540,7 +570,7 @@
                   "MAL",
                   "COM"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-53>"
+                "x-parser-schema-id": "<anonymous-schema-55>"
               },
               "name": {
                 "type": "string",
@@ -549,7 +579,7 @@
                   "UNKNOWN",
                   "INVALID"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-54>"
+                "x-parser-schema-id": "<anonymous-schema-56>"
               },
               "extraInformation": {
                 "type": "array",
@@ -557,9 +587,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-56>"
+                  "x-parser-schema-id": "<anonymous-schema-58>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-55>"
+                "x-parser-schema-id": "<anonymous-schema-57>"
               }
             },
             "x-parser-schema-id": "enableReporting_error"
@@ -580,20 +610,20 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-57>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-59>"
               },
               "statObjInstIds": {
                 "type": "array",
                 "items": {
                   "type": "integer",
                   "format": "int64",
-                  "x-parser-schema-id": "<anonymous-schema-59>"
+                  "x-parser-schema-id": "<anonymous-schema-61>"
                 },
                 "description": "The statObjInstIds field shall hold a list of StatisticFunction object instance identifiers to retrieve the StatisticLink object instance identifiers for.\nThe request may contain the wildcard value of '0' to return all supported statistic links.\nThe wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.\nIf a provided identifier does not include a wildcard and does not match an existing StatisticFunction object then this operation shall fail with an UNKNOWN error.\n",
-                "x-parser-schema-id": "<anonymous-schema-58>"
+                "x-parser-schema-id": "<anonymous-schema-60>"
               }
             },
             "x-parser-schema-id": "listParameterEvaluations_request"
@@ -614,10 +644,10 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-60>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-62>"
               },
               "statLinkObjInstIds": {
                 "properties": {
@@ -625,29 +655,29 @@
                     "description": "The object instance identifier of the StatisticFunction object.",
                     "format": "int64",
                     "type": "integer",
-                    "x-parser-schema-id": "<anonymous-schema-62>"
+                    "x-parser-schema-id": "<anonymous-schema-64>"
                   },
                   "linkDefId": {
                     "description": "The object instance identifier of the StatisticLinkDefinition object.",
                     "format": "int64",
                     "type": "integer",
-                    "x-parser-schema-id": "<anonymous-schema-63>"
+                    "x-parser-schema-id": "<anonymous-schema-65>"
                   },
                   "linkId": {
                     "description": "The object instance identifier of the StatisticLink object.",
                     "format": "int64",
                     "type": "integer",
-                    "x-parser-schema-id": "<anonymous-schema-64>"
+                    "x-parser-schema-id": "<anonymous-schema-66>"
                   },
                   "parameterId": "$ref:$.channels.getStatistics_request.messages.getStatistics_request.message.payload.properties.paramObjInstIds",
                   "reportingEnabled": {
                     "description": "TRUE if reporting of the evaluation instance is enabled.",
                     "type": "boolean",
-                    "x-parser-schema-id": "<anonymous-schema-65>"
+                    "x-parser-schema-id": "<anonymous-schema-67>"
                   }
                 },
                 "type": "object",
-                "x-parser-schema-id": "<anonymous-schema-61>"
+                "x-parser-schema-id": "<anonymous-schema-63>"
               }
             },
             "x-parser-schema-id": "listParameterEvaluations_response"
@@ -668,10 +698,10 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-66>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-68>"
               },
               "area": {
                 "type": "string",
@@ -679,7 +709,7 @@
                 "enum": [
                   "MAL"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-67>"
+                "x-parser-schema-id": "<anonymous-schema-69>"
               },
               "name": {
                 "type": "string",
@@ -687,7 +717,7 @@
                 "enum": [
                   "UNKNOWN"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-68>"
+                "x-parser-schema-id": "<anonymous-schema-70>"
               },
               "extraInformation": {
                 "type": "array",
@@ -695,9 +725,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-70>"
+                  "x-parser-schema-id": "<anonymous-schema-72>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-69>"
+                "x-parser-schema-id": "<anonymous-schema-71>"
               }
             },
             "x-parser-schema-id": "listParameterEvaluations_error"
@@ -718,10 +748,10 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-71>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-73>"
               },
               "newDetails": {
                 "properties": {
@@ -731,49 +761,49 @@
                         "description": "The collection and reset interval of the statistical evaluation for the linked parameter. If set to '0', then no periodic reset of the evaluation shall be performed.",
                         "format": "uint64",
                         "type": "number",
-                        "x-parser-schema-id": "<anonymous-schema-74>"
+                        "x-parser-schema-id": "<anonymous-schema-76>"
                       },
                       "reportingEnabled": {
                         "description": "TRUE if reporting of the evaluation instance is enabled.",
                         "type": "boolean",
-                        "x-parser-schema-id": "<anonymous-schema-75>"
+                        "x-parser-schema-id": "<anonymous-schema-77>"
                       },
                       "reportingInterval": {
                         "description": "The interval between periodic reports being generated. If set to '0', then no periodic reports shall be sent.",
                         "format": "uint64",
                         "type": "number",
-                        "x-parser-schema-id": "<anonymous-schema-76>"
+                        "x-parser-schema-id": "<anonymous-schema-78>"
                       },
                       "resetEveryCollection": {
                         "description": "If TRUE the evaluation will reset its value every collection interval. If FALSE it will maintain a moving evaluation of the function for the collection interval.",
                         "type": "boolean",
-                        "x-parser-schema-id": "<anonymous-schema-77>"
+                        "x-parser-schema-id": "<anonymous-schema-79>"
                       },
                       "samplingInterval": {
                         "description": "The interval between samples of the parameter.",
                         "format": "uint64",
                         "type": "number",
-                        "x-parser-schema-id": "<anonymous-schema-78>"
+                        "x-parser-schema-id": "<anonymous-schema-80>"
                       },
                       "useConverted": {
                         "description": "If TRUE then use the converted value of the Parameter, else use the raw value",
                         "type": "boolean",
-                        "x-parser-schema-id": "<anonymous-schema-79>"
+                        "x-parser-schema-id": "<anonymous-schema-81>"
                       }
                     },
                     "type": "object",
-                    "x-parser-schema-id": "<anonymous-schema-73>"
+                    "x-parser-schema-id": "<anonymous-schema-75>"
                   },
                   "parameterId": "$ref:$.channels.getStatistics_request.messages.getStatistics_request.message.payload.properties.paramObjInstIds",
                   "statFuncInstId": {
                     "description": "The object instance identifier of the statistical function to be used.",
                     "format": "int64",
                     "type": "integer",
-                    "x-parser-schema-id": "<anonymous-schema-80>"
+                    "x-parser-schema-id": "<anonymous-schema-82>"
                   }
                 },
                 "type": "object",
-                "x-parser-schema-id": "<anonymous-schema-72>"
+                "x-parser-schema-id": "<anonymous-schema-74>"
               }
             },
             "x-parser-schema-id": "addParameterEvaluation_request"
@@ -794,10 +824,10 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-81>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-83>"
               },
               "newObjInstIds": {
                 "properties": {
@@ -805,17 +835,17 @@
                     "description": "The object instance identifier of the Definition object.",
                     "format": "int64",
                     "type": "integer",
-                    "x-parser-schema-id": "<anonymous-schema-83>"
+                    "x-parser-schema-id": "<anonymous-schema-85>"
                   },
                   "objIdentityInstanceId": {
                     "description": "The object instance identifier of the Identity object.",
                     "format": "int64",
                     "type": "integer",
-                    "x-parser-schema-id": "<anonymous-schema-84>"
+                    "x-parser-schema-id": "<anonymous-schema-86>"
                   }
                 },
                 "type": "object",
-                "x-parser-schema-id": "<anonymous-schema-82>"
+                "x-parser-schema-id": "<anonymous-schema-84>"
               }
             },
             "x-parser-schema-id": "addParameterEvaluation_response"
@@ -836,10 +866,10 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-85>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-87>"
               },
               "area": {
                 "type": "string",
@@ -848,7 +878,7 @@
                   "COM",
                   "MAL"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-86>"
+                "x-parser-schema-id": "<anonymous-schema-88>"
               },
               "name": {
                 "type": "string",
@@ -857,7 +887,7 @@
                   "INVALID",
                   "UNKNOWN"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-87>"
+                "x-parser-schema-id": "<anonymous-schema-89>"
               },
               "extraInformation": {
                 "type": "array",
@@ -865,9 +895,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-89>"
+                  "x-parser-schema-id": "<anonymous-schema-91>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-88>"
+                "x-parser-schema-id": "<anonymous-schema-90>"
               }
             },
             "x-parser-schema-id": "addParameterEvaluation_error"
@@ -888,20 +918,20 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-90>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-92>"
               },
               "linkIds": {
                 "type": "array",
                 "items": {
                   "type": "integer",
                   "format": "int64",
-                  "x-parser-schema-id": "<anonymous-schema-92>"
+                  "x-parser-schema-id": "<anonymous-schema-94>"
                 },
                 "description": "The linkIds field shall contain the object instance identifiers of the StatisticLink objects to be updated.\nIf the linkIds list contains either NULL or '0' an INVALID error shall be raised.\nThe supplied object instance identifiers shall match existing link objects, an UNKNOWN error shall be raised if this is not the case.\nIf the supplied samplingInterval is not supported for the requested parameter then an INVALID error shall be returned.\n",
-                "x-parser-schema-id": "<anonymous-schema-91>"
+                "x-parser-schema-id": "<anonymous-schema-93>"
               },
               "newDetails": "$ref:$.channels.addParameterEvaluation_request.messages.addParameterEvaluation_request.message.payload.properties.newDetails.properties.linkDetails"
             },
@@ -923,20 +953,20 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-93>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-95>"
               },
               "newLinkDefIds": {
                 "type": "array",
                 "items": {
                   "type": "integer",
                   "format": "int64",
-                  "x-parser-schema-id": "<anonymous-schema-95>"
+                  "x-parser-schema-id": "<anonymous-schema-97>"
                 },
                 "description": "The response shall contain the list of object instance identifiers for the new StatisticLinkDefinition objects.\nThe returned list shall maintain the same order as the submitted links.\n",
-                "x-parser-schema-id": "<anonymous-schema-94>"
+                "x-parser-schema-id": "<anonymous-schema-96>"
               }
             },
             "x-parser-schema-id": "updateParameterEvaluation_response"
@@ -957,10 +987,10 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-96>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-98>"
               },
               "area": {
                 "type": "string",
@@ -969,7 +999,7 @@
                   "MAL",
                   "COM"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-97>"
+                "x-parser-schema-id": "<anonymous-schema-99>"
               },
               "name": {
                 "type": "string",
@@ -978,7 +1008,7 @@
                   "UNKNOWN",
                   "INVALID"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-98>"
+                "x-parser-schema-id": "<anonymous-schema-100>"
               },
               "extraInformation": {
                 "type": "array",
@@ -986,9 +1016,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-100>"
+                  "x-parser-schema-id": "<anonymous-schema-102>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-99>"
+                "x-parser-schema-id": "<anonymous-schema-101>"
               }
             },
             "x-parser-schema-id": "updateParameterEvaluation_error"
@@ -1009,20 +1039,20 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-101>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-103>"
               },
               "objInstIds": {
                 "type": "array",
                 "items": {
                   "type": "integer",
                   "format": "int64",
-                  "x-parser-schema-id": "<anonymous-schema-103>"
+                  "x-parser-schema-id": "<anonymous-schema-105>"
                 },
                 "description": "The objInstIds field holds the object instance identifiers of the StatisticLink objects to be removed from the provider.\nThe list may contain the wildcard value of '0'.\nThe wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.\nIf a provided StatisticLink object instance identifier does not include a wildcard and does not match an existing StatisticLink object then this operation shall fail with an UNKNOWN error.\nMatched StatisticLink objects shall not be removed from the COM archive only the list of evaluated StatisticLink objects in the provider.\nIf an error is raised then no StatisticLink objects shall be removed as a result of this operation call.\nIf the operation succeeds then the provider shall not evaluate those parameter/function definition combinations for the deleted StatisticLink objects anymore.\n",
-                "x-parser-schema-id": "<anonymous-schema-102>"
+                "x-parser-schema-id": "<anonymous-schema-104>"
               }
             },
             "x-parser-schema-id": "removeParameterEvaluation_submit"
@@ -1043,10 +1073,10 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sequenceId": {
+              "interactionId": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message). If no request message exists then this unique identifier can be used to track the sequence order of the received messages.",
-                "x-parser-schema-id": "<anonymous-schema-104>"
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-106>"
               },
               "area": {
                 "type": "string",
@@ -1054,7 +1084,7 @@
                 "enum": [
                   "MAL"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-105>"
+                "x-parser-schema-id": "<anonymous-schema-107>"
               },
               "name": {
                 "type": "string",
@@ -1062,7 +1092,7 @@
                 "enum": [
                   "UNKNOWN"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-106>"
+                "x-parser-schema-id": "<anonymous-schema-108>"
               },
               "extraInformation": {
                 "type": "array",
@@ -1070,9 +1100,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-108>"
+                  "x-parser-schema-id": "<anonymous-schema-110>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-107>"
+                "x-parser-schema-id": "<anonymous-schema-109>"
               }
             },
             "x-parser-schema-id": "removeParameterEvaluation_error"
@@ -1147,6 +1177,21 @@
         "$ref:$.channels.resetEvaluation_error.messages.resetEvaluation_error.message"
       ],
       "x-parser-unique-object-id": "resetEvaluation_error"
+    },
+    "monitorStatistics_sub": {
+      "action": "send",
+      "channel": "$ref:$.channels.monitorStatistics_sub",
+      "messages": [
+        "$ref:$.channels.monitorStatistics_sub.messages.monitorStatistics_sub.message"
+      ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.monitorStatistics_pub"
+      },
+      "x-parser-unique-object-id": "monitorStatistics_sub"
     },
     "monitorStatistics_pub": {
       "action": "receive",
@@ -1321,17 +1366,36 @@
       "resetEvaluation_request": "$ref:$.channels.resetEvaluation_request.messages.resetEvaluation_request.message.payload",
       "resetEvaluation_response": "$ref:$.channels.resetEvaluation_response.messages.resetEvaluation_response.message.payload",
       "resetEvaluation_error": "$ref:$.channels.resetEvaluation_error.messages.resetEvaluation_error.message.payload",
-      "monitorStatistics_sub": {
-        "description": "A request message with no payload.",
-        "type": "object",
-        "additionalProperties": false,
-        "x-parser-schema-id": "monitorStatistics_sub"
-      },
+      "monitorStatistics_sub": "$ref:$.channels.monitorStatistics_sub.messages.monitorStatistics_sub.message.payload",
       "monitorStatistics_pub": "$ref:$.channels.monitorStatistics_pub.messages.monitorStatistics_pub.message.payload",
       "enableService_submit": "$ref:$.channels.enableService_submit.messages.enableService_submit.message.payload",
+      "enableService_None": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "interactionId": {
+            "type": "string",
+            "description": "A unique identifier to map the response (receive message) to the request (send message).",
+            "x-parser-schema-id": "<anonymous-schema-111>"
+          }
+        },
+        "x-parser-schema-id": "enableService_None"
+      },
       "getServiceStatus_request": "$ref:$.channels.getServiceStatus_request.messages.getServiceStatus_request.message.payload",
       "getServiceStatus_response": "$ref:$.channels.getServiceStatus_response.messages.getServiceStatus_response.message.payload",
       "enableReporting_submit": "$ref:$.channels.enableReporting_submit.messages.enableReporting_submit.message.payload",
+      "enableReporting_None": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "interactionId": {
+            "type": "string",
+            "description": "A unique identifier to map the response (receive message) to the request (send message).",
+            "x-parser-schema-id": "<anonymous-schema-112>"
+          }
+        },
+        "x-parser-schema-id": "enableReporting_None"
+      },
       "enableReporting_error": "$ref:$.channels.enableReporting_error.messages.enableReporting_error.message.payload",
       "listParameterEvaluations_request": "$ref:$.channels.listParameterEvaluations_request.messages.listParameterEvaluations_request.message.payload",
       "listParameterEvaluations_response": "$ref:$.channels.listParameterEvaluations_response.messages.listParameterEvaluations_response.message.payload",
@@ -1343,6 +1407,18 @@
       "updateParameterEvaluation_response": "$ref:$.channels.updateParameterEvaluation_response.messages.updateParameterEvaluation_response.message.payload",
       "updateParameterEvaluation_error": "$ref:$.channels.updateParameterEvaluation_error.messages.updateParameterEvaluation_error.message.payload",
       "removeParameterEvaluation_submit": "$ref:$.channels.removeParameterEvaluation_submit.messages.removeParameterEvaluation_submit.message.payload",
+      "removeParameterEvaluation_None": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "interactionId": {
+            "type": "string",
+            "description": "A unique identifier to map the response (receive message) to the request (send message).",
+            "x-parser-schema-id": "<anonymous-schema-113>"
+          }
+        },
+        "x-parser-schema-id": "removeParameterEvaluation_None"
+      },
       "removeParameterEvaluation_error": "$ref:$.channels.removeParameterEvaluation_error.messages.removeParameterEvaluation_error.message.payload",
       "com": {
         "InstanceBooleanPair": "$ref:$.channels.enableReporting_submit.messages.enableReporting_submit.message.payload.properties.enableInstances",
@@ -1370,6 +1446,7 @@
       "resetEvaluation_request": "$ref:$.channels.resetEvaluation_request.messages.resetEvaluation_request.message",
       "resetEvaluation_response": "$ref:$.channels.resetEvaluation_response.messages.resetEvaluation_response.message",
       "resetEvaluation_error": "$ref:$.channels.resetEvaluation_error.messages.resetEvaluation_error.message",
+      "monitorStatistics_sub": "$ref:$.channels.monitorStatistics_sub.messages.monitorStatistics_sub.message",
       "monitorStatistics_pub": "$ref:$.channels.monitorStatistics_pub.messages.monitorStatistics_pub.message",
       "enableService_submit": "$ref:$.channels.enableService_submit.messages.enableService_submit.message",
       "getServiceStatus_request": "$ref:$.channels.getServiceStatus_request.messages.getServiceStatus_request.message",
