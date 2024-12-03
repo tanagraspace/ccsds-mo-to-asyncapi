@@ -324,6 +324,7 @@ components:
   schemas:
     cancel_submit:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -332,6 +333,7 @@ components:
           $ref: '#/components/schemas/fm/file_transfer/FileTransactionId'
     cancel_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -355,6 +357,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     suspend_submit:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -363,6 +366,7 @@ components:
           $ref: '#/components/schemas/fm/file_transfer/FileTransactionId'
     suspend_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -386,6 +390,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     resume_submit:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -394,6 +399,7 @@ components:
           $ref: '#/components/schemas/fm/file_transfer/FileTransactionId'
     resume_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -421,6 +427,7 @@ components:
       additionalProperties: false
     cancelAll_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -443,6 +450,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     suspendAll_submit:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -455,6 +463,7 @@ components:
             The Transmit (Tx) and/or Receive (Rx) windows to be closed.
     suspendAll_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -479,6 +488,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     resumeAll_submit:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -491,6 +501,7 @@ components:
             The Transmit (Tx) and/or Receive (Rx) windows to be closed.
     resumeAll_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -515,6 +526,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     getTransactionReport_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -523,6 +535,7 @@ components:
           $ref: '#/components/schemas/fm/file_transfer/FileTransactionId'
     getTransactionReport_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -531,6 +544,7 @@ components:
           $ref: '#/components/schemas/fm/file_transfer/FileTransactionReport'
     getTransactionReport_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -554,6 +568,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     listTransactions_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -562,6 +577,7 @@ components:
           type: string
     listTransactions_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -570,6 +586,7 @@ components:
           $ref: '#/components/schemas/fm/file_transfer/FileTransactionReport'
     listTransactions_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -594,6 +611,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     getWindowStatus_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -602,6 +620,7 @@ components:
           type: string
     getWindowStatus_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -610,6 +629,7 @@ components:
           $ref: '#/components/schemas/fm/file_transfer/WindowStatusReport'
     getWindowStatus_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string

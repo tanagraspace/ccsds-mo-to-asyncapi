@@ -52,6 +52,7 @@ components:
   schemas:
     runCommand_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -62,6 +63,7 @@ components:
             Details of the command to be run.
     runCommand_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string

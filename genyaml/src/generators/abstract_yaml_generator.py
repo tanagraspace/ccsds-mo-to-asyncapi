@@ -256,7 +256,9 @@ class AbstractYamlGenerator(ABC):
       components_yaml +=   "      additionalProperties: false\n"
     elif len(send_fields) > 0: # with fields
       components_yaml += f"    {interaction_name}_{self.send_element}:\n"
-      components_yaml +=  "      type: object\n      properties:\n"
+      components_yaml +=  "      type: object\n"
+      components_yaml +=  "      additionalProperties: false\n"
+      components_yaml +=  "      properties:\n"
       components_yaml += self._generate_components_schema_field_sequence_id()
 
       for field in send_fields:
@@ -269,8 +271,10 @@ class AbstractYamlGenerator(ABC):
 
     # build RECEIVE components
     if len(receive_fields) > 0:
-      components_yaml +=  f"    {interaction_name}_{self.receive_element}:\n"
-      components_yaml += "      type: object\n      properties:\n"
+      components_yaml += f"    {interaction_name}_{self.receive_element}:\n"
+      components_yaml +=  "      type: object\n"
+      components_yaml +=  "      additionalProperties: false\n"
+      components_yaml +=  "      properties:\n"
       components_yaml += self._generate_components_schema_field_sequence_id()
 
       for field in receive_fields:
@@ -283,8 +287,10 @@ class AbstractYamlGenerator(ABC):
 
     # build RECEIVE ADDITIONAL components
     if len(receive_fields_additional) > 0:
-      components_yaml +=  f"    {interaction_name}_{self.receive_element_additional}:\n"
-      components_yaml += "      type: object\n      properties:\n"
+      components_yaml += f"    {interaction_name}_{self.receive_element_additional}:\n"
+      components_yaml +=  "      type: object\n"
+      components_yaml +=  "      additionalProperties: false\n"
+      components_yaml +=  "      properties:\n"
       components_yaml += self._generate_components_schema_field_sequence_id()
 
       for field in receive_fields_additional:
@@ -298,7 +304,9 @@ class AbstractYamlGenerator(ABC):
     # build ERROR components
     if len(err_fields) > 0:
       components_yaml +=  f"    {interaction_name}_{TransportType.ERROR.value.lower()}:\n"
-      components_yaml += "      type: object\n      properties:\n"
+      components_yaml +=   "      type: object\n"
+      components_yaml +=   "      additionalProperties: false\n"
+      components_yaml +=   "      properties:\n"
       components_yaml += self._generate_components_schema_field_sequence_id()
 
 

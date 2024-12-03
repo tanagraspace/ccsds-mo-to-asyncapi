@@ -45,6 +45,7 @@
           "description": "getPeriod response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",

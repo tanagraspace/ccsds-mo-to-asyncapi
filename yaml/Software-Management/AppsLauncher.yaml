@@ -172,6 +172,7 @@ components:
       additionalProperties: false
     monitorExecution_publishNotify:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -189,6 +190,7 @@ components:
             If no source link is needed then the ObjectId shall be replaced with a NULL.
     runApp_submit:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -202,6 +204,7 @@ components:
             The appInstIds field contains the list of apps to run.
     runApp_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -227,6 +230,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     killApp_submit:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -240,6 +244,7 @@ components:
             The appInstIds field contains the list of apps to be killed.
     killApp_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -264,6 +269,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     stopApp_progress:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -277,6 +283,7 @@ components:
             The appInstIds field contains the list of apps to stop.
     stopApp_update:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -288,6 +295,7 @@ components:
             The appClosing field shall contain the object instance identifier of an app. This update shall be sent after the app acknowledges the reception of the command to stop.
     listApp_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -304,6 +312,7 @@ components:
             The category field contains the category identifier to filter on.
     listApp_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -324,6 +333,7 @@ components:
             The returned lists shall maintain the same order as the submitted list unless the wildcard value was included in the appNames field request.
     listApp_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string

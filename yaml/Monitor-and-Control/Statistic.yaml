@@ -373,6 +373,7 @@ components:
   schemas:
     getStatistics_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -400,6 +401,7 @@ components:
             The sets of matched StatisticFunction objects and ParameterIdentity objects shall be matched to the set of existing StatisticLink objects to determine which StatisticLink objects to report on.
     getStatistics_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -415,6 +417,7 @@ components:
             Requesting an evaluation during a periodic evaluation shall not influence the periodic evaluation (e.g. it does not reset the samplingInterval, reportingInterval, and collectionInterval timers or the current periodic collection value).
     getStatistics_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -439,6 +442,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     resetEvaluation_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -465,6 +469,7 @@ components:
             If an error is raised then no resetting of evaluations shall be made as a result of this operation call.
     resetEvaluation_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -473,6 +478,7 @@ components:
           $ref: '#/components/schemas/mc/statistic/StatisticEvaluationReport'
     resetEvaluation_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -501,6 +507,7 @@ components:
       additionalProperties: false
     monitorStatistics_publishNotify:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -526,6 +533,7 @@ components:
             The second part of the publish message shall be the StatisticValueInstance object value.
     enableService_submit:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -542,6 +550,7 @@ components:
       additionalProperties: false
     getServiceStatus_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -552,6 +561,7 @@ components:
             The operation shall return TRUE if the service is currently enabled or FALSE if the service is currently disabled.
     enableReporting_submit:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -575,6 +585,7 @@ components:
             If the generation of reports is being enabled, then the provider shall generate a report immediately and start the report interval from that report.
     enableReporting_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -599,6 +610,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     listParameterEvaluations_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -615,6 +627,7 @@ components:
             If a provided identifier does not include a wildcard and does not match an existing StatisticFunction object then this operation shall fail with an UNKNOWN error.
     listParameterEvaluations_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -625,6 +638,7 @@ components:
             The response shall contain a list of StatisticLinkSummary that contain the object instance identifiers of the StatisticLink, StatisticFunction, and ParameterIdentity for the matched StatisticFunction objects.
     listParameterEvaluations_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -647,6 +661,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     addParameterEvaluation_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -667,6 +682,7 @@ components:
             The referenced parameter shall be sampled immediately and the sampling, reporting and collection intervals started.
     addParameterEvaluation_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -679,6 +695,7 @@ components:
             The returned list shall maintain the same order as the submitted links.
     addParameterEvaluation_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -703,6 +720,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     updateParameterEvaluation_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -728,6 +746,7 @@ components:
             If any of the intervals are updated then the service shall reset the relevant timer and use the new intervals immediately.
     updateParameterEvaluation_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -742,6 +761,7 @@ components:
             The returned list shall maintain the same order as the submitted links.
     updateParameterEvaluation_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -766,6 +786,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     removeParameterEvaluation_submit:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -785,6 +806,7 @@ components:
             If the operation succeeds then the provider shall not evaluate those parameter/function definition combinations for the deleted StatisticLink objects anymore.
     removeParameterEvaluation_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -805,6 +827,62 @@ components:
             type: integer
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
+    com:
+      InstanceBooleanPair:
+        properties:
+          id:
+            description: The object instance identifier.
+            format: int64
+            type: integer
+          value:
+            description: An associated Boolean value.
+            type: boolean
+        type: object
+      ObjectId:
+        properties:
+          key:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: The combination of the object domain and object instance identifier.
+          type_:
+            $ref: '#/components/schemas/com/ObjectType'
+            description: The fully qualified unique identifier of the type.
+        type: object
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
+      ObjectType:
+        properties:
+          area:
+            description: Area Number where the object type is defined. Must not be '0' for
+              values as this is the wildcard.
+            format: uint16
+            type: integer
+          number:
+            description: The service specific object number. Must not be '0' for values as
+              this is the wildcard.
+            format: uint16
+            type: integer
+          service:
+            description: Service Number of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint16
+            type: integer
+          version:
+            description: Area Version of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint8
+            type: integer
+        type: object
     mc:
       statistic:
         StatisticCreationRequest:
@@ -928,62 +1006,6 @@ components:
           objIdentityInstanceId:
             description: The object instance identifier of the Identity object.
             format: int64
-            type: integer
-        type: object
-    com:
-      InstanceBooleanPair:
-        properties:
-          id:
-            description: The object instance identifier.
-            format: int64
-            type: integer
-          value:
-            description: An associated Boolean value.
-            type: boolean
-        type: object
-      ObjectId:
-        properties:
-          key:
-            $ref: '#/components/schemas/com/ObjectKey'
-            description: The combination of the object domain and object instance identifier.
-          type_:
-            $ref: '#/components/schemas/com/ObjectType'
-            description: The fully qualified unique identifier of the type.
-        type: object
-      ObjectKey:
-        properties:
-          domain:
-            description: The domain of the object instance.
-            items:
-              type: string
-            type: array
-          instId:
-            description: The unique identifier of the object instance. Must not be '0' for
-              values as this is the wildcard.
-            format: int64
-            type: integer
-        type: object
-      ObjectType:
-        properties:
-          area:
-            description: Area Number where the object type is defined. Must not be '0' for
-              values as this is the wildcard.
-            format: uint16
-            type: integer
-          number:
-            description: The service specific object number. Must not be '0' for values as
-              this is the wildcard.
-            format: uint16
-            type: integer
-          service:
-            description: Service Number of the service where the object type is defined. Must
-              not be '0' for values as this is the wildcard.
-            format: uint16
-            type: integer
-          version:
-            description: Area Version of the service where the object type is defined. Must
-              not be '0' for values as this is the wildcard.
-            format: uint8
             type: integer
         type: object
   messages:

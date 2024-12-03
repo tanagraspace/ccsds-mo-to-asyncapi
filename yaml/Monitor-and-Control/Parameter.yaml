@@ -346,6 +346,7 @@ components:
   schemas:
     monitorValue_subscriptionKeys:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -366,6 +367,7 @@ components:
             The parameter value instance.
     monitorValue_publishNotify:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -386,6 +388,7 @@ components:
             The second part of the publish message shall be the ParameterValueInstance object value.
     getValue_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -403,6 +406,7 @@ components:
             If a parameter is being reported periodically, using the operation shall not reset the reportInterval timer.
     getValue_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -414,6 +418,7 @@ components:
             The new value shall not be published via the monitorValue operation.
     getValue_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -436,6 +441,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     setValue_submit:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -454,6 +460,7 @@ components:
             The service provider shall create new ParameterValueInstance objects for the updated parameter values, store these in the COM Archive, and publish these new values.
     setValue_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -480,6 +487,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     enableGeneration_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -504,6 +512,7 @@ components:
             If the generation of reports is being enabled, and the parameter is defined as being periodic, then the provider shall generate a report immediately and start the report interval from that report.
     enableGeneration_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -517,6 +526,7 @@ components:
             The response shall contain the list of object instance identifiers for the new ParameterDefinition objects.
     enableGeneration_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -541,6 +551,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     listDefinition_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -556,6 +567,7 @@ components:
             If a provided identifier does not include a wildcard and does not match an existing ParameterIdentity object then this operation shall fail with an UNKNOWN error.
     listDefinition_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -567,6 +579,7 @@ components:
             The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.
     listDefinition_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -589,6 +602,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     addParameter_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -605,6 +619,7 @@ components:
             The provider shall create a new ParameterDefinition object and store it, and any new ParameterIdentity objects, in the COM archive.
     addParameter_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -616,6 +631,7 @@ components:
             The returned list shall maintain the same order as the submitted definitions.
     addParameter_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -639,6 +655,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     updateDefinition_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -664,6 +681,7 @@ components:
             The new ParameterDefinition object shall be the current ParameterDefinition used for the specific ParameterIdentity.
     updateDefinition_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -678,6 +696,7 @@ components:
             The returned list shall maintain the same order as the submitted definitions.
     updateDefinition_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -702,6 +721,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     removeParameter_submit:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -721,6 +741,7 @@ components:
             If the operation succeeds then the provider shall not publish parameter values for the deleted ParameterIdentity objects anymore.
     removeParameter_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -741,6 +762,76 @@ components:
             type: integer
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
+    com:
+      InstanceBooleanPair:
+        properties:
+          id:
+            description: The object instance identifier.
+            format: int64
+            type: integer
+          value:
+            description: An associated Boolean value.
+            type: boolean
+        type: object
+      ObjectId:
+        properties:
+          key:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: The combination of the object domain and object instance identifier.
+          type_:
+            $ref: '#/components/schemas/com/ObjectType'
+            description: The fully qualified unique identifier of the type.
+        type: object
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
+      ObjectType:
+        properties:
+          area:
+            description: Area Number where the object type is defined. Must not be '0' for
+              values as this is the wildcard.
+            format: uint16
+            type: integer
+          number:
+            description: The service specific object number. Must not be '0' for values as
+              this is the wildcard.
+            format: uint16
+            type: integer
+          service:
+            description: Service Number of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint16
+            type: integer
+          version:
+            description: Area Version of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint8
+            type: integer
+        type: object
+      archive:
+        ExpressionOperator:
+          description: The ExpressionOperator enumeration holds a set of possible expression
+            operators.
+          enum:
+          - EQUAL
+          - DIFFER
+          - GREATER
+          - GREATER_OR_EQUAL
+          - LESS
+          - LESS_OR_EQUAL
+          - CONTAINS
+          - ICONTAINS
+          type: string
     mc:
       parameter:
         ParameterConversion:
@@ -883,76 +974,6 @@ components:
             description: The value to be used in the expression.
             type: string
         type: object
-    com:
-      InstanceBooleanPair:
-        properties:
-          id:
-            description: The object instance identifier.
-            format: int64
-            type: integer
-          value:
-            description: An associated Boolean value.
-            type: boolean
-        type: object
-      ObjectId:
-        properties:
-          key:
-            $ref: '#/components/schemas/com/ObjectKey'
-            description: The combination of the object domain and object instance identifier.
-          type_:
-            $ref: '#/components/schemas/com/ObjectType'
-            description: The fully qualified unique identifier of the type.
-        type: object
-      ObjectKey:
-        properties:
-          domain:
-            description: The domain of the object instance.
-            items:
-              type: string
-            type: array
-          instId:
-            description: The unique identifier of the object instance. Must not be '0' for
-              values as this is the wildcard.
-            format: int64
-            type: integer
-        type: object
-      ObjectType:
-        properties:
-          area:
-            description: Area Number where the object type is defined. Must not be '0' for
-              values as this is the wildcard.
-            format: uint16
-            type: integer
-          number:
-            description: The service specific object number. Must not be '0' for values as
-              this is the wildcard.
-            format: uint16
-            type: integer
-          service:
-            description: Service Number of the service where the object type is defined. Must
-              not be '0' for values as this is the wildcard.
-            format: uint16
-            type: integer
-          version:
-            description: Area Version of the service where the object type is defined. Must
-              not be '0' for values as this is the wildcard.
-            format: uint8
-            type: integer
-        type: object
-      archive:
-        ExpressionOperator:
-          description: The ExpressionOperator enumeration holds a set of possible expression
-            operators.
-          enum:
-          - EQUAL
-          - DIFFER
-          - GREATER
-          - GREATER_OR_EQUAL
-          - LESS
-          - LESS_OR_EQUAL
-          - CONTAINS
-          - ICONTAINS
-          type: string
   messages:
     monitorValue_subscriptionKeys:
       description: monitorValue request

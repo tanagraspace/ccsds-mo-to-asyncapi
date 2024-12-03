@@ -27,6 +27,7 @@
           "description": "getStatistics request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -85,6 +86,7 @@
           "description": "getStatistics response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -161,6 +163,7 @@
           "description": "getStatistics error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -212,6 +215,7 @@
           "description": "resetEvaluation request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -255,6 +259,7 @@
           "description": "resetEvaluation response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -279,6 +284,7 @@
           "description": "resetEvaluation error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -330,6 +336,7 @@
           "description": "monitorStatistics response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -397,6 +404,7 @@
           "description": "enableService request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -443,6 +451,7 @@
           "description": "getServiceStatus response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -471,6 +480,7 @@
           "description": "enableReporting request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -516,6 +526,7 @@
           "description": "enableReporting error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -567,6 +578,7 @@
           "description": "listParameterEvaluations request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -600,6 +612,7 @@
           "description": "listParameterEvaluations response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -653,6 +666,7 @@
           "description": "listParameterEvaluations error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -702,6 +716,7 @@
           "description": "addParameterEvaluation request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -777,6 +792,7 @@
           "description": "addParameterEvaluation response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -818,6 +834,7 @@
           "description": "addParameterEvaluation error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -869,6 +886,7 @@
           "description": "updateParameterEvaluation request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -903,6 +921,7 @@
           "description": "updateParameterEvaluation response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -936,6 +955,7 @@
           "description": "updateParameterEvaluation error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -987,6 +1007,7 @@
           "description": "removeParameterEvaluation request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -1020,6 +1041,7 @@
           "description": "removeParameterEvaluation error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -1322,6 +1344,13 @@
       "updateParameterEvaluation_error": "$ref:$.channels.updateParameterEvaluation_error.messages.updateParameterEvaluation_error.message.payload",
       "removeParameterEvaluation_submit": "$ref:$.channels.removeParameterEvaluation_submit.messages.removeParameterEvaluation_submit.message.payload",
       "removeParameterEvaluation_error": "$ref:$.channels.removeParameterEvaluation_error.messages.removeParameterEvaluation_error.message.payload",
+      "com": {
+        "InstanceBooleanPair": "$ref:$.channels.enableReporting_submit.messages.enableReporting_submit.message.payload.properties.enableInstances",
+        "ObjectId": "$ref:$.channels.monitorStatistics_publishNotify.messages.monitorStatistics_publishNotify.message.payload.properties.sourceId",
+        "ObjectKey": "$ref:$.channels.getStatistics_request.messages.getStatistics_request.message.payload.properties.paramObjInstIds",
+        "ObjectType": "$ref:$.channels.monitorStatistics_publishNotify.messages.monitorStatistics_publishNotify.message.payload.properties.sourceId.properties.type_",
+        "x-parser-schema-id": "com"
+      },
       "mc": {
         "statistic": {
           "StatisticCreationRequest": "$ref:$.channels.addParameterEvaluation_request.messages.addParameterEvaluation_request.message.payload.properties.newDetails",
@@ -1332,13 +1361,6 @@
         },
         "ObjectInstancePair": "$ref:$.channels.addParameterEvaluation_response.messages.addParameterEvaluation_response.message.payload.properties.newObjInstIds",
         "x-parser-schema-id": "mc"
-      },
-      "com": {
-        "InstanceBooleanPair": "$ref:$.channels.enableReporting_submit.messages.enableReporting_submit.message.payload.properties.enableInstances",
-        "ObjectId": "$ref:$.channels.monitorStatistics_publishNotify.messages.monitorStatistics_publishNotify.message.payload.properties.sourceId",
-        "ObjectKey": "$ref:$.channels.getStatistics_request.messages.getStatistics_request.message.payload.properties.paramObjInstIds",
-        "ObjectType": "$ref:$.channels.monitorStatistics_publishNotify.messages.monitorStatistics_publishNotify.message.payload.properties.sourceId.properties.type_",
-        "x-parser-schema-id": "com"
       }
     },
     "messages": {

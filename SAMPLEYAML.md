@@ -90,4 +90,17 @@ channels:
     messages:
       pong:
         $ref: '#/components/messages/pong'
+operations:
+  pingRequest:
+    action: receive
+    channel:
+      $ref: '#/channels/ping'
+    reply:
+      address:
+        dynamic: "/pong/{clientId}"
+      parameters:
+        clientId:
+          location: "$message.header#/clientId"
+      channel:
+        $ref: '#/channels/pong/{clientId}'
 ```

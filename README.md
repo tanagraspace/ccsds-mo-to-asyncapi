@@ -1,4 +1,4 @@
-# CCSDS MO XML to Async API YAML
+# CCSDS MO XML to AsyncAPI YAML
 - Convert CCSDS MO XML specification files into AsyncAPI YAML document.
 - XML files are located in the [xml-ccsds-mo-prototypes](/xml-ccsds-mo-prototypes/) directory.
 - Generated AsyncAPI docs are hosted [here](https://tanagraspace.github.io/ccsds-mo-to-asyncapi/).
@@ -35,11 +35,11 @@ AsyncAPI allows two patterns to enable dynamic responses: **Dynamic Reply Addres
 | **Use Case**                | Simplified communication for predictable systems  | Simple, flexible for ad-hoc responses | Isolated, useful for high client concurrency  |
 
 
-The YAML Generators in this project suppors generating YAML docs for **Static Reply Address** and **Dynamic Reply Address**  via the `is_dynamic_reply_address` property flag in the [AbstractYamlGenerator](./genyaml/src/generators/abstract_yaml_generator.py) abstract class:
+The YAML Generators in this project supports generating YAML API docs for **Static Reply Address** and **Dynamic Reply Address** via the `is_dynamic_reply_address` property flag in the [AbstractYamlGenerator](./genyaml/src/generators/abstract_yaml_generator.py) abstract class:
 - **True**: Enables the Dynamic Reply Address pattern, allowing clients to specify a replyTo header.
 - **False**: Enables the Static Reply Address pattern, where responses are sent to a predefined channel.
 
-The YAML generators, pre-generated YAML files, and the demo in the repository all implement **Dynamic Reply Address**. Sample YAMLs can be found [here](./SAMPLEYAML.md).
+The YAML generators, pre-generated YAML files, and the demo app included in this the repository all implement **Dynamic Reply Address**. Sample YAMLs can be found [here](./SAMPLEYAML.md).
 
 ## Scope
 - The MO MAL XML definitions that are processed to generate code are listed in [this bash script](/01_generate_code.sh), they are:
