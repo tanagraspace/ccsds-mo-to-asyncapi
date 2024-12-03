@@ -27,6 +27,7 @@
           "description": "submitAction request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -117,6 +118,7 @@
           "description": "submitAction error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -168,6 +170,7 @@
           "description": "preCheckAction request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -192,6 +195,7 @@
           "description": "preCheckAction response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -220,6 +224,7 @@
           "description": "preCheckAction error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -271,6 +276,7 @@
           "description": "listDefinition request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -303,6 +309,7 @@
           "description": "listDefinition response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -344,6 +351,7 @@
           "description": "listDefinition error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -393,6 +401,7 @@
           "description": "addAction request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -557,6 +566,7 @@
           "description": "addAction response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -581,6 +591,7 @@
           "description": "addAction error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -631,6 +642,7 @@
           "description": "updateDefinition request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -665,6 +677,7 @@
           "description": "updateDefinition response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -698,6 +711,7 @@
           "description": "updateDefinition error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -749,6 +763,7 @@
           "description": "removeAction request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -782,6 +797,7 @@
           "description": "removeAction error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -1001,6 +1017,13 @@
       "updateDefinition_error": "$ref:$.channels.updateDefinition_error.messages.updateDefinition_error.message.payload",
       "removeAction_submit": "$ref:$.channels.removeAction_submit.messages.removeAction_submit.message.payload",
       "removeAction_error": "$ref:$.channels.removeAction_error.messages.removeAction_error.message.payload",
+      "com": {
+        "archive": {
+          "ExpressionOperator": "$ref:$.channels.addAction_request.messages.addAction_request.message.payload.properties.actionDefDetails.properties.actionDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.operator"
+        },
+        "ObjectKey": "$ref:$.channels.addAction_request.messages.addAction_request.message.payload.properties.actionDefDetails.properties.actionDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.parameterId",
+        "x-parser-schema-id": "com"
+      },
       "mc": {
         "action": {
           "ActionCreationRequest": "$ref:$.channels.addAction_request.messages.addAction_request.message.payload.properties.actionDefDetails",
@@ -1013,13 +1036,6 @@
         "ObjectInstancePair": "$ref:$.channels.listDefinition_response.messages.listDefinition_response.message.payload.properties.actionInstIds",
         "ParameterExpression": "$ref:$.channels.addAction_request.messages.addAction_request.message.payload.properties.actionDefDetails.properties.actionDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition",
         "x-parser-schema-id": "mc"
-      },
-      "com": {
-        "archive": {
-          "ExpressionOperator": "$ref:$.channels.addAction_request.messages.addAction_request.message.payload.properties.actionDefDetails.properties.actionDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.operator"
-        },
-        "ObjectKey": "$ref:$.channels.addAction_request.messages.addAction_request.message.payload.properties.actionDefDetails.properties.actionDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.parameterId",
-        "x-parser-schema-id": "com"
       }
     },
     "messages": {

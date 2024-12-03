@@ -27,6 +27,7 @@
           "description": "getCurrentTransitionList request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -101,6 +102,7 @@
           "description": "getCurrentTransitionList response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -187,6 +189,7 @@
           "description": "getCurrentTransitionList update response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -211,6 +214,7 @@
           "description": "getCurrentTransitionList error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -262,6 +266,7 @@
           "description": "getSummaryReport request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -295,6 +300,7 @@
           "description": "getSummaryReport response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -325,6 +331,7 @@
           "description": "getSummaryReport update response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -353,6 +360,7 @@
           "description": "getSummaryReport error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -402,6 +410,7 @@
           "description": "enableService request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -448,6 +457,7 @@
           "description": "getServiceStatus response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -476,6 +486,7 @@
           "description": "enableCheck request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -521,6 +532,7 @@
           "description": "enableCheck error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -572,6 +584,7 @@
           "description": "triggerCheck request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -615,6 +628,7 @@
           "description": "triggerCheck error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -664,6 +678,7 @@
           "description": "listDefinition request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -696,6 +711,7 @@
           "description": "listDefinition response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -773,6 +789,7 @@
           "description": "listDefinition error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -822,6 +839,7 @@
           "description": "listCheckLinks request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -855,6 +873,7 @@
           "description": "listCheckLinks response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -908,6 +927,7 @@
           "description": "listCheckLinks error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -957,6 +977,7 @@
           "description": "addCheck request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -1042,6 +1063,7 @@
           "description": "addCheck response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -1066,6 +1088,7 @@
           "description": "addCheck error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -1116,6 +1139,7 @@
           "description": "updateDefinition request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -1150,6 +1174,7 @@
           "description": "updateDefinition response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -1183,6 +1208,7 @@
           "description": "updateDefinition error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -1236,6 +1262,7 @@
           "description": "removeCheck request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -1269,6 +1296,7 @@
           "description": "removeCheck error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -1320,6 +1348,7 @@
           "description": "addParameterCheck request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -1422,6 +1451,7 @@
           "description": "addParameterCheck response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -1446,6 +1476,7 @@
           "description": "addParameterCheck error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -1497,6 +1528,7 @@
           "description": "removeParameterCheck request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -1530,6 +1562,7 @@
           "description": "removeParameterCheck error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -1939,22 +1972,6 @@
       "addParameterCheck_error": "$ref:$.channels.addParameterCheck_error.messages.addParameterCheck_error.message.payload",
       "removeParameterCheck_submit": "$ref:$.channels.removeParameterCheck_submit.messages.removeParameterCheck_submit.message.payload",
       "removeParameterCheck_error": "$ref:$.channels.removeParameterCheck_error.messages.removeParameterCheck_error.message.payload",
-      "mc": {
-        "ObjectInstancePair": "$ref:$.channels.listDefinition_response.messages.listDefinition_response.message.payload.properties.objInstIds.properties.objInstIds",
-        "ParameterExpression": "$ref:$.channels.addParameterCheck_request.messages.addParameterCheck_request.message.payload.properties.linkDetails.properties.condition",
-        "Severity": "$ref:$.channels.addCheck_request.messages.addCheck_request.message.payload.properties.checkDefDetails.properties.checkSeverity",
-        "check": {
-          "CheckDefinitionDetails": "$ref:$.channels.addCheck_request.messages.addCheck_request.message.payload.properties.checkDefDetails",
-          "CheckLinkDetails": "$ref:$.channels.addParameterCheck_request.messages.addParameterCheck_request.message.payload.properties.linkDetails",
-          "CheckLinkSummary": "$ref:$.channels.listCheckLinks_response.messages.listCheckLinks_response.message.payload.properties.chkLinkObjInstIds",
-          "CheckResult": "$ref:$.channels.getCurrentTransitionList_update.messages.getCurrentTransitionList_update.message.payload.properties.updateSummaries.properties.result",
-          "CheckResultFilter": "$ref:$.channels.getCurrentTransitionList_progress.messages.getCurrentTransitionList_progress.message.payload.properties.filter",
-          "CheckResultSummary": "$ref:$.channels.getCurrentTransitionList_update.messages.getCurrentTransitionList_update.message.payload.properties.updateSummaries",
-          "CheckState": "$ref:$.channels.getCurrentTransitionList_progress.messages.getCurrentTransitionList_progress.message.payload.properties.filter.properties.stateFilter.items",
-          "CheckTypedInstance": "$ref:$.channels.listDefinition_response.messages.listDefinition_response.message.payload.properties.objInstIds"
-        },
-        "x-parser-schema-id": "mc"
-      },
       "com": {
         "archive": {
           "ExpressionOperator": "$ref:$.channels.addParameterCheck_request.messages.addParameterCheck_request.message.payload.properties.linkDetails.properties.condition.properties.operator"
@@ -1965,6 +1982,22 @@
         "ObjectKey": "$ref:$.channels.getCurrentTransitionList_update.messages.getCurrentTransitionList_update.message.payload.properties.updateSummaries.properties.parameterId",
         "ObjectType": "$ref:$.channels.listDefinition_response.messages.listDefinition_response.message.payload.properties.objInstIds.properties.objDefCheckType",
         "x-parser-schema-id": "com"
+      },
+      "mc": {
+        "check": {
+          "CheckDefinitionDetails": "$ref:$.channels.addCheck_request.messages.addCheck_request.message.payload.properties.checkDefDetails",
+          "CheckLinkDetails": "$ref:$.channels.addParameterCheck_request.messages.addParameterCheck_request.message.payload.properties.linkDetails",
+          "CheckLinkSummary": "$ref:$.channels.listCheckLinks_response.messages.listCheckLinks_response.message.payload.properties.chkLinkObjInstIds",
+          "CheckResult": "$ref:$.channels.getCurrentTransitionList_update.messages.getCurrentTransitionList_update.message.payload.properties.updateSummaries.properties.result",
+          "CheckResultFilter": "$ref:$.channels.getCurrentTransitionList_progress.messages.getCurrentTransitionList_progress.message.payload.properties.filter",
+          "CheckResultSummary": "$ref:$.channels.getCurrentTransitionList_update.messages.getCurrentTransitionList_update.message.payload.properties.updateSummaries",
+          "CheckState": "$ref:$.channels.getCurrentTransitionList_progress.messages.getCurrentTransitionList_progress.message.payload.properties.filter.properties.stateFilter.items",
+          "CheckTypedInstance": "$ref:$.channels.listDefinition_response.messages.listDefinition_response.message.payload.properties.objInstIds"
+        },
+        "ObjectInstancePair": "$ref:$.channels.listDefinition_response.messages.listDefinition_response.message.payload.properties.objInstIds.properties.objInstIds",
+        "ParameterExpression": "$ref:$.channels.addParameterCheck_request.messages.addParameterCheck_request.message.payload.properties.linkDetails.properties.condition",
+        "Severity": "$ref:$.channels.addCheck_request.messages.addCheck_request.message.payload.properties.checkDefDetails.properties.checkSeverity",
+        "x-parser-schema-id": "mc"
       }
     },
     "messages": {

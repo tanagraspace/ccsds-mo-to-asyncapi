@@ -264,6 +264,7 @@ components:
   schemas:
     submitAction_submit:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -287,6 +288,7 @@ components:
             The SUBMIT acknowledgement shall be returned once the action has been accepted for execution but before execution starts.
     submitAction_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -311,6 +313,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     preCheckAction_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -324,6 +327,7 @@ components:
             A service provider may apply some deployment specific checks to the action instance and can return an INVALID error if they fail.
     preCheckAction_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -334,6 +338,7 @@ components:
             The returned Boolean shall be set to TRUE if the action would be accepted successfully; otherwise the operation shall return FALSE.
     preCheckAction_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -358,6 +363,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     listDefinition_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -373,6 +379,7 @@ components:
             If a provided identifier does not include a wildcard and does not match an existing ActionIdentity object then this operation shall fail with an UNKNOWN error.
     listDefinition_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -384,6 +391,7 @@ components:
             The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.
     listDefinition_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -406,6 +414,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     addAction_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -421,6 +430,7 @@ components:
             The provider shall create a new ActionDefinition object and store it, and any new ActionIdentity objects, in the COM archive.
     addAction_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -432,6 +442,7 @@ components:
             The returned list shall maintain the same order as the submitted definitions.
     addAction_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -455,6 +466,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     updateDefinition_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -479,6 +491,7 @@ components:
             The new ActionDefinition object shall be the current ActionDefinition used for the specific ActionIdentity.
     updateDefinition_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -493,6 +506,7 @@ components:
             The returned list shall maintain the same order as the submitted definitions.
     updateDefinition_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -517,6 +531,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     removeAction_submit:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -537,6 +552,7 @@ components:
             If an error is raised then no actions shall be removed as a result of this operation call.
     removeAction_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -557,6 +573,34 @@ components:
             type: integer
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
+    com:
+      archive:
+        ExpressionOperator:
+          description: The ExpressionOperator enumeration holds a set of possible expression
+            operators.
+          enum:
+          - EQUAL
+          - DIFFER
+          - GREATER
+          - GREATER_OR_EQUAL
+          - LESS
+          - LESS_OR_EQUAL
+          - CONTAINS
+          - ICONTAINS
+          type: string
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
     mc:
       action:
         ActionCreationRequest:
@@ -711,34 +755,6 @@ components:
           value:
             description: The value to be used in the expression.
             type: string
-        type: object
-    com:
-      archive:
-        ExpressionOperator:
-          description: The ExpressionOperator enumeration holds a set of possible expression
-            operators.
-          enum:
-          - EQUAL
-          - DIFFER
-          - GREATER
-          - GREATER_OR_EQUAL
-          - LESS
-          - LESS_OR_EQUAL
-          - CONTAINS
-          - ICONTAINS
-          type: string
-      ObjectKey:
-        properties:
-          domain:
-            description: The domain of the object instance.
-            items:
-              type: string
-            type: array
-          instId:
-            description: The unique identifier of the object instance. Must not be '0' for
-              values as this is the wildcard.
-            format: int64
-            type: integer
         type: object
   messages:
     submitAction_submit:

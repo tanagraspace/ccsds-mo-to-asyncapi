@@ -537,6 +537,7 @@ components:
   schemas:
     getCurrentTransitionList_progress:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -563,6 +564,7 @@ components:
             To report all checks, the wildcard values may be used in the CheckResultFilter.
     getCurrentTransitionList_update:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -573,6 +575,7 @@ components:
             The returned list shall contain an entry for each matched check returning the object instance identifier and the latest CheckResult for that CheckLink object.
     getCurrentTransitionList_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -584,6 +587,7 @@ components:
             The size of the lists returned in each update and final response is implementation specific.
     getCurrentTransitionList_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -608,6 +612,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     getSummaryReport_progress:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -624,6 +629,7 @@ components:
             If a requested check is unknown then an UNKNOWN error shall be returned in the ACKNOWLEDGE message and the operation shall end.
     getSummaryReport_update:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -639,6 +645,7 @@ components:
           $ref: '#/components/schemas/mc/check/CheckResultSummary'
     getSummaryReport_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -649,6 +656,7 @@ components:
           $ref: '#/components/schemas/mc/check/CheckResultSummary'
     getSummaryReport_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -671,6 +679,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     enableService_submit:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -687,6 +696,7 @@ components:
       additionalProperties: false
     getServiceStatus_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -697,6 +707,7 @@ components:
             The operation shall return TRUE if the service is currently enabled or FALSE if the service is currently disabled.
     enableCheck_submit:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -720,6 +731,7 @@ components:
             If the check is being enabled, and the check is defined as being periodic in the check link definition, then the provider shall generate a check result immediately and start the checking interval from that check.
     enableCheck_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -744,6 +756,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     triggerCheck_submit:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -772,6 +785,7 @@ components:
             Triggering a check during a periodic check shall not influence the periodic check (e.g. it does not reset the checkInterval timer, the successive valid samples that passed/violated the check or the maxReportingInterval timer).
     triggerCheck_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -794,6 +808,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     listDefinition_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -809,6 +824,7 @@ components:
             If a provided identifier does not include a wildcard and does not match an existing CheckIdentity object then this operation shall fail with an UNKNOWN error.
     listDefinition_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -820,6 +836,7 @@ components:
             The returned list shall maintain the same order as the submitted list unless the wildcard value was included in the request.
     listDefinition_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -842,6 +859,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     listCheckLinks_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -858,6 +876,7 @@ components:
             If a provided identifier does not include a wildcard and does not match an existing CheckIdentity object then this operation shall fail with an UNKNOWN error.
     listCheckLinks_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -868,6 +887,7 @@ components:
             The response shall contain a list of CheckLinkSummary that contain the object instance identifiers of the CheckLink, CheckIdentity, and ParameterIdentity for the matched CheckIdentity objects.
     listCheckLinks_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -890,6 +910,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     addCheck_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -915,6 +936,7 @@ components:
             The provider shall create a new actual check definition object and store it, and any new CheckIdentity objects, in the COM archive.
     addCheck_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -926,6 +948,7 @@ components:
             The returned list shall maintain the same order as the submitted definitions.
     addCheck_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -949,6 +972,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     updateDefinition_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -976,6 +1000,7 @@ components:
             The new definition object shall be the current definition used for the specific CheckIdentity.
     updateDefinition_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -990,6 +1015,7 @@ components:
             The returned list shall maintain the same order as the submitted definitions.
     updateDefinition_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -1016,6 +1042,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     removeCheck_submit:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -1036,6 +1063,7 @@ components:
             If the operation succeeds then the provider shall not allow new CheckLink objects to be created for the matched CheckIdentity anymore, existing CheckLink objects are not affected.
     removeCheck_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -1060,6 +1088,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     addParameterCheck_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -1082,6 +1111,7 @@ components:
             The provider shall create new CheckLink and CheckLinkDefinition objects for each pair and store them in the COM archive.
     addParameterCheck_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -1093,6 +1123,7 @@ components:
             The returned list shall maintain the same order as the submitted links.
     addParameterCheck_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -1117,6 +1148,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     removeParameterCheck_submit:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -1136,6 +1168,7 @@ components:
             If the operation succeeds then the provider shall not evaluate those parameter/check definition combinations for the deleted CheckLink objects anymore.
     removeParameterCheck_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -1156,48 +1189,91 @@ components:
             type: integer
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
-    mc:
-      ObjectInstancePair:
+    com:
+      archive:
+        ExpressionOperator:
+          description: The ExpressionOperator enumeration holds a set of possible expression
+            operators.
+          enum:
+          - EQUAL
+          - DIFFER
+          - GREATER
+          - GREATER_OR_EQUAL
+          - LESS
+          - LESS_OR_EQUAL
+          - CONTAINS
+          - ICONTAINS
+          type: string
+      InstanceBooleanPair:
         properties:
-          objDefInstanceId:
-            description: The object instance identifier of the Definition object.
+          id:
+            description: The object instance identifier.
             format: int64
             type: integer
-          objIdentityInstanceId:
-            description: The object instance identifier of the Identity object.
-            format: int64
-            type: integer
-        type: object
-      ParameterExpression:
-        properties:
-          operator:
-            $ref: '#/components/schemas/com/archive/ExpressionOperator'
-            description: The expression operator.
-          parameterId:
-            $ref: '#/components/schemas/com/ObjectKey'
-            description: Holds the object instance identifier of the ParameterIdentity object
-              to be used in the expression.
-          useConverted:
-            description: If set to TRUE the converted value field of the parameter value should
-              be used, otherwise the raw value field should be used.
-            type: boolean
           value:
-            description: The value to be used in the expression.
-            type: string
+            description: An associated Boolean value.
+            type: boolean
         type: object
-      Severity:
-        description: 'The severity enumeration holds the possible values for a severity. The
-          numerical value represents the increasing severity, therefore CRITICAL is more severe
-          than ALARM. Normally, for checks, only the Warning and Critical ranges are used:
-          the colour yellow is associated with Warning, and the colour red is associated with
-          Critical.'
-        enum:
-        - INFORMATIONAL
-        - WARNING
-        - ALARM
-        - SEVERE
-        - CRITICAL
-        type: string
+      ObjectDetails:
+        properties:
+          related:
+            description: Contains the object instance identifier of a related object (e.g.
+              the ActionDefinition that an Action uses). This is service specific. The ObjectType
+              of the related object is specified in the service specification. The related
+              object must exist in the same domain as this object.
+            format: int64
+            type: integer
+          source:
+            $ref: '#/components/schemas/com/ObjectId'
+            description: An object which is at the origin of the object creation (e.g. the
+              procedure from which an action was triggered).
+        type: object
+      ObjectId:
+        properties:
+          key:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: The combination of the object domain and object instance identifier.
+          type_:
+            $ref: '#/components/schemas/com/ObjectType'
+            description: The fully qualified unique identifier of the type.
+        type: object
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
+      ObjectType:
+        properties:
+          area:
+            description: Area Number where the object type is defined. Must not be '0' for
+              values as this is the wildcard.
+            format: uint16
+            type: integer
+          number:
+            description: The service specific object number. Must not be '0' for values as
+              this is the wildcard.
+            format: uint16
+            type: integer
+          service:
+            description: Service Number of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint16
+            type: integer
+          version:
+            description: Area Version of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint8
+            type: integer
+        type: object
+    mc:
       check:
         CheckDefinitionDetails:
           properties:
@@ -1384,90 +1460,47 @@ components:
               $ref: '#/components/schemas/mc/ObjectInstancePair'
               description: The object instance identifiers.
           type: object
-    com:
-      archive:
-        ExpressionOperator:
-          description: The ExpressionOperator enumeration holds a set of possible expression
-            operators.
-          enum:
-          - EQUAL
-          - DIFFER
-          - GREATER
-          - GREATER_OR_EQUAL
-          - LESS
-          - LESS_OR_EQUAL
-          - CONTAINS
-          - ICONTAINS
-          type: string
-      InstanceBooleanPair:
+      ObjectInstancePair:
         properties:
-          id:
-            description: The object instance identifier.
+          objDefInstanceId:
+            description: The object instance identifier of the Definition object.
             format: int64
             type: integer
-          value:
-            description: An associated Boolean value.
-            type: boolean
-        type: object
-      ObjectDetails:
-        properties:
-          related:
-            description: Contains the object instance identifier of a related object (e.g.
-              the ActionDefinition that an Action uses). This is service specific. The ObjectType
-              of the related object is specified in the service specification. The related
-              object must exist in the same domain as this object.
+          objIdentityInstanceId:
+            description: The object instance identifier of the Identity object.
             format: int64
             type: integer
-          source:
-            $ref: '#/components/schemas/com/ObjectId'
-            description: An object which is at the origin of the object creation (e.g. the
-              procedure from which an action was triggered).
         type: object
-      ObjectId:
+      ParameterExpression:
         properties:
-          key:
+          operator:
+            $ref: '#/components/schemas/com/archive/ExpressionOperator'
+            description: The expression operator.
+          parameterId:
             $ref: '#/components/schemas/com/ObjectKey'
-            description: The combination of the object domain and object instance identifier.
-          type_:
-            $ref: '#/components/schemas/com/ObjectType'
-            description: The fully qualified unique identifier of the type.
+            description: Holds the object instance identifier of the ParameterIdentity object
+              to be used in the expression.
+          useConverted:
+            description: If set to TRUE the converted value field of the parameter value should
+              be used, otherwise the raw value field should be used.
+            type: boolean
+          value:
+            description: The value to be used in the expression.
+            type: string
         type: object
-      ObjectKey:
-        properties:
-          domain:
-            description: The domain of the object instance.
-            items:
-              type: string
-            type: array
-          instId:
-            description: The unique identifier of the object instance. Must not be '0' for
-              values as this is the wildcard.
-            format: int64
-            type: integer
-        type: object
-      ObjectType:
-        properties:
-          area:
-            description: Area Number where the object type is defined. Must not be '0' for
-              values as this is the wildcard.
-            format: uint16
-            type: integer
-          number:
-            description: The service specific object number. Must not be '0' for values as
-              this is the wildcard.
-            format: uint16
-            type: integer
-          service:
-            description: Service Number of the service where the object type is defined. Must
-              not be '0' for values as this is the wildcard.
-            format: uint16
-            type: integer
-          version:
-            description: Area Version of the service where the object type is defined. Must
-              not be '0' for values as this is the wildcard.
-            format: uint8
-            type: integer
-        type: object
+      Severity:
+        description: 'The severity enumeration holds the possible values for a severity. The
+          numerical value represents the increasing severity, therefore CRITICAL is more severe
+          than ALARM. Normally, for checks, only the Warning and Critical ranges are used:
+          the colour yellow is associated with Warning, and the colour red is associated with
+          Critical.'
+        enum:
+        - INFORMATIONAL
+        - WARNING
+        - ALARM
+        - SEVERE
+        - CRITICAL
+        type: string
   messages:
     getCurrentTransitionList_progress:
       description: getCurrentTransitionList request

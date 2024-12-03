@@ -27,6 +27,7 @@
           "description": "create request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -70,6 +71,7 @@
           "description": "create error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -124,6 +126,7 @@
           "description": "move request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -164,6 +167,7 @@
           "description": "move error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -219,6 +223,7 @@
           "description": "delete request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -253,6 +258,7 @@
           "description": "delete error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -307,6 +313,7 @@
           "description": "copy request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -347,6 +354,7 @@
           "description": "copy error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -402,6 +410,7 @@
           "description": "getAttributes request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -431,6 +440,7 @@
           "description": "getAttributes response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -521,6 +531,7 @@
           "description": "getAttributes error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -573,6 +584,7 @@
           "description": "setAttributes request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -603,6 +615,7 @@
           "description": "setAttributes error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -656,6 +669,7 @@
           "description": "list request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -704,6 +718,7 @@
           "description": "list response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -762,6 +777,7 @@
           "description": "list error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -816,6 +832,7 @@
           "description": "find request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -855,6 +872,7 @@
           "description": "find response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -879,6 +897,7 @@
           "description": "find update response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -908,6 +927,7 @@
           "description": "find error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -962,6 +982,7 @@
           "description": "append request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -997,6 +1018,7 @@
           "description": "append response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -1026,6 +1048,7 @@
           "description": "append error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -1080,6 +1103,7 @@
           "description": "truncate request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -1107,6 +1131,7 @@
           "description": "truncate error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -1161,6 +1186,7 @@
           "description": "read request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -1200,6 +1226,7 @@
           "description": "read response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -1227,6 +1254,7 @@
           "description": "read error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",

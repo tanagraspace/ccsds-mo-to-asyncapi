@@ -114,6 +114,7 @@ components:
   schemas:
     findPackage_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -126,6 +127,7 @@ components:
             The names field contains the names of the packages.
     findPackage_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -144,6 +146,7 @@ components:
             The installed field shall hold the status of the package.
     findPackage_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -166,6 +169,7 @@ components:
             description: A list of the indexes of the error values shall be contained in the extra information field.
     checkPackageIntegrity_request:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -178,6 +182,7 @@ components:
             The names field contains the names of the packages.
     checkPackageIntegrity_response:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string
@@ -192,6 +197,7 @@ components:
             type: string
     checkPackageIntegrity_error:
       type: object
+      additionalProperties: false
       properties:
         sequenceId:
           type: string

@@ -27,6 +27,7 @@
           "description": "findPackage request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -59,6 +60,7 @@
           "description": "findPackage response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -100,6 +102,7 @@
           "description": "findPackage error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -149,6 +152,7 @@
           "description": "checkPackageIntegrity request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -181,6 +185,7 @@
           "description": "checkPackageIntegrity response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -220,6 +225,7 @@
           "description": "checkPackageIntegrity error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",

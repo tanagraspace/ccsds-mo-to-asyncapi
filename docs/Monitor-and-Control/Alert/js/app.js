@@ -27,6 +27,7 @@
           "description": "enableGeneration request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -72,6 +73,7 @@
           "description": "enableGeneration response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -105,6 +107,7 @@
           "description": "enableGeneration error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -156,6 +159,7 @@
           "description": "listDefinition request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -188,6 +192,7 @@
           "description": "listDefinition response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -229,6 +234,7 @@
           "description": "listDefinition error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -278,6 +284,7 @@
           "description": "addAlert request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -447,6 +454,7 @@
           "description": "addAlert response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -471,6 +479,7 @@
           "description": "addAlert error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -521,6 +530,7 @@
           "description": "updateDefinition request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -555,6 +565,7 @@
           "description": "updateDefinition response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -588,6 +599,7 @@
           "description": "updateDefinition error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -639,6 +651,7 @@
           "description": "removeAlert request",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -672,6 +685,7 @@
           "description": "removeAlert error response",
           "payload": {
             "type": "object",
+            "additionalProperties": false,
             "properties": {
               "sequenceId": {
                 "type": "string",
@@ -873,6 +887,14 @@
       "updateDefinition_error": "$ref:$.channels.updateDefinition_error.messages.updateDefinition_error.message.payload",
       "removeAlert_submit": "$ref:$.channels.removeAlert_submit.messages.removeAlert_submit.message.payload",
       "removeAlert_error": "$ref:$.channels.removeAlert_error.messages.removeAlert_error.message.payload",
+      "com": {
+        "InstanceBooleanPair": "$ref:$.channels.enableGeneration_request.messages.enableGeneration_request.message.payload.properties.enableInstances",
+        "ObjectKey": "$ref:$.channels.addAlert_request.messages.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.parameterId",
+        "archive": {
+          "ExpressionOperator": "$ref:$.channels.addAlert_request.messages.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.operator"
+        },
+        "x-parser-schema-id": "com"
+      },
       "mc": {
         "alert": {
           "AlertCreationRequest": "$ref:$.channels.addAlert_request.messages.addAlert_request.message.payload.properties.alertDefDetails",
@@ -884,14 +906,6 @@
         "ParameterExpression": "$ref:$.channels.addAlert_request.messages.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition",
         "Severity": "$ref:$.channels.addAlert_request.messages.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.severity",
         "x-parser-schema-id": "mc"
-      },
-      "com": {
-        "InstanceBooleanPair": "$ref:$.channels.enableGeneration_request.messages.enableGeneration_request.message.payload.properties.enableInstances",
-        "ObjectKey": "$ref:$.channels.addAlert_request.messages.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.parameterId",
-        "archive": {
-          "ExpressionOperator": "$ref:$.channels.addAlert_request.messages.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.operator"
-        },
-        "x-parser-schema-id": "com"
       }
     },
     "messages": {
