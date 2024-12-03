@@ -324,6 +324,10 @@ operations:
       - $ref: '#/channels/removeAggregation_error/messages/removeAggregation_error.message'
 components:
   schemas:
+    monitorValue_subscriptionKeys:
+      description: A request message with no payload.
+      type: object
+      additionalProperties: false
     monitorValue_publishNotify:
       type: object
       properties:
@@ -705,17 +709,6 @@ components:
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
     mc:
-      ObjectInstancePair:
-        properties:
-          objDefInstanceId:
-            description: The object instance identifier of the Definition object.
-            format: int64
-            type: integer
-          objIdentityInstanceId:
-            description: The object instance identifier of the Identity object.
-            format: int64
-            type: integer
-        type: object
       aggregation:
         AggregationCreationRequest:
           properties:
@@ -908,6 +901,17 @@ components:
               format: uint8
               type: integer
           type: object
+      ObjectInstancePair:
+        properties:
+          objDefInstanceId:
+            description: The object instance identifier of the Definition object.
+            format: int64
+            type: integer
+          objIdentityInstanceId:
+            description: The object instance identifier of the Identity object.
+            format: int64
+            type: integer
+        type: object
     com:
       InstanceBooleanPair:
         properties:

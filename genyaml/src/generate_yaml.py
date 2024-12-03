@@ -84,7 +84,7 @@ def generate_yaml_components(
 
         # skip this capability set?
         ignore_interaction = False
-        if ignores.get(service_name):
+        if ignores and ignores.get(service_name):
           if interaction_name in ignores.get(service_name):
             ignore_interaction = True
 
@@ -93,12 +93,21 @@ def generate_yaml_components(
 
         # iterate over each generator and check if it matches the interaction type
         for yaml_gen in yaml_generators:
-          # DEBUG TIP: to debug a specific interaction you can add an inteaction_name debug filter here or code in a condition (e.g. and interaction_name == "removeAlert")
+          # DEBUG TIP: to debug a specific interaction you can add an interaction_name debug filter here or code in a condition (e.g. and interaction_name == "removeAlert")
           if interaction_type_name == yaml_gen.interaction_type and not ignore_interaction:
 
-            # the send fields
-            send_fields = interaction_type.findall(f".//mal:{yaml_gen.send_element}//mal:field", ns)
-            include_channel_send = True if len(send_fields) > 0 else False
+            # it's possible to have a send element without any fields
+            # this just means that the request payload is empty, i.e. {}
+            # so we must seperately check if the send element and the field child elements exist
+            include_channel_send = False
+            send_fields = []
+
+            # the send element
+            send_element = interaction_type.find(f".//mal:{yaml_gen.send_element}", ns)
+            if send_element is not None:
+              # find all the field elements within the send element
+              send_fields = send_element.findall(".//mal:field", ns)
+              include_channel_send = True
 
             # the receive fields
             receive_fields = interaction_type.findall(f".//mal:{yaml_gen.receive_element}//mal:field", ns)
@@ -154,7 +163,7 @@ def generate_yaml_components(
             service_yaml_dict[service_name]["components"].append(yaml_components_schema)
             service_yaml_dict[service_name]["messages"].append(yaml_components_messages)
 
-            print(f"Generated YAML for the {service_name} Service's {interaction_name} interaction.")
+            print(f"Generated YAML for the {service_name} Service: {interaction_name} interaction.")
 
             # once matched, break out of the loop to avoid processing the same interaction with multiple generators
             break
@@ -183,14 +192,19 @@ def generate_yaml_components(
 
 def main(xml_file_path: str, mo_asyncapi_src_dir_path: str, target_yaml_directory_path: str):
 
-  # generate YAML for the following interaction types: PUBSUB, REQUEST, SUBMIT and PROGRESS
+  # generate YAML for the following interaction types: PUBSUB, REQUEST, SUBMIT, and PROGRESS
   # TODO: extend this list tp include INVOKE interaction types
-  yaml_generators = [YamlGeneratorPubSub(), YamlGeneratorRequest(), YamlGeneratorSubmit(), YamlGeneratorSubmitProgress()]
+  yaml_generators = [
+    YamlGeneratorPubSub(),
+    YamlGeneratorRequest(),
+    YamlGeneratorSubmit(),
+    YamlGeneratorSubmitProgress()
+  ]
 
   # interaction types to ignore
-  # key is the Service name and list value is the list of interactions to ignore for that service
-  # ignore Hearbeat/beat because it is poorly defined
+  # the key is the service name and the value is the list of interactions to ignore for that service
   ignores = {'Heartbeat': ['beat']}
+  #ignores = None
 
   # generate yaml definitions for each service
   service_yaml_dict = generate_yaml_components(

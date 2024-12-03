@@ -886,11 +886,11 @@
         "x-parser-schema-id": "mc"
       },
       "com": {
+        "InstanceBooleanPair": "$ref:$.channels.enableGeneration_request.messages.enableGeneration_request.message.payload.properties.enableInstances",
+        "ObjectKey": "$ref:$.channels.addAlert_request.messages.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.parameterId",
         "archive": {
           "ExpressionOperator": "$ref:$.channels.addAlert_request.messages.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.operator"
         },
-        "InstanceBooleanPair": "$ref:$.channels.enableGeneration_request.messages.enableGeneration_request.message.payload.properties.enableInstances",
-        "ObjectKey": "$ref:$.channels.addAlert_request.messages.addAlert_request.message.payload.properties.alertDefDetails.properties.alertDefDetails.properties.arguments.items.properties.conditionalConversions.items.properties.condition.properties.parameterId",
         "x-parser-schema-id": "com"
       }
     },

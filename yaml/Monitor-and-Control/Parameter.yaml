@@ -742,45 +742,6 @@ components:
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
     mc:
-      ConditionalConversion:
-        properties:
-          condition:
-            $ref: '#/components/schemas/mc/ParameterExpression'
-            description: The expression indicates which entities are applicable for this check.
-              If NULL, then the condition shall evaluate to TRUE.
-          conversionId:
-            $ref: '#/components/schemas/com/ObjectKey'
-            description: The object instance identifier of the ConversionIdentity object to
-              be used if the condition evaluates to TRUE or is NULL.
-        type: object
-      ObjectInstancePair:
-        properties:
-          objDefInstanceId:
-            description: The object instance identifier of the Definition object.
-            format: int64
-            type: integer
-          objIdentityInstanceId:
-            description: The object instance identifier of the Identity object.
-            format: int64
-            type: integer
-        type: object
-      ParameterExpression:
-        properties:
-          operator:
-            $ref: '#/components/schemas/com/archive/ExpressionOperator'
-            description: The expression operator.
-          parameterId:
-            $ref: '#/components/schemas/com/ObjectKey'
-            description: Holds the object instance identifier of the ParameterIdentity object
-              to be used in the expression.
-          useConverted:
-            description: If set to TRUE the converted value field of the parameter value should
-              be used, otherwise the raw value field should be used.
-            type: boolean
-          value:
-            description: The value to be used in the expression.
-            type: string
-        type: object
       parameter:
         ParameterConversion:
           properties:
@@ -883,21 +844,46 @@ components:
               $ref: '#/components/schemas/mc/parameter/ParameterValue'
               description: The parameter value.
           type: object
+      ConditionalConversion:
+        properties:
+          condition:
+            $ref: '#/components/schemas/mc/ParameterExpression'
+            description: The expression indicates which entities are applicable for this check.
+              If NULL, then the condition shall evaluate to TRUE.
+          conversionId:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: The object instance identifier of the ConversionIdentity object to
+              be used if the condition evaluates to TRUE or is NULL.
+        type: object
+      ObjectInstancePair:
+        properties:
+          objDefInstanceId:
+            description: The object instance identifier of the Definition object.
+            format: int64
+            type: integer
+          objIdentityInstanceId:
+            description: The object instance identifier of the Identity object.
+            format: int64
+            type: integer
+        type: object
+      ParameterExpression:
+        properties:
+          operator:
+            $ref: '#/components/schemas/com/archive/ExpressionOperator'
+            description: The expression operator.
+          parameterId:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: Holds the object instance identifier of the ParameterIdentity object
+              to be used in the expression.
+          useConverted:
+            description: If set to TRUE the converted value field of the parameter value should
+              be used, otherwise the raw value field should be used.
+            type: boolean
+          value:
+            description: The value to be used in the expression.
+            type: string
+        type: object
     com:
-      archive:
-        ExpressionOperator:
-          description: The ExpressionOperator enumeration holds a set of possible expression
-            operators.
-          enum:
-          - EQUAL
-          - DIFFER
-          - GREATER
-          - GREATER_OR_EQUAL
-          - LESS
-          - LESS_OR_EQUAL
-          - CONTAINS
-          - ICONTAINS
-          type: string
       InstanceBooleanPair:
         properties:
           id:
@@ -953,6 +939,20 @@ components:
             format: uint8
             type: integer
         type: object
+      archive:
+        ExpressionOperator:
+          description: The ExpressionOperator enumeration holds a set of possible expression
+            operators.
+          enum:
+          - EQUAL
+          - DIFFER
+          - GREATER
+          - GREATER_OR_EQUAL
+          - LESS
+          - LESS_OR_EQUAL
+          - CONTAINS
+          - ICONTAINS
+          type: string
   messages:
     monitorValue_subscriptionKeys:
       description: monitorValue request

@@ -423,6 +423,24 @@
       "description": "Send a **enableService_submit** message in this channel.\n",
       "x-parser-unique-object-id": "enableService_submit"
     },
+    "getServiceStatus_request": {
+      "address": "getServiceStatus_request",
+      "messages": {
+        "getServiceStatus_request.message": {
+          "description": "getServiceStatus request",
+          "payload": {
+            "description": "A request message with no payload.",
+            "type": "object",
+            "additionalProperties": false,
+            "x-parser-schema-id": "getServiceStatus_request"
+          },
+          "x-parser-unique-object-id": "getServiceStatus_request.message",
+          "x-parser-message-name": "getServiceStatus_request"
+        }
+      },
+      "description": "Send a **getServiceStatus_request** message in this channel to receive a **getServiceStatus_response** message over the **getServiceStatus_response** channel.\n",
+      "x-parser-unique-object-id": "getServiceStatus_request"
+    },
     "getServiceStatus_response": {
       "address": null,
       "messages": {
@@ -1642,6 +1660,21 @@
       ],
       "x-parser-unique-object-id": "enableService_submit"
     },
+    "getServiceStatus_request": {
+      "action": "send",
+      "channel": "$ref:$.channels.getServiceStatus_request",
+      "messages": [
+        "$ref:$.channels.getServiceStatus_request.messages.getServiceStatus_request.message"
+      ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.getServiceStatus_response"
+      },
+      "x-parser-unique-object-id": "getServiceStatus_request"
+    },
     "getServiceStatus_response": {
       "action": "receive",
       "channel": "$ref:$.channels.getServiceStatus_response",
@@ -1881,6 +1914,7 @@
       "getSummaryReport_response": "$ref:$.channels.getSummaryReport_response.messages.getSummaryReport_response.message.payload",
       "getSummaryReport_error": "$ref:$.channels.getSummaryReport_error.messages.getSummaryReport_error.message.payload",
       "enableService_submit": "$ref:$.channels.enableService_submit.messages.enableService_submit.message.payload",
+      "getServiceStatus_request": "$ref:$.channels.getServiceStatus_request.messages.getServiceStatus_request.message.payload",
       "getServiceStatus_response": "$ref:$.channels.getServiceStatus_response.messages.getServiceStatus_response.message.payload",
       "enableCheck_submit": "$ref:$.channels.enableCheck_submit.messages.enableCheck_submit.message.payload",
       "enableCheck_error": "$ref:$.channels.enableCheck_error.messages.enableCheck_error.message.payload",
@@ -1943,6 +1977,7 @@
       "getSummaryReport_response": "$ref:$.channels.getSummaryReport_response.messages.getSummaryReport_response.message",
       "getSummaryReport_error": "$ref:$.channels.getSummaryReport_error.messages.getSummaryReport_error.message",
       "enableService_submit": "$ref:$.channels.enableService_submit.messages.enableService_submit.message",
+      "getServiceStatus_request": "$ref:$.channels.getServiceStatus_request.messages.getServiceStatus_request.message",
       "getServiceStatus_response": "$ref:$.channels.getServiceStatus_response.messages.getServiceStatus_response.message",
       "enableCheck_submit": "$ref:$.channels.enableCheck_submit.messages.enableCheck_submit.message",
       "enableCheck_error": "$ref:$.channels.enableCheck_error.messages.enableCheck_error.message",

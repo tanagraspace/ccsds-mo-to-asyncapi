@@ -1276,9 +1276,6 @@
       "removeParameter_submit": "$ref:$.channels.removeParameter_submit.messages.removeParameter_submit.message.payload",
       "removeParameter_error": "$ref:$.channels.removeParameter_error.messages.removeParameter_error.message.payload",
       "mc": {
-        "ConditionalConversion": "$ref:$.channels.addParameter_request.messages.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items",
-        "ObjectInstancePair": "$ref:$.channels.listDefinition_response.messages.listDefinition_response.message.payload.properties.objInstIds",
-        "ParameterExpression": "$ref:$.channels.addParameter_request.messages.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items.properties.condition",
         "parameter": {
           "ParameterConversion": "$ref:$.channels.addParameter_request.messages.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion",
           "ParameterCreationRequest": "$ref:$.channels.addParameter_request.messages.addParameter_request.message.payload.properties.paramDefDetails",
@@ -1287,16 +1284,19 @@
           "ParameterValue": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.newValue",
           "ParameterValueDetails": "$ref:$.channels.getValue_response.messages.getValue_response.message.payload.properties.paramValDetails"
         },
+        "ConditionalConversion": "$ref:$.channels.addParameter_request.messages.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items",
+        "ObjectInstancePair": "$ref:$.channels.listDefinition_response.messages.listDefinition_response.message.payload.properties.objInstIds",
+        "ParameterExpression": "$ref:$.channels.addParameter_request.messages.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items.properties.condition",
         "x-parser-schema-id": "mc"
       },
       "com": {
-        "archive": {
-          "ExpressionOperator": "$ref:$.channels.addParameter_request.messages.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items.properties.condition.properties.operator"
-        },
         "InstanceBooleanPair": "$ref:$.channels.enableGeneration_request.messages.enableGeneration_request.message.payload.properties.enableInstances",
         "ObjectId": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.objId",
         "ObjectKey": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.objId.properties.key",
         "ObjectType": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.objId.properties.type_",
+        "archive": {
+          "ExpressionOperator": "$ref:$.channels.addParameter_request.messages.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items.properties.condition.properties.operator"
+        },
         "x-parser-schema-id": "com"
       }
     },
