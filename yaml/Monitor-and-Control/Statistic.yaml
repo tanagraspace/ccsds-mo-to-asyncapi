@@ -61,13 +61,13 @@ channels:
     description: >
       Use this channel to receive resetEvaluation errors as **resetEvaluation_error**
       messages.
-  monitorStatistics_publishNotify:
+  monitorStatistics_pub:
     address: null
     messages:
-      monitorStatistics_publishNotify.message:
-        $ref: '#/components/messages/monitorStatistics_publishNotify'
+      monitorStatistics_pub.message:
+        $ref: '#/components/messages/monitorStatistics_pub'
     description: >
-      Use this channel to receive monitorStatistics responses as **monitorStatistics_publishNotify**
+      Use this channel to receive monitorStatistics responses as **monitorStatistics_pub**
       messages.
   enableService_submit:
     address: enableService_submit
@@ -243,12 +243,12 @@ operations:
       $ref: '#/channels/resetEvaluation_error'
     messages:
       - $ref: '#/channels/resetEvaluation_error/messages/resetEvaluation_error.message'
-  monitorStatistics_publishNotify:
+  monitorStatistics_pub:
     action: receive
     channel:
-      $ref: '#/channels/monitorStatistics_publishNotify'
+      $ref: '#/channels/monitorStatistics_pub'
     messages:
-      - $ref: '#/channels/monitorStatistics_publishNotify/messages/monitorStatistics_publishNotify.message'
+      - $ref: '#/channels/monitorStatistics_pub/messages/monitorStatistics_pub.message'
   enableService_submit:
     action: send
     channel:
@@ -501,11 +501,11 @@ components:
             type: integer
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
-    monitorStatistics_subscriptionKeys:
+    monitorStatistics_sub:
       description: A request message with no payload.
       type: object
       additionalProperties: false
-    monitorStatistics_publishNotify:
+    monitorStatistics_pub:
       type: object
       additionalProperties: false
       properties:
@@ -1033,10 +1033,10 @@ components:
       description: resetEvaluation error response
       payload:
         $ref: '#/components/schemas/resetEvaluation_error'
-    monitorStatistics_publishNotify:
+    monitorStatistics_pub:
       description: monitorStatistics response
       payload:
-        $ref: '#/components/schemas/monitorStatistics_publishNotify'
+        $ref: '#/components/schemas/monitorStatistics_pub'
     enableService_submit:
       description: enableService request
       payload:

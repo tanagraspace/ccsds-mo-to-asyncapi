@@ -13,13 +13,13 @@ servers:
       port:
         default: '8883'
 channels:
-  monitorExecution_publishNotify:
+  monitorExecution_pub:
     address: null
     messages:
-      monitorExecution_publishNotify.message:
-        $ref: '#/components/messages/monitorExecution_publishNotify'
+      monitorExecution_pub.message:
+        $ref: '#/components/messages/monitorExecution_pub'
     description: >
-      Use this channel to receive monitorExecution responses as **monitorExecution_publishNotify**
+      Use this channel to receive monitorExecution responses as **monitorExecution_pub**
       messages.
   runApp_submit:
     address: runApp_submit
@@ -92,12 +92,12 @@ channels:
       Use this channel to receive listApp errors as **listApp_error**
       messages.
 operations:
-  monitorExecution_publishNotify:
+  monitorExecution_pub:
     action: receive
     channel:
-      $ref: '#/channels/monitorExecution_publishNotify'
+      $ref: '#/channels/monitorExecution_pub'
     messages:
-      - $ref: '#/channels/monitorExecution_publishNotify/messages/monitorExecution_publishNotify.message'
+      - $ref: '#/channels/monitorExecution_pub/messages/monitorExecution_pub.message'
   runApp_submit:
     action: send
     channel:
@@ -166,11 +166,11 @@ operations:
       - $ref: '#/channels/listApp_error/messages/listApp_error.message'
 components:
   schemas:
-    monitorExecution_subscriptionKeys:
+    monitorExecution_sub:
       description: A request message with no payload.
       type: object
       additionalProperties: false
-    monitorExecution_publishNotify:
+    monitorExecution_pub:
       type: object
       additionalProperties: false
       properties:
@@ -355,10 +355,10 @@ components:
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
   messages:
-    monitorExecution_publishNotify:
+    monitorExecution_pub:
       description: monitorExecution response
       payload:
-        $ref: '#/components/schemas/monitorExecution_publishNotify'
+        $ref: '#/components/schemas/monitorExecution_pub'
     runApp_submit:
       description: runApp request
       payload:

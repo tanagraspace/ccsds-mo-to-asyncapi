@@ -20,10 +20,10 @@
     }
   },
   "channels": {
-    "monitorValue_subscriptionKeys": {
-      "address": "monitorValue_subscriptionKeys",
+    "monitorValue_sub": {
+      "address": "monitorValue_sub",
       "messages": {
-        "monitorValue_subscriptionKeys.message": {
+        "monitorValue_sub.message": {
           "description": "monitorValue request",
           "payload": {
             "type": "object",
@@ -52,19 +52,19 @@
                 "x-parser-schema-id": "<anonymous-schema-4>"
               }
             },
-            "x-parser-schema-id": "monitorValue_subscriptionKeys"
+            "x-parser-schema-id": "monitorValue_sub"
           },
-          "x-parser-unique-object-id": "monitorValue_subscriptionKeys.message",
-          "x-parser-message-name": "monitorValue_subscriptionKeys"
+          "x-parser-unique-object-id": "monitorValue_sub.message",
+          "x-parser-message-name": "monitorValue_sub"
         }
       },
-      "description": "Send a **monitorValue_subscriptionKeys** message in this channel to receive a **monitorValue_publishNotify** message over the **monitorValue_publishNotify** channel.\n",
-      "x-parser-unique-object-id": "monitorValue_subscriptionKeys"
+      "description": "Send a **monitorValue_sub** message in this channel to receive a **monitorValue_pub** message over the **monitorValue_pub** channel.\n",
+      "x-parser-unique-object-id": "monitorValue_sub"
     },
-    "monitorValue_publishNotify": {
+    "monitorValue_pub": {
       "address": null,
       "messages": {
-        "monitorValue_publishNotify.message": {
+        "monitorValue_pub.message": {
           "description": "monitorValue response",
           "payload": {
             "type": "object",
@@ -155,14 +155,14 @@
                 "x-parser-schema-id": "<anonymous-schema-16>"
               }
             },
-            "x-parser-schema-id": "monitorValue_publishNotify"
+            "x-parser-schema-id": "monitorValue_pub"
           },
-          "x-parser-unique-object-id": "monitorValue_publishNotify.message",
-          "x-parser-message-name": "monitorValue_publishNotify"
+          "x-parser-unique-object-id": "monitorValue_pub.message",
+          "x-parser-message-name": "monitorValue_pub"
         }
       },
-      "description": "Use this channel to receive monitorValue responses as **monitorValue_publishNotify** messages.\n",
-      "x-parser-unique-object-id": "monitorValue_publishNotify"
+      "description": "Use this channel to receive monitorValue responses as **monitorValue_pub** messages.\n",
+      "x-parser-unique-object-id": "monitorValue_pub"
     },
     "getValue_request": {
       "address": "getValue_request",
@@ -232,7 +232,7 @@
                     "type": "number",
                     "x-parser-schema-id": "<anonymous-schema-27>"
                   },
-                  "value": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.newValue"
+                  "value": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.newValue"
                 },
                 "type": "object",
                 "x-parser-schema-id": "<anonymous-schema-24>"
@@ -695,7 +695,7 @@
                                       "type": "string",
                                       "x-parser-schema-id": "<anonymous-schema-75>"
                                     },
-                                    "parameterId": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.objId.properties.key",
+                                    "parameterId": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.objId.properties.key",
                                     "useConverted": {
                                       "description": "If set to TRUE the converted value field of the parameter value should be used, otherwise the raw value field should be used.",
                                       "type": "boolean",
@@ -710,7 +710,7 @@
                                   "type": "object",
                                   "x-parser-schema-id": "<anonymous-schema-74>"
                                 },
-                                "conversionId": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.objId.properties.key"
+                                "conversionId": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.objId.properties.key"
                               },
                               "type": "object",
                               "x-parser-schema-id": "<anonymous-schema-73>"
@@ -1062,28 +1062,28 @@
     }
   },
   "operations": {
-    "monitorValue_subscriptionKeys": {
+    "monitorValue_sub": {
       "action": "send",
-      "channel": "$ref:$.channels.monitorValue_subscriptionKeys",
+      "channel": "$ref:$.channels.monitorValue_sub",
       "messages": [
-        "$ref:$.channels.monitorValue_subscriptionKeys.messages.monitorValue_subscriptionKeys.message"
+        "$ref:$.channels.monitorValue_sub.messages.monitorValue_sub.message"
       ],
       "reply": {
         "address": {
           "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
           "location": "$message.header#/replyTo"
         },
-        "channel": "$ref:$.channels.monitorValue_publishNotify"
+        "channel": "$ref:$.channels.monitorValue_pub"
       },
-      "x-parser-unique-object-id": "monitorValue_subscriptionKeys"
+      "x-parser-unique-object-id": "monitorValue_sub"
     },
-    "monitorValue_publishNotify": {
+    "monitorValue_pub": {
       "action": "receive",
-      "channel": "$ref:$.channels.monitorValue_publishNotify",
+      "channel": "$ref:$.channels.monitorValue_pub",
       "messages": [
-        "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message"
+        "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message"
       ],
-      "x-parser-unique-object-id": "monitorValue_publishNotify"
+      "x-parser-unique-object-id": "monitorValue_pub"
     },
     "getValue_request": {
       "action": "send",
@@ -1275,8 +1275,8 @@
   },
   "components": {
     "schemas": {
-      "monitorValue_subscriptionKeys": "$ref:$.channels.monitorValue_subscriptionKeys.messages.monitorValue_subscriptionKeys.message.payload",
-      "monitorValue_publishNotify": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload",
+      "monitorValue_sub": "$ref:$.channels.monitorValue_sub.messages.monitorValue_sub.message.payload",
+      "monitorValue_pub": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload",
       "getValue_request": "$ref:$.channels.getValue_request.messages.getValue_request.message.payload",
       "getValue_response": "$ref:$.channels.getValue_response.messages.getValue_response.message.payload",
       "getValue_error": "$ref:$.channels.getValue_error.messages.getValue_error.message.payload",
@@ -1297,13 +1297,13 @@
       "removeParameter_submit": "$ref:$.channels.removeParameter_submit.messages.removeParameter_submit.message.payload",
       "removeParameter_error": "$ref:$.channels.removeParameter_error.messages.removeParameter_error.message.payload",
       "com": {
-        "InstanceBooleanPair": "$ref:$.channels.enableGeneration_request.messages.enableGeneration_request.message.payload.properties.enableInstances",
-        "ObjectId": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.objId",
-        "ObjectKey": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.objId.properties.key",
-        "ObjectType": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.objId.properties.type_",
         "archive": {
           "ExpressionOperator": "$ref:$.channels.addParameter_request.messages.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items.properties.condition.properties.operator"
         },
+        "InstanceBooleanPair": "$ref:$.channels.enableGeneration_request.messages.enableGeneration_request.message.payload.properties.enableInstances",
+        "ObjectId": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.objId",
+        "ObjectKey": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.objId.properties.key",
+        "ObjectType": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.objId.properties.type_",
         "x-parser-schema-id": "com"
       },
       "mc": {
@@ -1312,7 +1312,7 @@
           "ParameterCreationRequest": "$ref:$.channels.addParameter_request.messages.addParameter_request.message.payload.properties.paramDefDetails",
           "ParameterDefinitionDetails": "$ref:$.channels.addParameter_request.messages.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails",
           "ParameterRawValue": "$ref:$.channels.setValue_submit.messages.setValue_submit.message.payload.properties.newRawValues",
-          "ParameterValue": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.newValue",
+          "ParameterValue": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.newValue",
           "ParameterValueDetails": "$ref:$.channels.getValue_response.messages.getValue_response.message.payload.properties.paramValDetails"
         },
         "ConditionalConversion": "$ref:$.channels.addParameter_request.messages.addParameter_request.message.payload.properties.paramDefDetails.properties.paramDefDetails.properties.conversion.properties.conditionalConversions.items",
@@ -1322,8 +1322,8 @@
       }
     },
     "messages": {
-      "monitorValue_subscriptionKeys": "$ref:$.channels.monitorValue_subscriptionKeys.messages.monitorValue_subscriptionKeys.message",
-      "monitorValue_publishNotify": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message",
+      "monitorValue_sub": "$ref:$.channels.monitorValue_sub.messages.monitorValue_sub.message",
+      "monitorValue_pub": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message",
       "getValue_request": "$ref:$.channels.getValue_request.messages.getValue_request.message",
       "getValue_response": "$ref:$.channels.getValue_response.messages.getValue_response.message",
       "getValue_error": "$ref:$.channels.getValue_error.messages.getValue_error.message",

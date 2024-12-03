@@ -20,10 +20,10 @@
     }
   },
   "channels": {
-    "monitorExecution_publishNotify": {
+    "monitorExecution_pub": {
       "address": null,
       "messages": {
-        "monitorExecution_publishNotify.message": {
+        "monitorExecution_pub.message": {
           "description": "monitorExecution response",
           "payload": {
             "type": "object",
@@ -40,14 +40,14 @@
                 "x-parser-schema-id": "<anonymous-schema-2>"
               }
             },
-            "x-parser-schema-id": "monitorExecution_publishNotify"
+            "x-parser-schema-id": "monitorExecution_pub"
           },
-          "x-parser-unique-object-id": "monitorExecution_publishNotify.message",
-          "x-parser-message-name": "monitorExecution_publishNotify"
+          "x-parser-unique-object-id": "monitorExecution_pub.message",
+          "x-parser-message-name": "monitorExecution_pub"
         }
       },
-      "description": "Use this channel to receive monitorExecution responses as **monitorExecution_publishNotify** messages.\n",
-      "x-parser-unique-object-id": "monitorExecution_publishNotify"
+      "description": "Use this channel to receive monitorExecution responses as **monitorExecution_pub** messages.\n",
+      "x-parser-unique-object-id": "monitorExecution_pub"
     },
     "runApp_submit": {
       "address": "runApp_submit",
@@ -419,13 +419,13 @@
     }
   },
   "operations": {
-    "monitorExecution_publishNotify": {
+    "monitorExecution_pub": {
       "action": "receive",
-      "channel": "$ref:$.channels.monitorExecution_publishNotify",
+      "channel": "$ref:$.channels.monitorExecution_pub",
       "messages": [
-        "$ref:$.channels.monitorExecution_publishNotify.messages.monitorExecution_publishNotify.message"
+        "$ref:$.channels.monitorExecution_pub.messages.monitorExecution_pub.message"
       ],
-      "x-parser-unique-object-id": "monitorExecution_publishNotify"
+      "x-parser-unique-object-id": "monitorExecution_pub"
     },
     "runApp_submit": {
       "action": "send",
@@ -516,13 +516,13 @@
   },
   "components": {
     "schemas": {
-      "monitorExecution_subscriptionKeys": {
+      "monitorExecution_sub": {
         "description": "A request message with no payload.",
         "type": "object",
         "additionalProperties": false,
-        "x-parser-schema-id": "monitorExecution_subscriptionKeys"
+        "x-parser-schema-id": "monitorExecution_sub"
       },
-      "monitorExecution_publishNotify": "$ref:$.channels.monitorExecution_publishNotify.messages.monitorExecution_publishNotify.message.payload",
+      "monitorExecution_pub": "$ref:$.channels.monitorExecution_pub.messages.monitorExecution_pub.message.payload",
       "runApp_submit": "$ref:$.channels.runApp_submit.messages.runApp_submit.message.payload",
       "runApp_error": "$ref:$.channels.runApp_error.messages.runApp_error.message.payload",
       "killApp_submit": "$ref:$.channels.killApp_submit.messages.killApp_submit.message.payload",
@@ -534,7 +534,7 @@
       "listApp_error": "$ref:$.channels.listApp_error.messages.listApp_error.message.payload"
     },
     "messages": {
-      "monitorExecution_publishNotify": "$ref:$.channels.monitorExecution_publishNotify.messages.monitorExecution_publishNotify.message",
+      "monitorExecution_pub": "$ref:$.channels.monitorExecution_pub.messages.monitorExecution_pub.message",
       "runApp_submit": "$ref:$.channels.runApp_submit.messages.runApp_submit.message",
       "runApp_error": "$ref:$.channels.runApp_error.messages.runApp_error.message",
       "killApp_submit": "$ref:$.channels.killApp_submit.messages.killApp_submit.message",

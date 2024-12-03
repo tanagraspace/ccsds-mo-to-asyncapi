@@ -329,10 +329,10 @@
       "description": "Use this channel to receive resetEvaluation errors as **resetEvaluation_error** messages.\n",
       "x-parser-unique-object-id": "resetEvaluation_error"
     },
-    "monitorStatistics_publishNotify": {
+    "monitorStatistics_pub": {
       "address": null,
       "messages": {
-        "monitorStatistics_publishNotify.message": {
+        "monitorStatistics_pub.message": {
           "description": "monitorStatistics response",
           "payload": {
             "type": "object",
@@ -388,14 +388,14 @@
               },
               "statisticValue": "$ref:$.channels.getStatistics_response.messages.getStatistics_response.message.payload.properties.evaluations.properties.value"
             },
-            "x-parser-schema-id": "monitorStatistics_publishNotify"
+            "x-parser-schema-id": "monitorStatistics_pub"
           },
-          "x-parser-unique-object-id": "monitorStatistics_publishNotify.message",
-          "x-parser-message-name": "monitorStatistics_publishNotify"
+          "x-parser-unique-object-id": "monitorStatistics_pub.message",
+          "x-parser-message-name": "monitorStatistics_pub"
         }
       },
-      "description": "Use this channel to receive monitorStatistics responses as **monitorStatistics_publishNotify** messages.\n",
-      "x-parser-unique-object-id": "monitorStatistics_publishNotify"
+      "description": "Use this channel to receive monitorStatistics responses as **monitorStatistics_pub** messages.\n",
+      "x-parser-unique-object-id": "monitorStatistics_pub"
     },
     "enableService_submit": {
       "address": "enableService_submit",
@@ -1148,13 +1148,13 @@
       ],
       "x-parser-unique-object-id": "resetEvaluation_error"
     },
-    "monitorStatistics_publishNotify": {
+    "monitorStatistics_pub": {
       "action": "receive",
-      "channel": "$ref:$.channels.monitorStatistics_publishNotify",
+      "channel": "$ref:$.channels.monitorStatistics_pub",
       "messages": [
-        "$ref:$.channels.monitorStatistics_publishNotify.messages.monitorStatistics_publishNotify.message"
+        "$ref:$.channels.monitorStatistics_pub.messages.monitorStatistics_pub.message"
       ],
-      "x-parser-unique-object-id": "monitorStatistics_publishNotify"
+      "x-parser-unique-object-id": "monitorStatistics_pub"
     },
     "enableService_submit": {
       "action": "send",
@@ -1321,13 +1321,13 @@
       "resetEvaluation_request": "$ref:$.channels.resetEvaluation_request.messages.resetEvaluation_request.message.payload",
       "resetEvaluation_response": "$ref:$.channels.resetEvaluation_response.messages.resetEvaluation_response.message.payload",
       "resetEvaluation_error": "$ref:$.channels.resetEvaluation_error.messages.resetEvaluation_error.message.payload",
-      "monitorStatistics_subscriptionKeys": {
+      "monitorStatistics_sub": {
         "description": "A request message with no payload.",
         "type": "object",
         "additionalProperties": false,
-        "x-parser-schema-id": "monitorStatistics_subscriptionKeys"
+        "x-parser-schema-id": "monitorStatistics_sub"
       },
-      "monitorStatistics_publishNotify": "$ref:$.channels.monitorStatistics_publishNotify.messages.monitorStatistics_publishNotify.message.payload",
+      "monitorStatistics_pub": "$ref:$.channels.monitorStatistics_pub.messages.monitorStatistics_pub.message.payload",
       "enableService_submit": "$ref:$.channels.enableService_submit.messages.enableService_submit.message.payload",
       "getServiceStatus_request": "$ref:$.channels.getServiceStatus_request.messages.getServiceStatus_request.message.payload",
       "getServiceStatus_response": "$ref:$.channels.getServiceStatus_response.messages.getServiceStatus_response.message.payload",
@@ -1346,9 +1346,9 @@
       "removeParameterEvaluation_error": "$ref:$.channels.removeParameterEvaluation_error.messages.removeParameterEvaluation_error.message.payload",
       "com": {
         "InstanceBooleanPair": "$ref:$.channels.enableReporting_submit.messages.enableReporting_submit.message.payload.properties.enableInstances",
-        "ObjectId": "$ref:$.channels.monitorStatistics_publishNotify.messages.monitorStatistics_publishNotify.message.payload.properties.sourceId",
+        "ObjectId": "$ref:$.channels.monitorStatistics_pub.messages.monitorStatistics_pub.message.payload.properties.sourceId",
         "ObjectKey": "$ref:$.channels.getStatistics_request.messages.getStatistics_request.message.payload.properties.paramObjInstIds",
-        "ObjectType": "$ref:$.channels.monitorStatistics_publishNotify.messages.monitorStatistics_publishNotify.message.payload.properties.sourceId.properties.type_",
+        "ObjectType": "$ref:$.channels.monitorStatistics_pub.messages.monitorStatistics_pub.message.payload.properties.sourceId.properties.type_",
         "x-parser-schema-id": "com"
       },
       "mc": {
@@ -1370,7 +1370,7 @@
       "resetEvaluation_request": "$ref:$.channels.resetEvaluation_request.messages.resetEvaluation_request.message",
       "resetEvaluation_response": "$ref:$.channels.resetEvaluation_response.messages.resetEvaluation_response.message",
       "resetEvaluation_error": "$ref:$.channels.resetEvaluation_error.messages.resetEvaluation_error.message",
-      "monitorStatistics_publishNotify": "$ref:$.channels.monitorStatistics_publishNotify.messages.monitorStatistics_publishNotify.message",
+      "monitorStatistics_pub": "$ref:$.channels.monitorStatistics_pub.messages.monitorStatistics_pub.message",
       "enableService_submit": "$ref:$.channels.enableService_submit.messages.enableService_submit.message",
       "getServiceStatus_request": "$ref:$.channels.getServiceStatus_request.messages.getServiceStatus_request.message",
       "getServiceStatus_response": "$ref:$.channels.getServiceStatus_response.messages.getServiceStatus_response.message",

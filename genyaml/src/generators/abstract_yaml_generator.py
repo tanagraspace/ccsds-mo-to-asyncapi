@@ -40,6 +40,23 @@ class AbstractYamlGenerator(ABC):
     pass
 
   @property
+  def send_element_operation_name_suffix(self) -> str:
+    """
+    The operation names generated for the YAML are a concatenation of the interaction name and it's type as defined by the MO MAL element.
+    For instance, inteaction name "getValue" of type "request" results in the operation name "getValue_request."
+    This sometimes results in a nasty name, e.g.when the type is "subscriptionKeys": "monitorValue_subscriptionKeys."
+    This property exists in case we want a Generator class to overwrite the suffix into a custom value.
+    """
+    return self.send_element
+
+  @property
+  def receive_element_operation_name_suffix(self) -> str:
+    """
+    Refer to the function comments for send_element_operation_name_suffix. Same deal here but for receive elements.
+    """
+    return self.receive_element
+
+  @property
   def receive_element_additional(self) -> str:
     """
     This only exists because the PROGRESS interaction type has more than one RECEIVE channel.
@@ -54,6 +71,18 @@ class AbstractYamlGenerator(ABC):
     More details here: https://www.asyncapi.com/docs/tutorials/getting-started/request-reply
     """
     return True
+
+  def get_send_operation_name(self, interaction_name: str) -> str:
+    """
+    Get the operation name for the send operation.
+    """
+    return f"{interaction_name}_{self.send_element_operation_name_suffix}"
+
+  def get_receive_operation_name(self, interaction_name: str) -> str:
+    """
+    Get the operation name for the receive operation.
+    """
+    return f"{interaction_name}_{self.receive_element_operation_name_suffix}"
 
 
   def generate_service_schema(self, service_name: str) -> str:
@@ -90,29 +119,29 @@ class AbstractYamlGenerator(ABC):
 
     # send channel
     if include_channel_send:
-      channels_schema += f"  {interaction_name}_{self.send_element}:\n"
-      channels_schema += f"    address: {interaction_name}_{self.send_element}\n"
+      channels_schema += f"  {self.get_send_operation_name(interaction_name)}:\n"
+      channels_schema += f"    address: {self.get_send_operation_name(interaction_name)}\n"
       channels_schema += f"    messages:\n"
-      channels_schema += f"      {interaction_name}_{self.send_element}.message:\n"
-      channels_schema += f"        $ref: '#/components/messages/{interaction_name}_{self.send_element}'\n"
+      channels_schema += f"      {self.get_send_operation_name(interaction_name)}.message:\n"
+      channels_schema += f"        $ref: '#/components/messages/{self.get_send_operation_name(interaction_name)}'\n"
       channels_schema += "    description: >\n"
 
       # sometimes there is no receive channel (e.g. for the SUBMIT interaction type)
       if include_channel_receive:
-        channels_schema += f"      Send a **{interaction_name}_{self.send_element}** message in this channel to receive a\n"
-        channels_schema += f"      **{interaction_name}_{self.receive_element}** message over the **{interaction_name}_{self.receive_element}** channel.\n"
+        channels_schema += f"      Send a **{self.get_send_operation_name(interaction_name)}** message in this channel to receive a\n"
+        channels_schema += f"      **{self.get_receive_operation_name(interaction_name)}** message over the **{self.get_receive_operation_name(interaction_name)}** channel.\n"
       else:
-        channels_schema += f"      Send a **{interaction_name}_{self.send_element}** message in this channel.\n"
+        channels_schema += f"      Send a **{self.get_send_operation_name(interaction_name)}** message in this channel.\n"
 
     # receive channel
     if include_channel_receive:
-      channels_schema += f"  {interaction_name}_{self.receive_element}:\n"
-      channels_schema += f"    address: {'null' if self.is_dynamic_reply_address else f'{interaction_name}_{self.receive_element}'}\n"
+      channels_schema += f"  {self.get_receive_operation_name(interaction_name)}:\n"
+      channels_schema += f"    address: {'null' if self.is_dynamic_reply_address else f'{self.get_receive_operation_name(interaction_name)}'}\n"
       channels_schema += f"    messages:\n"
-      channels_schema += f"      {interaction_name}_{self.receive_element}.message:\n"
-      channels_schema += f"        $ref: '#/components/messages/{interaction_name}_{self.receive_element}'\n"
+      channels_schema += f"      {self.get_receive_operation_name(interaction_name)}.message:\n"
+      channels_schema += f"        $ref: '#/components/messages/{self.get_receive_operation_name(interaction_name)}'\n"
       channels_schema += "    description: >\n"
-      channels_schema += f"      Use this channel to receive {interaction_name} responses as **{interaction_name}_{self.receive_element}**\n"
+      channels_schema += f"      Use this channel to receive {interaction_name} responses as **{self.get_receive_operation_name(interaction_name)}**\n"
       channels_schema += f"      messages.\n"
 
     # receive channel (additional)
@@ -150,12 +179,12 @@ class AbstractYamlGenerator(ABC):
 
     # send operation
     if include_channel_send:
-      operations_schema += f"  {interaction_name}_{self.send_element}:\n"
+      operations_schema += f"  {self.get_send_operation_name(interaction_name)}:\n"
       operations_schema += f"    action: {AsyncApiActionType.SEND.value}\n"
       operations_schema += f"    channel:\n"
-      operations_schema += f"      $ref: '#/channels/{interaction_name}_{self.send_element}'\n"
+      operations_schema += f"      $ref: '#/channels/{self.get_send_operation_name(interaction_name)}'\n"
       operations_schema += f"    messages:\n"
-      operations_schema += f"      - $ref: '#/channels/{interaction_name}_{self.send_element}/messages/{interaction_name}_{self.send_element}.message'\n"
+      operations_schema += f"      - $ref: '#/channels/{self.get_send_operation_name(interaction_name)}/messages/{self.get_send_operation_name(interaction_name)}.message'\n"
 
       if self.is_dynamic_reply_address and include_channel_receive:
         operations_schema += f"    reply:\n"
@@ -163,16 +192,16 @@ class AbstractYamlGenerator(ABC):
         operations_schema += f"        description: Reply is sent to topic specified in 'replyTo' property in the message header\n"
         operations_schema += f"        location: $message.header#/replyTo\n"
         operations_schema += f"      channel:\n"
-        operations_schema += f"        $ref: '#/channels/{interaction_name}_{self.receive_element}'\n"
+        operations_schema += f"        $ref: '#/channels/{self.get_receive_operation_name(interaction_name)}'\n"
 
     # receive operation
     if include_channel_receive:
-      operations_schema += f"  {interaction_name}_{self.receive_element}:\n"
+      operations_schema += f"  {self.get_receive_operation_name(interaction_name)}:\n"
       operations_schema += f"    action: {AsyncApiActionType.RECEIVE.value}\n"
       operations_schema += f"    channel:\n"
-      operations_schema += f"      $ref: '#/channels/{interaction_name}_{self.receive_element}'\n"
+      operations_schema += f"      $ref: '#/channels/{self.get_receive_operation_name(interaction_name)}'\n"
       operations_schema += f"    messages:\n"
-      operations_schema += f"      - $ref: '#/channels/{interaction_name}_{self.receive_element}/messages/{interaction_name}_{self.receive_element}.message'\n"
+      operations_schema += f"      - $ref: '#/channels/{self.get_receive_operation_name(interaction_name)}/messages/{self.get_receive_operation_name(interaction_name)}.message'\n"
 
     # receive operation
     if include_channel_receive_additional:
@@ -206,17 +235,17 @@ class AbstractYamlGenerator(ABC):
 
     # send message component
     if include_channel_send:
-      components_schema += f"    {interaction_name}_{self.send_element}:\n"
+      components_schema += f"    {self.get_send_operation_name(interaction_name)}:\n"
       components_schema += f"      description: {interaction_name} request\n"
       components_schema += f"      payload:\n"
-      components_schema += f"        $ref: '#/components/schemas/{interaction_name}_{self.send_element}'\n"
+      components_schema += f"        $ref: '#/components/schemas/{self.get_send_operation_name(interaction_name)}'\n"
 
     # receive message component
     if include_channel_receive:
-      components_schema += f"    {interaction_name}_{self.receive_element}:\n"
+      components_schema += f"    {self.get_receive_operation_name(interaction_name)}:\n"
       components_schema += f"      description: {interaction_name} response\n"
       components_schema += f"      payload:\n"
-      components_schema += f"        $ref: '#/components/schemas/{interaction_name}_{self.receive_element}'\n"
+      components_schema += f"        $ref: '#/components/schemas/{self.get_receive_operation_name(interaction_name)}'\n"
 
     # receive (additional) message component
     if include_channel_receive_additional:
@@ -250,12 +279,12 @@ class AbstractYamlGenerator(ABC):
 
     # build SEND components
     if len(send_fields) == 0: # with no fields
-      components_yaml +=  f"    {interaction_name}_{self.send_element}:\n"
+      components_yaml +=  f"    {self.get_send_operation_name(interaction_name)}:\n"
       components_yaml +=   "      description: A request message with no payload.\n"
       components_yaml +=   "      type: object\n"
       components_yaml +=   "      additionalProperties: false\n"
     elif len(send_fields) > 0: # with fields
-      components_yaml += f"    {interaction_name}_{self.send_element}:\n"
+      components_yaml += f"    {self.get_send_operation_name(interaction_name)}:\n"
       components_yaml +=  "      type: object\n"
       components_yaml +=  "      additionalProperties: false\n"
       components_yaml +=  "      properties:\n"
@@ -271,7 +300,7 @@ class AbstractYamlGenerator(ABC):
 
     # build RECEIVE components
     if len(receive_fields) > 0:
-      components_yaml += f"    {interaction_name}_{self.receive_element}:\n"
+      components_yaml += f"    {self.get_receive_operation_name(interaction_name)}:\n"
       components_yaml +=  "      type: object\n"
       components_yaml +=  "      additionalProperties: false\n"
       components_yaml +=  "      properties:\n"
