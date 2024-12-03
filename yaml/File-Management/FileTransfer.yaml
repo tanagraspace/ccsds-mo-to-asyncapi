@@ -58,6 +58,13 @@ channels:
     description: >
       Use this channel to receive resume errors as **resume_error**
       messages.
+  cancelAll_submit:
+    address: cancelAll_submit
+    messages:
+      cancelAll_submit.message:
+        $ref: '#/components/messages/cancelAll_submit'
+    description: >
+      Send a **cancelAll_submit** message in this channel.
   cancelAll_error:
     address: cancelAll_error
     messages:
@@ -205,6 +212,12 @@ operations:
       $ref: '#/channels/resume_error'
     messages:
       - $ref: '#/channels/resume_error/messages/resume_error.message'
+  cancelAll_submit:
+    action: send
+    channel:
+      $ref: '#/channels/cancelAll_submit'
+    messages:
+      - $ref: '#/channels/cancelAll_submit/messages/cancelAll_submit.message'
   cancelAll_error:
     action: receive
     channel:
@@ -402,6 +415,10 @@ components:
             type: integer
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
+    cancelAll_submit:
+      description: A request message with no payload.
+      type: object
+      additionalProperties: false
     cancelAll_error:
       type: object
       properties:
@@ -707,6 +724,10 @@ components:
       description: resume error response
       payload:
         $ref: '#/components/schemas/resume_error'
+    cancelAll_submit:
+      description: cancelAll request
+      payload:
+        $ref: '#/components/schemas/cancelAll_submit'
     cancelAll_error:
       description: cancelAll error response
       payload:

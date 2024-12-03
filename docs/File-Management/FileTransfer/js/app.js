@@ -259,6 +259,24 @@
       "description": "Use this channel to receive resume errors as **resume_error** messages.\n",
       "x-parser-unique-object-id": "resume_error"
     },
+    "cancelAll_submit": {
+      "address": "cancelAll_submit",
+      "messages": {
+        "cancelAll_submit.message": {
+          "description": "cancelAll request",
+          "payload": {
+            "description": "A request message with no payload.",
+            "type": "object",
+            "additionalProperties": false,
+            "x-parser-schema-id": "cancelAll_submit"
+          },
+          "x-parser-unique-object-id": "cancelAll_submit.message",
+          "x-parser-message-name": "cancelAll_submit"
+        }
+      },
+      "description": "Send a **cancelAll_submit** message in this channel.\n",
+      "x-parser-unique-object-id": "cancelAll_submit"
+    },
     "cancelAll_error": {
       "address": "cancelAll_error",
       "messages": {
@@ -882,6 +900,14 @@
       ],
       "x-parser-unique-object-id": "resume_error"
     },
+    "cancelAll_submit": {
+      "action": "send",
+      "channel": "$ref:$.channels.cancelAll_submit",
+      "messages": [
+        "$ref:$.channels.cancelAll_submit.messages.cancelAll_submit.message"
+      ],
+      "x-parser-unique-object-id": "cancelAll_submit"
+    },
     "cancelAll_error": {
       "action": "receive",
       "channel": "$ref:$.channels.cancelAll_error",
@@ -1024,6 +1050,7 @@
       "suspend_error": "$ref:$.channels.suspend_error.messages.suspend_error.message.payload",
       "resume_submit": "$ref:$.channels.resume_submit.messages.resume_submit.message.payload",
       "resume_error": "$ref:$.channels.resume_error.messages.resume_error.message.payload",
+      "cancelAll_submit": "$ref:$.channels.cancelAll_submit.messages.cancelAll_submit.message.payload",
       "cancelAll_error": "$ref:$.channels.cancelAll_error.messages.cancelAll_error.message.payload",
       "suspendAll_submit": "$ref:$.channels.suspendAll_submit.messages.suspendAll_submit.message.payload",
       "suspendAll_error": "$ref:$.channels.suspendAll_error.messages.suspendAll_error.message.payload",
@@ -1057,6 +1084,7 @@
       "suspend_error": "$ref:$.channels.suspend_error.messages.suspend_error.message",
       "resume_submit": "$ref:$.channels.resume_submit.messages.resume_submit.message",
       "resume_error": "$ref:$.channels.resume_error.messages.resume_error.message",
+      "cancelAll_submit": "$ref:$.channels.cancelAll_submit.messages.cancelAll_submit.message",
       "cancelAll_error": "$ref:$.channels.cancelAll_error.messages.cancelAll_error.message",
       "suspendAll_submit": "$ref:$.channels.suspendAll_submit.messages.suspendAll_submit.message",
       "suspendAll_error": "$ref:$.channels.suspendAll_error.messages.suspendAll_error.message",

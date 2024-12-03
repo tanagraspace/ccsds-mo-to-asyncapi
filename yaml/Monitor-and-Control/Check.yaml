@@ -84,6 +84,14 @@ channels:
         $ref: '#/components/messages/enableService_submit'
     description: >
       Send a **enableService_submit** message in this channel.
+  getServiceStatus_request:
+    address: getServiceStatus_request
+    messages:
+      getServiceStatus_request.message:
+        $ref: '#/components/messages/getServiceStatus_request'
+    description: >
+      Send a **getServiceStatus_request** message in this channel to receive a
+      **getServiceStatus_response** message over the **getServiceStatus_response** channel.
   getServiceStatus_response:
     address: null
     messages:
@@ -339,6 +347,18 @@ operations:
       $ref: '#/channels/enableService_submit'
     messages:
       - $ref: '#/channels/enableService_submit/messages/enableService_submit.message'
+  getServiceStatus_request:
+    action: send
+    channel:
+      $ref: '#/channels/getServiceStatus_request'
+    messages:
+      - $ref: '#/channels/getServiceStatus_request/messages/getServiceStatus_request.message'
+    reply:
+      address:
+        description: Reply is sent to topic specified in 'replyTo' property in the message header
+        location: $message.header#/replyTo
+      channel:
+        $ref: '#/channels/getServiceStatus_response'
   getServiceStatus_response:
     action: receive
     channel:
@@ -661,6 +681,10 @@ components:
             If enableService is set to TRUE the service shall be enabled and evaluation and reporting of check will commence.
             If enableService is set to FALSE then all evaluation of checks shall be suspended and no check transitions will be reported.
             If the enableService value matches the current enabled state of the service then no change shall be made and no error reported. Enabling an already enabled service has no effect.
+    getServiceStatus_request:
+      description: A request message with no payload.
+      type: object
+      additionalProperties: false
     getServiceStatus_response:
       type: object
       properties:
@@ -1481,6 +1505,10 @@ components:
       description: enableService request
       payload:
         $ref: '#/components/schemas/enableService_submit'
+    getServiceStatus_request:
+      description: getServiceStatus request
+      payload:
+        $ref: '#/components/schemas/getServiceStatus_request'
     getServiceStatus_response:
       description: getServiceStatus response
       payload:

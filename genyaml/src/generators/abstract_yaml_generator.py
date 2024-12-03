@@ -245,12 +245,18 @@ class AbstractYamlGenerator(ABC):
     # we will have to generate their schema definition later
     composite_type_list = []
 
+    # build the yaml as we go along
     components_yaml = ""
 
     # build SEND components
-    if len(send_fields) > 0:
+    if len(send_fields) == 0: # with no fields
       components_yaml +=  f"    {interaction_name}_{self.send_element}:\n"
-      components_yaml += "      type: object\n      properties:\n"
+      components_yaml +=   "      description: A request message with no payload.\n"
+      components_yaml +=   "      type: object\n"
+      components_yaml +=   "      additionalProperties: false\n"
+    elif len(send_fields) > 0: # with fields
+      components_yaml += f"    {interaction_name}_{self.send_element}:\n"
+      components_yaml +=  "      type: object\n      properties:\n"
       components_yaml += self._generate_components_schema_field_sequence_id()
 
       for field in send_fields:

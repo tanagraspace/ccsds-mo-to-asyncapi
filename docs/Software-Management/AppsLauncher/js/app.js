@@ -506,6 +506,12 @@
   },
   "components": {
     "schemas": {
+      "monitorExecution_subscriptionKeys": {
+        "description": "A request message with no payload.",
+        "type": "object",
+        "additionalProperties": false,
+        "x-parser-schema-id": "monitorExecution_subscriptionKeys"
+      },
       "monitorExecution_publishNotify": "$ref:$.channels.monitorExecution_publishNotify.messages.monitorExecution_publishNotify.message.payload",
       "runApp_submit": "$ref:$.channels.runApp_submit.messages.runApp_submit.message.payload",
       "runApp_error": "$ref:$.channels.runApp_error.messages.runApp_error.message.payload",

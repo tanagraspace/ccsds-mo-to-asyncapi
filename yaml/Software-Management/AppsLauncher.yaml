@@ -166,6 +166,10 @@ operations:
       - $ref: '#/channels/listApp_error/messages/listApp_error.message'
 components:
   schemas:
+    monitorExecution_subscriptionKeys:
+      description: A request message with no payload.
+      type: object
+      additionalProperties: false
     monitorExecution_publishNotify:
       type: object
       properties:

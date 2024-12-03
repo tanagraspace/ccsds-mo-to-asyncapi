@@ -1261,6 +1261,12 @@
   },
   "components": {
     "schemas": {
+      "monitorValue_subscriptionKeys": {
+        "description": "A request message with no payload.",
+        "type": "object",
+        "additionalProperties": false,
+        "x-parser-schema-id": "monitorValue_subscriptionKeys"
+      },
       "monitorValue_publishNotify": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload",
       "getValue_request": "$ref:$.channels.getValue_request.messages.getValue_request.message.payload",
       "getValue_response": "$ref:$.channels.getValue_response.messages.getValue_response.message.payload",
@@ -1282,7 +1288,6 @@
       "removeAggregation_submit": "$ref:$.channels.removeAggregation_submit.messages.removeAggregation_submit.message.payload",
       "removeAggregation_error": "$ref:$.channels.removeAggregation_error.messages.removeAggregation_error.message.payload",
       "mc": {
-        "ObjectInstancePair": "$ref:$.channels.listDefinition_response.messages.listDefinition_response.message.payload.properties.objInstIds",
         "aggregation": {
           "AggregationCreationRequest": "$ref:$.channels.addAggregation_request.messages.addAggregation_request.message.payload.properties.aggDefDetails",
           "AggregationDefinitionDetails": "$ref:$.channels.addAggregation_request.messages.addAggregation_request.message.payload.properties.aggDefDetails.properties.aggDefDetails",
@@ -1298,6 +1303,7 @@
         "parameter": {
           "ParameterValue": "$ref:$.channels.monitorValue_publishNotify.messages.monitorValue_publishNotify.message.payload.properties.newValue.properties.parameterSetValues.items.properties.values.items.properties.value"
         },
+        "ObjectInstancePair": "$ref:$.channels.listDefinition_response.messages.listDefinition_response.message.payload.properties.objInstIds",
         "x-parser-schema-id": "mc"
       },
       "com": {

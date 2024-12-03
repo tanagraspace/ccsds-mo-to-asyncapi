@@ -20,6 +20,24 @@
     }
   },
   "channels": {
+    "getPeriod_request": {
+      "address": "getPeriod_request",
+      "messages": {
+        "getPeriod_request.message": {
+          "description": "getPeriod request",
+          "payload": {
+            "description": "A request message with no payload.",
+            "type": "object",
+            "additionalProperties": false,
+            "x-parser-schema-id": "getPeriod_request"
+          },
+          "x-parser-unique-object-id": "getPeriod_request.message",
+          "x-parser-message-name": "getPeriod_request"
+        }
+      },
+      "description": "Send a **getPeriod_request** message in this channel to receive a **getPeriod_response** message over the **getPeriod_response** channel.\n",
+      "x-parser-unique-object-id": "getPeriod_request"
+    },
     "getPeriod_response": {
       "address": null,
       "messages": {
@@ -51,6 +69,21 @@
     }
   },
   "operations": {
+    "getPeriod_request": {
+      "action": "send",
+      "channel": "$ref:$.channels.getPeriod_request",
+      "messages": [
+        "$ref:$.channels.getPeriod_request.messages.getPeriod_request.message"
+      ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.getPeriod_response"
+      },
+      "x-parser-unique-object-id": "getPeriod_request"
+    },
     "getPeriod_response": {
       "action": "receive",
       "channel": "$ref:$.channels.getPeriod_response",
@@ -62,9 +95,11 @@
   },
   "components": {
     "schemas": {
+      "getPeriod_request": "$ref:$.channels.getPeriod_request.messages.getPeriod_request.message.payload",
       "getPeriod_response": "$ref:$.channels.getPeriod_response.messages.getPeriod_response.message.payload"
     },
     "messages": {
+      "getPeriod_request": "$ref:$.channels.getPeriod_request.messages.getPeriod_request.message",
       "getPeriod_response": "$ref:$.channels.getPeriod_response.messages.getPeriod_response.message"
     }
   },

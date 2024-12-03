@@ -418,6 +418,24 @@
       "description": "Send a **enableService_submit** message in this channel.\n",
       "x-parser-unique-object-id": "enableService_submit"
     },
+    "getServiceStatus_request": {
+      "address": "getServiceStatus_request",
+      "messages": {
+        "getServiceStatus_request.message": {
+          "description": "getServiceStatus request",
+          "payload": {
+            "description": "A request message with no payload.",
+            "type": "object",
+            "additionalProperties": false,
+            "x-parser-schema-id": "getServiceStatus_request"
+          },
+          "x-parser-unique-object-id": "getServiceStatus_request.message",
+          "x-parser-message-name": "getServiceStatus_request"
+        }
+      },
+      "description": "Send a **getServiceStatus_request** message in this channel to receive a **getServiceStatus_response** message over the **getServiceStatus_response** channel.\n",
+      "x-parser-unique-object-id": "getServiceStatus_request"
+    },
     "getServiceStatus_response": {
       "address": null,
       "messages": {
@@ -1124,6 +1142,21 @@
       ],
       "x-parser-unique-object-id": "enableService_submit"
     },
+    "getServiceStatus_request": {
+      "action": "send",
+      "channel": "$ref:$.channels.getServiceStatus_request",
+      "messages": [
+        "$ref:$.channels.getServiceStatus_request.messages.getServiceStatus_request.message"
+      ],
+      "reply": {
+        "address": {
+          "description": "Reply is sent to topic specified in 'replyTo' property in the message header",
+          "location": "$message.header#/replyTo"
+        },
+        "channel": "$ref:$.channels.getServiceStatus_response"
+      },
+      "x-parser-unique-object-id": "getServiceStatus_request"
+    },
     "getServiceStatus_response": {
       "action": "receive",
       "channel": "$ref:$.channels.getServiceStatus_response",
@@ -1266,8 +1299,15 @@
       "resetEvaluation_request": "$ref:$.channels.resetEvaluation_request.messages.resetEvaluation_request.message.payload",
       "resetEvaluation_response": "$ref:$.channels.resetEvaluation_response.messages.resetEvaluation_response.message.payload",
       "resetEvaluation_error": "$ref:$.channels.resetEvaluation_error.messages.resetEvaluation_error.message.payload",
+      "monitorStatistics_subscriptionKeys": {
+        "description": "A request message with no payload.",
+        "type": "object",
+        "additionalProperties": false,
+        "x-parser-schema-id": "monitorStatistics_subscriptionKeys"
+      },
       "monitorStatistics_publishNotify": "$ref:$.channels.monitorStatistics_publishNotify.messages.monitorStatistics_publishNotify.message.payload",
       "enableService_submit": "$ref:$.channels.enableService_submit.messages.enableService_submit.message.payload",
+      "getServiceStatus_request": "$ref:$.channels.getServiceStatus_request.messages.getServiceStatus_request.message.payload",
       "getServiceStatus_response": "$ref:$.channels.getServiceStatus_response.messages.getServiceStatus_response.message.payload",
       "enableReporting_submit": "$ref:$.channels.enableReporting_submit.messages.enableReporting_submit.message.payload",
       "enableReporting_error": "$ref:$.channels.enableReporting_error.messages.enableReporting_error.message.payload",
@@ -1310,6 +1350,7 @@
       "resetEvaluation_error": "$ref:$.channels.resetEvaluation_error.messages.resetEvaluation_error.message",
       "monitorStatistics_publishNotify": "$ref:$.channels.monitorStatistics_publishNotify.messages.monitorStatistics_publishNotify.message",
       "enableService_submit": "$ref:$.channels.enableService_submit.messages.enableService_submit.message",
+      "getServiceStatus_request": "$ref:$.channels.getServiceStatus_request.messages.getServiceStatus_request.message",
       "getServiceStatus_response": "$ref:$.channels.getServiceStatus_response.messages.getServiceStatus_response.message",
       "enableReporting_submit": "$ref:$.channels.enableReporting_submit.messages.enableReporting_submit.message",
       "enableReporting_error": "$ref:$.channels.enableReporting_error.messages.enableReporting_error.message",
