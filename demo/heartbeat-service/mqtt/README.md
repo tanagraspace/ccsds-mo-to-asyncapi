@@ -1,6 +1,6 @@
 # MQTT Heartbeat Demo
 
-This is an MQTT-based Python implementation demo for the `beat` pub/sub interaction defined in the [Software Management's Heartbeat Service](./../../../yaml/Software-Management/Heartbeat.yaml). It uses Python's `paho-mqtt` library and consists of a client and a service that communicate via a Mosquitto MQTT broker.
+This is an MQTT-based Python implementation demo for the `beat` pub/sub interaction defined in the [Software Management's Heartbeat Service](./../../../yaml/Software-Management/Heartbeat.yaml). It demonstrates the heartbeat mechanism where a client subscribes to periodic heartbeats from a service. The implementation uses Python's `paho-mqtt` library and consists of a client and a service that communicate via a Mosquitto MQTT broker.
 
 ## Components
 

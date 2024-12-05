@@ -3,6 +3,7 @@ import json
 import uuid
 from paho.mqtt import client as mqtt_client
 
+CLIENT_ID = str(uuid.uuid4())
 BROKER = "mqtt"
 PORT = 1883
 
@@ -10,7 +11,7 @@ PORT = 1883
 # so that the service will know where to reply to (Dynamic Reply Address)
 TOPICS = {
   "beat_sub": "beat_sub",
-  "beat_pub": "beat_pub_defined_by_client",
+  "beat_pub": f"beat_pub_{CLIENT_ID}",
 }
 
 
@@ -33,7 +34,7 @@ def on_message(client, userdata, msg):
 # Publish beat_sub message with subscriptionId and replyTo
 def send_beat_sub(client):
   message = {
-    "subscriptionId": str(uuid.uuid4()),  # Unique identifier for this subscription
+    "subscriptionId": CLIENT_ID,  # Unique identifier for this subscription
   }
 
   # Add replyTo property in the header
