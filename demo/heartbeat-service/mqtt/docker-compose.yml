@@ -13,7 +13,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.service
-    container_name: heartbeat-service
+    container_name: heartbeat-service-py
     depends_on:
       - mqtt
     environment:
@@ -25,7 +25,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.client
-    container_name: heartbeat-client
+    container_name: heartbeat-client-py
     depends_on:
       - mqtt
       - service
