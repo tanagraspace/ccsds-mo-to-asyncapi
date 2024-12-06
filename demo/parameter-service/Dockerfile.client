@@ -1,0 +1,14 @@
+# Base Node.js image
+FROM node:23-alpine
+
+# Set working directory
+WORKDIR /client
+
+# Copy client.js into the container
+COPY client/src/client.js .
+
+# Install required dependencies
+RUN npm install mqtt uuid
+
+# Command to run the client
+CMD ["node", "client.js"]

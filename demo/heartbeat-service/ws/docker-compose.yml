@@ -1,11 +1,11 @@
 version: "3.9"
 
 services:
-  server:
+  service:
     build:
       context: .
       dockerfile: Dockerfile.service
-    container_name: heartbeat-service-go
+    container_name: go-heartbeat-service
     ports:
       - "8080:8080"
 
@@ -13,14 +13,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.client
-    container_name: heartbeat-client1-go
+    container_name: go-heartbeat-client1
     depends_on:
-      - server
+      - service
 
   client2:
     build:
       context: .
       dockerfile: Dockerfile.client
-    container_name: heartbeat-client2-go
+    container_name: go-heartbeat-client2
     depends_on:
-      - server
+      - service

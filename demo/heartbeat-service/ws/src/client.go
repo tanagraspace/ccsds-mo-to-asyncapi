@@ -21,8 +21,8 @@ func main() {
   subscriptionID := uuid.New().String()
   replyTo := "beat_pub_" + subscriptionID
 
-  serverURL := url.URL{Scheme: "ws", Host: "server:8080", Path: "/ws"}
-  conn, _, err := websocket.DefaultDialer.Dial(serverURL.String(), nil)
+  serviceURL := url.URL{Scheme: "ws", Host: "service:8080", Path: "/ws"}
+  conn, _, err := websocket.DefaultDialer.Dial(serviceURL.String(), nil)
   if err != nil {
     log.Fatal("Error connecting to WebSocket server:", err)
   }

@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  mqtt:
+    image: eclipse-mosquitto:2.0.20
+    container_name: mqtt-broker
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+
+  service:
+    build:
+      context: ./service
+      dockerfile: Dockerfile
+    container_name: nodejs-parameter-service
+    depends_on:
+      - mqtt
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+    environment:
+      - PORT=3000
+
+  client1:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    container_name: nodejs-parameter-client1
+    depends_on:
+      service:
+        condition: service_healthy
+
+  client2:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    container_name: nodejs-parameter-client2
+    depends_on:
+      service:
+        condition: service_healthy

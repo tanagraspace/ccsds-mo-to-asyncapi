@@ -1,0 +1,175 @@
+asyncapi: 3.0.0
+info:
+  title: Parameter Service API
+  version: 1.0.0
+  description: This API allows clients to interact with the Parameter Service.
+defaultContentType: application/json
+servers:
+  production:
+    host: 'mqtt:{port}'
+    protocol: mqtt
+    description: MQTT server for the Parameter Service.
+    variables:
+      port:
+        default: '1883'
+channels:
+  monitorValue_sub:
+    address: monitorValue_sub
+    messages:
+      monitorValue_sub.message:
+        $ref: '#/components/messages/monitorValue_sub'
+    description: >
+      Send a **monitorValue_sub** message in this channel to receive a
+      **monitorValue_pub** message over the dynamically specified **replyTo** channel.
+  monitorValue_pub:
+    address: null
+    messages:
+      monitorValue_pub.message:
+        $ref: '#/components/messages/monitorValue_pub'
+    description: >
+      Use this channel to receive monitorValue responses as **monitorValue_pub**
+      messages, dynamically specified by the **replyTo** header of the request.
+operations:
+  monitorValue_sub:
+    action: send
+    channel:
+      $ref: '#/channels/monitorValue_sub'
+    reply:
+      address:
+        description: Reply is sent to the address specified in the 'replyTo' property of the message header.
+        location: "$message.header#/replyTo"
+      channel:
+        $ref: '#/channels/monitorValue_pub'
+components:
+  schemas:
+    monitorValue_sub:
+      type: object
+      additionalProperties: false
+      properties:
+        subscriptionId:
+          type: string
+          description: The identifier of this subscription.
+        name:
+          type: string
+          description: |
+            The parameter name.
+        parameterDefinitionId:
+          type: integer
+          format: int64
+          description: |
+            The parameter identity.
+        parameterValueInstance:
+          type: integer
+          format: int64
+          description: |
+            The parameter value instance.
+    monitorValue_pub:
+      type: object
+      additionalProperties: false
+      properties:
+        subscriptionId:
+          type: string
+          description: The identifier of this subscription.
+        objId:
+          $ref: '#/components/schemas/com/ObjectId'
+          description: |
+            The MAL EntityKey.firstSubKey shall contain the parameter name.
+            The MAL EntityKey.secondSubKey shall contain the ParameterIdentity object instance identifier.
+            The MAL EntityKey.thirdSubKey shall contain the ParameterDefinition object instance identifier.
+            The MAL EntityKey.fourthSubKey shall contain the new ParameterValueInstance object instance identifier.
+            The timestamp of the ParameterValueInstance report shall be taken from the publish message and shall be the time of the parameter value update.
+            The publish message shall include the ObjectId of the source link of the report.
+            If no source link is needed then the ObjectId shall be replaced with a NULL.
+        newValue:
+          $ref: '#/components/schemas/mc/parameter/ParameterValue'
+          description: |
+            The second part of the publish message shall be the ParameterValueInstance object value.
+    mc:
+      parameter:
+        ParameterValue:
+          properties:
+            convertedValue:
+              description: The parameter converted value.
+              type: string
+            rawValue:
+              description: The parameter raw value. The value of NULL is a valid value and carries
+                no special significance in the parameter service.
+              type: string
+            validityState:
+              description: Holds the validity state for a parameter value. If the parameter
+                is valid then this should be set to '0'.
+              format: uint8
+              type: integer
+          type: object
+    com:
+      ObjectId:
+        properties:
+          key:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: The combination of the object domain and object instance identifier.
+          type_:
+            $ref: '#/components/schemas/com/ObjectType'
+            description: The fully qualified unique identifier of the type.
+        type: object
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
+      ObjectType:
+        properties:
+          area:
+            description: Area Number where the object type is defined. Must not be '0' for
+              values as this is the wildcard.
+            format: uint16
+            type: integer
+          number:
+            description: The service specific object number. Must not be '0' for values as
+              this is the wildcard.
+            format: uint16
+            type: integer
+          service:
+            description: Service Number of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint16
+            type: integer
+          version:
+            description: Area Version of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint8
+            type: integer
+        type: object
+  messages:
+    monitorValue_sub:
+      description: monitorValue request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
+      payload:
+        $ref: '#/components/schemas/monitorValue_sub'
+    monitorValue_pub:
+      description: monitorValue response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
+      payload:
+        $ref: '#/components/schemas/monitorValue_pub'

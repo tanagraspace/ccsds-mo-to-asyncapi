@@ -1,0 +1,21 @@
+default:
+  app:
+    name: Parameter Service API
+    version: 1.0.0
+
+  broker:
+    mqtt:
+      url: mqtt://mqtt:1883/
+      topics: ["monitorValue_sub"] # the service only listens to subscription requests
+      qos:
+      protocol: mqtt
+      retain:
+      subscribe: true
+
+development:
+
+test:
+
+staging:
+
+production:
