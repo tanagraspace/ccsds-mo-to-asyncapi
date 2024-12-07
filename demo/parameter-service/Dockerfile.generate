@@ -1,0 +1,20 @@
+# Use Node.js as the base image
+FROM node:23-alpine
+
+# Install AsyncAPI CLI globally
+RUN npm install -g @asyncapi/cli@2.5.0
+
+# Install dependencies for the Node.js template
+RUN apk add --no-cache git
+
+# Create a working directory
+WORKDIR /app
+
+# Copy the AsyncAPI YAML file into the container
+COPY Parameter.yaml /app/Parameter.yaml
+
+# Copy the entrypoint script
+COPY generate.sh /app/generate.sh
+
+# Generate the code using AsyncAPI CLI with the Node.js template
+ENTRYPOINT ["/app/generate.sh"]

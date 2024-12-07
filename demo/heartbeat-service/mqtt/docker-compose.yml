@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   mqtt:
-    image: eclipse-mosquitto:2.0.15
+    image: eclipse-mosquitto:2.0.20
     container_name: mqtt-broker
     ports:
       - "1883:1883"
@@ -13,7 +13,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.service
-    container_name: heartbeat-service-py
+    container_name: py-heartbeat-service
     depends_on:
       - mqtt
     environment:
@@ -21,11 +21,11 @@ services:
       - PORT=8883
       - PYTHONUNBUFFERED=1 # so that print statements appear on the terminal
 
-  client:
+  client1:
     build:
       context: .
       dockerfile: Dockerfile.client
-    container_name: heartbeat-client-py
+    container_name: py-heartbeat-client1
     depends_on:
       - mqtt
       - service
