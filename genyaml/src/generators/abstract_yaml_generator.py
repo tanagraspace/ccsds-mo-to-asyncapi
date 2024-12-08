@@ -235,31 +235,77 @@ class AbstractYamlGenerator(ABC):
 
     # send message component
     if include_channel_send:
-      components_schema += f"    {self.get_send_operation_name(interaction_name)}:\n"
-      components_schema += f"      description: {interaction_name} request\n"
-      components_schema += f"      payload:\n"
-      components_schema += f"        $ref: '#/components/schemas/{self.get_send_operation_name(interaction_name)}'\n"
+      components_schema +=  f"    {self.get_send_operation_name(interaction_name)}:\n"
+      components_schema +=  f"      description: {interaction_name} request\n"
+
+      # need a header for dynamic reply address
+      if self.is_dynamic_reply_address:
+        components_schema += "      headers:\n"
+        components_schema += "        type: object\n"
+        components_schema += "        properties:\n"
+        components_schema += "          replyTo:\n"
+        components_schema += "            type: string\n"
+        components_schema += "            description: The channel to which the reply must be sent.\n"
+        components_schema += "          requestId:\n"
+        components_schema += "            type: string\n"
+        components_schema += "            format: uuid\n"
+        components_schema += "            description: The unique identifier for correlating request and response.\n"
+
+      components_schema +=   "      payload:\n"
+      components_schema +=  f"        $ref: '#/components/schemas/{self.get_send_operation_name(interaction_name)}'\n"
 
     # receive message component
     if include_channel_receive:
-      components_schema += f"    {self.get_receive_operation_name(interaction_name)}:\n"
-      components_schema += f"      description: {interaction_name} response\n"
-      components_schema += f"      payload:\n"
-      components_schema += f"        $ref: '#/components/schemas/{self.get_receive_operation_name(interaction_name)}'\n"
+      components_schema +=  f"    {self.get_receive_operation_name(interaction_name)}:\n"
+      components_schema +=  f"      description: {interaction_name} response\n"
+
+      # need a header for dynamic reply address
+      if self.is_dynamic_reply_address:
+        components_schema += "      headers:\n"
+        components_schema += "        type: object\n"
+        components_schema += "        properties:\n"
+        components_schema += "          requestId:\n"
+        components_schema += "            type: string\n"
+        components_schema += "            format: uuid\n"
+        components_schema += "            description: The request ID of the original request.\n"
+
+      components_schema +=   "      payload:\n"
+      components_schema +=  f"        $ref: '#/components/schemas/{self.get_receive_operation_name(interaction_name)}'\n"
 
     # receive (additional) message component
     if include_channel_receive_additional:
-      components_schema += f"    {interaction_name}_{self.receive_element_additional}:\n"
-      components_schema += f"      description: {interaction_name} update response\n"
-      components_schema += f"      payload:\n"
-      components_schema += f"        $ref: '#/components/schemas/{interaction_name}_{self.receive_element_additional}'\n"
+      components_schema +=  f"    {interaction_name}_{self.receive_element_additional}:\n"
+      components_schema +=  f"      description: {interaction_name} update response\n"
+
+      # need a header for dynamic reply address
+      if self.is_dynamic_reply_address:
+        components_schema += "      headers:\n"
+        components_schema += "        type: object\n"
+        components_schema += "        properties:\n"
+        components_schema += "          requestId:\n"
+        components_schema += "            type: string\n"
+        components_schema += "            format: uuid\n"
+        components_schema += "            description: The request ID of the original request.\n"
+
+      components_schema +=   "      payload:\n"
+      components_schema +=  f"        $ref: '#/components/schemas/{interaction_name}_{self.receive_element_additional}'\n"
 
     # error message component (optional)
     if include_channel_error:
       components_schema += f"    {interaction_name}_{TransportType.ERROR.value.lower()}:\n"
       components_schema += f"      description: {interaction_name} error response\n"
-      components_schema += f"      payload:\n"
-      components_schema += f"        $ref: '#/components/schemas/{interaction_name}_{TransportType.ERROR.value.lower()}'\n"
+
+      if self.is_dynamic_reply_address:
+        components_schema += "      headers:\n"
+        components_schema += "        type: object\n"
+        components_schema += "        properties:\n"
+        components_schema += "          requestId:\n"
+        components_schema += "            type: string\n"
+        components_schema += "            format: uuid\n"
+        components_schema += "            description: The request ID of the original request.\n"
+
+      components_schema +=   "      payload:\n"
+      components_schema +=  f"        $ref: '#/components/schemas/{interaction_name}_{TransportType.ERROR.value.lower()}'\n"
 
     return components_schema
 

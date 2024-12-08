@@ -587,34 +587,6 @@ components:
             type: integer
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
-    com:
-      ObjectKey:
-        properties:
-          domain:
-            description: The domain of the object instance.
-            items:
-              type: string
-            type: array
-          instId:
-            description: The unique identifier of the object instance. Must not be '0' for
-              values as this is the wildcard.
-            format: int64
-            type: integer
-        type: object
-      archive:
-        ExpressionOperator:
-          description: The ExpressionOperator enumeration holds a set of possible expression
-            operators.
-          enum:
-          - EQUAL
-          - DIFFER
-          - GREATER
-          - GREATER_OR_EQUAL
-          - LESS
-          - LESS_OR_EQUAL
-          - CONTAINS
-          - ICONTAINS
-          type: string
     mc:
       action:
         ActionCreationRequest:
@@ -770,68 +742,226 @@ components:
             description: The value to be used in the expression.
             type: string
         type: object
+    com:
+      archive:
+        ExpressionOperator:
+          description: The ExpressionOperator enumeration holds a set of possible expression
+            operators.
+          enum:
+          - EQUAL
+          - DIFFER
+          - GREATER
+          - GREATER_OR_EQUAL
+          - LESS
+          - LESS_OR_EQUAL
+          - CONTAINS
+          - ICONTAINS
+          type: string
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
   messages:
     submitAction_submit:
       description: submitAction request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/submitAction_submit'
     submitAction_error:
       description: submitAction error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/submitAction_error'
     preCheckAction_request:
       description: preCheckAction request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/preCheckAction_request'
     preCheckAction_response:
       description: preCheckAction response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/preCheckAction_response'
     preCheckAction_error:
       description: preCheckAction error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/preCheckAction_error'
     listDefinition_request:
       description: listDefinition request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/listDefinition_request'
     listDefinition_response:
       description: listDefinition response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/listDefinition_response'
     listDefinition_error:
       description: listDefinition error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/listDefinition_error'
     addAction_request:
       description: addAction request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/addAction_request'
     addAction_response:
       description: addAction response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/addAction_response'
     addAction_error:
       description: addAction error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/addAction_error'
     updateDefinition_request:
       description: updateDefinition request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/updateDefinition_request'
     updateDefinition_response:
       description: updateDefinition response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/updateDefinition_response'
     updateDefinition_error:
       description: updateDefinition error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/updateDefinition_error'
     removeAction_submit:
       description: removeAction request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/removeAction_submit'
     removeAction_error:
       description: removeAction error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/removeAction_error'

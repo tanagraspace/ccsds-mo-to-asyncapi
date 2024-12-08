@@ -25,6 +25,23 @@
       "messages": {
         "monitorValue_sub.message": {
           "description": "monitorValue request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-2>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-3>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-1>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -32,7 +49,7 @@
               "subscriptionId": {
                 "type": "string",
                 "description": "The identifier of this subscription.",
-                "x-parser-schema-id": "<anonymous-schema-1>"
+                "x-parser-schema-id": "<anonymous-schema-4>"
               }
             },
             "x-parser-schema-id": "monitorValue_sub"
@@ -49,6 +66,18 @@
       "messages": {
         "monitorValue_pub.message": {
           "description": "monitorValue response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-6>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-5>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -56,7 +85,7 @@
               "subscriptionId": {
                 "type": "string",
                 "description": "The identifier of this subscription.",
-                "x-parser-schema-id": "<anonymous-schema-2>"
+                "x-parser-schema-id": "<anonymous-schema-7>"
               },
               "objId": {
                 "properties": {
@@ -66,20 +95,20 @@
                         "description": "The domain of the object instance.",
                         "items": {
                           "type": "string",
-                          "x-parser-schema-id": "<anonymous-schema-6>"
+                          "x-parser-schema-id": "<anonymous-schema-11>"
                         },
                         "type": "array",
-                        "x-parser-schema-id": "<anonymous-schema-5>"
+                        "x-parser-schema-id": "<anonymous-schema-10>"
                       },
                       "instId": {
                         "description": "The unique identifier of the object instance. Must not be '0' for values as this is the wildcard.",
                         "format": "int64",
                         "type": "integer",
-                        "x-parser-schema-id": "<anonymous-schema-7>"
+                        "x-parser-schema-id": "<anonymous-schema-12>"
                       }
                     },
                     "type": "object",
-                    "x-parser-schema-id": "<anonymous-schema-4>"
+                    "x-parser-schema-id": "<anonymous-schema-9>"
                   },
                   "type_": {
                     "properties": {
@@ -87,40 +116,40 @@
                         "description": "Area Number where the object type is defined. Must not be '0' for values as this is the wildcard.",
                         "format": "uint16",
                         "type": "integer",
-                        "x-parser-schema-id": "<anonymous-schema-9>"
+                        "x-parser-schema-id": "<anonymous-schema-14>"
                       },
                       "number": {
                         "description": "The service specific object number. Must not be '0' for values as this is the wildcard.",
                         "format": "uint16",
                         "type": "integer",
-                        "x-parser-schema-id": "<anonymous-schema-10>"
+                        "x-parser-schema-id": "<anonymous-schema-15>"
                       },
                       "service": {
                         "description": "Service Number of the service where the object type is defined. Must not be '0' for values as this is the wildcard.",
                         "format": "uint16",
                         "type": "integer",
-                        "x-parser-schema-id": "<anonymous-schema-11>"
+                        "x-parser-schema-id": "<anonymous-schema-16>"
                       },
                       "version": {
                         "description": "Area Version of the service where the object type is defined. Must not be '0' for values as this is the wildcard.",
                         "format": "uint8",
                         "type": "integer",
-                        "x-parser-schema-id": "<anonymous-schema-12>"
+                        "x-parser-schema-id": "<anonymous-schema-17>"
                       }
                     },
                     "type": "object",
-                    "x-parser-schema-id": "<anonymous-schema-8>"
+                    "x-parser-schema-id": "<anonymous-schema-13>"
                   }
                 },
                 "type": "object",
-                "x-parser-schema-id": "<anonymous-schema-3>"
+                "x-parser-schema-id": "<anonymous-schema-8>"
               },
               "newValue": {
                 "properties": {
                   "filtered": {
                     "description": "If a filter is enabled when the aggregation value is generated then this value shall be set to TRUE, else FALSE.",
                     "type": "boolean",
-                    "x-parser-schema-id": "<anonymous-schema-14>"
+                    "x-parser-schema-id": "<anonymous-schema-19>"
                   },
                   "generationMode": {
                     "description": "GenerationMode is an enumeration definition holding the reasons for the aggregation to be generated.",
@@ -130,7 +159,7 @@
                       "FILTERED_TIMEOUT"
                     ],
                     "type": "string",
-                    "x-parser-schema-id": "<anonymous-schema-15>"
+                    "x-parser-schema-id": "<anonymous-schema-20>"
                   },
                   "parameterSetValues": {
                     "description": "The parameterSetValues list holds the sets of values of the aggregation. The sets must be held in the same order as that defined in the aggregation definition.",
@@ -140,13 +169,13 @@
                           "description": "Optional delta time, from the timestamp of the aggregation for the first parameter set of the aggregation or the last value of the previous parameter set otherwise, for the first parameter sample of this set. If NULL, then the first sample time is the same as the aggregation timestamp for the first parameter set of the aggregation or the last value of the previous parameter set otherwise.",
                           "format": "uint64",
                           "type": "number",
-                          "x-parser-schema-id": "<anonymous-schema-18>"
+                          "x-parser-schema-id": "<anonymous-schema-23>"
                         },
                         "intervalTime": {
                           "description": "Optional delta time between samples in this set. If NULL, then all samples in this set are given the same time. This is usually driven by the sampleInterval in the aggregation set definition.",
                           "format": "uint64",
                           "type": "number",
-                          "x-parser-schema-id": "<anonymous-schema-19>"
+                          "x-parser-schema-id": "<anonymous-schema-24>"
                         },
                         "values": {
                           "description": "List containing values of the parameters which are part of the aggregation. The ordering of the list entries shall match that of the definition of the aggregation. If there are more values than contained in the definition then it is assumed that the parameters cycle as a complete parameter set.",
@@ -156,47 +185,47 @@
                                 "description": "The object instance identifier of the ParameterDefinition. NULL if sendDefinitions in the AggregationDefinitionDetails is FALSE.",
                                 "format": "int64",
                                 "type": "integer",
-                                "x-parser-schema-id": "<anonymous-schema-22>"
+                                "x-parser-schema-id": "<anonymous-schema-27>"
                               },
                               "value": {
                                 "properties": {
                                   "convertedValue": {
                                     "description": "The parameter converted value.",
                                     "type": "string",
-                                    "x-parser-schema-id": "<anonymous-schema-24>"
+                                    "x-parser-schema-id": "<anonymous-schema-29>"
                                   },
                                   "rawValue": {
                                     "description": "The parameter raw value. The value of NULL is a valid value and carries no special significance in the parameter service.",
                                     "type": "string",
-                                    "x-parser-schema-id": "<anonymous-schema-25>"
+                                    "x-parser-schema-id": "<anonymous-schema-30>"
                                   },
                                   "validityState": {
                                     "description": "Holds the validity state for a parameter value. If the parameter is valid then this should be set to '0'.",
                                     "format": "uint8",
                                     "type": "integer",
-                                    "x-parser-schema-id": "<anonymous-schema-26>"
+                                    "x-parser-schema-id": "<anonymous-schema-31>"
                                   }
                                 },
                                 "type": "object",
-                                "x-parser-schema-id": "<anonymous-schema-23>"
+                                "x-parser-schema-id": "<anonymous-schema-28>"
                               }
                             },
                             "type": "object",
-                            "x-parser-schema-id": "<anonymous-schema-21>"
+                            "x-parser-schema-id": "<anonymous-schema-26>"
                           },
                           "type": "array",
-                          "x-parser-schema-id": "<anonymous-schema-20>"
+                          "x-parser-schema-id": "<anonymous-schema-25>"
                         }
                       },
                       "type": "object",
-                      "x-parser-schema-id": "<anonymous-schema-17>"
+                      "x-parser-schema-id": "<anonymous-schema-22>"
                     },
                     "type": "array",
-                    "x-parser-schema-id": "<anonymous-schema-16>"
+                    "x-parser-schema-id": "<anonymous-schema-21>"
                   }
                 },
                 "type": "object",
-                "x-parser-schema-id": "<anonymous-schema-13>"
+                "x-parser-schema-id": "<anonymous-schema-18>"
               }
             },
             "x-parser-schema-id": "monitorValue_pub"
@@ -213,6 +242,23 @@
       "messages": {
         "getValue_request.message": {
           "description": "getValue request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-33>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-34>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-32>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -220,17 +266,17 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-27>"
+                "x-parser-schema-id": "<anonymous-schema-35>"
               },
               "aggInstIds": {
                 "type": "array",
                 "items": {
                   "type": "integer",
                   "format": "int64",
-                  "x-parser-schema-id": "<anonymous-schema-29>"
+                  "x-parser-schema-id": "<anonymous-schema-37>"
                 },
                 "description": "The aggInstIds field shall provide the list of AggregationIdentity object instance identifiers.\nThe wildcard value of '0' shall be supported and matches all aggregations of the provider.\nThe wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.\nIf a requested aggregation is unknown then an UNKNOWN error shall be returned.\nThe filter shall not be applied for the getValue operation.\nIf an aggregation is being reported periodically, using the operation shall not reset the reportInterval or filteredTimeout timer.\n",
-                "x-parser-schema-id": "<anonymous-schema-28>"
+                "x-parser-schema-id": "<anonymous-schema-36>"
               }
             },
             "x-parser-schema-id": "getValue_request"
@@ -247,6 +293,18 @@
       "messages": {
         "getValue_response.message": {
           "description": "getValue response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-39>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-38>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -254,7 +312,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-30>"
+                "x-parser-schema-id": "<anonymous-schema-40>"
               },
               "aggValDetails": {
                 "properties": {
@@ -262,24 +320,24 @@
                     "description": "The AggregationIdentity object instance identifier.",
                     "format": "int64",
                     "type": "integer",
-                    "x-parser-schema-id": "<anonymous-schema-32>"
+                    "x-parser-schema-id": "<anonymous-schema-42>"
                   },
                   "defId": {
                     "description": "The AggregationDefinition object instance identifier.",
                     "format": "int64",
                     "type": "integer",
-                    "x-parser-schema-id": "<anonymous-schema-33>"
+                    "x-parser-schema-id": "<anonymous-schema-43>"
                   },
                   "timestamp": {
                     "description": "The timestamp of the value. Use for the calculation of the individual parameter value timestamps.",
                     "format": "uint64",
                     "type": "number",
-                    "x-parser-schema-id": "<anonymous-schema-34>"
+                    "x-parser-schema-id": "<anonymous-schema-44>"
                   },
                   "value": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.newValue"
                 },
                 "type": "object",
-                "x-parser-schema-id": "<anonymous-schema-31>"
+                "x-parser-schema-id": "<anonymous-schema-41>"
               }
             },
             "x-parser-schema-id": "getValue_response"
@@ -296,6 +354,18 @@
       "messages": {
         "getValue_error.message": {
           "description": "getValue error response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-46>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-45>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -303,7 +373,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-35>"
+                "x-parser-schema-id": "<anonymous-schema-47>"
               },
               "area": {
                 "type": "string",
@@ -311,7 +381,7 @@
                 "enum": [
                   "MAL"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-36>"
+                "x-parser-schema-id": "<anonymous-schema-48>"
               },
               "name": {
                 "type": "string",
@@ -319,7 +389,7 @@
                 "enum": [
                   "UNKNOWN"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-37>"
+                "x-parser-schema-id": "<anonymous-schema-49>"
               },
               "extraInformation": {
                 "type": "array",
@@ -327,9 +397,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-39>"
+                  "x-parser-schema-id": "<anonymous-schema-51>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-38>"
+                "x-parser-schema-id": "<anonymous-schema-50>"
               }
             },
             "x-parser-schema-id": "getValue_error"
@@ -346,6 +416,23 @@
       "messages": {
         "enableGeneration_request.message": {
           "description": "enableGeneration request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-53>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-54>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-52>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -353,12 +440,12 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-40>"
+                "x-parser-schema-id": "<anonymous-schema-55>"
               },
               "isGroupIds": {
                 "type": "boolean",
                 "description": "If the isGroupIds field is TRUE then the enableInstances field shall contain GroupIdentity object instance identifiers, otherwise the field contains AggregationIdentity object instance identifiers.\nThe AggregationIdentity objects referenced, either directly or indirectly via groups, by the enableInstances field shall be the AggregationIdentity objects to match.\nThe id of the enableInstances field shall support the wildcard value of '0' and matches all AggregationIdentity objects of the provider.\nThe service provider shall check for the wildcard value in the list of object instance identifiers in the enableInstances field first and if found no other checks of supplied object instance identifiers shall be made.\nIf the enableInstances field contains a value of TRUE then reports of matching AggregationIdentity objects shall be generated, a value of FALSE requests that reports will not be generated.\nNo error shall be raised if the enableInstances Boolean value supplied is the same as the current generationEnabled field of the definition for a matched AggregationIdentity object i.e. enabling an already enabled aggregation will not result in an error.\nIf a requested AggregationIdentity or GroupIdentity object is unknown then an UNKNOWN error shall be returned.\nIf a requested Group, or the Group objects referenced by that Group, does not contain AggregationIdentity objects then an INVALID error shall be returned.\nIf an error is raised then no modifications shall be made as a result of this operation call.\nThe provider shall create and store a new AggregationDefinition object in the COM archive if the generationEnabled field is changed.\nIf a new AggregationDefinition object is created then that new object shall be the current AggregationDefinition used for the specific AggregationIdentity.\n",
-                "x-parser-schema-id": "<anonymous-schema-41>"
+                "x-parser-schema-id": "<anonymous-schema-56>"
               },
               "enableInstances": {
                 "properties": {
@@ -366,16 +453,16 @@
                     "description": "The object instance identifier.",
                     "format": "int64",
                     "type": "integer",
-                    "x-parser-schema-id": "<anonymous-schema-43>"
+                    "x-parser-schema-id": "<anonymous-schema-58>"
                   },
                   "value": {
                     "description": "An associated Boolean value.",
                     "type": "boolean",
-                    "x-parser-schema-id": "<anonymous-schema-44>"
+                    "x-parser-schema-id": "<anonymous-schema-59>"
                   }
                 },
                 "type": "object",
-                "x-parser-schema-id": "<anonymous-schema-42>"
+                "x-parser-schema-id": "<anonymous-schema-57>"
               }
             },
             "x-parser-schema-id": "enableGeneration_request"
@@ -392,6 +479,18 @@
       "messages": {
         "enableGeneration_response.message": {
           "description": "enableGeneration response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-61>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-60>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -399,17 +498,17 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-45>"
+                "x-parser-schema-id": "<anonymous-schema-62>"
               },
               "newObjInstIds": {
                 "type": "array",
                 "items": {
                   "type": "integer",
                   "format": "int64",
-                  "x-parser-schema-id": "<anonymous-schema-47>"
+                  "x-parser-schema-id": "<anonymous-schema-64>"
                 },
                 "description": "The response shall contain the list of object instance identifiers for the new AggregationDefinition objects.\n",
-                "x-parser-schema-id": "<anonymous-schema-46>"
+                "x-parser-schema-id": "<anonymous-schema-63>"
               }
             },
             "x-parser-schema-id": "enableGeneration_response"
@@ -426,6 +525,18 @@
       "messages": {
         "enableGeneration_error.message": {
           "description": "enableGeneration error response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-66>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-65>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -433,7 +544,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-48>"
+                "x-parser-schema-id": "<anonymous-schema-67>"
               },
               "area": {
                 "type": "string",
@@ -442,7 +553,7 @@
                   "MAL",
                   "COM"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-49>"
+                "x-parser-schema-id": "<anonymous-schema-68>"
               },
               "name": {
                 "type": "string",
@@ -451,7 +562,7 @@
                   "UNKNOWN",
                   "INVALID"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-50>"
+                "x-parser-schema-id": "<anonymous-schema-69>"
               },
               "extraInformation": {
                 "type": "array",
@@ -459,9 +570,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-52>"
+                  "x-parser-schema-id": "<anonymous-schema-71>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-51>"
+                "x-parser-schema-id": "<anonymous-schema-70>"
               }
             },
             "x-parser-schema-id": "enableGeneration_error"
@@ -478,6 +589,23 @@
       "messages": {
         "enableFilter_submit.message": {
           "description": "enableFilter request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-73>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-74>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-72>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -485,12 +613,12 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-53>"
+                "x-parser-schema-id": "<anonymous-schema-75>"
               },
               "isGroupIds": {
                 "type": "boolean",
                 "description": "If the isGroupIds field is TRUE then the enableInstances field shall contain GroupIdentity object instance identifiers, otherwise the field contains AggregationIdentity object instance identifiers.\nThe AggregationIdentity objects referenced, either directly or indirectly via groups, by the enableInstances field shall be the AggregationIdentity objects to match.\nThe id of the enableInstances field shall support the wildcard value of '0' and matches all AggregationIdentity objects of the provider.\nThe service provider shall check for the wildcard value in the list of object instance identifiers in the enableInstances field first and if found no other checks of supplied object instance identifiers shall be made.\nIf the enableInstances field contains a value of TRUE then reports of matching AggregationIdentity objects shall be filtered, a value of FALSE requests that reports will not be filtered.\nNo error shall be raised if the enableInstances Boolean value supplied is the same as the current filterEnabled field of the definition for a matched AggregationIdentity object i.e. filtering an already filtered aggregation will not result in an error.\nIf a requested AggregationIdentity or GroupIdentity object is unknown then an UNKNOWN error shall be returned.\nIf a requested Group, or the Group objects referenced by that Group, does not contain AggregationIdentity objects then an INVALID error shall be returned.\nIf an error is raised then no modifications shall be made as a result of this operation call.\nThe provider shall create and store a new AggregationDefinition object in the COM archive if the filterEnabled field is changed.\nIf a new AggregationDefinition object is created then that new object shall be the current AggregationDefinition used for the specific AggregationIdentity.\n",
-                "x-parser-schema-id": "<anonymous-schema-54>"
+                "x-parser-schema-id": "<anonymous-schema-76>"
               },
               "enableInstances": "$ref:$.channels.enableGeneration_request.messages.enableGeneration_request.message.payload.properties.enableInstances"
             },
@@ -508,6 +636,18 @@
       "messages": {
         "enableFilter_error.message": {
           "description": "enableFilter error response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-78>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-77>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -515,7 +655,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-55>"
+                "x-parser-schema-id": "<anonymous-schema-79>"
               },
               "area": {
                 "type": "string",
@@ -524,7 +664,7 @@
                   "COM",
                   "MAL"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-56>"
+                "x-parser-schema-id": "<anonymous-schema-80>"
               },
               "name": {
                 "type": "string",
@@ -533,7 +673,7 @@
                   "INVALID",
                   "UNKNOWN"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-57>"
+                "x-parser-schema-id": "<anonymous-schema-81>"
               },
               "extraInformation": {
                 "type": "array",
@@ -541,9 +681,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-59>"
+                  "x-parser-schema-id": "<anonymous-schema-83>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-58>"
+                "x-parser-schema-id": "<anonymous-schema-82>"
               }
             },
             "x-parser-schema-id": "enableFilter_error"
@@ -560,6 +700,23 @@
       "messages": {
         "listDefinition_request.message": {
           "description": "listDefinition request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-85>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-86>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-84>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -567,16 +724,16 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-60>"
+                "x-parser-schema-id": "<anonymous-schema-87>"
               },
               "aggNames": {
                 "type": "array",
                 "items": {
                   "type": "string",
-                  "x-parser-schema-id": "<anonymous-schema-62>"
+                  "x-parser-schema-id": "<anonymous-schema-89>"
                 },
                 "description": "The aggNames field shall contain a list of aggregation names to retrieve the AggregationIdentity and AggregationDefinition object instance identifiers for.\nThe aggNames field may contain the wildcard value of '*' to return all supported AggregationIdentity and AggregationDefinition objects.\nThe wildcard value should be checked for first, if found no other checks of supplied identifiers shall be made.\nIf a provided identifier does not include a wildcard and does not match an existing AggregationIdentity object then this operation shall fail with an UNKNOWN error.\n",
-                "x-parser-schema-id": "<anonymous-schema-61>"
+                "x-parser-schema-id": "<anonymous-schema-88>"
               }
             },
             "x-parser-schema-id": "listDefinition_request"
@@ -593,6 +750,18 @@
       "messages": {
         "listDefinition_response.message": {
           "description": "listDefinition response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-91>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-90>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -600,7 +769,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-63>"
+                "x-parser-schema-id": "<anonymous-schema-92>"
               },
               "objInstIds": {
                 "properties": {
@@ -608,17 +777,17 @@
                     "description": "The object instance identifier of the Definition object.",
                     "format": "int64",
                     "type": "integer",
-                    "x-parser-schema-id": "<anonymous-schema-65>"
+                    "x-parser-schema-id": "<anonymous-schema-94>"
                   },
                   "objIdentityInstanceId": {
                     "description": "The object instance identifier of the Identity object.",
                     "format": "int64",
                     "type": "integer",
-                    "x-parser-schema-id": "<anonymous-schema-66>"
+                    "x-parser-schema-id": "<anonymous-schema-95>"
                   }
                 },
                 "type": "object",
-                "x-parser-schema-id": "<anonymous-schema-64>"
+                "x-parser-schema-id": "<anonymous-schema-93>"
               }
             },
             "x-parser-schema-id": "listDefinition_response"
@@ -635,6 +804,18 @@
       "messages": {
         "listDefinition_error.message": {
           "description": "listDefinition error response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-97>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-96>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -642,7 +823,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-67>"
+                "x-parser-schema-id": "<anonymous-schema-98>"
               },
               "area": {
                 "type": "string",
@@ -650,7 +831,7 @@
                 "enum": [
                   "MAL"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-68>"
+                "x-parser-schema-id": "<anonymous-schema-99>"
               },
               "name": {
                 "type": "string",
@@ -658,7 +839,7 @@
                 "enum": [
                   "UNKNOWN"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-69>"
+                "x-parser-schema-id": "<anonymous-schema-100>"
               },
               "extraInformation": {
                 "type": "array",
@@ -666,9 +847,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-71>"
+                  "x-parser-schema-id": "<anonymous-schema-102>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-70>"
+                "x-parser-schema-id": "<anonymous-schema-101>"
               }
             },
             "x-parser-schema-id": "listDefinition_error"
@@ -685,6 +866,23 @@
       "messages": {
         "addAggregation_request.message": {
           "description": "addAggregation request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-104>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-105>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-103>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -692,7 +890,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-72>"
+                "x-parser-schema-id": "<anonymous-schema-106>"
               },
               "aggDefDetails": {
                 "properties": {
@@ -702,28 +900,28 @@
                         "description": "Category of the aggregation. Value taken from AggregationCategory enumeration, although the use of a UOctet allows deployment specific extension. Extensions must use values greater than 127.",
                         "format": "uint8",
                         "type": "integer",
-                        "x-parser-schema-id": "<anonymous-schema-75>"
+                        "x-parser-schema-id": "<anonymous-schema-109>"
                       },
                       "description": {
                         "description": "The description of the parameter. May be empty.",
                         "type": "string",
-                        "x-parser-schema-id": "<anonymous-schema-76>"
+                        "x-parser-schema-id": "<anonymous-schema-110>"
                       },
                       "filterEnabled": {
                         "description": "Controls whether reports for this aggregation are to be filtered.",
                         "type": "boolean",
-                        "x-parser-schema-id": "<anonymous-schema-77>"
+                        "x-parser-schema-id": "<anonymous-schema-111>"
                       },
                       "filteredTimeout": {
                         "description": "The maximum duration between filtered reports. If this value is exceeded, then a report is sent regardless of filtered thresholds. Ignored if not filtered.",
                         "format": "uint64",
                         "type": "number",
-                        "x-parser-schema-id": "<anonymous-schema-78>"
+                        "x-parser-schema-id": "<anonymous-schema-112>"
                       },
                       "generationEnabled": {
                         "description": "Controls whether reports for this aggregation are to be generated.",
                         "type": "boolean",
-                        "x-parser-schema-id": "<anonymous-schema-79>"
+                        "x-parser-schema-id": "<anonymous-schema-113>"
                       },
                       "parameterSets": {
                         "description": "List containing the parameter sets which define the aggregation.",
@@ -733,19 +931,19 @@
                               "description": "The domain of the parameters being referenced in this set of parameters, NULL if the same domain as the aggregation.",
                               "items": {
                                 "type": "string",
-                                "x-parser-schema-id": "<anonymous-schema-83>"
+                                "x-parser-schema-id": "<anonymous-schema-117>"
                               },
                               "type": "array",
-                              "x-parser-schema-id": "<anonymous-schema-82>"
+                              "x-parser-schema-id": "<anonymous-schema-116>"
                             },
                             "parameters": {
                               "description": "The list of object instance identifiers of the ParameterIdentity objects being included in the aggregation.",
                               "items": {
                                 "type": "integer",
-                                "x-parser-schema-id": "<anonymous-schema-85>"
+                                "x-parser-schema-id": "<anonymous-schema-119>"
                               },
                               "type": "array",
-                              "x-parser-schema-id": "<anonymous-schema-84>"
+                              "x-parser-schema-id": "<anonymous-schema-118>"
                             },
                             "reportFilter": {
                               "properties": {
@@ -756,63 +954,63 @@
                                     "DELTA"
                                   ],
                                   "type": "string",
-                                  "x-parser-schema-id": "<anonymous-schema-87>"
+                                  "x-parser-schema-id": "<anonymous-schema-121>"
                                 },
                                 "thresholdValue": {
                                   "description": "Threshold value to apply.",
                                   "type": "string",
-                                  "x-parser-schema-id": "<anonymous-schema-88>"
+                                  "x-parser-schema-id": "<anonymous-schema-122>"
                                 },
                                 "useConverted": {
                                   "description": "If true, and the relevant Parameter has a conversion, then use the converted value for the threshold comparison, otherwise use the raw value.",
                                   "type": "boolean",
-                                  "x-parser-schema-id": "<anonymous-schema-89>"
+                                  "x-parser-schema-id": "<anonymous-schema-123>"
                                 }
                               },
                               "type": "object",
-                              "x-parser-schema-id": "<anonymous-schema-86>"
+                              "x-parser-schema-id": "<anonymous-schema-120>"
                             },
                             "sampleInterval": {
                               "description": "The interval between samples of the parameters in the set. If '0' then just a single sample of the parameters is required per aggregation report.",
                               "format": "uint64",
                               "type": "number",
-                              "x-parser-schema-id": "<anonymous-schema-90>"
+                              "x-parser-schema-id": "<anonymous-schema-124>"
                             }
                           },
                           "type": "object",
-                          "x-parser-schema-id": "<anonymous-schema-81>"
+                          "x-parser-schema-id": "<anonymous-schema-115>"
                         },
                         "type": "array",
-                        "x-parser-schema-id": "<anonymous-schema-80>"
+                        "x-parser-schema-id": "<anonymous-schema-114>"
                       },
                       "reportInterval": {
                         "description": "The interval between periodic reports on this aggregation. If this aggregation is not periodic, this field must be '0'.",
                         "format": "uint64",
                         "type": "number",
-                        "x-parser-schema-id": "<anonymous-schema-91>"
+                        "x-parser-schema-id": "<anonymous-schema-125>"
                       },
                       "sendDefinitions": {
                         "description": "If TRUE reports will include the ParameterDefinition object instance identifier in the AggregationParameterValue, if FALSE it will be set to NULL.",
                         "type": "boolean",
-                        "x-parser-schema-id": "<anonymous-schema-92>"
+                        "x-parser-schema-id": "<anonymous-schema-126>"
                       },
                       "sendUnchanged": {
                         "description": "If TRUE reports will include all values regardless of whether changed, if FALSE values unchanged from previous report are replaced with a NULL.",
                         "type": "boolean",
-                        "x-parser-schema-id": "<anonymous-schema-93>"
+                        "x-parser-schema-id": "<anonymous-schema-127>"
                       }
                     },
                     "type": "object",
-                    "x-parser-schema-id": "<anonymous-schema-74>"
+                    "x-parser-schema-id": "<anonymous-schema-108>"
                   },
                   "name": {
                     "description": "The name of the aggregation. Must not be empty or the wildcard value.",
                     "type": "string",
-                    "x-parser-schema-id": "<anonymous-schema-94>"
+                    "x-parser-schema-id": "<anonymous-schema-128>"
                   }
                 },
                 "type": "object",
-                "x-parser-schema-id": "<anonymous-schema-73>"
+                "x-parser-schema-id": "<anonymous-schema-107>"
               }
             },
             "x-parser-schema-id": "addAggregation_request"
@@ -829,6 +1027,18 @@
       "messages": {
         "addAggregation_response.message": {
           "description": "addAggregation response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-130>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-129>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -836,7 +1046,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-95>"
+                "x-parser-schema-id": "<anonymous-schema-131>"
               },
               "newObjInstIds": "$ref:$.channels.listDefinition_response.messages.listDefinition_response.message.payload.properties.objInstIds"
             },
@@ -854,6 +1064,18 @@
       "messages": {
         "addAggregation_error.message": {
           "description": "addAggregation error response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-133>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-132>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -861,7 +1083,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-96>"
+                "x-parser-schema-id": "<anonymous-schema-134>"
               },
               "area": {
                 "type": "string",
@@ -869,7 +1091,7 @@
                 "enum": [
                   "COM"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-97>"
+                "x-parser-schema-id": "<anonymous-schema-135>"
               },
               "name": {
                 "type": "string",
@@ -878,7 +1100,7 @@
                   "DUPLICATE",
                   "INVALID"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-98>"
+                "x-parser-schema-id": "<anonymous-schema-136>"
               },
               "extraInformation": {
                 "type": "array",
@@ -886,9 +1108,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-100>"
+                  "x-parser-schema-id": "<anonymous-schema-138>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-99>"
+                "x-parser-schema-id": "<anonymous-schema-137>"
               }
             },
             "x-parser-schema-id": "addAggregation_error"
@@ -905,6 +1127,23 @@
       "messages": {
         "updateDefinition_request.message": {
           "description": "updateDefinition request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-140>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-141>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-139>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -912,17 +1151,17 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-101>"
+                "x-parser-schema-id": "<anonymous-schema-142>"
               },
               "aggInstIds": {
                 "type": "array",
                 "items": {
                   "type": "integer",
                   "format": "int64",
-                  "x-parser-schema-id": "<anonymous-schema-103>"
+                  "x-parser-schema-id": "<anonymous-schema-144>"
                 },
                 "description": "The aggInstIds field shall contain the object instance identifiers of the AggregationIdentity objects to be updated.\nThe supplied object instance identifiers shall match existing identity objects, an UNKNOWN error shall be raised if this is not the case.\nIf the aggInstIds list contains either NULL or '0' an INVALID error shall be raised.\n",
-                "x-parser-schema-id": "<anonymous-schema-102>"
+                "x-parser-schema-id": "<anonymous-schema-143>"
               },
               "aggDefDetails": "$ref:$.channels.addAggregation_request.messages.addAggregation_request.message.payload.properties.aggDefDetails.properties.aggDefDetails"
             },
@@ -940,6 +1179,18 @@
       "messages": {
         "updateDefinition_response.message": {
           "description": "updateDefinition response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-146>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-145>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -947,17 +1198,17 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-104>"
+                "x-parser-schema-id": "<anonymous-schema-147>"
               },
               "newObjInstIds": {
                 "type": "array",
                 "items": {
                   "type": "integer",
                   "format": "int64",
-                  "x-parser-schema-id": "<anonymous-schema-106>"
+                  "x-parser-schema-id": "<anonymous-schema-149>"
                 },
                 "description": "The response shall contain the list of object instance identifiers for the new AggregationDefinition objects.\nThe returned list shall maintain the same order as the submitted definitions.\n",
-                "x-parser-schema-id": "<anonymous-schema-105>"
+                "x-parser-schema-id": "<anonymous-schema-148>"
               }
             },
             "x-parser-schema-id": "updateDefinition_response"
@@ -974,6 +1225,18 @@
       "messages": {
         "updateDefinition_error.message": {
           "description": "updateDefinition error response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-151>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-150>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -981,7 +1244,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-107>"
+                "x-parser-schema-id": "<anonymous-schema-152>"
               },
               "area": {
                 "type": "string",
@@ -990,7 +1253,7 @@
                   "MAL",
                   "COM"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-108>"
+                "x-parser-schema-id": "<anonymous-schema-153>"
               },
               "name": {
                 "type": "string",
@@ -999,7 +1262,7 @@
                   "UNKNOWN",
                   "INVALID"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-109>"
+                "x-parser-schema-id": "<anonymous-schema-154>"
               },
               "extraInformation": {
                 "type": "array",
@@ -1007,9 +1270,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-111>"
+                  "x-parser-schema-id": "<anonymous-schema-156>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-110>"
+                "x-parser-schema-id": "<anonymous-schema-155>"
               }
             },
             "x-parser-schema-id": "updateDefinition_error"
@@ -1026,6 +1289,23 @@
       "messages": {
         "removeAggregation_submit.message": {
           "description": "removeAggregation request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-158>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-159>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-157>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -1033,17 +1313,17 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-112>"
+                "x-parser-schema-id": "<anonymous-schema-160>"
               },
               "aggInstIds": {
                 "type": "array",
                 "items": {
                   "type": "integer",
                   "format": "int64",
-                  "x-parser-schema-id": "<anonymous-schema-114>"
+                  "x-parser-schema-id": "<anonymous-schema-162>"
                 },
                 "description": "The aggInstIds field shall hold the object instance identifiers of the AggregationIdentity objects to be removed from the provider.\nThe list may contain the wildcard value of '0'.\nThe wildcard value should be checked for first, if found no other checks of supplied object instance identifiers shall be made.\nIf a provided AggregationIdentity object instance identifier does not include a wildcard and does not match an existing aggregation then this operation shall fail with an UNKNOWN error.\nMatched AggregationIdentity and AggregationDefinition objects shall not be removed from the COM archive only the list of AggregationIdentity and AggregationDefinition objects in the provider.\nIf an error is raised then no aggregations shall be removed as a result of this operation call.\nIf the operation succeeds then the provider shall not publish aggregation values for the deleted AggregationIdentity objects anymore.\n",
-                "x-parser-schema-id": "<anonymous-schema-113>"
+                "x-parser-schema-id": "<anonymous-schema-161>"
               }
             },
             "x-parser-schema-id": "removeAggregation_submit"
@@ -1060,6 +1340,18 @@
       "messages": {
         "removeAggregation_error.message": {
           "description": "removeAggregation error response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-164>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-163>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -1067,7 +1359,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-115>"
+                "x-parser-schema-id": "<anonymous-schema-165>"
               },
               "area": {
                 "type": "string",
@@ -1075,7 +1367,7 @@
                 "enum": [
                   "MAL"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-116>"
+                "x-parser-schema-id": "<anonymous-schema-166>"
               },
               "name": {
                 "type": "string",
@@ -1083,7 +1375,7 @@
                 "enum": [
                   "UNKNOWN"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-117>"
+                "x-parser-schema-id": "<anonymous-schema-167>"
               },
               "extraInformation": {
                 "type": "array",
@@ -1091,9 +1383,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-119>"
+                  "x-parser-schema-id": "<anonymous-schema-169>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-118>"
+                "x-parser-schema-id": "<anonymous-schema-168>"
               }
             },
             "x-parser-schema-id": "removeAggregation_error"
@@ -1336,7 +1628,7 @@
           "interactionId": {
             "type": "string",
             "description": "A unique identifier to map the response (receive message) to the request (send message).",
-            "x-parser-schema-id": "<anonymous-schema-120>"
+            "x-parser-schema-id": "<anonymous-schema-170>"
           }
         },
         "x-parser-schema-id": "enableFilter_None"
@@ -1359,19 +1651,12 @@
           "interactionId": {
             "type": "string",
             "description": "A unique identifier to map the response (receive message) to the request (send message).",
-            "x-parser-schema-id": "<anonymous-schema-121>"
+            "x-parser-schema-id": "<anonymous-schema-171>"
           }
         },
         "x-parser-schema-id": "removeAggregation_None"
       },
       "removeAggregation_error": "$ref:$.channels.removeAggregation_error.messages.removeAggregation_error.message.payload",
-      "com": {
-        "InstanceBooleanPair": "$ref:$.channels.enableGeneration_request.messages.enableGeneration_request.message.payload.properties.enableInstances",
-        "ObjectId": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.objId",
-        "ObjectKey": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.objId.properties.key",
-        "ObjectType": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.objId.properties.type_",
-        "x-parser-schema-id": "com"
-      },
       "mc": {
         "ObjectInstancePair": "$ref:$.channels.listDefinition_response.messages.listDefinition_response.message.payload.properties.objInstIds",
         "aggregation": {
@@ -1390,6 +1675,13 @@
           "ParameterValue": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.newValue.properties.parameterSetValues.items.properties.values.items.properties.value"
         },
         "x-parser-schema-id": "mc"
+      },
+      "com": {
+        "InstanceBooleanPair": "$ref:$.channels.enableGeneration_request.messages.enableGeneration_request.message.payload.properties.enableInstances",
+        "ObjectId": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.objId",
+        "ObjectKey": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.objId.properties.key",
+        "ObjectType": "$ref:$.channels.monitorValue_pub.messages.monitorValue_pub.message.payload.properties.objId.properties.type_",
+        "x-parser-schema-id": "com"
       }
     },
     "messages": {

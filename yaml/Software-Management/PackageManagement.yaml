@@ -221,25 +221,73 @@ components:
   messages:
     findPackage_request:
       description: findPackage request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/findPackage_request'
     findPackage_response:
       description: findPackage response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/findPackage_response'
     findPackage_error:
       description: findPackage error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/findPackage_error'
     checkPackageIntegrity_request:
       description: checkPackageIntegrity request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/checkPackageIntegrity_request'
     checkPackageIntegrity_response:
       description: checkPackageIntegrity response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/checkPackageIntegrity_response'
     checkPackageIntegrity_error:
       description: checkPackageIntegrity error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/checkPackageIntegrity_error'

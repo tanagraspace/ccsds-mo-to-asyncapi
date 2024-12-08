@@ -874,62 +874,6 @@ components:
             type: integer
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
-    com:
-      InstanceBooleanPair:
-        properties:
-          id:
-            description: The object instance identifier.
-            format: int64
-            type: integer
-          value:
-            description: An associated Boolean value.
-            type: boolean
-        type: object
-      ObjectId:
-        properties:
-          key:
-            $ref: '#/components/schemas/com/ObjectKey'
-            description: The combination of the object domain and object instance identifier.
-          type_:
-            $ref: '#/components/schemas/com/ObjectType'
-            description: The fully qualified unique identifier of the type.
-        type: object
-      ObjectKey:
-        properties:
-          domain:
-            description: The domain of the object instance.
-            items:
-              type: string
-            type: array
-          instId:
-            description: The unique identifier of the object instance. Must not be '0' for
-              values as this is the wildcard.
-            format: int64
-            type: integer
-        type: object
-      ObjectType:
-        properties:
-          area:
-            description: Area Number where the object type is defined. Must not be '0' for
-              values as this is the wildcard.
-            format: uint16
-            type: integer
-          number:
-            description: The service specific object number. Must not be '0' for values as
-              this is the wildcard.
-            format: uint16
-            type: integer
-          service:
-            description: Service Number of the service where the object type is defined. Must
-              not be '0' for values as this is the wildcard.
-            format: uint16
-            type: integer
-          version:
-            description: Area Version of the service where the object type is defined. Must
-              not be '0' for values as this is the wildcard.
-            format: uint8
-            type: integer
-        type: object
     mc:
       statistic:
         StatisticCreationRequest:
@@ -1055,100 +999,354 @@ components:
             format: int64
             type: integer
         type: object
+    com:
+      InstanceBooleanPair:
+        properties:
+          id:
+            description: The object instance identifier.
+            format: int64
+            type: integer
+          value:
+            description: An associated Boolean value.
+            type: boolean
+        type: object
+      ObjectId:
+        properties:
+          key:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: The combination of the object domain and object instance identifier.
+          type_:
+            $ref: '#/components/schemas/com/ObjectType'
+            description: The fully qualified unique identifier of the type.
+        type: object
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
+      ObjectType:
+        properties:
+          area:
+            description: Area Number where the object type is defined. Must not be '0' for
+              values as this is the wildcard.
+            format: uint16
+            type: integer
+          number:
+            description: The service specific object number. Must not be '0' for values as
+              this is the wildcard.
+            format: uint16
+            type: integer
+          service:
+            description: Service Number of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint16
+            type: integer
+          version:
+            description: Area Version of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint8
+            type: integer
+        type: object
   messages:
     getStatistics_request:
       description: getStatistics request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/getStatistics_request'
     getStatistics_response:
       description: getStatistics response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/getStatistics_response'
     getStatistics_error:
       description: getStatistics error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/getStatistics_error'
     resetEvaluation_request:
       description: resetEvaluation request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/resetEvaluation_request'
     resetEvaluation_response:
       description: resetEvaluation response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/resetEvaluation_response'
     resetEvaluation_error:
       description: resetEvaluation error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/resetEvaluation_error'
     monitorStatistics_sub:
       description: monitorStatistics request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/monitorStatistics_sub'
     monitorStatistics_pub:
       description: monitorStatistics response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/monitorStatistics_pub'
     enableService_submit:
       description: enableService request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/enableService_submit'
     getServiceStatus_request:
       description: getServiceStatus request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/getServiceStatus_request'
     getServiceStatus_response:
       description: getServiceStatus response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/getServiceStatus_response'
     enableReporting_submit:
       description: enableReporting request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/enableReporting_submit'
     enableReporting_error:
       description: enableReporting error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/enableReporting_error'
     listParameterEvaluations_request:
       description: listParameterEvaluations request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/listParameterEvaluations_request'
     listParameterEvaluations_response:
       description: listParameterEvaluations response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/listParameterEvaluations_response'
     listParameterEvaluations_error:
       description: listParameterEvaluations error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/listParameterEvaluations_error'
     addParameterEvaluation_request:
       description: addParameterEvaluation request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/addParameterEvaluation_request'
     addParameterEvaluation_response:
       description: addParameterEvaluation response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/addParameterEvaluation_response'
     addParameterEvaluation_error:
       description: addParameterEvaluation error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/addParameterEvaluation_error'
     updateParameterEvaluation_request:
       description: updateParameterEvaluation request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/updateParameterEvaluation_request'
     updateParameterEvaluation_response:
       description: updateParameterEvaluation response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/updateParameterEvaluation_response'
     updateParameterEvaluation_error:
       description: updateParameterEvaluation error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/updateParameterEvaluation_error'
     removeParameterEvaluation_submit:
       description: removeParameterEvaluation request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/removeParameterEvaluation_submit'
     removeParameterEvaluation_error:
       description: removeParameterEvaluation error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/removeParameterEvaluation_error'

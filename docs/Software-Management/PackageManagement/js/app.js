@@ -25,39 +25,23 @@
       "messages": {
         "findPackage_request.message": {
           "description": "findPackage request",
-          "payload": {
+          "headers": {
             "type": "object",
-            "additionalProperties": false,
             "properties": {
-              "interactionId": {
+              "replyTo": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-1>"
-              },
-              "names": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "x-parser-schema-id": "<anonymous-schema-3>"
-                },
-                "description": "The names field contains the names of the packages.\n",
+                "description": "The channel to which the reply must be sent.",
                 "x-parser-schema-id": "<anonymous-schema-2>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-3>"
               }
             },
-            "x-parser-schema-id": "findPackage_request"
+            "x-parser-schema-id": "<anonymous-schema-1>"
           },
-          "x-parser-unique-object-id": "findPackage_request.message",
-          "x-parser-message-name": "findPackage_request"
-        }
-      },
-      "description": "Send a **findPackage_request** message in this channel to receive a **findPackage_response** message over the **findPackage_response** channel.\n",
-      "x-parser-unique-object-id": "findPackage_request"
-    },
-    "findPackage_response": {
-      "address": null,
-      "messages": {
-        "findPackage_response.message": {
-          "description": "findPackage response",
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -75,15 +59,60 @@
                 },
                 "description": "The names field contains the names of the packages.\n",
                 "x-parser-schema-id": "<anonymous-schema-5>"
+              }
+            },
+            "x-parser-schema-id": "findPackage_request"
+          },
+          "x-parser-unique-object-id": "findPackage_request.message",
+          "x-parser-message-name": "findPackage_request"
+        }
+      },
+      "description": "Send a **findPackage_request** message in this channel to receive a **findPackage_response** message over the **findPackage_response** channel.\n",
+      "x-parser-unique-object-id": "findPackage_request"
+    },
+    "findPackage_response": {
+      "address": null,
+      "messages": {
+        "findPackage_response.message": {
+          "description": "findPackage response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-8>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-7>"
+          },
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "interactionId": {
+                "type": "string",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-9>"
+              },
+              "names": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "x-parser-schema-id": "<anonymous-schema-11>"
+                },
+                "description": "The names field contains the names of the packages.\n",
+                "x-parser-schema-id": "<anonymous-schema-10>"
               },
               "installed": {
                 "type": "array",
                 "items": {
                   "type": "boolean",
-                  "x-parser-schema-id": "<anonymous-schema-8>"
+                  "x-parser-schema-id": "<anonymous-schema-13>"
                 },
                 "description": "The installed field shall hold the status of the package.\n",
-                "x-parser-schema-id": "<anonymous-schema-7>"
+                "x-parser-schema-id": "<anonymous-schema-12>"
               }
             },
             "x-parser-schema-id": "findPackage_response"
@@ -100,6 +129,18 @@
       "messages": {
         "findPackage_error.message": {
           "description": "findPackage error response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-15>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-14>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -107,7 +148,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-9>"
+                "x-parser-schema-id": "<anonymous-schema-16>"
               },
               "area": {
                 "type": "string",
@@ -115,7 +156,7 @@
                 "enum": [
                   "MAL"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-10>"
+                "x-parser-schema-id": "<anonymous-schema-17>"
               },
               "name": {
                 "type": "string",
@@ -123,7 +164,7 @@
                 "enum": [
                   "UNKNOWN"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-11>"
+                "x-parser-schema-id": "<anonymous-schema-18>"
               },
               "extraInformation": {
                 "type": "array",
@@ -131,9 +172,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-13>"
+                  "x-parser-schema-id": "<anonymous-schema-20>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-12>"
+                "x-parser-schema-id": "<anonymous-schema-19>"
               }
             },
             "x-parser-schema-id": "findPackage_error"
@@ -150,6 +191,23 @@
       "messages": {
         "checkPackageIntegrity_request.message": {
           "description": "checkPackageIntegrity request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-22>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-23>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-21>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -157,16 +215,16 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-14>"
+                "x-parser-schema-id": "<anonymous-schema-24>"
               },
               "names": {
                 "type": "array",
                 "items": {
                   "type": "string",
-                  "x-parser-schema-id": "<anonymous-schema-16>"
+                  "x-parser-schema-id": "<anonymous-schema-26>"
                 },
                 "description": "The names field contains the names of the packages.\n",
-                "x-parser-schema-id": "<anonymous-schema-15>"
+                "x-parser-schema-id": "<anonymous-schema-25>"
               }
             },
             "x-parser-schema-id": "checkPackageIntegrity_request"
@@ -183,6 +241,18 @@
       "messages": {
         "checkPackageIntegrity_response.message": {
           "description": "checkPackageIntegrity response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-28>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-27>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -190,23 +260,23 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-17>"
+                "x-parser-schema-id": "<anonymous-schema-29>"
               },
               "validCRCs": {
                 "type": "array",
                 "items": {
                   "type": "boolean",
-                  "x-parser-schema-id": "<anonymous-schema-19>"
+                  "x-parser-schema-id": "<anonymous-schema-31>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-18>"
+                "x-parser-schema-id": "<anonymous-schema-30>"
               },
               "publicKeys": {
                 "type": "array",
                 "items": {
                   "type": "string",
-                  "x-parser-schema-id": "<anonymous-schema-21>"
+                  "x-parser-schema-id": "<anonymous-schema-33>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-20>"
+                "x-parser-schema-id": "<anonymous-schema-32>"
               }
             },
             "x-parser-schema-id": "checkPackageIntegrity_response"
@@ -223,6 +293,18 @@
       "messages": {
         "checkPackageIntegrity_error.message": {
           "description": "checkPackageIntegrity error response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-35>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-34>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -230,7 +312,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-22>"
+                "x-parser-schema-id": "<anonymous-schema-36>"
               },
               "area": {
                 "type": "string",
@@ -238,7 +320,7 @@
                 "enum": [
                   "MAL"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-23>"
+                "x-parser-schema-id": "<anonymous-schema-37>"
               },
               "name": {
                 "type": "string",
@@ -246,7 +328,7 @@
                 "enum": [
                   "UNKNOWN"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-24>"
+                "x-parser-schema-id": "<anonymous-schema-38>"
               },
               "extraInformation": {
                 "type": "array",
@@ -254,9 +336,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-26>"
+                  "x-parser-schema-id": "<anonymous-schema-40>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-25>"
+                "x-parser-schema-id": "<anonymous-schema-39>"
               }
             },
             "x-parser-schema-id": "checkPackageIntegrity_error"
