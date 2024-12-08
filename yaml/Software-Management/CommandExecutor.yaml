@@ -94,9 +94,26 @@ components:
   messages:
     runCommand_request:
       description: runCommand request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/runCommand_request'
     runCommand_response:
       description: runCommand response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/runCommand_response'

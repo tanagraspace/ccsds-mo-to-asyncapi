@@ -25,6 +25,23 @@
       "messages": {
         "beat_sub.message": {
           "description": "beat request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-2>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-3>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-1>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -32,7 +49,7 @@
               "subscriptionId": {
                 "type": "string",
                 "description": "The identifier of this subscription.",
-                "x-parser-schema-id": "<anonymous-schema-1>"
+                "x-parser-schema-id": "<anonymous-schema-4>"
               }
             },
             "x-parser-schema-id": "beat_sub"
@@ -49,6 +66,18 @@
       "messages": {
         "beat_pub.message": {
           "description": "beat response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-6>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-5>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -56,7 +85,7 @@
               "subscriptionId": {
                 "type": "string",
                 "description": "The identifier of this subscription.",
-                "x-parser-schema-id": "<anonymous-schema-2>"
+                "x-parser-schema-id": "<anonymous-schema-7>"
               }
             },
             "x-parser-schema-id": "beat_pub"
@@ -73,6 +102,23 @@
       "messages": {
         "getPeriod_request.message": {
           "description": "getPeriod request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-9>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-10>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-8>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -80,7 +126,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-3>"
+                "x-parser-schema-id": "<anonymous-schema-11>"
               }
             },
             "x-parser-schema-id": "getPeriod_request"
@@ -97,6 +143,18 @@
       "messages": {
         "getPeriod_response.message": {
           "description": "getPeriod response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-13>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-12>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -104,13 +162,13 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-4>"
+                "x-parser-schema-id": "<anonymous-schema-14>"
               },
               "period": {
                 "type": "number",
                 "format": "uint64",
                 "description": "The period field shall hold period of the heartbeat message.\n",
-                "x-parser-schema-id": "<anonymous-schema-5>"
+                "x-parser-schema-id": "<anonymous-schema-15>"
               }
             },
             "x-parser-schema-id": "getPeriod_response"

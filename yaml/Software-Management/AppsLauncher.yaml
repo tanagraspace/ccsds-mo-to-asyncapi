@@ -394,45 +394,137 @@ components:
   messages:
     monitorExecution_sub:
       description: monitorExecution request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/monitorExecution_sub'
     monitorExecution_pub:
       description: monitorExecution response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/monitorExecution_pub'
     runApp_submit:
       description: runApp request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/runApp_submit'
     runApp_error:
       description: runApp error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/runApp_error'
     killApp_submit:
       description: killApp request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/killApp_submit'
     killApp_error:
       description: killApp error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/killApp_error'
     stopApp_progress:
       description: stopApp request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/stopApp_progress'
     stopApp_update:
       description: stopApp response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/stopApp_update'
     listApp_request:
       description: listApp request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/listApp_request'
     listApp_response:
       description: listApp response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/listApp_response'
     listApp_error:
       description: listApp error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/listApp_error'

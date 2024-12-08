@@ -776,76 +776,6 @@ components:
             type: integer
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
-    com:
-      InstanceBooleanPair:
-        properties:
-          id:
-            description: The object instance identifier.
-            format: int64
-            type: integer
-          value:
-            description: An associated Boolean value.
-            type: boolean
-        type: object
-      ObjectId:
-        properties:
-          key:
-            $ref: '#/components/schemas/com/ObjectKey'
-            description: The combination of the object domain and object instance identifier.
-          type_:
-            $ref: '#/components/schemas/com/ObjectType'
-            description: The fully qualified unique identifier of the type.
-        type: object
-      ObjectKey:
-        properties:
-          domain:
-            description: The domain of the object instance.
-            items:
-              type: string
-            type: array
-          instId:
-            description: The unique identifier of the object instance. Must not be '0' for
-              values as this is the wildcard.
-            format: int64
-            type: integer
-        type: object
-      ObjectType:
-        properties:
-          area:
-            description: Area Number where the object type is defined. Must not be '0' for
-              values as this is the wildcard.
-            format: uint16
-            type: integer
-          number:
-            description: The service specific object number. Must not be '0' for values as
-              this is the wildcard.
-            format: uint16
-            type: integer
-          service:
-            description: Service Number of the service where the object type is defined. Must
-              not be '0' for values as this is the wildcard.
-            format: uint16
-            type: integer
-          version:
-            description: Area Version of the service where the object type is defined. Must
-              not be '0' for values as this is the wildcard.
-            format: uint8
-            type: integer
-        type: object
-      archive:
-        ExpressionOperator:
-          description: The ExpressionOperator enumeration holds a set of possible expression
-            operators.
-          enum:
-          - EQUAL
-          - DIFFER
-          - GREATER
-          - GREATER_OR_EQUAL
-          - LESS
-          - LESS_OR_EQUAL
-          - CONTAINS
-          - ICONTAINS
-          type: string
     mc:
       ConditionalConversion:
         properties:
@@ -988,88 +918,329 @@ components:
               $ref: '#/components/schemas/mc/parameter/ParameterValue'
               description: The parameter value.
           type: object
+    com:
+      archive:
+        ExpressionOperator:
+          description: The ExpressionOperator enumeration holds a set of possible expression
+            operators.
+          enum:
+          - EQUAL
+          - DIFFER
+          - GREATER
+          - GREATER_OR_EQUAL
+          - LESS
+          - LESS_OR_EQUAL
+          - CONTAINS
+          - ICONTAINS
+          type: string
+      InstanceBooleanPair:
+        properties:
+          id:
+            description: The object instance identifier.
+            format: int64
+            type: integer
+          value:
+            description: An associated Boolean value.
+            type: boolean
+        type: object
+      ObjectId:
+        properties:
+          key:
+            $ref: '#/components/schemas/com/ObjectKey'
+            description: The combination of the object domain and object instance identifier.
+          type_:
+            $ref: '#/components/schemas/com/ObjectType'
+            description: The fully qualified unique identifier of the type.
+        type: object
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
+      ObjectType:
+        properties:
+          area:
+            description: Area Number where the object type is defined. Must not be '0' for
+              values as this is the wildcard.
+            format: uint16
+            type: integer
+          number:
+            description: The service specific object number. Must not be '0' for values as
+              this is the wildcard.
+            format: uint16
+            type: integer
+          service:
+            description: Service Number of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint16
+            type: integer
+          version:
+            description: Area Version of the service where the object type is defined. Must
+              not be '0' for values as this is the wildcard.
+            format: uint8
+            type: integer
+        type: object
   messages:
     monitorValue_sub:
       description: monitorValue request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/monitorValue_sub'
     monitorValue_pub:
       description: monitorValue response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/monitorValue_pub'
     getValue_request:
       description: getValue request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/getValue_request'
     getValue_response:
       description: getValue response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/getValue_response'
     getValue_error:
       description: getValue error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/getValue_error'
     setValue_submit:
       description: setValue request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/setValue_submit'
     setValue_error:
       description: setValue error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/setValue_error'
     enableGeneration_request:
       description: enableGeneration request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/enableGeneration_request'
     enableGeneration_response:
       description: enableGeneration response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/enableGeneration_response'
     enableGeneration_error:
       description: enableGeneration error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/enableGeneration_error'
     listDefinition_request:
       description: listDefinition request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/listDefinition_request'
     listDefinition_response:
       description: listDefinition response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/listDefinition_response'
     listDefinition_error:
       description: listDefinition error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/listDefinition_error'
     addParameter_request:
       description: addParameter request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/addParameter_request'
     addParameter_response:
       description: addParameter response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/addParameter_response'
     addParameter_error:
       description: addParameter error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/addParameter_error'
     updateDefinition_request:
       description: updateDefinition request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/updateDefinition_request'
     updateDefinition_response:
       description: updateDefinition response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/updateDefinition_response'
     updateDefinition_error:
       description: updateDefinition error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/updateDefinition_error'
     removeParameter_submit:
       description: removeParameter request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/removeParameter_submit'
     removeParameter_error:
       description: removeParameter error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/removeParameter_error'

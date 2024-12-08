@@ -120,17 +120,51 @@ components:
   messages:
     beat_sub:
       description: beat request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/beat_sub'
     beat_pub:
       description: beat response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/beat_pub'
     getPeriod_request:
       description: getPeriod request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/getPeriod_request'
     getPeriod_response:
       description: getPeriod response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/getPeriod_response'

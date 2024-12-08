@@ -515,44 +515,6 @@ components:
             type: integer
             format: uint32
             description: A list of the indexes of the error values shall be contained in the extra information field.
-    com:
-      InstanceBooleanPair:
-        properties:
-          id:
-            description: The object instance identifier.
-            format: int64
-            type: integer
-          value:
-            description: An associated Boolean value.
-            type: boolean
-        type: object
-      ObjectKey:
-        properties:
-          domain:
-            description: The domain of the object instance.
-            items:
-              type: string
-            type: array
-          instId:
-            description: The unique identifier of the object instance. Must not be '0' for
-              values as this is the wildcard.
-            format: int64
-            type: integer
-        type: object
-      archive:
-        ExpressionOperator:
-          description: The ExpressionOperator enumeration holds a set of possible expression
-            operators.
-          enum:
-          - EQUAL
-          - DIFFER
-          - GREATER
-          - GREATER_OR_EQUAL
-          - LESS
-          - LESS_OR_EQUAL
-          - CONTAINS
-          - ICONTAINS
-          type: string
     mc:
       ArgumentDefinitionDetails:
         properties:
@@ -665,60 +627,211 @@ components:
               $ref: '#/components/schemas/mc/Severity'
               description: Severity of the alert.
           type: object
+    com:
+      archive:
+        ExpressionOperator:
+          description: The ExpressionOperator enumeration holds a set of possible expression
+            operators.
+          enum:
+          - EQUAL
+          - DIFFER
+          - GREATER
+          - GREATER_OR_EQUAL
+          - LESS
+          - LESS_OR_EQUAL
+          - CONTAINS
+          - ICONTAINS
+          type: string
+      InstanceBooleanPair:
+        properties:
+          id:
+            description: The object instance identifier.
+            format: int64
+            type: integer
+          value:
+            description: An associated Boolean value.
+            type: boolean
+        type: object
+      ObjectKey:
+        properties:
+          domain:
+            description: The domain of the object instance.
+            items:
+              type: string
+            type: array
+          instId:
+            description: The unique identifier of the object instance. Must not be '0' for
+              values as this is the wildcard.
+            format: int64
+            type: integer
+        type: object
   messages:
     enableGeneration_request:
       description: enableGeneration request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/enableGeneration_request'
     enableGeneration_response:
       description: enableGeneration response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/enableGeneration_response'
     enableGeneration_error:
       description: enableGeneration error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/enableGeneration_error'
     listDefinition_request:
       description: listDefinition request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/listDefinition_request'
     listDefinition_response:
       description: listDefinition response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/listDefinition_response'
     listDefinition_error:
       description: listDefinition error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/listDefinition_error'
     addAlert_request:
       description: addAlert request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/addAlert_request'
     addAlert_response:
       description: addAlert response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/addAlert_response'
     addAlert_error:
       description: addAlert error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/addAlert_error'
     updateDefinition_request:
       description: updateDefinition request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/updateDefinition_request'
     updateDefinition_response:
       description: updateDefinition response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/updateDefinition_response'
     updateDefinition_error:
       description: updateDefinition error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/updateDefinition_error'
     removeAlert_submit:
       description: removeAlert request
+      headers:
+        type: object
+        properties:
+          replyTo:
+            type: string
+            description: The channel to which the reply must be sent.
+          requestId:
+            type: string
+            format: uuid
+            description: The unique identifier for correlating request and response.
       payload:
         $ref: '#/components/schemas/removeAlert_submit'
     removeAlert_error:
       description: removeAlert error response
+      headers:
+        type: object
+        properties:
+          requestId:
+            type: string
+            format: uuid
+            description: The request ID of the original request.
       payload:
         $ref: '#/components/schemas/removeAlert_error'

@@ -25,6 +25,23 @@
       "messages": {
         "monitorExecution_sub.message": {
           "description": "monitorExecution request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-2>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-3>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-1>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -32,7 +49,7 @@
               "subscriptionId": {
                 "type": "string",
                 "description": "The identifier of this subscription.",
-                "x-parser-schema-id": "<anonymous-schema-1>"
+                "x-parser-schema-id": "<anonymous-schema-4>"
               }
             },
             "x-parser-schema-id": "monitorExecution_sub"
@@ -49,6 +66,18 @@
       "messages": {
         "monitorExecution_pub.message": {
           "description": "monitorExecution response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-6>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-5>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -56,12 +85,12 @@
               "subscriptionId": {
                 "type": "string",
                 "description": "The identifier of this subscription.",
-                "x-parser-schema-id": "<anonymous-schema-2>"
+                "x-parser-schema-id": "<anonymous-schema-7>"
               },
               "outputStream": {
                 "type": "string",
                 "description": "The outputStream field shall contain a stream of characters corresponding to the output stream of the application.\nThe MAL EntityKey.firstSubKey shall contain the App name.\nThe MAL EntityKey.secondSubKey shall contain the AppDetails object instance identifier.\nThe MAL EntityKey.thirdSubKey shall be NULL.\nThe MAL EntityKey.fourthSubKey shall be NULL.\nThe timestamp of the update shall be the on-board time when the update was published.\nThe publish message shall include the ObjectId of the source link of the update.\nIf no source link is needed then the ObjectId shall be replaced with a NULL.\n",
-                "x-parser-schema-id": "<anonymous-schema-3>"
+                "x-parser-schema-id": "<anonymous-schema-8>"
               }
             },
             "x-parser-schema-id": "monitorExecution_pub"
@@ -78,93 +107,23 @@
       "messages": {
         "runApp_submit.message": {
           "description": "runApp request",
-          "payload": {
+          "headers": {
             "type": "object",
-            "additionalProperties": false,
             "properties": {
-              "interactionId": {
+              "replyTo": {
                 "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-4>"
-              },
-              "appInstIds": {
-                "type": "array",
-                "items": {
-                  "type": "integer",
-                  "format": "int64",
-                  "x-parser-schema-id": "<anonymous-schema-6>"
-                },
-                "description": "The appInstIds field contains the list of apps to run.\n",
-                "x-parser-schema-id": "<anonymous-schema-5>"
-              }
-            },
-            "x-parser-schema-id": "runApp_submit"
-          },
-          "x-parser-unique-object-id": "runApp_submit.message",
-          "x-parser-message-name": "runApp_submit"
-        }
-      },
-      "description": "Send a **runApp_submit** message in this channel.\n",
-      "x-parser-unique-object-id": "runApp_submit"
-    },
-    "runApp_error": {
-      "address": "runApp_error",
-      "messages": {
-        "runApp_error.message": {
-          "description": "runApp error response",
-          "payload": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "interactionId": {
-                "type": "string",
-                "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-7>"
-              },
-              "area": {
-                "type": "string",
-                "description": "The area in which the error applies.",
-                "enum": [
-                  "MAL",
-                  "COM"
-                ],
-                "x-parser-schema-id": "<anonymous-schema-8>"
-              },
-              "name": {
-                "type": "string",
-                "description": "A code representing the error.",
-                "enum": [
-                  "UNKNOWN",
-                  "INVALID",
-                  "INTERNAL"
-                ],
-                "x-parser-schema-id": "<anonymous-schema-9>"
-              },
-              "extraInformation": {
-                "type": "array",
-                "items": {
-                  "type": "integer",
-                  "format": "uint32",
-                  "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-11>"
-                },
+                "description": "The channel to which the reply must be sent.",
                 "x-parser-schema-id": "<anonymous-schema-10>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-11>"
               }
             },
-            "x-parser-schema-id": "runApp_error"
+            "x-parser-schema-id": "<anonymous-schema-9>"
           },
-          "x-parser-unique-object-id": "runApp_error.message",
-          "x-parser-message-name": "runApp_error"
-        }
-      },
-      "description": "Use this channel to receive runApp errors as **runApp_error** messages.\n",
-      "x-parser-unique-object-id": "runApp_error"
-    },
-    "killApp_submit": {
-      "address": "killApp_submit",
-      "messages": {
-        "killApp_submit.message": {
-          "description": "killApp request",
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -181,8 +140,124 @@
                   "format": "int64",
                   "x-parser-schema-id": "<anonymous-schema-14>"
                 },
-                "description": "The appInstIds field contains the list of apps to be killed.\n",
+                "description": "The appInstIds field contains the list of apps to run.\n",
                 "x-parser-schema-id": "<anonymous-schema-13>"
+              }
+            },
+            "x-parser-schema-id": "runApp_submit"
+          },
+          "x-parser-unique-object-id": "runApp_submit.message",
+          "x-parser-message-name": "runApp_submit"
+        }
+      },
+      "description": "Send a **runApp_submit** message in this channel.\n",
+      "x-parser-unique-object-id": "runApp_submit"
+    },
+    "runApp_error": {
+      "address": "runApp_error",
+      "messages": {
+        "runApp_error.message": {
+          "description": "runApp error response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-16>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-15>"
+          },
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "interactionId": {
+                "type": "string",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-17>"
+              },
+              "area": {
+                "type": "string",
+                "description": "The area in which the error applies.",
+                "enum": [
+                  "MAL",
+                  "COM"
+                ],
+                "x-parser-schema-id": "<anonymous-schema-18>"
+              },
+              "name": {
+                "type": "string",
+                "description": "A code representing the error.",
+                "enum": [
+                  "UNKNOWN",
+                  "INVALID",
+                  "INTERNAL"
+                ],
+                "x-parser-schema-id": "<anonymous-schema-19>"
+              },
+              "extraInformation": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "uint32",
+                  "description": "A list of the indexes of the error values shall be contained in the extra information field.",
+                  "x-parser-schema-id": "<anonymous-schema-21>"
+                },
+                "x-parser-schema-id": "<anonymous-schema-20>"
+              }
+            },
+            "x-parser-schema-id": "runApp_error"
+          },
+          "x-parser-unique-object-id": "runApp_error.message",
+          "x-parser-message-name": "runApp_error"
+        }
+      },
+      "description": "Use this channel to receive runApp errors as **runApp_error** messages.\n",
+      "x-parser-unique-object-id": "runApp_error"
+    },
+    "killApp_submit": {
+      "address": "killApp_submit",
+      "messages": {
+        "killApp_submit.message": {
+          "description": "killApp request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-23>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-24>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-22>"
+          },
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "interactionId": {
+                "type": "string",
+                "description": "A unique identifier to map the response (receive message) to the request (send message).",
+                "x-parser-schema-id": "<anonymous-schema-25>"
+              },
+              "appInstIds": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64",
+                  "x-parser-schema-id": "<anonymous-schema-27>"
+                },
+                "description": "The appInstIds field contains the list of apps to be killed.\n",
+                "x-parser-schema-id": "<anonymous-schema-26>"
               }
             },
             "x-parser-schema-id": "killApp_submit"
@@ -199,6 +274,18 @@
       "messages": {
         "killApp_error.message": {
           "description": "killApp error response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-29>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-28>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -206,7 +293,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-15>"
+                "x-parser-schema-id": "<anonymous-schema-30>"
               },
               "area": {
                 "type": "string",
@@ -215,7 +302,7 @@
                   "MAL",
                   "COM"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-16>"
+                "x-parser-schema-id": "<anonymous-schema-31>"
               },
               "name": {
                 "type": "string",
@@ -224,7 +311,7 @@
                   "UNKNOWN",
                   "INVALID"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-17>"
+                "x-parser-schema-id": "<anonymous-schema-32>"
               },
               "extraInformation": {
                 "type": "array",
@@ -232,9 +319,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-19>"
+                  "x-parser-schema-id": "<anonymous-schema-34>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-18>"
+                "x-parser-schema-id": "<anonymous-schema-33>"
               }
             },
             "x-parser-schema-id": "killApp_error"
@@ -251,6 +338,23 @@
       "messages": {
         "stopApp_progress.message": {
           "description": "stopApp request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-36>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-37>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-35>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -258,17 +362,17 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-20>"
+                "x-parser-schema-id": "<anonymous-schema-38>"
               },
               "appInstIds": {
                 "type": "array",
                 "items": {
                   "type": "integer",
                   "format": "int64",
-                  "x-parser-schema-id": "<anonymous-schema-22>"
+                  "x-parser-schema-id": "<anonymous-schema-40>"
                 },
                 "description": "The appInstIds field contains the list of apps to stop.\n",
-                "x-parser-schema-id": "<anonymous-schema-21>"
+                "x-parser-schema-id": "<anonymous-schema-39>"
               }
             },
             "x-parser-schema-id": "stopApp_progress"
@@ -285,6 +389,18 @@
       "messages": {
         "stopApp_update.message": {
           "description": "stopApp response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-42>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-41>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -292,13 +408,13 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-23>"
+                "x-parser-schema-id": "<anonymous-schema-43>"
               },
               "appClosing": {
                 "type": "integer",
                 "format": "int64",
                 "description": "The appClosing field shall contain the object instance identifier of an app. This update shall be sent after the app acknowledges the reception of the command to stop.\n",
-                "x-parser-schema-id": "<anonymous-schema-24>"
+                "x-parser-schema-id": "<anonymous-schema-44>"
               }
             },
             "x-parser-schema-id": "stopApp_update"
@@ -315,6 +431,23 @@
       "messages": {
         "listApp_request.message": {
           "description": "listApp request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-46>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-47>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-45>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -322,21 +455,21 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-25>"
+                "x-parser-schema-id": "<anonymous-schema-48>"
               },
               "appNames": {
                 "type": "array",
                 "items": {
                   "type": "string",
-                  "x-parser-schema-id": "<anonymous-schema-27>"
+                  "x-parser-schema-id": "<anonymous-schema-50>"
                 },
                 "description": "The appNames field contains a list of application names.\n",
-                "x-parser-schema-id": "<anonymous-schema-26>"
+                "x-parser-schema-id": "<anonymous-schema-49>"
               },
               "category": {
                 "type": "string",
                 "description": "The category field contains the category identifier to filter on.\n",
-                "x-parser-schema-id": "<anonymous-schema-28>"
+                "x-parser-schema-id": "<anonymous-schema-51>"
               }
             },
             "x-parser-schema-id": "listApp_request"
@@ -353,6 +486,18 @@
       "messages": {
         "listApp_response.message": {
           "description": "listApp response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-53>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-52>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -360,26 +505,26 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-29>"
+                "x-parser-schema-id": "<anonymous-schema-54>"
               },
               "appInstIds": {
                 "type": "array",
                 "items": {
                   "type": "integer",
                   "format": "int64",
-                  "x-parser-schema-id": "<anonymous-schema-31>"
+                  "x-parser-schema-id": "<anonymous-schema-56>"
                 },
                 "description": "The appInstIds field contains a list of apps.\n",
-                "x-parser-schema-id": "<anonymous-schema-30>"
+                "x-parser-schema-id": "<anonymous-schema-55>"
               },
               "running": {
                 "type": "array",
                 "items": {
                   "type": "boolean",
-                  "x-parser-schema-id": "<anonymous-schema-33>"
+                  "x-parser-schema-id": "<anonymous-schema-58>"
                 },
                 "description": "The running field contains a list of boolean values with the information about thte running status of requested apps.\nThe returned lists shall maintain the same order as the submitted list unless the wildcard value was included in the appNames field request.\n",
-                "x-parser-schema-id": "<anonymous-schema-32>"
+                "x-parser-schema-id": "<anonymous-schema-57>"
               }
             },
             "x-parser-schema-id": "listApp_response"
@@ -396,6 +541,18 @@
       "messages": {
         "listApp_error.message": {
           "description": "listApp error response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-60>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-59>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -403,7 +560,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-34>"
+                "x-parser-schema-id": "<anonymous-schema-61>"
               },
               "area": {
                 "type": "string",
@@ -411,7 +568,7 @@
                 "enum": [
                   "MAL"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-35>"
+                "x-parser-schema-id": "<anonymous-schema-62>"
               },
               "name": {
                 "type": "string",
@@ -419,7 +576,7 @@
                 "enum": [
                   "UNKNOWN"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-36>"
+                "x-parser-schema-id": "<anonymous-schema-63>"
               },
               "extraInformation": {
                 "type": "array",
@@ -427,9 +584,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-38>"
+                  "x-parser-schema-id": "<anonymous-schema-65>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-37>"
+                "x-parser-schema-id": "<anonymous-schema-64>"
               }
             },
             "x-parser-schema-id": "listApp_error"
@@ -565,7 +722,7 @@
           "interactionId": {
             "type": "string",
             "description": "A unique identifier to map the response (receive message) to the request (send message).",
-            "x-parser-schema-id": "<anonymous-schema-39>"
+            "x-parser-schema-id": "<anonymous-schema-66>"
           }
         },
         "x-parser-schema-id": "runApp_None"
@@ -579,7 +736,7 @@
           "interactionId": {
             "type": "string",
             "description": "A unique identifier to map the response (receive message) to the request (send message).",
-            "x-parser-schema-id": "<anonymous-schema-40>"
+            "x-parser-schema-id": "<anonymous-schema-67>"
           }
         },
         "x-parser-schema-id": "killApp_None"

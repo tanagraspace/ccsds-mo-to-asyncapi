@@ -25,6 +25,23 @@
       "messages": {
         "cancel_submit.message": {
           "description": "cancel request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-2>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-3>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-1>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -32,7 +49,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-1>"
+                "x-parser-schema-id": "<anonymous-schema-4>"
               },
               "transactionId": {
                 "properties": {
@@ -40,17 +57,17 @@
                     "description": "",
                     "format": "binary",
                     "type": "string",
-                    "x-parser-schema-id": "<anonymous-schema-3>"
+                    "x-parser-schema-id": "<anonymous-schema-6>"
                   },
                   "id": {
                     "description": "The ID as a byte array",
                     "format": "binary",
                     "type": "string",
-                    "x-parser-schema-id": "<anonymous-schema-4>"
+                    "x-parser-schema-id": "<anonymous-schema-7>"
                   }
                 },
                 "type": "object",
-                "x-parser-schema-id": "<anonymous-schema-2>"
+                "x-parser-schema-id": "<anonymous-schema-5>"
               }
             },
             "x-parser-schema-id": "cancel_submit"
@@ -67,6 +84,18 @@
       "messages": {
         "cancel_error.message": {
           "description": "cancel error response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-9>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-8>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -74,7 +103,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-5>"
+                "x-parser-schema-id": "<anonymous-schema-10>"
               },
               "area": {
                 "type": "string",
@@ -82,7 +111,7 @@
                 "enum": [
                   "FM"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-6>"
+                "x-parser-schema-id": "<anonymous-schema-11>"
               },
               "name": {
                 "type": "string",
@@ -91,7 +120,7 @@
                   "UNKNOWN_TRANSACTION",
                   "OTHER_ERROR"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-7>"
+                "x-parser-schema-id": "<anonymous-schema-12>"
               },
               "extraInformation": {
                 "type": "array",
@@ -99,9 +128,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-9>"
+                  "x-parser-schema-id": "<anonymous-schema-14>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-8>"
+                "x-parser-schema-id": "<anonymous-schema-13>"
               }
             },
             "x-parser-schema-id": "cancel_error"
@@ -118,6 +147,23 @@
       "messages": {
         "suspend_submit.message": {
           "description": "suspend request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-16>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-17>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-15>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -125,7 +171,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-10>"
+                "x-parser-schema-id": "<anonymous-schema-18>"
               },
               "transactionId": "$ref:$.channels.cancel_submit.messages.cancel_submit.message.payload.properties.transactionId"
             },
@@ -143,6 +189,18 @@
       "messages": {
         "suspend_error.message": {
           "description": "suspend error response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-20>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-19>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -150,7 +208,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-11>"
+                "x-parser-schema-id": "<anonymous-schema-21>"
               },
               "area": {
                 "type": "string",
@@ -158,7 +216,7 @@
                 "enum": [
                   "FM"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-12>"
+                "x-parser-schema-id": "<anonymous-schema-22>"
               },
               "name": {
                 "type": "string",
@@ -167,7 +225,7 @@
                   "UNKNOWN_TRANSACTION",
                   "OTHER_ERROR"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-13>"
+                "x-parser-schema-id": "<anonymous-schema-23>"
               },
               "extraInformation": {
                 "type": "array",
@@ -175,9 +233,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-15>"
+                  "x-parser-schema-id": "<anonymous-schema-25>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-14>"
+                "x-parser-schema-id": "<anonymous-schema-24>"
               }
             },
             "x-parser-schema-id": "suspend_error"
@@ -194,6 +252,23 @@
       "messages": {
         "resume_submit.message": {
           "description": "resume request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-27>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-28>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-26>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -201,7 +276,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-16>"
+                "x-parser-schema-id": "<anonymous-schema-29>"
               },
               "transactionId": "$ref:$.channels.cancel_submit.messages.cancel_submit.message.payload.properties.transactionId"
             },
@@ -219,6 +294,18 @@
       "messages": {
         "resume_error.message": {
           "description": "resume error response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-31>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-30>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -226,7 +313,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-17>"
+                "x-parser-schema-id": "<anonymous-schema-32>"
               },
               "area": {
                 "type": "string",
@@ -234,7 +321,7 @@
                 "enum": [
                   "FM"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-18>"
+                "x-parser-schema-id": "<anonymous-schema-33>"
               },
               "name": {
                 "type": "string",
@@ -243,7 +330,7 @@
                   "UNKNOWN_TRANSACTION",
                   "OTHER_ERROR"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-19>"
+                "x-parser-schema-id": "<anonymous-schema-34>"
               },
               "extraInformation": {
                 "type": "array",
@@ -251,9 +338,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-21>"
+                  "x-parser-schema-id": "<anonymous-schema-36>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-20>"
+                "x-parser-schema-id": "<anonymous-schema-35>"
               }
             },
             "x-parser-schema-id": "resume_error"
@@ -270,6 +357,23 @@
       "messages": {
         "cancelAll_submit.message": {
           "description": "cancelAll request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-38>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-39>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-37>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -277,7 +381,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-22>"
+                "x-parser-schema-id": "<anonymous-schema-40>"
               }
             },
             "x-parser-schema-id": "cancelAll_submit"
@@ -294,6 +398,18 @@
       "messages": {
         "cancelAll_error.message": {
           "description": "cancelAll error response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-42>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-41>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -301,7 +417,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-23>"
+                "x-parser-schema-id": "<anonymous-schema-43>"
               },
               "area": {
                 "type": "string",
@@ -309,7 +425,7 @@
                 "enum": [
                   "FM"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-24>"
+                "x-parser-schema-id": "<anonymous-schema-44>"
               },
               "name": {
                 "type": "string",
@@ -317,7 +433,7 @@
                 "enum": [
                   "OTHER_ERROR"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-25>"
+                "x-parser-schema-id": "<anonymous-schema-45>"
               },
               "extraInformation": {
                 "type": "array",
@@ -325,9 +441,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-27>"
+                  "x-parser-schema-id": "<anonymous-schema-47>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-26>"
+                "x-parser-schema-id": "<anonymous-schema-46>"
               }
             },
             "x-parser-schema-id": "cancelAll_error"
@@ -344,6 +460,23 @@
       "messages": {
         "suspendAll_submit.message": {
           "description": "suspendAll request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-49>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-50>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-48>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -351,11 +484,11 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-28>"
+                "x-parser-schema-id": "<anonymous-schema-51>"
               },
               "entityId": {
                 "type": "string",
-                "x-parser-schema-id": "<anonymous-schema-29>"
+                "x-parser-schema-id": "<anonymous-schema-52>"
               },
               "window": {
                 "description": "This enumeration represents the communication windows of a file transfer entity. It should be noted that the reception/transmission is from the point of view of the entity being addressed.",
@@ -365,7 +498,7 @@
                   "BOTH_WINDOW"
                 ],
                 "type": "string",
-                "x-parser-schema-id": "<anonymous-schema-30>"
+                "x-parser-schema-id": "<anonymous-schema-53>"
               }
             },
             "x-parser-schema-id": "suspendAll_submit"
@@ -382,6 +515,18 @@
       "messages": {
         "suspendAll_error.message": {
           "description": "suspendAll error response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-55>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-54>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -389,7 +534,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-31>"
+                "x-parser-schema-id": "<anonymous-schema-56>"
               },
               "area": {
                 "type": "string",
@@ -397,7 +542,7 @@
                 "enum": [
                   "FM"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-32>"
+                "x-parser-schema-id": "<anonymous-schema-57>"
               },
               "name": {
                 "type": "string",
@@ -407,7 +552,7 @@
                   "CANNOT_SET_MIB_VALUE",
                   "OTHER_ERROR"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-33>"
+                "x-parser-schema-id": "<anonymous-schema-58>"
               },
               "extraInformation": {
                 "type": "array",
@@ -415,9 +560,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-35>"
+                  "x-parser-schema-id": "<anonymous-schema-60>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-34>"
+                "x-parser-schema-id": "<anonymous-schema-59>"
               }
             },
             "x-parser-schema-id": "suspendAll_error"
@@ -434,6 +579,23 @@
       "messages": {
         "resumeAll_submit.message": {
           "description": "resumeAll request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-62>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-63>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-61>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -441,11 +603,11 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-36>"
+                "x-parser-schema-id": "<anonymous-schema-64>"
               },
               "entityId": {
                 "type": "string",
-                "x-parser-schema-id": "<anonymous-schema-37>"
+                "x-parser-schema-id": "<anonymous-schema-65>"
               },
               "window": "$ref:$.channels.suspendAll_submit.messages.suspendAll_submit.message.payload.properties.window"
             },
@@ -463,6 +625,18 @@
       "messages": {
         "resumeAll_error.message": {
           "description": "resumeAll error response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-67>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-66>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -470,7 +644,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-38>"
+                "x-parser-schema-id": "<anonymous-schema-68>"
               },
               "area": {
                 "type": "string",
@@ -478,7 +652,7 @@
                 "enum": [
                   "FM"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-39>"
+                "x-parser-schema-id": "<anonymous-schema-69>"
               },
               "name": {
                 "type": "string",
@@ -488,7 +662,7 @@
                   "CANNOT_SET_MIB_VALUE",
                   "OTHER_ERROR"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-40>"
+                "x-parser-schema-id": "<anonymous-schema-70>"
               },
               "extraInformation": {
                 "type": "array",
@@ -496,9 +670,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-42>"
+                  "x-parser-schema-id": "<anonymous-schema-72>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-41>"
+                "x-parser-schema-id": "<anonymous-schema-71>"
               }
             },
             "x-parser-schema-id": "resumeAll_error"
@@ -515,6 +689,23 @@
       "messages": {
         "getTransactionReport_request.message": {
           "description": "getTransactionReport request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-74>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-75>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-73>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -522,7 +713,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-43>"
+                "x-parser-schema-id": "<anonymous-schema-76>"
               },
               "transactionId": "$ref:$.channels.cancel_submit.messages.cancel_submit.message.payload.properties.transactionId"
             },
@@ -540,6 +731,18 @@
       "messages": {
         "getTransactionReport_response.message": {
           "description": "getTransactionReport response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-78>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-77>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -547,7 +750,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-44>"
+                "x-parser-schema-id": "<anonymous-schema-79>"
               },
               "report": {
                 "properties": {
@@ -555,13 +758,13 @@
                     "description": "",
                     "format": "uri",
                     "type": "string",
-                    "x-parser-schema-id": "<anonymous-schema-46>"
+                    "x-parser-schema-id": "<anonymous-schema-81>"
                   },
                   "targetPath": {
                     "description": "",
                     "format": "uri",
                     "type": "string",
-                    "x-parser-schema-id": "<anonymous-schema-47>"
+                    "x-parser-schema-id": "<anonymous-schema-82>"
                   },
                   "transactionId": "$ref:$.channels.cancel_submit.messages.cancel_submit.message.payload.properties.transactionId",
                   "transactionResponseCode": {
@@ -572,7 +775,7 @@
                       "UNKNOWN"
                     ],
                     "type": "string",
-                    "x-parser-schema-id": "<anonymous-schema-48>"
+                    "x-parser-schema-id": "<anonymous-schema-83>"
                   },
                   "transactionStatus": {
                     "description": "",
@@ -584,11 +787,11 @@
                       "UNKNOWN"
                     ],
                     "type": "string",
-                    "x-parser-schema-id": "<anonymous-schema-49>"
+                    "x-parser-schema-id": "<anonymous-schema-84>"
                   }
                 },
                 "type": "object",
-                "x-parser-schema-id": "<anonymous-schema-45>"
+                "x-parser-schema-id": "<anonymous-schema-80>"
               }
             },
             "x-parser-schema-id": "getTransactionReport_response"
@@ -605,6 +808,18 @@
       "messages": {
         "getTransactionReport_error.message": {
           "description": "getTransactionReport error response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-86>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-85>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -612,7 +827,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-50>"
+                "x-parser-schema-id": "<anonymous-schema-87>"
               },
               "area": {
                 "type": "string",
@@ -620,7 +835,7 @@
                 "enum": [
                   "FM"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-51>"
+                "x-parser-schema-id": "<anonymous-schema-88>"
               },
               "name": {
                 "type": "string",
@@ -629,7 +844,7 @@
                   "UNKNOWN_TRANSACTION",
                   "OTHER_ERROR"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-52>"
+                "x-parser-schema-id": "<anonymous-schema-89>"
               },
               "extraInformation": {
                 "type": "array",
@@ -637,9 +852,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-54>"
+                  "x-parser-schema-id": "<anonymous-schema-91>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-53>"
+                "x-parser-schema-id": "<anonymous-schema-90>"
               }
             },
             "x-parser-schema-id": "getTransactionReport_error"
@@ -656,6 +871,23 @@
       "messages": {
         "listTransactions_request.message": {
           "description": "listTransactions request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-93>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-94>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-92>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -663,11 +895,11 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-55>"
+                "x-parser-schema-id": "<anonymous-schema-95>"
               },
               "entityId": {
                 "type": "string",
-                "x-parser-schema-id": "<anonymous-schema-56>"
+                "x-parser-schema-id": "<anonymous-schema-96>"
               }
             },
             "x-parser-schema-id": "listTransactions_request"
@@ -684,6 +916,18 @@
       "messages": {
         "listTransactions_response.message": {
           "description": "listTransactions response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-98>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-97>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -691,7 +935,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-57>"
+                "x-parser-schema-id": "<anonymous-schema-99>"
               },
               "transactionList": "$ref:$.channels.getTransactionReport_response.messages.getTransactionReport_response.message.payload.properties.report"
             },
@@ -709,6 +953,18 @@
       "messages": {
         "listTransactions_error.message": {
           "description": "listTransactions error response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-101>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-100>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -716,7 +972,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-58>"
+                "x-parser-schema-id": "<anonymous-schema-102>"
               },
               "area": {
                 "type": "string",
@@ -724,7 +980,7 @@
                 "enum": [
                   "FM"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-59>"
+                "x-parser-schema-id": "<anonymous-schema-103>"
               },
               "name": {
                 "type": "string",
@@ -734,7 +990,7 @@
                   "UNKNOWN_TRANSACTION",
                   "OTHER_ERROR"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-60>"
+                "x-parser-schema-id": "<anonymous-schema-104>"
               },
               "extraInformation": {
                 "type": "array",
@@ -742,9 +998,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-62>"
+                  "x-parser-schema-id": "<anonymous-schema-106>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-61>"
+                "x-parser-schema-id": "<anonymous-schema-105>"
               }
             },
             "x-parser-schema-id": "listTransactions_error"
@@ -761,6 +1017,23 @@
       "messages": {
         "getWindowStatus_request.message": {
           "description": "getWindowStatus request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-108>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-109>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-107>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -768,11 +1041,11 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-63>"
+                "x-parser-schema-id": "<anonymous-schema-110>"
               },
               "entityId": {
                 "type": "string",
-                "x-parser-schema-id": "<anonymous-schema-64>"
+                "x-parser-schema-id": "<anonymous-schema-111>"
               }
             },
             "x-parser-schema-id": "getWindowStatus_request"
@@ -789,6 +1062,18 @@
       "messages": {
         "getWindowStatus_response.message": {
           "description": "getWindowStatus response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-113>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-112>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -796,23 +1081,23 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-65>"
+                "x-parser-schema-id": "<anonymous-schema-114>"
               },
               "statusReporty": {
                 "properties": {
                   "rxWindowOpen": {
                     "description": "Returns true if the receive window is open otherwise false.",
                     "type": "boolean",
-                    "x-parser-schema-id": "<anonymous-schema-67>"
+                    "x-parser-schema-id": "<anonymous-schema-116>"
                   },
                   "txWindowOpen": {
                     "description": "Returns true if the transmit window is open otherwise false.",
                     "type": "boolean",
-                    "x-parser-schema-id": "<anonymous-schema-68>"
+                    "x-parser-schema-id": "<anonymous-schema-117>"
                   }
                 },
                 "type": "object",
-                "x-parser-schema-id": "<anonymous-schema-66>"
+                "x-parser-schema-id": "<anonymous-schema-115>"
               }
             },
             "x-parser-schema-id": "getWindowStatus_response"
@@ -829,6 +1114,18 @@
       "messages": {
         "getWindowStatus_error.message": {
           "description": "getWindowStatus error response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-119>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-118>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -836,7 +1133,7 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-69>"
+                "x-parser-schema-id": "<anonymous-schema-120>"
               },
               "area": {
                 "type": "string",
@@ -844,7 +1141,7 @@
                 "enum": [
                   "FM"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-70>"
+                "x-parser-schema-id": "<anonymous-schema-121>"
               },
               "name": {
                 "type": "string",
@@ -854,7 +1151,7 @@
                   "CANNOT_GET_MIB_VALUE",
                   "OTHER_ERROR"
                 ],
-                "x-parser-schema-id": "<anonymous-schema-71>"
+                "x-parser-schema-id": "<anonymous-schema-122>"
               },
               "extraInformation": {
                 "type": "array",
@@ -862,9 +1159,9 @@
                   "type": "integer",
                   "format": "uint32",
                   "description": "A list of the indexes of the error values shall be contained in the extra information field.",
-                  "x-parser-schema-id": "<anonymous-schema-73>"
+                  "x-parser-schema-id": "<anonymous-schema-124>"
                 },
-                "x-parser-schema-id": "<anonymous-schema-72>"
+                "x-parser-schema-id": "<anonymous-schema-123>"
               }
             },
             "x-parser-schema-id": "getWindowStatus_error"
@@ -1078,7 +1375,7 @@
           "interactionId": {
             "type": "string",
             "description": "A unique identifier to map the response (receive message) to the request (send message).",
-            "x-parser-schema-id": "<anonymous-schema-74>"
+            "x-parser-schema-id": "<anonymous-schema-125>"
           }
         },
         "x-parser-schema-id": "cancel_None"
@@ -1092,7 +1389,7 @@
           "interactionId": {
             "type": "string",
             "description": "A unique identifier to map the response (receive message) to the request (send message).",
-            "x-parser-schema-id": "<anonymous-schema-75>"
+            "x-parser-schema-id": "<anonymous-schema-126>"
           }
         },
         "x-parser-schema-id": "suspend_None"
@@ -1106,7 +1403,7 @@
           "interactionId": {
             "type": "string",
             "description": "A unique identifier to map the response (receive message) to the request (send message).",
-            "x-parser-schema-id": "<anonymous-schema-76>"
+            "x-parser-schema-id": "<anonymous-schema-127>"
           }
         },
         "x-parser-schema-id": "resume_None"
@@ -1120,7 +1417,7 @@
           "interactionId": {
             "type": "string",
             "description": "A unique identifier to map the response (receive message) to the request (send message).",
-            "x-parser-schema-id": "<anonymous-schema-77>"
+            "x-parser-schema-id": "<anonymous-schema-128>"
           }
         },
         "x-parser-schema-id": "cancelAll_None"
@@ -1134,7 +1431,7 @@
           "interactionId": {
             "type": "string",
             "description": "A unique identifier to map the response (receive message) to the request (send message).",
-            "x-parser-schema-id": "<anonymous-schema-78>"
+            "x-parser-schema-id": "<anonymous-schema-129>"
           }
         },
         "x-parser-schema-id": "suspendAll_None"
@@ -1148,7 +1445,7 @@
           "interactionId": {
             "type": "string",
             "description": "A unique identifier to map the response (receive message) to the request (send message).",
-            "x-parser-schema-id": "<anonymous-schema-79>"
+            "x-parser-schema-id": "<anonymous-schema-130>"
           }
         },
         "x-parser-schema-id": "resumeAll_None"

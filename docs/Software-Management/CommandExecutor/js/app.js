@@ -25,6 +25,23 @@
       "messages": {
         "runCommand_request.message": {
           "description": "runCommand request",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "replyTo": {
+                "type": "string",
+                "description": "The channel to which the reply must be sent.",
+                "x-parser-schema-id": "<anonymous-schema-2>"
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The unique identifier for correlating request and response.",
+                "x-parser-schema-id": "<anonymous-schema-3>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-1>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -32,30 +49,30 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-1>"
+                "x-parser-schema-id": "<anonymous-schema-4>"
               },
               "command": {
                 "properties": {
                   "command": {
                     "description": "The command line passed to the executing shell instance.",
                     "type": "string",
-                    "x-parser-schema-id": "<anonymous-schema-3>"
+                    "x-parser-schema-id": "<anonymous-schema-6>"
                   },
                   "exitCode": {
                     "description": "Exit code of the command. Shall be NULL if the execution has not completed yet.",
                     "format": "int32",
                     "type": "integer",
-                    "x-parser-schema-id": "<anonymous-schema-4>"
+                    "x-parser-schema-id": "<anonymous-schema-7>"
                   },
                   "pid": {
                     "description": "Assigned Process ID of the spawned shell instance. Shall be NULL if the execution has not started yet.",
                     "format": "uint32",
                     "type": "integer",
-                    "x-parser-schema-id": "<anonymous-schema-5>"
+                    "x-parser-schema-id": "<anonymous-schema-8>"
                   }
                 },
                 "type": "object",
-                "x-parser-schema-id": "<anonymous-schema-2>"
+                "x-parser-schema-id": "<anonymous-schema-5>"
               }
             },
             "x-parser-schema-id": "runCommand_request"
@@ -72,6 +89,18 @@
       "messages": {
         "runCommand_response.message": {
           "description": "runCommand response",
+          "headers": {
+            "type": "object",
+            "properties": {
+              "requestId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The request ID of the original request.",
+                "x-parser-schema-id": "<anonymous-schema-10>"
+              }
+            },
+            "x-parser-schema-id": "<anonymous-schema-9>"
+          },
           "payload": {
             "type": "object",
             "additionalProperties": false,
@@ -79,13 +108,13 @@
               "interactionId": {
                 "type": "string",
                 "description": "A unique identifier to map the response (receive message) to the request (send message).",
-                "x-parser-schema-id": "<anonymous-schema-6>"
+                "x-parser-schema-id": "<anonymous-schema-11>"
               },
               "commandInstId": {
                 "type": "integer",
                 "format": "int64",
                 "description": "Contains a corresponding COM object instance identifier created in the Archive.\n",
-                "x-parser-schema-id": "<anonymous-schema-7>"
+                "x-parser-schema-id": "<anonymous-schema-12>"
               }
             },
             "x-parser-schema-id": "runCommand_response"
