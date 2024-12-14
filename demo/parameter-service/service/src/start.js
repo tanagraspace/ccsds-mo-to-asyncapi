@@ -15,6 +15,24 @@ const activeParamNames = new Set();
 // Valid parameter names
 const VALID_PARAM_NAMES = new Set(["PARAM_INT", "PARAM_FLOAT", "PARAM_STRING"]);
 
+// Function to handle wildcard subscription
+function handleWildcardSubscription(payload, headers) {
+  if (VALID_PARAM_NAMES.size === 0) {
+    throw new Error('No valid parameters available for wildcard subscription.');
+  }
+
+  // Subscribe to all valid parameters
+  VALID_PARAM_NAMES.forEach((paramName) => {
+    const subscriptionId = `${payload.subscriptionId}-${paramName}`;
+    activeSubscriptions.set(subscriptionId, {
+      payload: { ...payload, name: paramName }, // Clone payload with specific paramName
+      replyTo: headers.replyTo,
+    });
+    activeParamNames.add(paramName);
+    console.log(`✅ Subscribed to paramName: ${paramName} using wildcard.`);
+  });
+}
+
 // Middleware to process subscription payloads
 function processSubscriptionPayload(message, next) {
   try {
@@ -33,24 +51,34 @@ function processSubscriptionPayload(message, next) {
       throw new Error('Missing replyTo header in subscription payload.');
     }
 
-    // Check if the param name is valid
-    if (!VALID_PARAM_NAMES.has(payload.name)) {
-      throw new Error(`Unsupported parameter name: ${payload.name}. Must be one of ${[...VALID_PARAM_NAMES].join(', ')}.`);
-    }
+    // Split subscriptions if payload.name contains multiple items (e.g., "PARAM_INT,*")
+    const paramNames = payload.name.split(',').map((name) => name.trim());
 
-    // Add/update the subscription only if param name is valid
-    activeSubscriptions.set(payload.subscriptionId, { payload, replyTo: headers.replyTo });
-    // Track the parameter name
-    activeParamNames.add(payload.name);
-
-    console.log(
-      `✅ Subscription added for subscriptionId: ${payload.subscriptionId}, paramName: ${payload.name}, replyTo: ${headers.replyTo}`
-    );
+    // Process each parameter name individually
+    paramNames.forEach((paramName) => {
+      if (paramName === "*") {
+        // Handle wildcard subscription
+        handleWildcardSubscription(payload, headers);
+      } else if (VALID_PARAM_NAMES.has(paramName)) {
+        // Handle explicit parameter subscription
+        const subscriptionId = `${payload.subscriptionId}-${paramName}`;
+        activeSubscriptions.set(subscriptionId, {
+          payload: { ...payload, name: paramName },
+          replyTo: headers.replyTo,
+        });
+        activeParamNames.add(paramName);
+        console.log(
+          `✅ Subscription added for subscriptionId: ${subscriptionId}, paramName: ${paramName}, replyTo: ${headers.replyTo}`
+        );
+      } else {
+        // Invalid parameter name, don't subscribe to anything
+        console.error(`❌ Unsupported parameter name: ${paramName}. Must be one of ${[...VALID_PARAM_NAMES].join(', ')} or the wildcard '*'.`);
+      }
+    });
 
     next();
   } catch (error) {
     console.error('❌ Error processing subscription payload:', error.message);
-    // Do not add subscription or paramName if there's an error
     next(error);
   }
 }
@@ -86,7 +114,7 @@ function startUpdatingParamValues() {
       const newValue = generateParamValue(paramName);
       paramValues.set(paramName, newValue);
     }
-    console.log('♻️ Param values updated:', Object.fromEntries(paramValues));
+    console.log('♻️  Param values updated:', Object.fromEntries(paramValues));
   }, 3000);
 }
 
