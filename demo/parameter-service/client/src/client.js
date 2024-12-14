@@ -19,7 +19,7 @@ const subscribeTopic = 'monitorValue_sub';
 // A parameterDefinitionId of 1 will subscribe the client to random int values
 const subscriptionPayloadGetRandomIntValues = {
   subscriptionId: `Sub-RandomInt-${subscriptionUuid}`,
-  name: 'RAND_INT',
+  name: 'PARAM_INT',
   parameterDefinitionId: 1,
   parameterValueInstance: 1,
 };
@@ -28,7 +28,7 @@ const subscriptionPayloadGetRandomIntValues = {
 // A parameterDefinitionId of 2 will subscribe the client to random float values
 const subscriptionPayloadGetRandomFloatValues = {
   subscriptionId: `Sub-RandomFloat-${subscriptionUuid}`,
-  name: 'RAND_FLOAT',
+  name: 'PARAM_FLOAT',
   parameterDefinitionId: 2,
   parameterValueInstance: 2,
 };
