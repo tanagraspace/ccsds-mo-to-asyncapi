@@ -33,7 +33,7 @@ services:
       service:
         condition: service_healthy
     environment:
-      - SUBSCRIPTIONS=PARAM_INT,PARAM_FLOAT
+      - SUBSCRIPTIONS=PARAM_INT,PARAM_STRING,PARAM_INVALID
       - MQTT_HOST=mqtt
       - MQTT_PORT=1883
 
@@ -46,6 +46,6 @@ services:
       service:
         condition: service_healthy
     environment:
-      - SUBSCRIPTIONS=PARAM_INT,PARAM_STRING
+      - SUBSCRIPTIONS=PARAM_FLOAT,*
       - MQTT_HOST=mqtt
       - MQTT_PORT=1883
