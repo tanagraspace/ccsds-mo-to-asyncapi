@@ -32,6 +32,10 @@ services:
     depends_on:
       service:
         condition: service_healthy
+    environment:
+      - SUBSCRIPTIONS=PARAM_INT,PARAM_FLOAT
+      - MQTT_HOST=mqtt
+      - MQTT_PORT=1883
 
   client2:
     build:
@@ -41,3 +45,7 @@ services:
     depends_on:
       service:
         condition: service_healthy
+    environment:
+      - SUBSCRIPTIONS=PARAM_INT,PARAM_STRING
+      - MQTT_HOST=mqtt
+      - MQTT_PORT=1883

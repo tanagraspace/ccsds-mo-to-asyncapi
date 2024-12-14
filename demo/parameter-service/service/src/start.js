@@ -58,11 +58,11 @@ function processSubscriptionPayload(message, next) {
 // Value generator based on exact param name
 function generateParamValue(paramName) {
   switch (paramName) {
-    case "PARAM_INT":
-      return Math.floor(Math.random() * 101); // Random int 0–100
-    case "PARAM_FLOAT":
-      return parseFloat(Math.random().toFixed(2)); // Random float 0.00–1.00
-    case "PARAM_STRING":
+    case "PARAM_INT": // Random int 0–100
+      return Math.floor(Math.random() * 101);
+    case "PARAM_FLOAT": // Random float 0.00–1.00
+      return parseFloat(Math.random().toFixed(2));
+    case "PARAM_STRING": // Random String of 5 characters
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
       let str = '';
       for (let i = 0; i < 5; i++) {
@@ -129,7 +129,7 @@ function startPublishingValues() {
       }
     });
 
-    console.log('🚀 Published current values to all subscribed clients (where available).');
+    console.log('🚀 Published current values to all subscribed clients.');
   }, 5000);
 }
 
@@ -137,7 +137,7 @@ function startPublishingValues() {
 client.app.use('monitorValue_sub', processSubscriptionPayload);
 console.log('✅ Middleware attached to monitorValue_sub.');
 
-// Start updating and publishing
+// Start updating and publishing param values
 startUpdatingParamValues();
 startPublishingValues();
 

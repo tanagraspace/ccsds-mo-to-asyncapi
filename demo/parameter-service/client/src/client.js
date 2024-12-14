@@ -1,10 +1,20 @@
 const mqtt = require('mqtt');
 const { v4: uuidv4 } = require('uuid'); // For generating unique subscription IDs
 
+// Read environment variables
+const mqttHost = process.env.MQTT_HOST || 'mqtt';
+const mqttPort = process.env.MQTT_PORT || 1883;
+const subscriptions = (process.env.SUBSCRIPTIONS || '').split(',').map((sub) => sub.trim()).filter(Boolean);
+
+if (subscriptions.length === 0) {
+  console.error('❌ No subscriptions provided. Set the SUBSCRIPTIONS environment variable.');
+  process.exit(1);
+}
+
 // MQTT connection options
 const options = {
-  host: 'mqtt', // Connect to the MQTT broker using the service name as defined in docker-compose.yml
-  port: 1883,
+  host: mqttHost,
+  port: parseInt(mqttPort, 10),
   protocol: 'mqtt',
 };
 
@@ -12,32 +22,13 @@ const options = {
 const subscriptionUuid = uuidv4();
 const replyToTopic = `client/${subscriptionUuid}/reply`;
 
-// Topics for subscription
-const subscribeTopic = 'monitorValue_sub';
-
-// First payload to send to monitorValue_sub
-// A parameterDefinitionId of 1 will subscribe the client to random int values
-const subscriptionPayloadGetRandomIntValues = {
-  subscriptionId: `Sub-RandomInt-${subscriptionUuid}`,
-  name: 'PARAM_INT',
-  parameterDefinitionId: 1,
-  parameterValueInstance: 1,
-};
-
-// Second payload to send to monitorValue_sub
-// A parameterDefinitionId of 2 will subscribe the client to random float values
-const subscriptionPayloadGetRandomFloatValues = {
-  subscriptionId: `Sub-RandomFloat-${subscriptionUuid}`,
-  name: 'PARAM_FLOAT',
-  parameterDefinitionId: 2,
-  parameterValueInstance: 2,
-};
-
-// Collect all subscription payloads into an array
-const subscriptionPayloads = [
-  subscriptionPayloadGetRandomIntValues,
-  subscriptionPayloadGetRandomFloatValues,
-];
+// Build the subscription payloads dynamically from the environment variable
+const subscriptionPayloads = subscriptions.map((name, index) => ({
+  subscriptionId: `Sub-${name}-${subscriptionUuid}`,
+  name,
+  parameterDefinitionId: index + 1, // Arbitrary definition IDs based on order
+  parameterValueInstance: index + 1, // Arbitrary value instances
+}));
 
 // Connect to the MQTT broker
 const client = mqtt.connect(options);
@@ -56,11 +47,11 @@ client.on('connect', () => {
       },
     };
 
-    client.publish(subscribeTopic, JSON.stringify(message), {}, (err) => {
+    client.publish('monitorValue_sub', JSON.stringify(message), {}, (err) => {
       if (err) {
-        console.error(`❌ Failed to publish subscription payload to ${subscribeTopic}:`, err.message);
+        console.error(`❌ Failed to publish subscription payload:`, err.message);
       } else {
-        console.log(`📤 Sent subscription payload to ${subscribeTopic}:`, message);
+        console.log(`📤 Sent subscription payload for ${payload.name}:`, message);
       }
     });
   });
@@ -68,9 +59,9 @@ client.on('connect', () => {
   // Subscribe to the dynamically specified reply topic
   client.subscribe(replyToTopic, (err) => {
     if (err) {
-      console.error(`❌ Failed to subscribe to dynamic reply topic ${replyToTopic}:`, err.message);
+      console.error(`❌ Failed to subscribe to reply topic ${replyToTopic}:`, err.message);
     } else {
-      console.log(`📡 Subscribed to dynamic reply topic: ${replyToTopic}`);
+      console.log(`📡 Subscribed to reply topic: ${replyToTopic}`);
     }
   });
 });
