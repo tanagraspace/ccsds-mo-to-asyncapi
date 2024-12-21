@@ -19,10 +19,58 @@ Review [this tutorial](https://www.asyncapi.com/docs/tutorials/getting-started/r
 3. **Parameter Clients**: Interact with the service by sending subscription requests and receiving parameter updates on dynamically allocated topics.
 
 ## How it Works
-1. Clients send a `monitorValue_sub` message to subscribe to updates on a parameter's value. The request must include a `replyTo` header to specify the topic where updates should be sent.
-2. The service dynamically determines the client's reply topic from the `replyTo` header and sends updates to that specific topic (Dynamic Reply Address).
-3. The service periodically publishes parameter value updates to the reply topics, ensuring each client receives updates only for the parameters the subscribed to for updates.
-4. The implementation supports multiple clients simultaneously, with isolated reply topics that ensure message delivery exclusivity. Additional clients can be included in [docker-compose.yml](./docker-compose.yml).
+
+1. Subscription:
+    - Clients send a `monitorValue_sub message` to subscribe to updates for specific parameters.
+    - Each subscription request must include a `replyTo` header that specifies the dynamic reply topic for updates.
+    - The service matches subscription filters to parameter updates and sends notifications accordingly.
+    - The service supports multiple clients simultaneously, with isolated reply topics that ensure message delivery exclusivity.
+    - Additional clients can be included in [docker-compose.yml](./docker-compose.yml).
+2. Parameter Generation:
+    - The service dynamically generates values for all registered parameters periodically, independent of subscriptions.
+    - New parameter updates are produced at regular intervals and stored for reference.
+3. Notification:
+    - When a parameter value is updated, the service matches it against active subscriptions (e.g., exact parameter name or wildcard *) and sends updates to clients' reply topics.
+4. Custom Parameters:
+    - The service supports custom parameter generation through modular parameter definitions located in the **params** directory.
+    - New parameters can be added without modifying the core service logic.
+
+## Adding Custom Parameters
+
+To add a new parameter; create a new .js file in the **params** directory that exports an object with the following structure:
+
+```nodejs
+module.exports = {
+  name: "PARAM_CUSTOM_NAME", // Unique name for the parameter
+  generate: () => {
+    // Logic to produce a parameter value
+    return "Your custom value";
+  },
+};
+```
+
+E.g.: Add a parameter that generates random greetings:
+
+```nodejs
+module.exports = {
+  name: "PARAM_GREETING",
+  generate: () => {
+    const greetings = ["Hello!", "Hi there!", "Greetings!", "Howdy!", "Hey!"];
+    return greetings[Math.floor(Math.random() * greetings.length)];
+  },
+};
+```
+
+Register the parameter by updating the `REGISTERED_PARAMETERS` environment variable in **docker-compose.yml** to include the new parameter:
+
+```yaml
+services:
+  service:
+    environment:
+      - REGISTERED_PARAMETERS=PARAM_INT,PARAM_GREETINGS
+```
+
+Rebuild and run the Service.
 
 ## Setup
 The setup requires Docker and Docker Compose.
