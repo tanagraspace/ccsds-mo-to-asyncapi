@@ -39,7 +39,7 @@ Review [this tutorial](https://www.asyncapi.com/docs/tutorials/getting-started/r
 
 To add a new parameter; create a new .js file in the **params** directory that exports an object with the following structure:
 
-```nodejs
+```javascript
 module.exports = {
   name: "PARAM_CUSTOM_NAME", // Unique name for the parameter
   generate: () => {
@@ -51,7 +51,7 @@ module.exports = {
 
 E.g.: Add a parameter that generates random greetings:
 
-```nodejs
+```javascript
 module.exports = {
   name: "PARAM_GREETING",
   generate: () => {
