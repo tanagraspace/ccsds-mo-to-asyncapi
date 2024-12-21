@@ -67,7 +67,7 @@ Register the parameter by updating the `REGISTERED_PARAMETERS` environment varia
 services:
   service:
     environment:
-      - REGISTERED_PARAMETERS=PARAM_INT,PARAM_GREETINGS
+      - REGISTERED_PARAMETERS=PARAM_INT,PARAM_GREETING
 ```
 
 Rebuild and run the Service.
