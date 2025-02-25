@@ -3,6 +3,11 @@
 - XML files are located in the [xml-ccsds-mo-prototypes](/xml-ccsds-mo-prototypes/) directory.
 - Generated AsyncAPI docs are hosted [here](https://tanagraspace.github.io/ccsds-mo-to-asyncapi/).
 
+## Prerequisites
+- Linux environment with bash
+- Python 3
+- Docker
+
 ## Generate Everything
 ```shell
 python3 -m venv venv
